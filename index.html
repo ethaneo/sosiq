@@ -227,9 +227,11 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
     <div class="beta-chip">BETA · v5.4</div>
   </div>
   <div class="hero-eyebrow">
+    <div class="pulse-dot"></div>
+    <div class="eyebrow-text">Social Relationship Intelligence</div>
   </div>
   <h1>아무도 알려주지 않는<br><span class="line2">관계의 진실</span></h1>
-  <p class="hero-sub">지구최강 팔로워 분석 툴</p>
+  <p class="hero-sub">너만아는 지구최강 인스타그램 팔로워 분석 툴</p>
   <div class="trust-pills">
     <div class="trust-pill"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>계정 문제없고</div>
     <div class="trust-pill"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>해킹 문제없이</div>
@@ -346,7 +348,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
     <input type="file" accept=".zip,.json" id="fileInput" onchange="handleFile(event)" style="display:none">
     <div class="upload-default">
       <span class="upload-icon">📦</span>
-      <div class="upload-title">ZIP 또는 JSON 파일을 드래그하거나 클릭 하세요.</div>
+      <div class="upload-title">ZIP, JSON 파일을 드래그하거나 클릭 하세요.</div>
       <div class="upload-sub"></div>
     </div>
     <div class="upload-loaded">
@@ -515,23 +517,53 @@ async function processFile(file){
       const zip=await JSZip.loadAsync(file);
       const files=Object.keys(zip.files);
       let chips='';
-      const fwrFile=files.find(f=>f.includes('followers_1')||(f.includes('followers')&&!f.includes('following')));
+      // ★ 파일명 탐색 — 인스타 ZIP 버전별 파일명 모두 커버
+      // followers: followers_1.json / followers.json (following_hashtags 제외)
+      const fwrFile=files.find(f=>{
+        const name=f.split('/').pop();
+        return name==='followers_1.json'||name==='followers.json';
+      });
       if(fwrFile){
         store.followers=JSON.parse(await zip.files[fwrFile].async('text'));
         chips+='<span class="file-chip ok">✓ 팔로워 '+extractUsers(store.followers).length.toLocaleString()+'명</span>';
       } else chips+='<span class="file-chip miss">✗ followers 없음</span>';
-      const fwgFile=files.find(f=>f.includes('following')&&!f.includes('followers'));
+
+      // following: following.json (following_hashtags.json 제외)
+      const fwgFile=files.find(f=>{
+        const name=f.split('/').pop();
+        return name==='following.json';
+      });
       if(fwgFile){
         store.following=JSON.parse(await zip.files[fwgFile].async('text'));
         chips+='<span class="file-chip ok">✓ 팔로잉 '+extractUsers(store.following).length.toLocaleString()+'명</span>';
       } else chips+='<span class="file-chip miss">✗ following 없음</span>';
-      const blkFile=files.find(f=>f.includes('blocked_accounts'));
+
+      // blocked: blocked_accounts.json / blocked_profiles.json
+      const blkFile=files.find(f=>{
+        const name=f.split('/').pop();
+        return name==='blocked_accounts.json'||name==='blocked_profiles.json';
+      });
       if(blkFile){try{store.blocked=JSON.parse(await zip.files[blkFile].async('text'));chips+='<span class="file-chip opt">✓ 차단 목록</span>'}catch(e){}}
-      const pndFile=files.find(f=>f.includes('pending_follow_requests')||f.includes('follow_requests_sent'));
+
+      // pending: pending_follow_requests.json / follow_requests_sent.json
+      const pndFile=files.find(f=>{
+        const name=f.split('/').pop();
+        return name==='pending_follow_requests.json'||name==='follow_requests_sent.json';
+      });
       if(pndFile){try{store.pending=JSON.parse(await zip.files[pndFile].async('text'));chips+='<span class="file-chip opt">✓ 요청 대기</span>'}catch(e){}}
-      const rstFile=files.find(f=>f.includes('restricted_accounts'));
+
+      // restricted: restricted_accounts.json / restricted_profiles.json
+      const rstFile=files.find(f=>{
+        const name=f.split('/').pop();
+        return name==='restricted_accounts.json'||name==='restricted_profiles.json';
+      });
       if(rstFile){try{store.restricted=JSON.parse(await zip.files[rstFile].async('text'));chips+='<span class="file-chip opt">✓ 제한 계정</span>'}catch(e){}}
-      const cfFile=files.find(f=>f.includes('close_friends'));
+
+      // close_friends: close_friends.json
+      const cfFile=files.find(f=>{
+        const name=f.split('/').pop();
+        return name==='close_friends.json';
+      });
       if(cfFile){try{store.close_friends=JSON.parse(await zip.files[cfFile].async('text'));chips+='<span class="file-chip opt">✓ 친한 친구</span>'}catch(e){}}
       found.innerHTML=chips;
       zone.classList.add('loaded');
