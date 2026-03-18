@@ -9,53 +9,21 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  /* ── 화이트 바탕 라이트 테마 ── */
-  --bg:#f8f7f5;
-  --s1:#ffffff;
-  --s2:#f2f1ef;
-  --s3:#ebe9e6;
-  --border:#e4e1dd;
-  --border2:#d4d0ca;
-
-  /* ── 레드 그라데이션 액센트 (인스타보다 더 빨간) ── */
-  --accent:#e8001d;
-  --accent2:#c4001a;
-  --accent-light:#ff1a35;
-  --accent-glow:rgba(232,0,29,.10);
+  --bg:#f8f7f5;--s1:#ffffff;--s2:#f2f1ef;--s3:#ebe9e6;--border:#e4e1dd;--border2:#d4d0ca;
+  --accent:#e8001d;--accent2:#c4001a;--accent-light:#ff1a35;--accent-glow:rgba(232,0,29,.10);
   --grad:linear-gradient(135deg,#e8001d 0%,#ff4040 50%,#ff6b35 100%);
   --grad-soft:linear-gradient(135deg,rgba(232,0,29,.08) 0%,rgba(255,107,53,.06) 100%);
-
-  /* ── 서브 컬러 — 채도 낮춰서 화이트 배경에 어울리게 ── */
-  --red:#e8001d;
-  --blue:#2563eb;
-  --orange:#ea580c;
-  --yellow:#d97706;
-  --purple:#7c3aed;
-  --green:#059669;
-  --pink:#db2777;
-
-  /* ── 텍스트 ── */
-  --text:#1a1714;
-  --text2:#3d3a36;
-  --muted:#8a8580;
-  --muted2:#b8b4ae;
-
-  /* ── 폰트 ── */
+  --red:#e8001d;--blue:#2563eb;--orange:#ea580c;--yellow:#d97706;--purple:#7c3aed;--green:#059669;--pink:#db2777;
+  --text:#1a1714;--text2:#3d3a36;--muted:#8a8580;--muted2:#b8b4ae;
   --font:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
-  --font-display:'Poppins',sans-serif;
-  --font-mono:'DM Mono',monospace;
+  --font-display:'Poppins',sans-serif;--font-mono:'DM Mono',monospace;
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:var(--font);font-weight:400;min-height:100vh;overflow-x:hidden}
-
-/* BG EFFECTS — 라이트 버전 */
 .bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(0,0,0,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
 .bg-glow{position:fixed;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(232,0,29,.07) 0%,transparent 65%);top:-280px;right:-180px;pointer-events:none;z-index:0}
 .bg-glow2{position:fixed;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,53,.05) 0%,transparent 65%);bottom:-150px;left:-80px;pointer-events:none;z-index:0}
-
 .wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:48px 20px 100px}
-
-/* ── HEADER ── */
 header{margin-bottom:56px;animation:fadeUp .7s ease both;position:relative;z-index:1}
 .top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px}
 .logo{display:flex;align-items:center;gap:10px}
@@ -63,7 +31,6 @@ header{margin-bottom:56px;animation:fadeUp .7s ease both;position:relative;z-ind
 .logo-text{font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:-.02em;color:var(--text)}
 .logo-text span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .beta-chip{background:var(--s2);border:1px solid var(--border2);border-radius:6px;padding:4px 10px;font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.06em}
-
 .hero-eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:16px}
 .pulse-dot{width:7px;height:7px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;box-shadow:0 0 0 0 rgba(232,0,29,.4)}
 .eyebrow-text{font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;font-weight:500}
@@ -73,18 +40,14 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 .trust-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
 .trust-pill{display:flex;align-items:center;gap:6px;background:var(--s1);border:1px solid var(--border);border-radius:100px;padding:5px 12px;font-size:11px;color:var(--muted);font-weight:400;box-shadow:0 1px 4px rgba(0,0,0,.04)}
 .trust-pill svg{width:12px;height:12px;stroke:var(--accent);fill:none;stroke-width:2.5}
-
-/* ── GUIDE ── */
 .section{margin-bottom:32px;animation:fadeUp .6s ease both;position:relative;z-index:1}
 .section-label{display:flex;align-items:center;gap:8px;margin-bottom:16px}
 .section-label-text{font-family:var(--font-mono);font-size:10px;color:var(--muted2);letter-spacing:.12em;text-transform:uppercase}
 .section-label-line{flex:1;height:1px;background:var(--border)}
-
 .progress-track{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:14px;box-shadow:0 1px 6px rgba(0,0,0,.04)}
 .prog-bar{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
 .prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1);width:0%}
 .prog-label{font-family:var(--font-mono);font-size:11px;color:var(--muted);white-space:nowrap}
-
 .steps{display:flex;flex-direction:column;gap:8px}
 .step{background:var(--s1);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:all .2s;opacity:.45;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.04)}
 .step.active{opacity:1;border-color:rgba(232,0,29,.25);pointer-events:all;box-shadow:0 2px 12px rgba(232,0,29,.08)}
@@ -96,11 +59,9 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 .step-info{flex:1}
 .step-title{font-size:13px;font-weight:500;color:var(--text)}
 .step-desc{font-size:11px;color:var(--muted);margin-top:2px;font-weight:300}
-.step-status{font-family:var(--font-mono);font-size:10px;padding:3px 8px;border-radius:4px;background:rgba(232,0,29,.08);color:var(--accent);border:1px solid rgba(232,0,29,.18)}
 .step-body{display:none;padding:0 18px 18px;border-top:1px solid var(--border)}
 .step.active .step-body{display:block}
 .step-body-inner{padding-top:16px}
-
 .path-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
 .path-card{background:var(--s2);border:1.5px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:all .2s}
 .path-card:hover{border-color:var(--accent);background:rgba(232,0,29,.03)}
@@ -116,20 +77,16 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 .tag{display:inline-block;background:var(--s3);border:1px solid var(--border2);border-radius:4px;padding:1px 6px;font-family:var(--font-mono);font-size:10px;color:var(--text2)}
 .tag.warn{color:var(--yellow);border-color:rgba(217,119,6,.3)}
 .tag.green{color:var(--green);border-color:rgba(5,150,105,.3)}
-
 .btn-go{display:inline-flex;align-items:center;gap:7px;background:var(--grad);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;box-shadow:0 2px 12px rgba(232,0,29,.25)}
 .btn-go:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(232,0,29,.35)}
 .btn-confirm{display:inline-flex;align-items:center;gap:7px;background:rgba(232,0,29,.06);color:var(--accent);border:1px solid rgba(232,0,29,.2);border-radius:8px;padding:9px 18px;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;margin-left:8px}
 .btn-confirm:hover{background:rgba(232,0,29,.12)}
 .wait-note{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--yellow);margin-top:10px;padding:8px 12px;background:rgba(217,119,6,.06);border-radius:6px;border:1px solid rgba(217,119,6,.18);font-weight:300}
-
-/* ── UPLOAD ── */
 .upload-zone{background:var(--s1);border:2px dashed var(--border2);border-radius:20px;padding:44px 24px;text-align:center;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.04);z-index:1}
-.upload-zone::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,var(--accent-glow) 0%,transparent 70%);opacity:0;transition:opacity .3s}
+.upload-zone::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,var(--accent-glow) 0%,transparent 70%);opacity:0;transition:opacity .3s;pointer-events:none}
 .upload-zone:hover::before,.upload-zone.drag::before{opacity:1}
 .upload-zone:hover,.upload-zone.drag{border-color:var(--accent)}
 .upload-zone.loaded{border-color:var(--accent);border-style:solid;background:rgba(232,0,29,.02)}
-.upload-zone input{display:none}
 .upload-icon{font-size:36px;margin-bottom:12px;display:block}
 .upload-title{font-size:15px;font-weight:500;margin-bottom:6px;color:var(--text)}
 .upload-sub{font-size:12px;color:var(--muted);line-height:1.8;font-weight:300}
@@ -141,24 +98,16 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 .file-chip.ok{background:rgba(5,150,105,.08);border:1px solid rgba(5,150,105,.2);color:var(--green)}
 .file-chip.miss{background:rgba(232,0,29,.08);border:1px solid rgba(232,0,29,.2);color:var(--red)}
 .file-chip.opt{background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);color:var(--blue)}
-
-/* ── CTA ── */
 .cta-area{text-align:center;margin:24px 0 36px;animation:fadeUp .6s .2s ease both;position:relative;z-index:10}
 .btn-analyze{background:var(--grad);color:#fff;border:none;border-radius:12px;padding:16px 56px;font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:-.01em;cursor:pointer;transition:all .25s;box-shadow:0 4px 20px rgba(232,0,29,.3)}
 .btn-analyze:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 40px rgba(232,0,29,.4)}
 .btn-analyze:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
 .loading-bar{height:2px;background:var(--grad);background-size:200% 100%;animation:shimmer 1s infinite;border-radius:2px;margin-bottom:18px;display:none}
 .cta-note{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.8;font-weight:300}
-.btn-demo{background:var(--s1);border:1px solid var(--border2);border-radius:100px;padding:6px 16px;color:var(--muted);font-size:11px;cursor:pointer;font-family:var(--font);margin-top:8px;transition:all .15s;font-weight:400;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.btn-demo:hover{border-color:var(--accent);color:var(--accent)}
-
-/* ── RESULTS ── */
 #results{display:none;animation:fadeUp .5s ease both}
 .results-header{margin-bottom:24px}
 .results-title{font-family:var(--font-display);font-size:24px;font-weight:700;letter-spacing:-.02em;margin-bottom:4px;color:var(--text)}
 .results-meta{font-family:var(--font-mono);font-size:11px;color:var(--muted)}
-
-/* SCORE CARD */
 .score-card{background:var(--s1);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:16px;position:relative;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06)}
 .score-card::before{content:'';position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,rgba(232,0,29,.06) 0%,transparent 70%);pointer-events:none}
 .score-row{display:flex;align-items:center;gap:20px}
@@ -173,22 +122,13 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 .score-bar-track{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
 .score-bar-fill{height:100%;border-radius:2px;transition:width .8s cubic-bezier(.4,0,.2,1) .3s}
 .score-bar-val{color:var(--text2);font-family:var(--font-mono);font-size:10px;width:28px;text-align:right}
-
-/* STATS GRID */
 .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px}
 .stats-grid-2{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
 .stat-card{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center;transition:all .2s;cursor:default;box-shadow:0 1px 4px rgba(0,0,0,.04)}
 .stat-card:hover{border-color:var(--border2);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
 .stat-num{font-family:var(--font-display);font-size:26px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
-.stat-num.c-red{color:var(--red)}
-.stat-num.c-green{color:var(--green)}
-.stat-num.c-purple{color:var(--purple)}
-.stat-num.c-blue{color:var(--blue)}
-.stat-num.c-orange{color:var(--orange)}
-.stat-num.c-yellow{color:var(--yellow)}
+.stat-num.c-red{color:var(--red)}.stat-num.c-green{color:var(--green)}.stat-num.c-purple{color:var(--purple)}.stat-num.c-blue{color:var(--blue)}.stat-num.c-orange{color:var(--orange)}.stat-num.c-yellow{color:var(--yellow)}
 .stat-lbl{font-size:11px;color:var(--muted);font-weight:300}
-
-/* TABS */
 .tabs-wrap{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:4px;display:flex;gap:4px;margin-bottom:20px;overflow-x:auto;box-shadow:0 1px 6px rgba(0,0,0,.05)}
 .tabs-wrap::-webkit-scrollbar{display:none}
 .tab-btn{flex:1;min-width:max-content;padding:8px 12px;border:none;background:none;border-radius:8px;font-family:var(--font);font-size:11px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap}
@@ -200,8 +140,6 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 .tab-btn[data-t="restricted"].active{color:var(--yellow)}
 .tab-btn[data-t="close_friends"].active{color:var(--pink)}
 .tab-pane{display:none}.tab-pane.active{display:block}
-
-/* SORT BAR */
 .list-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:12px}
 .search-box{flex:1;position:relative}
 .search-box input{width:100%;background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:9px 14px 9px 36px;font-family:var(--font);font-size:13px;color:var(--text);outline:none;transition:border-color .15s;font-weight:400}
@@ -210,7 +148,6 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 .search-box::before{content:'⌕';position:absolute;left:12px;top:50%;transform:translateY(-52%);font-size:16px;color:var(--muted2);pointer-events:none}
 .sort-select{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-family:var(--font-mono);font-size:11px;color:var(--muted);outline:none;cursor:pointer;transition:border-color .15s}
 .sort-select:focus{border-color:rgba(232,0,29,.4)}
-
 .user-list{display:flex;flex-direction:column;gap:6px;max-height:440px;overflow-y:auto;padding-right:2px}
 .user-list::-webkit-scrollbar{width:3px}
 .user-list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
@@ -230,17 +167,13 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 .badge.purple{background:rgba(124,58,237,.08);color:var(--purple);border:1px solid rgba(124,58,237,.18)}
 .badge.pink{background:rgba(219,39,119,.08);color:var(--pink);border:1px solid rgba(219,39,119,.18)}
 .ts-label{font-family:var(--font-mono);font-size:9px;color:var(--muted2)}
-
 .empty-state{text-align:center;padding:44px 20px;color:var(--muted)}
 .empty-state .empty-icon{font-size:32px;margin-bottom:10px}
 .empty-state .empty-text{font-size:13px;font-weight:300}
-
 .tab-unavail{background:var(--s2);border:1px dashed var(--border2);border-radius:12px;padding:32px;text-align:center}
 .tab-unavail .ua-icon{font-size:28px;margin-bottom:10px}
 .tab-unavail .ua-title{font-size:13px;font-weight:500;color:var(--muted);margin-bottom:6px}
 .tab-unavail .ua-desc{font-size:11px;color:var(--muted2);line-height:1.7;font-weight:300}
-
-/* PAYWALL */
 .paywall{position:relative;margin-top:-80px}
 .paywall::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent,var(--bg) 45%);z-index:1;pointer-events:none}
 .paywall-box{position:relative;z-index:2;background:var(--s1);border:1px solid var(--border);border-radius:20px;padding:28px 24px 24px;max-width:400px;margin:0 auto;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.1)}
@@ -259,7 +192,6 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 .btn-toss-pay:active{transform:translateY(0)}
 .toss-logo-badge{background:#fff;border-radius:5px;padding:2px 7px;font-family:var(--font-display);font-size:12px;font-weight:800;color:#0064FF;letter-spacing:-.03em}
 .paywall-note{font-size:11px;color:var(--muted2);line-height:1.8}
-/* 결제 성공 모달 */
 .pay-modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:none;align-items:flex-end;justify-content:center}
 .pay-modal-bg.show{display:flex;animation:fadeInBg .2s ease}
 .pay-modal{background:var(--s1);border-radius:24px 24px 0 0;padding:32px 24px 48px;width:100%;max-width:480px;text-align:center;animation:slideUpModal .25s ease}
@@ -270,21 +202,14 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 .btn-pm-confirm:hover{transform:translateY(-1px)}
 @keyframes fadeInBg{from{opacity:0}to{opacity:1}}
 @keyframes slideUpModal{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
-
-/* SHARE */
 .share-row{margin-top:20px;display:flex;justify-content:center;gap:8px}
 .btn-share{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:10px 20px;font-family:var(--font);font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-weight:400;box-shadow:0 1px 4px rgba(0,0,0,.04)}
 .btn-share:hover{border-color:var(--accent);color:var(--accent)}
-
-/* FOOTER */
 .footer-note{margin-top:48px;background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:16px 20px;font-size:11px;color:var(--muted2);line-height:1.8;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.04)}
 .footer-note b{color:var(--muted);font-weight:500}
-
-/* ANIMATIONS */
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);box-shadow:0 0 0 0 rgba(232,0,29,.4)}50%{opacity:.7;transform:scale(.85);box-shadow:0 0 0 6px rgba(232,0,29,0)}}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
-@keyframes scoreIn{from{stroke-dashoffset:220}to{stroke-dashoffset:var(--dash)}}
 </style>
 </head>
 <body>
@@ -293,19 +218,16 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 <div class="bg-glow2"></div>
 <div class="wrap">
 
-<!-- HEADER -->
 <header>
   <div class="top-bar">
     <div class="logo">
       <div class="logo-mark">S</div>
       <div class="logo-text">so<span>siq</span></div>
     </div>
-    <div class="beta-chip">BETA · v5.3</div>
+    <div class="beta-chip">BETA · v5.4</div>
   </div>
   <div class="hero-eyebrow">
     <div class="pulse-dot"></div>
-    <div class="eyebrow-text">Social Relationship Intelligence</div>
-  </div>
   <h1>아무도 알려주지 않는<br><span class="line2">관계의 진실</span></h1>
   <p class="hero-sub">너만아는 지구최강 인스타그램 팔로워 분석 툴</p>
   <div class="trust-pills">
@@ -315,7 +237,6 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
   </div>
 </header>
 
-<!-- GUIDE -->
 <div class="section" style="animation-delay:.1s">
   <div class="section-label">
     <div class="section-label-text">STEP GUIDE</div>
@@ -326,7 +247,6 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
     <div class="prog-label" id="progLabel">0 / 3</div>
   </div>
   <div class="steps">
-
     <div class="step active" id="s1">
       <div class="step-head" onclick="toggleStep(1)">
         <div class="step-num" id="sn1">01</div>
@@ -347,7 +267,6 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
         </div>
       </div>
     </div>
-
     <div class="step" id="s2">
       <div class="step-head" onclick="toggleStep(2)">
         <div class="step-num" id="sn2">02</div>
@@ -397,7 +316,6 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
         </div>
       </div>
     </div>
-
     <div class="step" id="s3">
       <div class="step-head" onclick="toggleStep(3)">
         <div class="step-num" id="sn3">03</div>
@@ -413,16 +331,15 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- UPLOAD -->
 <div class="section" style="animation-delay:.2s" id="uploadArea">
   <div class="section-label">
     <div class="section-label-text">FILE UPLOAD</div>
     <div class="section-label-line"></div>
   </div>
+  <!-- ★ 핵심 수정: input display:none, onclick으로 triggerFileInput 호출 -->
   <div class="upload-zone" id="uploadZone"
     onclick="triggerFileInput(event)"
     ondragover="onDrag(event)" ondragleave="offDrag()" ondrop="onDrop(event)">
@@ -439,17 +356,12 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
   </div>
 </div>
 
-<!-- CTA -->
 <div class="cta-area">
   <div class="loading-bar" id="loadingBar"></div>
   <button class="btn-analyze" id="btnAnalyze" onclick="runAnalysis()" disabled>분석 시작 →</button>
-  <div class="cta-note">
-    <br>
-    <button class="btn-demo" onclick="loadDemo()">🎮 샘플 데이터로 먼저 테스트</button>
-  </div>
+  <div class="cta-note">파일은 내 브라우저에서만 처리 · 서버 전송 없음</div>
 </div>
 
-<!-- RESULTS -->
 <div id="results">
   <div class="section-label" style="margin-bottom:16px">
     <div class="section-label-text">ANALYSIS RESULTS</div>
@@ -460,11 +372,9 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
     <div class="results-meta" id="resultsMeta"></div>
     <div id="mutualSummary" style="display:none;margin-top:8px;font-size:12px;color:var(--accent);background:rgba(232,0,29,.05);border:1px solid rgba(232,0,29,.15);border-radius:8px;padding:8px 14px;font-family:var(--font-mono)"></div>
   </div>
-
-  <!-- QUALITY SCORE CARD -->
-  <div class="score-card" id="scoreCard">
+  <div class="score-card">
     <div class="score-row">
-      <div class="score-circle" id="scoreCircle">
+      <div class="score-circle">
         <svg width="80" height="80" style="position:absolute;top:0;left:0;transform:rotate(-90deg)">
           <circle cx="40" cy="40" r="34" fill="none" stroke="var(--border)" stroke-width="3"/>
           <circle id="scoreArc" cx="40" cy="40" r="34" fill="none" stroke="var(--accent)" stroke-width="3"
@@ -480,13 +390,9 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
       </div>
     </div>
   </div>
-
-  <!-- STATS -->
   <div class="stats-grid" id="statsRow1"></div>
   <div class="stats-grid-2" id="statsRow2"></div>
-
-  <!-- TABS -->
-  <div class="tabs-wrap" id="tabsWrap">
+  <div class="tabs-wrap">
     <button class="tab-btn active" data-t="notback" onclick="switchTab('notback',this)">😤 맞팔 안 함 <span id="tc1"></span></button>
     <button class="tab-btn" data-t="fans" onclick="switchTab('fans',this)">🩷 나만 팔로 <span id="tc2"></span></button>
     <button class="tab-btn" data-t="blocked" onclick="switchTab('blocked',this)">🚫 차단 <span id="tc4"></span></button>
@@ -494,16 +400,12 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
     <button class="tab-btn" data-t="restricted" onclick="switchTab('restricted',this)">🔇 제한 <span id="tc6"></span></button>
     <button class="tab-btn" data-t="close_friends" onclick="switchTab('close_friends',this)">💚 친한 친구 <span id="tc7"></span></button>
   </div>
-
-  <!-- TAB PANES -->
   <div class="tab-pane active" id="tab-notback">
     <div class="list-toolbar">
       <div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('notback',this.value)"></div>
       <select class="sort-select" onchange="sortList('notback',this.value)">
-        <option value="default">기본순</option>
-        <option value="newest">최근 팔로우</option>
-        <option value="oldest">오래된 순</option>
-        <option value="az">이름순</option>
+        <option value="default">기본순</option><option value="newest">최근 팔로우</option>
+        <option value="oldest">오래된 순</option><option value="az">이름순</option>
       </select>
     </div>
     <div class="user-list" id="list-notback"></div>
@@ -513,40 +415,29 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
     <div class="list-toolbar">
       <div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('fans',this.value)"></div>
       <select class="sort-select" onchange="sortList('fans',this.value)">
-        <option value="default">기본순</option>
-        <option value="newest">최근 팔로우</option>
-        <option value="oldest">오래된 순</option>
-        <option value="az">이름순</option>
+        <option value="default">기본순</option><option value="newest">최근 팔로우</option>
+        <option value="oldest">오래된 순</option><option value="az">이름순</option>
       </select>
     </div>
     <div class="user-list" id="list-fans"></div>
   </div>
   <div class="tab-pane" id="tab-blocked">
-    <div class="list-toolbar">
-      <div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('blocked',this.value)"></div>
-    </div>
+    <div class="list-toolbar"><div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('blocked',this.value)"></div></div>
     <div class="user-list" id="list-blocked"></div>
     <div id="wall-blocked"></div>
   </div>
   <div class="tab-pane" id="tab-pending">
-    <div class="list-toolbar">
-      <div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('pending',this.value)"></div>
-    </div>
+    <div class="list-toolbar"><div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('pending',this.value)"></div></div>
     <div class="user-list" id="list-pending"></div>
   </div>
   <div class="tab-pane" id="tab-restricted">
-    <div class="list-toolbar">
-      <div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('restricted',this.value)"></div>
-    </div>
+    <div class="list-toolbar"><div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('restricted',this.value)"></div></div>
     <div class="user-list" id="list-restricted"></div>
   </div>
   <div class="tab-pane" id="tab-close_friends">
-    <div class="list-toolbar">
-      <div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('close_friends',this.value)"></div>
-    </div>
+    <div class="list-toolbar"><div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('close_friends',this.value)"></div></div>
     <div class="user-list" id="list-close_friends"></div>
   </div>
-
   <div class="share-row">
     <button class="btn-share" onclick="copyResult()">📋 결과 복사</button>
   </div>
@@ -557,7 +448,6 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
   Sosiq 디어스컴퍼니© 2026
 </div>
 
-<!-- 결제 성공 모달 -->
 <div class="pay-modal-bg" id="payModalBg">
   <div class="pay-modal">
     <span class="pm-icon">🎉</span>
@@ -570,24 +460,15 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
-const FREE_LIMIT = 5;
+const FREE_LIMIT=5;
+const store={followers:null,following:null,blocked:null,pending:null,restricted:null,close_friends:null};
+const data={notback:[],fans:[],blocked:[],pending:[],restricted:[],close_friends:[]};
+let stepDone=0;
+let isPro=false;
 
-const store = {
-  followers: null, following: null,
-  blocked: null, pending: null, restricted: null, close_friends: null
-};
-
-const data = {
-  notback:[], fans:[], blocked:[], pending:[], restricted:[], close_friends:[]
-};
-
-let stepDone = 0;
-
-// ── STEP CONTROL ──
 function toggleStep(n){
   const el=document.getElementById('s'+n);
   if(el.classList.contains('done')){
-    // 완료된 스텝 클릭 시 body 토글
     const body=el.querySelector('.step-body');
     if(body) body.style.display=body.style.display==='block'?'none':'block';
   }
@@ -604,7 +485,7 @@ function completeStep(n){
   document.getElementById('progFill').style.width=pct+'%';
   document.getElementById('progLabel').textContent=stepDone+' / 3';
   const next=document.getElementById('s'+(n+1));
-  if(next){ next.classList.add('active'); }
+  if(next) next.classList.add('active');
 }
 
 function pickPath(p){
@@ -616,19 +497,16 @@ function pickPath(p){
   document.getElementById('p'+p.toLowerCase()+'-detail').classList.add('show');
 }
 
-// ── FILE INPUT TRIGGER ──
+// ★ 클릭 시 파일창 열기 — input이 display:none이라 직접 click() 호출
 function triggerFileInput(e){
-  // 업로드 영역 클릭 시 파일 선택창 열기
   document.getElementById('fileInput').click();
 }
 
-// ── DRAG & DROP ──
 function onDrag(e){e.preventDefault();document.getElementById('uploadZone').classList.add('drag')}
 function offDrag(){document.getElementById('uploadZone').classList.remove('drag')}
 function onDrop(e){e.preventDefault();offDrag();const f=e.dataTransfer.files[0];if(f)processFile(f)}
 function handleFile(e){const f=e.target.files[0];if(f)processFile(f)}
 
-// ── FILE PROCESSING ──
 async function processFile(file){
   const zone=document.getElementById('uploadZone');
   const found=document.getElementById('foundFiles');
@@ -637,47 +515,33 @@ async function processFile(file){
       const zip=await JSZip.loadAsync(file);
       const files=Object.keys(zip.files);
       let chips='';
-
-      // followers
       const fwrFile=files.find(f=>f.includes('followers_1')||(f.includes('followers')&&!f.includes('following')));
       if(fwrFile){
         store.followers=JSON.parse(await zip.files[fwrFile].async('text'));
-        chips+=`<span class="file-chip ok">✓ 팔로워 ${extractUsers(store.followers).length.toLocaleString()}명</span>`;
-      } else chips+=`<span class="file-chip miss">✗ followers 없음</span>`;
-
-      // following
+        chips+='<span class="file-chip ok">✓ 팔로워 '+extractUsers(store.followers).length.toLocaleString()+'명</span>';
+      } else chips+='<span class="file-chip miss">✗ followers 없음</span>';
       const fwgFile=files.find(f=>f.includes('following')&&!f.includes('followers'));
       if(fwgFile){
         store.following=JSON.parse(await zip.files[fwgFile].async('text'));
-        chips+=`<span class="file-chip ok">✓ 팔로잉 ${extractUsers(store.following).length.toLocaleString()}명</span>`;
-      } else chips+=`<span class="file-chip miss">✗ following 없음</span>`;
-
-      // blocked
+        chips+='<span class="file-chip ok">✓ 팔로잉 '+extractUsers(store.following).length.toLocaleString()+'명</span>';
+      } else chips+='<span class="file-chip miss">✗ following 없음</span>';
       const blkFile=files.find(f=>f.includes('blocked_accounts'));
-      if(blkFile){try{store.blocked=JSON.parse(await zip.files[blkFile].async('text'));chips+=`<span class="file-chip opt">✓ 차단 목록</span>`}catch(e){}}
-
-      // pending
+      if(blkFile){try{store.blocked=JSON.parse(await zip.files[blkFile].async('text'));chips+='<span class="file-chip opt">✓ 차단 목록</span>'}catch(e){}}
       const pndFile=files.find(f=>f.includes('pending_follow_requests')||f.includes('follow_requests_sent'));
-      if(pndFile){try{store.pending=JSON.parse(await zip.files[pndFile].async('text'));chips+=`<span class="file-chip opt">✓ 요청 대기</span>`}catch(e){}}
-
-      // restricted
+      if(pndFile){try{store.pending=JSON.parse(await zip.files[pndFile].async('text'));chips+='<span class="file-chip opt">✓ 요청 대기</span>'}catch(e){}}
       const rstFile=files.find(f=>f.includes('restricted_accounts'));
-      if(rstFile){try{store.restricted=JSON.parse(await zip.files[rstFile].async('text'));chips+=`<span class="file-chip opt">✓ 제한 계정</span>`}catch(e){}}
-
-      // close friends
+      if(rstFile){try{store.restricted=JSON.parse(await zip.files[rstFile].async('text'));chips+='<span class="file-chip opt">✓ 제한 계정</span>'}catch(e){}}
       const cfFile=files.find(f=>f.includes('close_friends'));
-      if(cfFile){try{store.close_friends=JSON.parse(await zip.files[cfFile].async('text'));chips+=`<span class="file-chip opt">✓ 친한 친구</span>`}catch(e){}}
-
+      if(cfFile){try{store.close_friends=JSON.parse(await zip.files[cfFile].async('text'));chips+='<span class="file-chip opt">✓ 친한 친구</span>'}catch(e){}}
       found.innerHTML=chips;
       zone.classList.add('loaded');
       if(stepDone<3) completeStep(3);
-
     } else if(file.name.endsWith('.json')){
       const d=JSON.parse(await file.text());
       const users=extractUsers(d);
       if(users.length>0){
-        if(file.name.includes('following')){ store.following=d; found.innerHTML=`<span class="file-chip ok">✓ following ${users.length}명</span>`; }
-        else { store.followers=d; found.innerHTML=`<span class="file-chip ok">✓ followers ${users.length}명</span>`; }
+        if(file.name.includes('following')){store.following=d;found.innerHTML='<span class="file-chip ok">✓ following '+users.length+'명</span>';}
+        else{store.followers=d;found.innerHTML='<span class="file-chip ok">✓ followers '+users.length+'명</span>';}
         zone.classList.add('loaded');
         if(stepDone<3) completeStep(3);
       }
@@ -688,15 +552,12 @@ async function processFile(file){
   }
 }
 
-// ── USER EXTRACTION ──
 function extractUsers(d){
   if(!d) return [];
   const users=[];
   const parse=item=>{
     if(item&&item.string_list_data){
-      item.string_list_data.forEach(x=>{
-        if(x.value) users.push({username:x.value,href:x.href||'',ts:x.timestamp||0});
-      });
+      item.string_list_data.forEach(x=>{if(x.value) users.push({username:x.value,href:x.href||'',ts:x.timestamp||0});});
     }
   };
   if(Array.isArray(d)){d.forEach(parse);return users;}
@@ -709,9 +570,7 @@ function extractBlockedUsers(d){
   if(d.blocked_accounts&&Array.isArray(d.blocked_accounts)){
     const users=[];
     d.blocked_accounts.forEach(item=>{
-      if(item.string_list_data) item.string_list_data.forEach(x=>{
-        if(x.value) users.push({username:x.value,href:x.href||'',ts:x.timestamp||0});
-      });
+      if(item.string_list_data) item.string_list_data.forEach(x=>{if(x.value) users.push({username:x.value,href:x.href||'',ts:x.timestamp||0});});
     });
     return users;
   }
@@ -723,9 +582,7 @@ function extractRestrictedUsers(d){
   if(d.restricted_accounts&&Array.isArray(d.restricted_accounts)){
     const users=[];
     d.restricted_accounts.forEach(item=>{
-      if(item.string_list_data) item.string_list_data.forEach(x=>{
-        if(x.value) users.push({username:x.value,href:x.href||'',ts:x.timestamp||0});
-      });
+      if(item.string_list_data) item.string_list_data.forEach(x=>{if(x.value) users.push({username:x.value,href:x.href||'',ts:x.timestamp||0});});
     });
     return users;
   }
@@ -736,315 +593,224 @@ function checkReady(){
   document.getElementById('btnAnalyze').disabled=!(store.followers&&store.following);
 }
 
-// ── ANALYSIS ──
 function runAnalysis(){
   const btn=document.getElementById('btnAnalyze');
   const bar=document.getElementById('loadingBar');
   btn.disabled=true;
   btn.textContent='분석 중...';
   bar.style.display='block';
-
-  setTimeout(()=>{
+  setTimeout(function(){
     const followers=extractUsers(store.followers);
     const following=extractUsers(store.following);
     const blocked=extractBlockedUsers(store.blocked);
     const pending=extractUsers(store.pending);
     const restricted=extractRestrictedUsers(store.restricted);
     const closeFriends=extractUsers(store.close_friends);
-
-    const fwrSet=new Set(followers.map(u=>u.username.toLowerCase()));
-    const fwgSet=new Set(following.map(u=>u.username.toLowerCase()));
-
-    data.notback=following.filter(u=>!fwrSet.has(u.username.toLowerCase()));
-    data.fans=followers.filter(u=>!fwgSet.has(u.username.toLowerCase()));
+    const fwrSet=new Set(followers.map(function(u){return u.username.toLowerCase()}));
+    const fwgSet=new Set(following.map(function(u){return u.username.toLowerCase()}));
+    data.notback=following.filter(function(u){return !fwrSet.has(u.username.toLowerCase())});
+    data.fans=followers.filter(function(u){return !fwgSet.has(u.username.toLowerCase())});
     data.blocked=blocked;
     data.pending=pending;
     data.restricted=restricted;
     data.close_friends=closeFriends;
-
-    // QUALITY SCORE — ZIP 데이터로 계산 가능한 2개 지표만 사용
-    // 1. 맞팔 비율 (내 팔로워 중 내가 팔로우하는 비율) — 관계 상호성
-    // 2. 팬 비율 (나를 팔로우하는데 내가 안 팔로우하는 비율) — 나에 대한 관심도
     const totalFollowers=followers.length;
-    const mutualCount=followers.filter(u=>fwgSet.has(u.username.toLowerCase())).length;
+    const mutualCount=followers.filter(function(u){return fwgSet.has(u.username.toLowerCase())}).length;
     const mutualRate=totalFollowers>0?mutualCount/totalFollowers:0;
     const fanRate=totalFollowers>0?data.fans.length/totalFollowers:0;
     const mutualScore=Math.round(mutualRate*100);
     const fanScore=Math.round(fanRate*100);
-    // 맞팔 비율 70% + 팬 비율 30% 가중 합산
-    const qualityScore=Math.round(mutualScore*0.7 + Math.min(fanScore*2,100)*0.3);
-
+    const qualityScore=Math.round(mutualScore*0.7+Math.min(fanScore*2,100)*0.3);
     renderScoreCard(qualityScore,mutualScore,fanScore,mutualCount,totalFollowers);
-
-    // STATS
-    document.getElementById('statsRow1').innerHTML=`
-      <div class="stat-card"><div class="stat-num c-red">${data.notback.length.toLocaleString()}</div><div class="stat-lbl">😤 맞팔 안 함</div></div>
-      <div class="stat-card"><div class="stat-num c-green">${data.fans.length.toLocaleString()}</div><div class="stat-lbl">🩷 나만 팔로</div></div>
-      <div class="stat-card"><div class="stat-num c-purple">${totalFollowers.toLocaleString()}</div><div class="stat-lbl">👥 전체 팔로워</div></div>`;
-    document.getElementById('statsRow2').innerHTML=`
-      <div class="stat-card"><div class="stat-num c-green">${mutualCount.toLocaleString()}</div><div class="stat-lbl">🤝 서로 맞팔</div></div>
-      <div class="stat-card"><div class="stat-num c-orange">${data.blocked.length.toLocaleString()}</div><div class="stat-lbl">🚫 차단 계정</div></div>
-      <div class="stat-card"><div class="stat-num c-blue">${data.pending.length.toLocaleString()}</div><div class="stat-lbl">⏳ 요청 대기</div></div>`;
-
-    // TAB COUNTS
-    document.getElementById('tc1').textContent=`(${data.notback.length})`;
-    document.getElementById('tc2').textContent=`(${data.fans.length})`;
-    document.getElementById('tc4').textContent=data.blocked.length>0?`(${data.blocked.length})`:'';
-    document.getElementById('tc5').textContent=data.pending.length>0?`(${data.pending.length})`:'';
-    document.getElementById('tc6').textContent=data.restricted.length>0?`(${data.restricted.length})`:'';
-    document.getElementById('tc7').textContent=data.close_friends.length>0?`(${data.close_friends.length})`:'';
-
-    document.getElementById('resultsMeta').textContent=
-      `팔로워 ${totalFollowers.toLocaleString()}명 · 팔로잉 ${following.length.toLocaleString()}명 분석 완료`;
-
-    // ★ 기능B: 맞팔 비율 요약 문구
+    document.getElementById('statsRow1').innerHTML=
+      '<div class="stat-card"><div class="stat-num c-red">'+data.notback.length.toLocaleString()+'</div><div class="stat-lbl">😤 맞팔 안 함</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-green">'+data.fans.length.toLocaleString()+'</div><div class="stat-lbl">🩷 나만 팔로</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-purple">'+totalFollowers.toLocaleString()+'</div><div class="stat-lbl">👥 전체 팔로워</div></div>';
+    document.getElementById('statsRow2').innerHTML=
+      '<div class="stat-card"><div class="stat-num c-green">'+mutualCount.toLocaleString()+'</div><div class="stat-lbl">🤝 서로 맞팔</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-orange">'+data.blocked.length.toLocaleString()+'</div><div class="stat-lbl">🚫 차단 계정</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-blue">'+data.pending.length.toLocaleString()+'</div><div class="stat-lbl">⏳ 요청 대기</div></div>';
+    document.getElementById('tc1').textContent='('+data.notback.length+')';
+    document.getElementById('tc2').textContent='('+data.fans.length+')';
+    document.getElementById('tc4').textContent=data.blocked.length>0?'('+data.blocked.length+')':'';
+    document.getElementById('tc5').textContent=data.pending.length>0?'('+data.pending.length+')':'';
+    document.getElementById('tc6').textContent=data.restricted.length>0?'('+data.restricted.length+')':'';
+    document.getElementById('tc7').textContent=data.close_friends.length>0?'('+data.close_friends.length+')':'';
+    document.getElementById('resultsMeta').textContent='팔로워 '+totalFollowers.toLocaleString()+'명 · 팔로잉 '+following.length.toLocaleString()+'명 분석 완료';
     const mutualPct=totalFollowers>0?Math.round(mutualCount/totalFollowers*100):0;
     const summaryEl=document.getElementById('mutualSummary');
     if(summaryEl){
-      let grade='';
+      var grade='';
       if(mutualPct>=70) grade='상위 10% 수준의 맞팔 비율이에요 🏆';
       else if(mutualPct>=50) grade='평균 이상의 맞팔 비율이에요 👍';
       else if(mutualPct>=30) grade='맞팔 비율을 높여볼 여지가 있어요 💡';
       else grade='맞팔 비율이 낮아요 — 정리해볼 타이밍 ✂️';
-      summaryEl.textContent=`맞팔 비율 ${mutualPct}% · ${grade}`;
+      summaryEl.textContent='맞팔 비율 '+mutualPct+'% · '+grade;
       summaryEl.style.display='block';
     }
-
-    // RENDER LISTS
-    renderList('notback',   data.notback,      'red',    '맞팔 안 함', true,  null, true);
-    renderList('fans',      data.fans,         'green',  '팬',         false, null, false);
-    renderList('blocked',   data.blocked,      'orange', '차단',       false, store.blocked===null?'blocked':null, false);
-    renderList('pending',   data.pending,      'blue',   '대기 중',    false, store.pending===null?'pending':null, false);
-    renderList('restricted',data.restricted,   'yellow', '제한',       false, store.restricted===null?'restricted':null, false);
-    renderList('close_friends',data.close_friends,'pink','친한 친구',  false, store.close_friends===null?'close_friends':null, false);
-
+    renderList('notback',data.notback,'red','맞팔 안 함',true,null,true);
+    renderList('fans',data.fans,'green','팬',false,null,false);
+    renderList('blocked',data.blocked,'orange','차단',false,store.blocked===null?'blocked':null,false);
+    renderList('pending',data.pending,'blue','대기 중',false,store.pending===null?'pending':null,false);
+    renderList('restricted',data.restricted,'yellow','제한',false,store.restricted===null?'restricted':null,false);
+    renderList('close_friends',data.close_friends,'pink','친한 친구',false,store.close_friends===null?'close_friends':null,false);
     bar.style.display='none';
     btn.textContent='✓ 분석 완료';
     document.getElementById('results').style.display='block';
     document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
-  }, 800);
+  },800);
 }
 
-// ── SCORE CARD ──
+// ★ 핵심 수정: renderScoreCard 함수 — 잉여 } 제거
 function renderScoreCard(score,mutualScore,fanScore,mutual,total){
-  const scoreNum=document.getElementById('scoreNum');
-  const scoreArc=document.getElementById('scoreArc');
-  const scoreBars=document.getElementById('scoreBars');
-  const scoreTitle=document.getElementById('scoreTitle');
-
+  var scoreNum=document.getElementById('scoreNum');
+  var scoreArc=document.getElementById('scoreArc');
+  var scoreBars=document.getElementById('scoreBars');
+  var scoreTitle=document.getElementById('scoreTitle');
   scoreNum.textContent=score;
-  const dash=213.6*(1-score/100);
+  var dash=213.6*(1-score/100);
   scoreArc.style.strokeDashoffset=dash;
-
-  const color=score>=70?'var(--accent)':score>=40?'var(--yellow)':'var(--orange)';
+  var color=score>=70?'var(--accent)':score>=40?'var(--yellow)':'var(--orange)';
   scoreArc.style.stroke=color;
   scoreNum.style.color=color;
-
-  const titles=['관계 정리가 필요해요','관계 구성이 보통이에요','관계 구성이 좋아요','팔로워 관계가 매우 좋아요!'];
-  const ti=score<30?0:score<50?1:score<75?2:3;
+  var titles=['관계 정리가 필요해요','관계 구성이 보통이에요','관계 구성이 좋아요','팔로워 관계가 매우 좋아요!'];
+  var ti=score<30?0:score<50?1:score<75?2:3;
   scoreTitle.textContent=titles[ti];
-
-  const mutualRate=total>0?Math.round(mutual/total*100):0;
-  // 팬 비율: 나를 팔로우하는 팬 ÷ 전체 팔로워
-  const fanRate=total>0?Math.round(fanScore):0;
-
-  scoreBars.innerHTML=`
-    <div class="score-bar-row">
-      <div class="score-bar-label">맞팔 비율</div>
-      <div class="score-bar-track"><div class="score-bar-fill" style="width:${mutualRate}%;background:var(--accent)"></div></div>
-      <div class="score-bar-val">${mutualRate}%</div>
-    </div>
-    <div class="score-bar-row">
-      <div class="score-bar-label">팬 비율</div>
-      <div class="score-bar-track"><div class="score-bar-fill" style="width:${Math.min(fanRate*2,100)}%;background:var(--blue)"></div></div>
-      <div class="score-bar-val">${fanRate}%</div>
-    </div>`;
-}
+  var mutualRate=total>0?Math.round(mutual/total*100):0;
+  var fanRate=total>0?Math.round(fanScore):0;
+  scoreBars.innerHTML=
+    '<div class="score-bar-row"><div class="score-bar-label">맞팔 비율</div>'+
+    '<div class="score-bar-track"><div class="score-bar-fill" style="width:'+mutualRate+'%;background:var(--accent)"></div></div>'+
+    '<div class="score-bar-val">'+mutualRate+'%</div></div>'+
+    '<div class="score-bar-row"><div class="score-bar-label">팬 비율</div>'+
+    '<div class="score-bar-track"><div class="score-bar-fill" style="width:'+Math.min(fanRate*2,100)+'%;background:var(--blue)"></div></div>'+
+    '<div class="score-bar-val">'+fanRate+'%</div></div>';
 }
 
-// ── LIST RENDER ──
-const GRAD=[
-  '135deg,#7c3aed,#a78bfa','135deg,#0ea5e9,#38bdf8',
-  '135deg,#f59e0b,#fcd34d','135deg,#10b981,#34d399',
-  '135deg,#f43f5e,#fb7185','135deg,#06b6d4,#67e8f9',
-  '135deg,#8b5cf6,#c4b5fd'
-];
+const GRAD=['135deg,#7c3aed,#a78bfa','135deg,#0ea5e9,#38bdf8','135deg,#f59e0b,#fcd34d','135deg,#10b981,#34d399','135deg,#f43f5e,#fb7185','135deg,#06b6d4,#67e8f9','135deg,#8b5cf6,#c4b5fd'];
 function gc(n){return GRAD[n.charCodeAt(0)%GRAD.length]}
 
 function tsLabel(ts){
   if(!ts) return '';
-  const d=new Date(ts*1000);
+  var d=new Date(ts*1000);
   return d.toLocaleDateString('ko-KR',{year:'2-digit',month:'short',day:'numeric'});
 }
 
 function renderList(key,users,badgeClass,badgeText,hasWall,unavailKey,showTs){
-  const container=document.getElementById('list-'+key);
-  const wallEl=document.getElementById('wall-'+key);
-
+  var container=document.getElementById('list-'+key);
+  var wallEl=document.getElementById('wall-'+key);
   if(unavailKey){
-    const msgs={
-      blocked:{icon:'🚫',title:'차단 목록이 ZIP에 없어요',desc:'데이터 내보내기 시 차단 계정이 포함되지 않은 경우가 있어요.<br>ZIP을 새로 받으면 확인 가능합니다.'},
+    var msgs={
+      blocked:{icon:'🚫',title:'차단 목록이 ZIP에 없어요',desc:'데이터 내보내기 시 차단 계정이 포함되지 않은 경우가 있어요.'},
       pending:{icon:'⏳',title:'요청 대기 파일이 없어요',desc:'비공개 계정에 팔로우 요청을 보낸 경우에만 포함됩니다.'},
       restricted:{icon:'🔇',title:'제한 계정 파일이 없어요',desc:'제한 기능을 사용한 경우에만 ZIP에 포함됩니다.'},
       close_friends:{icon:'💚',title:'친한 친구 목록이 없어요',desc:'친한 친구 기능을 사용한 경우에만 포함됩니다.'}
     };
-    const m=msgs[unavailKey]||{icon:'📂',title:'데이터 없음',desc:'ZIP에 해당 파일이 없습니다.'};
-    container.innerHTML=`<div class="tab-unavail"><div class="ua-icon">${m.icon}</div><div class="ua-title">${m.title}</div><div class="ua-desc">${m.desc}</div></div>`;
+    var m=msgs[unavailKey]||{icon:'📂',title:'데이터 없음',desc:'ZIP에 해당 파일이 없습니다.'};
+    container.innerHTML='<div class="tab-unavail"><div class="ua-icon">'+m.icon+'</div><div class="ua-title">'+m.title+'</div><div class="ua-desc">'+m.desc+'</div></div>';
     if(wallEl) wallEl.innerHTML='';
     return;
   }
-
   if(!users.length){
-    container.innerHTML=`<div class="empty-state"><div class="empty-icon">🎉</div><div class="empty-text">해당 목록이 없습니다!</div></div>`;
+    container.innerHTML='<div class="empty-state"><div class="empty-icon">🎉</div><div class="empty-text">해당 목록이 없습니다!</div></div>';
     if(wallEl) wallEl.innerHTML='';
     return;
   }
-
-  const display=hasWall?users.slice(0,FREE_LIMIT):users;
-  container.innerHTML=display.map(u=>`
-    <a class="user-card" href="https://instagram.com/${u.username}" target="_blank" rel="noopener">
-      <div class="avatar" style="background:linear-gradient(${gc(u.username)})">${u.username.charAt(0).toUpperCase()}</div>
-      <div class="user-details">
-        <div class="user-name">@${u.username}</div>
-        <div class="user-handle">instagram.com/${u.username}</div>
-      </div>
-      <div class="user-meta">
-        ${u.ts&&showTs?`<span class="ts-label">${tsLabel(u.ts)}</span>`:''}
-        <span class="badge ${badgeClass}">${badgeText}</span>
-      </div>
-    </a>`).join('');
-
+  var display=hasWall?users.slice(0,FREE_LIMIT):users;
+  container.innerHTML=display.map(function(u){
+    return '<a class="user-card" href="https://instagram.com/'+u.username+'" target="_blank" rel="noopener">'+
+      '<div class="avatar" style="background:linear-gradient('+gc(u.username)+')">'+u.username.charAt(0).toUpperCase()+'</div>'+
+      '<div class="user-details"><div class="user-name">@'+u.username+'</div><div class="user-handle">instagram.com/'+u.username+'</div></div>'+
+      '<div class="user-meta">'+(u.ts&&showTs?'<span class="ts-label">'+tsLabel(u.ts)+'</span>':'')+
+      '<span class="badge '+badgeClass+'">'+badgeText+'</span></div></a>';
+  }).join('');
   if(wallEl){
     if(hasWall&&users.length>FREE_LIMIT){
-      const remain=users.length-FREE_LIMIT;
+      var remain=users.length-FREE_LIMIT;
       wallEl.innerHTML=
-        '<div class="paywall">'+
-          '<div class="paywall-box">'+
-            '<div class="paywall-badge">🔒 PRO 전용</div>'+
-            '<h3>나머지 '+remain.toLocaleString()+'명이 잠겨있어요</h3>'+
-            '<p class="pw-sub">무료로 '+FREE_LIMIT+'명까지 확인했어요.<br>전체 목록을 보려면 Pro로 업그레이드하세요.</p>'+
-            '<div class="paywall-features">'+
-              '<div class="pf-row"><div class="pf-icon">✓</div>맞팔 안 한 전체 목록 무제한 확인</div>'+
-              '<div class="pf-row"><div class="pf-icon">✓</div>나만 팔로하는 팬 전체 목록</div>'+
-              '<div class="pf-row"><div class="pf-icon">✓</div>차단·제한·대기 계정 전체 확인</div>'+
-              '<div class="pf-row"><div class="pf-icon">✓</div>인스타그램 프로필 바로가기</div>'+
-            '</div>'+
-            '<div class="paywall-price">'+
-              '<div class="price-original">월 ₩9,800</div>'+
-              '<div class="price-main">₩4,900</div>'+
-              '<div class="price-period">/ 월 · 언제든 해지 가능</div>'+
-            '</div>'+
-            '<button class="btn-toss-pay" onclick="handleTossPay()">'+
-              '<span class="toss-logo-badge">toss</span>'+
-              '토스페이로 결제하기'+
-            '</button>'+
-            '<div class="paywall-note">결제 후 즉시 잠금 해제 · 자동 갱신 · 구독 해지 언제든 가능</div>'+
-          '</div>'+
-        '</div>';
+        '<div class="paywall"><div class="paywall-box">'+
+        '<div class="paywall-badge">🔒 PRO 전용</div>'+
+        '<h3>나머지 '+remain.toLocaleString()+'명이 잠겨있어요</h3>'+
+        '<p class="pw-sub">무료로 '+FREE_LIMIT+'명까지 확인했어요.<br>전체 목록을 보려면 Pro로 업그레이드하세요.</p>'+
+        '<div class="paywall-features">'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>맞팔 안 한 전체 목록 무제한 확인</div>'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>나만 팔로하는 팬 전체 목록</div>'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>차단·제한·대기 계정 전체 확인</div>'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>인스타그램 프로필 바로가기</div>'+
+        '</div>'+
+        '<div class="paywall-price"><div class="price-original">월 ₩9,800</div><div class="price-main">₩4,900</div><div class="price-period">/ 월 · 언제든 해지 가능</div></div>'+
+        '<button class="btn-toss-pay" onclick="handleTossPay()"><span class="toss-logo-badge">toss</span>토스페이로 결제하기</button>'+
+        '<div class="paywall-note">결제 후 즉시 잠금 해제 · 자동 갱신 · 구독 해지 언제든 가능</div>'+
+        '</div></div>';
     } else wallEl.innerHTML='';
   }
 }
 
-// ── FILTER & SORT ──
 function filterList(key,q){
-  const filtered=data[key].filter(u=>u.username.toLowerCase().includes(q.toLowerCase()));
-  const cfg={
-    notback:['red','맞팔 안 함'],fans:['green','팬'],
-    blocked:['orange','차단'],pending:['blue','대기 중'],restricted:['yellow','제한'],close_friends:['pink','친한 친구']
-  };
-  const [bc,bt]=cfg[key];
-  const container=document.getElementById('list-'+key);
+  var filtered=data[key].filter(function(u){return u.username.toLowerCase().includes(q.toLowerCase())});
+  var cfg={notback:['red','맞팔 안 함'],fans:['green','팬'],blocked:['orange','차단'],pending:['blue','대기 중'],restricted:['yellow','제한'],close_friends:['pink','친한 친구']};
+  var bc=cfg[key][0],bt=cfg[key][1];
+  var container=document.getElementById('list-'+key);
   if(!filtered.length){container.innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-text">검색 결과 없음</div></div>';return;}
-  container.innerHTML=filtered.map(u=>`
-    <a class="user-card" href="https://instagram.com/${u.username}" target="_blank" rel="noopener">
-      <div class="avatar" style="background:linear-gradient(${gc(u.username)})">${u.username.charAt(0).toUpperCase()}</div>
-      <div class="user-details">
-        <div class="user-name">@${u.username}</div>
-        <div class="user-handle">instagram.com/${u.username}</div>
-      </div>
-      <div class="user-meta"><span class="badge ${bc}">${bt}</span></div>
-    </a>`).join('');
+  container.innerHTML=filtered.map(function(u){
+    return '<a class="user-card" href="https://instagram.com/'+u.username+'" target="_blank" rel="noopener">'+
+      '<div class="avatar" style="background:linear-gradient('+gc(u.username)+')">'+u.username.charAt(0).toUpperCase()+'</div>'+
+      '<div class="user-details"><div class="user-name">@'+u.username+'</div><div class="user-handle">instagram.com/'+u.username+'</div></div>'+
+      '<div class="user-meta"><span class="badge '+bc+'">'+bt+'</span></div></a>';
+  }).join('');
 }
 
 function sortList(key,val){
-  let sorted=[...data[key]];
-  if(val==='newest') sorted.sort((a,b)=>b.ts-a.ts);
-  else if(val==='oldest') sorted.sort((a,b)=>a.ts-b.ts);
-  else if(val==='az') sorted.sort((a,b)=>a.username.localeCompare(b.username));
-  const cfg={notback:['red','맞팔 안 함'],fans:['green','팬']};
-  const [bc,bt]=cfg[key]||['red',''];
-  const container=document.getElementById('list-'+key);
-  const wallEl=document.getElementById('wall-'+key);
-  const hasWall=key==='notback';
-  const display=hasWall?sorted.slice(0,FREE_LIMIT):sorted;
-  const showTs=key==='notback';
-  container.innerHTML=display.map(u=>`
-    <a class="user-card" href="https://instagram.com/${u.username}" target="_blank" rel="noopener">
-      <div class="avatar" style="background:linear-gradient(${gc(u.username)})">${u.username.charAt(0).toUpperCase()}</div>
-      <div class="user-details">
-        <div class="user-name">@${u.username}</div>
-        <div class="user-handle">instagram.com/${u.username}</div>
-      </div>
-      <div class="user-meta">
-        ${u.ts&&showTs?`<span class="ts-label">${tsLabel(u.ts)}</span>`:''}
-        <span class="badge ${bc}">${bt}</span>
-      </div>
-    </a>`).join('');
+  var sorted=data[key].slice();
+  if(val==='newest') sorted.sort(function(a,b){return b.ts-a.ts});
+  else if(val==='oldest') sorted.sort(function(a,b){return a.ts-b.ts});
+  else if(val==='az') sorted.sort(function(a,b){return a.username.localeCompare(b.username)});
+  var cfg={notback:['red','맞팔 안 함'],fans:['green','팬']};
+  var pair=cfg[key]||['red',''];
+  var bc=pair[0],bt=pair[1];
+  var container=document.getElementById('list-'+key);
+  var wallEl=document.getElementById('wall-'+key);
+  var hasWall=key==='notback';
+  var display=hasWall?sorted.slice(0,FREE_LIMIT):sorted;
+  var showTs=key==='notback';
+  container.innerHTML=display.map(function(u){
+    return '<a class="user-card" href="https://instagram.com/'+u.username+'" target="_blank" rel="noopener">'+
+      '<div class="avatar" style="background:linear-gradient('+gc(u.username)+')">'+u.username.charAt(0).toUpperCase()+'</div>'+
+      '<div class="user-details"><div class="user-name">@'+u.username+'</div><div class="user-handle">instagram.com/'+u.username+'</div></div>'+
+      '<div class="user-meta">'+(u.ts&&showTs?'<span class="ts-label">'+tsLabel(u.ts)+'</span>':'')+
+      '<span class="badge '+bc+'">'+bt+'</span></div></a>';
+  }).join('');
   if(wallEl){
     if(hasWall&&data[key].length>FREE_LIMIT){
-      const remain=data[key].length-FREE_LIMIT;
+      var remain=data[key].length-FREE_LIMIT;
       wallEl.innerHTML=
-        '<div class="paywall">'+
-          '<div class="paywall-box">'+
-            '<div class="paywall-badge">🔒 PRO 전용</div>'+
-            '<h3>나머지 '+remain.toLocaleString()+'명이 잠겨있어요</h3>'+
-            '<p class="pw-sub">무료로 '+FREE_LIMIT+'명까지 확인했어요.<br>전체 목록을 보려면 Pro로 업그레이드하세요.</p>'+
-            '<div class="paywall-features">'+
-              '<div class="pf-row"><div class="pf-icon">✓</div>맞팔 안 한 전체 목록 무제한 확인</div>'+
-              '<div class="pf-row"><div class="pf-icon">✓</div>나만 팔로하는 팬 전체 목록</div>'+
-              '<div class="pf-row"><div class="pf-icon">✓</div>차단·제한·대기 계정 전체 확인</div>'+
-              '<div class="pf-row"><div class="pf-icon">✓</div>인스타그램 프로필 바로가기</div>'+
-            '</div>'+
-            '<div class="paywall-price">'+
-              '<div class="price-original">월 ₩9,800</div>'+
-              '<div class="price-main">₩4,900</div>'+
-              '<div class="price-period">/ 월 · 언제든 해지 가능</div>'+
-            '</div>'+
-            '<button class="btn-toss-pay" onclick="handleTossPay()">'+
-              '<span class="toss-logo-badge">toss</span>'+
-              '토스페이로 결제하기'+
-            '</button>'+
-            '<div class="paywall-note">결제 후 즉시 잠금 해제 · 자동 갱신 · 구독 해지 언제든 가능</div>'+
-          '</div>'+
-        '</div>';
+        '<div class="paywall"><div class="paywall-box">'+
+        '<div class="paywall-badge">🔒 PRO 전용</div>'+
+        '<h3>나머지 '+remain.toLocaleString()+'명이 잠겨있어요</h3>'+
+        '<p class="pw-sub">무료로 '+FREE_LIMIT+'명까지 확인했어요.<br>전체 목록을 보려면 Pro로 업그레이드하세요.</p>'+
+        '<div class="paywall-features">'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>맞팔 안 한 전체 목록 무제한 확인</div>'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>나만 팔로하는 팬 전체 목록</div>'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>차단·제한·대기 계정 전체 확인</div>'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>인스타그램 프로필 바로가기</div>'+
+        '</div>'+
+        '<div class="paywall-price"><div class="price-original">월 ₩9,800</div><div class="price-main">₩4,900</div><div class="price-period">/ 월 · 언제든 해지 가능</div></div>'+
+        '<button class="btn-toss-pay" onclick="handleTossPay()"><span class="toss-logo-badge">toss</span>토스페이로 결제하기</button>'+
+        '<div class="paywall-note">결제 후 즉시 잠금 해제 · 자동 갱신 · 구독 해지 언제든 가능</div>'+
+        '</div></div>';
     } else if(wallEl) wallEl.innerHTML='';
   }
 }
 
-// ── TAB SWITCH ──
 function switchTab(name,btn){
-  document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(function(t){t.classList.remove('active')});
+  document.querySelectorAll('.tab-pane').forEach(function(p){p.classList.remove('active')});
   btn.classList.add('active');
   document.getElementById('tab-'+name).classList.add('active');
 }
 
-// ── 결제 ──
-// ★ 앱인토스 IAP 연동 시 handleTossPay 내부를 아래로 교체:
-//   import { IAP } from "@apps-in-toss/web-framework";
-//   IAP.createOneTimePurchaseOrder({
-//     options: { sku: 'sosiq_pro_monthly',
-//       processProductGrant: ({orderId}) => { unlockAll(); return true; }
-//     },
-//     onEvent: (e) => {},
-//     onError: (err) => { alert('결제 실패'); }
-//   });
-
-let isPro=false;
-
 function handleTossPay(){
-  // 웹 베타 버전 — 실제 배포 시 토스페이먼츠 결제창으로 교체
-  const ok=confirm('💳 Sosiq Pro 결제\n\n금액: ₩4,900/월\n결제수단: 토스페이\n\n[베타 테스트 시뮬레이션]\n확인을 누르면 잠금이 해제됩니다.');
+  var ok=confirm('💳 Sosiq Pro 결제\n\n금액: ₩4,900/월\n결제수단: 토스페이\n\n[베타 테스트 시뮬레이션]\n확인을 누르면 잠금이 해제됩니다.');
   if(ok) showPaySuccess();
 }
 
@@ -1056,55 +822,18 @@ function showPaySuccess(){
 function unlockAll(){
   isPro=true;
   document.getElementById('payModalBg').classList.remove('show');
-  // paywall 없이 전체 재렌더
-  renderList('notback', data.notback, 'red',   '맞팔 안 함', false, null, true);
-  renderList('fans',    data.fans,    'green',  '팬',         false, null, false);
-  // 맞팔 탭 포커스
-  const btn=document.querySelector('.tab-btn[data-t="notback"]');
+  renderList('notback',data.notback,'red','맞팔 안 함',false,null,true);
+  renderList('fans',data.fans,'green','팬',false,null,false);
+  var btn=document.querySelector('.tab-btn[data-t="notback"]');
   if(btn) switchTab('notback',btn);
   document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// ── COPY ──
 function copyResult(){
-  const lines=data.notback.slice(0,FREE_LIMIT).map(u=>'@'+u.username).join('\n');
-  const text=`[Sosiq 분석 결과]\n맞팔 안 한 사람 ${data.notback.length}명\n\n${lines}${data.notback.length>FREE_LIMIT?'\n...외 '+(data.notback.length-FREE_LIMIT)+'명':''}\n\n나만 팔로하는 팬 ${data.fans.length}명\n차단 ${data.blocked.length} · 대기 ${data.pending.length} · 제한 ${data.restricted.length}`;
-  navigator.clipboard.writeText(text)
-    .then(()=>alert('복사 완료! 📋'))
-    .catch(()=>alert('직접 선택해서 복사해주세요.'));
+  var lines=data.notback.slice(0,FREE_LIMIT).map(function(u){return '@'+u.username}).join('\n');
+  var text='[Sosiq 분석 결과]\n맞팔 안 한 사람 '+data.notback.length+'명\n\n'+lines+(data.notback.length>FREE_LIMIT?'\n...외 '+(data.notback.length-FREE_LIMIT)+'명':'')+'\n\n나만 팔로하는 팬 '+data.fans.length+'명\n차단 '+data.blocked.length+' · 대기 '+data.pending.length+' · 제한 '+data.restricted.length;
+  navigator.clipboard.writeText(text).then(function(){alert('복사 완료! 📋')}).catch(function(){alert('직접 선택해서 복사해주세요.')});
 }
-
-// ── DEMO ──
-function loadDemo(){
-  const mk=(names,baseTs)=>names.map((v,i)=>({
-    string_list_data:[{value:v,href:'https://instagram.com/'+v,timestamp:(baseTs||1700000000)-(i*864000)}]
-  }));
-
-  store.followers=mk(['kim_jiyeon','park_minho','lee_sooyeon','mutual_friend','choi_junho','yoon_seri','han_jiwon','my_fan_1','my_fan_2','my_fan_3','celebrity_kr','brand_official','foodie_seoul','travel_kr','design_kr'],1700000000);
-  store.following=mk(['mutual_friend','cool_creator_kr','old_friend_jo','kim_jiyeon','stranger_abc','photographer_park','travel_blogger','food_critic','style_kr','dev_korea','startup_seoul','design_kr','music_kr','art_kr','film_kr'],1710000000);
-
-  store.blocked={blocked_accounts:[
-    {string_list_data:[{value:'spam_account_1',href:'',timestamp:1690000000}]},
-    {string_list_data:[{value:'troll_user_99',href:'',timestamp:1691000000}]},
-    {string_list_data:[{value:'fake_brand_kr',href:'',timestamp:1692000000}]}
-  ]};
-  store.pending=mk(['private_user_a','private_user_b'],1695000000);
-  store.restricted=mk(['annoying_ex_kr','noisy_coworker'],1693000000);
-  store.close_friends=mk(['best_friend_jh','sister_kr','college_buddy'],1705000000);
-
-  const zone=document.getElementById('uploadZone');
-  zone.classList.add('loaded');
-  document.getElementById('foundFiles').innerHTML=`
-    <span class="file-chip ok">✓ 팔로워 15명 [샘플]</span>
-    <span class="file-chip ok">✓ 팔로잉 15명 [샘플]</span>
-    <span class="file-chip opt">✓ 차단 목록</span>
-    <span class="file-chip opt">✓ 요청 대기</span>
-    <span class="file-chip opt">✓ 제한 계정</span>
-    <span class="file-chip opt">✓ 친한 친구</span>`;
-
-  for(let i=1;i<=3;i++) completeStep(i);
-  checkReady();
-  setTimeout(()=>document.getElementById('btnAnalyze').click(),300);
-}</script>
+</script>
 </body>
 </html>
