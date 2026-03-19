@@ -207,6 +207,41 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 .btn-share:hover{border-color:var(--accent);color:var(--accent)}
 .footer-note{margin-top:48px;background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:16px 20px;font-size:11px;color:var(--muted2);line-height:1.8;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.04)}
 .footer-note b{color:var(--muted);font-weight:500}
+/* ── 플랫폼 선택 ── */
+.platform-grid-row1{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:10px}
+.platform-grid-row2{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:480px){.platform-grid-row1,.platform-grid-row2{grid-template-columns:repeat(2,1fr)}}
+.platform-card{background:var(--s1);border:1.5px solid var(--border);border-radius:14px;padding:16px 10px;text-align:center;cursor:pointer;transition:all .2s;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.platform-card:hover:not(.soon){border-color:var(--accent);transform:translateY(-1px)}
+.platform-card.active{border-color:var(--accent);background:rgba(232,0,29,.04);box-shadow:0 0 0 3px rgba(232,0,29,.08)}
+.platform-card.soon{opacity:.45;cursor:default}
+.platform-icon{font-size:28px;margin-bottom:8px}
+.platform-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
+.platform-desc{font-size:10px;color:var(--muted);font-family:var(--font-mono)}
+.platform-card.soon .platform-desc{color:var(--muted2)}
+/* ── AUTH UI ── */
+.auth-bar{display:flex;align-items:center;gap:10px;justify-content:flex-end;margin-bottom:24px}
+.auth-user{font-size:12px;color:var(--muted);font-family:var(--font-mono)}
+.btn-auth{background:var(--s1);border:1px solid var(--border2);border-radius:8px;padding:7px 14px;font-family:var(--font);font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .15s;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.btn-auth:hover{border-color:var(--accent);color:var(--accent)}
+.btn-auth.pro{background:rgba(232,0,29,.06);border-color:rgba(232,0,29,.2);color:var(--accent)}
+/* 로그인 모달 */
+.auth-modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px}
+.auth-modal-bg.show{display:flex;animation:fadeInBg .2s ease}
+.auth-modal{background:var(--s1);border-radius:20px;padding:32px 28px;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.auth-modal h3{font-family:var(--font-display);font-size:20px;font-weight:700;margin-bottom:6px;color:var(--text)}
+.auth-modal p{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.6;font-weight:300}
+.auth-input{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-family:var(--font);font-size:14px;color:var(--text);outline:none;margin-bottom:10px;transition:border-color .15s}
+.auth-input:focus{border-color:rgba(232,0,29,.4);box-shadow:0 0 0 3px rgba(232,0,29,.06)}
+.btn-auth-submit{width:100%;background:var(--grad);color:#fff;border:none;border-radius:10px;padding:13px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:4px;box-shadow:0 4px 16px rgba(232,0,29,.25)}
+.btn-auth-submit:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(232,0,29,.35)}
+.btn-auth-submit:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.auth-switch{text-align:center;margin-top:14px;font-size:12px;color:var(--muted)}
+.auth-switch a{color:var(--accent);cursor:pointer;font-weight:500;text-decoration:none}
+.auth-msg{font-size:12px;margin-top:8px;padding:8px 12px;border-radius:6px;display:none}
+.auth-msg.ok{background:rgba(5,150,105,.08);color:var(--green);border:1px solid rgba(5,150,105,.2)}
+.auth-msg.err{background:rgba(232,0,29,.08);color:var(--red);border:1px solid rgba(232,0,29,.2)}
+.pro-badge{display:inline-flex;align-items:center;gap:4px;background:var(--grad);color:#fff;border-radius:100px;padding:2px 8px;font-size:10px;font-weight:700;font-family:var(--font-mono);margin-left:6px;vertical-align:middle}
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);box-shadow:0 0 0 0 rgba(232,0,29,.4)}50%{opacity:.7;transform:scale(.85);box-shadow:0 0 0 6px rgba(232,0,29,0)}}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
@@ -219,6 +254,11 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 <div class="wrap">
 
 <header>
+  <!-- 로그인 상태 바 -->
+  <div class="auth-bar" id="authBar">
+    <span class="auth-user" id="authUserEmail"></span>
+    <button class="btn-auth" id="btnAuthAction" onclick="handleAuthBtn()">로그인</button>
+  </div>
   <div class="top-bar">
     <div class="logo">
       <div class="logo-mark">S</div>
@@ -226,12 +266,9 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
     </div>
     <div class="beta-chip">BETA · v5.4</div>
   </div>
-  <div class="hero-eyebrow">
-    <div class="pulse-dot"></div>
-    <div class="eyebrow-text">Social Relationship Intelligence</div>
-  </div>
+
   <h1>아무도 알려주지 않는<br><span class="line2">관계의 진실</span></h1>
-  <p class="hero-sub">너만아는 지구최강 인스타그램 팔로워 분석 툴</p>
+  <p class="hero-sub">지구최강 인스타그램 팔로워 분석 툴</p>
   <div class="trust-pills">
     <div class="trust-pill"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>계정 문제없고</div>
     <div class="trust-pill"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>해킹 문제없이</div>
@@ -239,99 +276,216 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
   </div>
 </header>
 
-<div class="section" style="animation-delay:.1s">
+<div class="section" style="animation-delay:.15s">
   <div class="section-label">
-    <div class="section-label-text">STEP GUIDE</div>
+    <div class="section-label-text">PLATFORM</div>
     <div class="section-label-line"></div>
   </div>
-  <div class="progress-track">
-    <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
-    <div class="prog-label" id="progLabel">0 / 3</div>
+  <div class="platform-grid-row1">
+    <div class="platform-card active" id="plt-instagram" onclick="selectPlatform('instagram')">
+      <div class="platform-icon">📸</div>
+      <div class="platform-name">Instagram</div>
+      <div class="platform-desc">ZIP 업로드</div>
+    </div>
+    <div class="platform-card" id="plt-tiktok" onclick="selectPlatform('tiktok')">
+      <div class="platform-icon">🎵</div>
+      <div class="platform-name">TikTok</div>
+      <div class="platform-desc">ZIP 업로드</div>
+    </div>
   </div>
+  <div class="platform-grid-row2">
+    <div class="platform-card" id="plt-threads" onclick="selectPlatform('threads')">
+      <div class="platform-icon">🧵</div>
+      <div class="platform-name">Threads</div>
+      <div class="platform-desc">ZIP 업로드</div>
+    </div>
+    <div class="platform-card" id="plt-linkedin" onclick="selectPlatform('linkedin')">
+      <div class="platform-icon">💼</div>
+      <div class="platform-name">LinkedIn</div>
+      <div class="platform-desc">CSV 업로드</div>
+    </div>
+    <div class="platform-card" id="plt-x" onclick="selectPlatform('x')">
+      <div class="platform-icon">𝕏</div>
+      <div class="platform-name">X·Twitter</div>
+      <div class="platform-desc">ZIP 업로드</div>
+    </div>
+  </div>
+</div>
+
+<!-- 틱톡 가이드 -->
+<div class="section" id="guide-tiktok" style="display:none;animation-delay:.1s">
+  <div class="section-label"><div class="section-label-text">STEP GUIDE · TIKTOK</div><div class="section-label-line"></div></div>
+  <div class="progress-track"><div class="prog-bar"><div class="prog-fill" id="progFillTk"></div></div><div class="prog-label" id="progLabelTk">0 / 2</div></div>
+  <div class="steps">
+    <div class="step active" id="tk1">
+      <div class="step-head"><div class="step-num" id="tkn1">01</div><div class="step-info"><div class="step-title">틱톡 데이터 내보내기</div><div class="step-desc">앱에서 직접 요청 → 이메일로 수령</div></div></div>
+      <div class="step-body" style="display:block"><div class="step-body-inner">
+        <div class="path-steps-list">
+          <div class="psl"><div class="psl-n">1</div><div>틱톡 앱 → 프로필 → 우측 상단 <b>☰</b></div></div>
+          <div class="psl"><div class="psl-n">2</div><div><b>설정 및 개인정보</b> → <b>계정</b></div></div>
+          <div class="psl"><div class="psl-n">3</div><div><b>내 데이터 다운로드</b> 탭</div></div>
+          <div class="psl"><div class="psl-n">4</div><div>형식: <span class="tag warn">JSON</span> 선택 → <b>데이터 요청</b></div></div>
+          <div class="psl"><div class="psl-n">5</div><div>이메일로 <span class="tag">TikTok_Data.zip</span> 수령</div></div>
+        </div>
+        <button class="btn-confirm" onclick="completeTkStep(1)">✓ 요청 완료</button>
+        <div class="wait-note">⏱ 이메일 파일 수령까지 수 분 ~ 최대 48시간</div>
+      </div></div>
+    </div>
+    <div class="step" id="tk2">
+      <div class="step-head"><div class="step-num" id="tkn2">02</div><div class="step-info"><div class="step-title">ZIP 파일 업로드</div><div class="step-desc">압축 풀지 말고 그대로 올려주세요</div></div></div>
+      <div class="step-body"><div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">이메일에서 받은 <span class="tag">TikTok_Data.zip</span> 파일을<br><b style="color:var(--text)">압축 해제하지 말고</b> 아래 업로드 영역에 올려주세요.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 쓰레드 가이드 -->
+<div class="section" id="guide-threads" style="display:none;animation-delay:.1s">
+  <div class="section-label"><div class="section-label-text">STEP GUIDE · THREADS</div><div class="section-label-line"></div></div>
+  <div class="progress-track"><div class="prog-bar"><div class="prog-fill" id="progFillTh"></div></div><div class="prog-label" id="progLabelTh">0 / 2</div></div>
+  <div class="steps">
+    <div class="step active" id="th1">
+      <div class="step-head"><div class="step-num" id="thn1">01</div><div class="step-info"><div class="step-title">Meta 계정센터에서 데이터 내보내기</div><div class="step-desc">인스타그램과 동일한 경로 — Threads 포함</div></div></div>
+      <div class="step-body" style="display:block"><div class="step-body-inner">
+        <a class="btn-go" href="https://accountscenter.facebook.com/info_and_permissions/dyi/" target="_blank" onclick="completeThStep(1)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          내보내기 페이지로 이동
+        </a>
+        <div class="path-steps-list" style="margin-top:12px">
+          <div class="psl"><div class="psl-n">1</div><div>계정 선택 → <b>기기로 내보내기</b></div></div>
+          <div class="psl"><div class="psl-n">2</div><div><b>정보 맞춤설정</b> → <span class="tag green">팔로워 및 팔로잉</span> 체크</div></div>
+          <div class="psl"><div class="psl-n">3</div><div>형식: <span class="tag warn">JSON</span> → <b>내보내기 시작</b></div></div>
+        </div>
+        <button class="btn-confirm" onclick="completeThStep(1)">✓ 요청 완료</button>
+        <div class="wait-note">⏱ Threads 데이터는 인스타 ZIP 안에 함께 포함됩니다</div>
+      </div></div>
+    </div>
+    <div class="step" id="th2">
+      <div class="step-head"><div class="step-num" id="thn2">02</div><div class="step-info"><div class="step-title">ZIP 파일 업로드</div><div class="step-desc">인스타 ZIP 그대로 올리면 Threads 자동 인식</div></div></div>
+      <div class="step-body"><div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">이메일에서 받은 <span class="tag">instagram-XXXXXX.zip</span> 파일을<br><b style="color:var(--text)">압축 해제하지 말고</b> 아래 업로드 영역에 올려주세요.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 링크드인 가이드 -->
+<div class="section" id="guide-linkedin" style="display:none;animation-delay:.1s">
+  <div class="section-label"><div class="section-label-text">STEP GUIDE · LINKEDIN</div><div class="section-label-line"></div></div>
+  <div class="progress-track"><div class="prog-bar"><div class="prog-fill" id="progFillLi"></div></div><div class="prog-label" id="progLabelLi">0 / 2</div></div>
+  <div class="steps">
+    <div class="step active" id="li1">
+      <div class="step-head"><div class="step-num" id="lin1">01</div><div class="step-info"><div class="step-title">LinkedIn 데이터 내보내기</div><div class="step-desc">설정에서 연결 CSV 다운로드</div></div></div>
+      <div class="step-body" style="display:block"><div class="step-body-inner">
+        <a class="btn-go" href="https://www.linkedin.com/mypreferences/d/download-my-data" target="_blank" onclick="completeLiStep(1)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          데이터 내보내기 페이지로 이동
+        </a>
+        <div class="path-steps-list" style="margin-top:12px">
+          <div class="psl"><div class="psl-n">1</div><div><b>Connections</b> 선택 → <b>Request archive</b></div></div>
+          <div class="psl"><div class="psl-n">2</div><div>이메일로 ZIP 수령 → 압축 해제</div></div>
+          <div class="psl"><div class="psl-n">3</div><div>ZIP 안의 <span class="tag">Connections.csv</span> 파일 업로드</div></div>
+        </div>
+        <button class="btn-confirm" onclick="completeLiStep(1)">✓ 요청 완료</button>
+        <div class="wait-note">⏱ 이메일 수령까지 10분 ~ 24시간 · CSV 파일만 업로드</div>
+      </div></div>
+    </div>
+    <div class="step" id="li2">
+      <div class="step-head"><div class="step-num" id="lin2">02</div><div class="step-info"><div class="step-title">Connections.csv 업로드</div><div class="step-desc">ZIP에서 꺼낸 CSV 파일을 올려주세요</div></div></div>
+      <div class="step-body"><div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">ZIP 압축 해제 후 <span class="tag">Connections.csv</span> 파일을<br>아래 업로드 영역에 올려주세요.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- X 가이드 -->
+<div class="section" id="guide-x" style="display:none;animation-delay:.1s">
+  <div class="section-label"><div class="section-label-text">STEP GUIDE · X · TWITTER</div><div class="section-label-line"></div></div>
+  <div class="progress-track"><div class="prog-bar"><div class="prog-fill" id="progFillX"></div></div><div class="prog-label" id="progLabelX">0 / 2</div></div>
+  <div class="steps">
+    <div class="step active" id="xg1">
+      <div class="step-head"><div class="step-num" id="xn1">01</div><div class="step-info"><div class="step-title">X 데이터 아카이브 내보내기</div><div class="step-desc">설정에서 내 데이터 ZIP 다운로드</div></div></div>
+      <div class="step-body" style="display:block"><div class="step-body-inner">
+        <a class="btn-go" href="https://x.com/settings/download_your_data" target="_blank" onclick="completeXStep(1)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          X 데이터 내보내기 페이지로 이동
+        </a>
+        <div class="path-steps-list" style="margin-top:12px">
+          <div class="psl"><div class="psl-n">1</div><div>X 앱 또는 웹 → <b>설정</b> → <b>계정</b></div></div>
+          <div class="psl"><div class="psl-n">2</div><div><b>내 데이터 아카이브</b> → <b>아카이브 요청</b></div></div>
+          <div class="psl"><div class="psl-n">3</div><div>이메일로 <span class="tag">twitter-XXXXXX.zip</span> 수령</div></div>
+        </div>
+        <button class="btn-confirm" onclick="completeXStep(1)">✓ 요청 완료</button>
+        <div class="wait-note">⏱ 이메일 수령까지 수 분 ~ 최대 24시간</div>
+      </div></div>
+    </div>
+    <div class="step" id="xg2">
+      <div class="step-head"><div class="step-num" id="xn2">02</div><div class="step-info"><div class="step-title">ZIP 파일 업로드</div><div class="step-desc">압축 풀지 말고 그대로 올려주세요</div></div></div>
+      <div class="step-body"><div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">이메일에서 받은 <span class="tag">twitter-XXXXXX.zip</span> 파일을<br><b style="color:var(--text)">압축 해제하지 말고</b> 아래 업로드 영역에 올려주세요.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 인스타 가이드 -->
+<div class="section" id="guide-instagram" style="animation-delay:.1s">
+  <div class="section-label"><div class="section-label-text">STEP GUIDE</div><div class="section-label-line"></div></div>
+  <div class="progress-track"><div class="prog-bar"><div class="prog-fill" id="progFill"></div></div><div class="prog-label" id="progLabel">0 / 3</div></div>
   <div class="steps">
     <div class="step active" id="s1">
       <div class="step-head" onclick="toggleStep(1)">
         <div class="step-num" id="sn1">01</div>
-        <div class="step-info">
-          <div class="step-title">인스타그램 데이터 내보내기</div>
-          <div class="step-desc">버튼 클릭 → 인스타 계정 센터로 이동</div>
-        </div>
+        <div class="step-info"><div class="step-title">인스타그램 데이터 내보내기</div><div class="step-desc">버튼 클릭 → 인스타 계정 센터로 이동</div></div>
       </div>
-      <div class="step-body">
-        <div class="step-body-inner">
-          <a class="btn-go" href="https://accountscenter.facebook.com/info_and_permissions/dyi/" target="_blank" onclick="completeStep(1)">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            내보내기 페이지로 이동
-          </a>
-          <div style="margin-top:12px;font-size:11px;color:var(--muted);line-height:1.9">
-            앱에서: 프로필 → ☰ → <span class="tag">계정 센터</span> → <span class="tag">내 정보 및 권한</span>
-          </div>
-        </div>
-      </div>
+      <div class="step-body"><div class="step-body-inner">
+        <a class="btn-go" href="https://accountscenter.facebook.com/info_and_permissions/dyi/" target="_blank" onclick="completeStep(1)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          내보내기 페이지로 이동
+        </a>
+        <div style="margin-top:12px;font-size:11px;color:var(--muted);line-height:1.9">앱에서: 프로필 → ☰ → <span class="tag">계정 센터</span> → <span class="tag">내 정보 및 권한</span></div>
+      </div></div>
     </div>
     <div class="step" id="s2">
       <div class="step-head" onclick="toggleStep(2)">
         <div class="step-num" id="sn2">02</div>
-        <div class="step-info">
-          <div class="step-title">내 화면에 맞는 경로 선택</div>
-          <div class="step-desc">인스타 UI 버전에 따라 다릅니다</div>
-        </div>
+        <div class="step-info"><div class="step-title">내 화면에 맞는 경로 선택</div><div class="step-desc">인스타 UI 버전에 따라 다릅니다</div></div>
       </div>
-      <div class="step-body">
-        <div class="step-body-inner">
-          <div style="font-size:11px;color:var(--muted);margin-bottom:12px">지금 인스타 화면에 어떤 버튼이 보이나요?</div>
-          <div class="path-grid">
-            <div class="path-card" id="pa-btn" onclick="pickPath('A')">
-              <div class="path-card-label">PATH A</div>
-              <div class="path-card-desc">"내 정보 내보내기"<br>Export your information</div>
-            </div>
-            <div class="path-card" id="pb-btn" onclick="pickPath('B')">
-              <div class="path-card-label">PATH B</div>
-              <div class="path-card-desc">"내 정보 다운로드"<br>Download your information</div>
-            </div>
-          </div>
-          <div class="path-detail" id="pa-detail">
-            <div class="path-steps-list">
-              <div class="psl"><div class="psl-n">1</div><div><b>내 정보 내보내기</b> 탭</div></div>
-              <div class="psl"><div class="psl-n">2</div><div><b>내보내기 만들기</b> 탭</div></div>
-              <div class="psl"><div class="psl-n">3</div><div>계정 선택 → <b>기기로 내보내기</b> → 다음</div></div>
-              <div class="psl"><div class="psl-n">4</div><div><b>정보 맞춤설정</b> → 모두 해제 후 <span class="tag green">팔로워 및 팔로잉</span>만 체크</div></div>
-              <div class="psl"><div class="psl-n">5</div><div>기간: <span class="tag">전체 기간</span> · 형식: <span class="tag warn">JSON</span> 으로 변경</div></div>
-              <div class="psl"><div class="psl-n">6</div><div><b>내보내기 시작</b></div></div>
-            </div>
-            <button class="btn-confirm" onclick="completeStep(2)">✓ 요청 완료</button>
-            <div class="wait-note">⏱ 이메일 파일 수령까지 수 분 ~ 최대 1시간</div>
-          </div>
-          <div class="path-detail" id="pb-detail">
-            <div class="path-steps-list">
-              <div class="psl"><div class="psl-n">1</div><div><b>내 정보 다운로드</b> 탭</div></div>
-              <div class="psl"><div class="psl-n">2</div><div><b>정보 다운로드 또는 전송</b> 탭</div></div>
-              <div class="psl"><div class="psl-n">3</div><div>계정 선택 → <b>일부 정보</b> 선택</div></div>
-              <div class="psl"><div class="psl-n">4</div><div><span class="tag green">팔로워 및 팔로잉</span> 체크 → 다음</div></div>
-              <div class="psl"><div class="psl-n">5</div><div><b>기기에 다운로드</b> 선택</div></div>
-              <div class="psl"><div class="psl-n">6</div><div>기간: <span class="tag">전체 기간</span> · 형식: <span class="tag warn">JSON</span></div></div>
-              <div class="psl"><div class="psl-n">7</div><div><b>파일 만들기</b></div></div>
-            </div>
-            <button class="btn-confirm" onclick="completeStep(2)">✓ 요청 완료</button>
-            <div class="wait-note">⏱ 이메일 파일 수령까지 수 분 ~ 최대 1시간</div>
-          </div>
+      <div class="step-body"><div class="step-body-inner">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:12px">지금 인스타 화면에 어떤 버튼이 보이나요?</div>
+        <div class="path-grid">
+          <div class="path-card" id="pa-btn" onclick="pickPath('A')"><div class="path-card-label">PATH A</div><div class="path-card-desc">"내 정보 내보내기"<br>Export your information</div></div>
+          <div class="path-card" id="pb-btn" onclick="pickPath('B')"><div class="path-card-label">PATH B</div><div class="path-card-desc">"내 정보 다운로드"<br>Download your information</div></div>
         </div>
-      </div>
+        <div class="path-detail" id="pa-detail">
+          <div class="path-steps-list">
+            <div class="psl"><div class="psl-n">1</div><div><b>내 정보 내보내기</b> 탭</div></div>
+            <div class="psl"><div class="psl-n">2</div><div><b>내보내기 만들기</b> 탭</div></div>
+            <div class="psl"><div class="psl-n">3</div><div>계정 선택 → <b>기기로 내보내기</b> → 다음</div></div>
+            <div class="psl"><div class="psl-n">4</div><div><b>정보 맞춤설정</b> → 모두 해제 후 <span class="tag green">팔로워 및 팔로잉</span>만 체크</div></div>
+            <div class="psl"><div class="psl-n">5</div><div>기간: <span class="tag">전체 기간</span> · 형식: <span class="tag warn">JSON</span> 으로 변경</div></div>
+            <div class="psl"><div class="psl-n">6</div><div><b>내보내기 시작</b></div></div>
+          </div>
+          <button class="btn-confirm" onclick="completeStep(2)">✓ 요청 완료</button>
+          <div class="wait-note">⏱ 이메일 파일 수령까지 수 분 ~ 최대 1시간</div>
+        </div>
+        <div class="path-detail" id="pb-detail">
+          <div class="path-steps-list">
+            <div class="psl"><div class="psl-n">1</div><div><b>내 정보 다운로드</b> 탭</div></div>
+            <div class="psl"><div class="psl-n">2</div><div><b>정보 다운로드 또는 전송</b> 탭</div></div>
+            <div class="psl"><div class="psl-n">3</div><div>계정 선택 → <b>일부 정보</b> 선택</div></div>
+            <div class="psl"><div class="psl-n">4</div><div><span class="tag green">팔로워 및 팔로잉</span> 체크 → 다음</div></div>
+            <div class="psl"><div class="psl-n">5</div><div><b>기기에 다운로드</b> 선택</div></div>
+            <div class="psl"><div class="psl-n">6</div><div>기간: <span class="tag">전체 기간</span> · 형식: <span class="tag warn">JSON</span></div></div>
+            <div class="psl"><div class="psl-n">7</div><div><b>파일 만들기</b></div></div>
+          </div>
+          <button class="btn-confirm" onclick="completeStep(2)">✓ 요청 완료</button>
+          <div class="wait-note">⏱ 이메일 파일 수령까지 수 분 ~ 최대 1시간</div>
+        </div>
+      </div></div>
     </div>
     <div class="step" id="s3">
       <div class="step-head" onclick="toggleStep(3)">
         <div class="step-num" id="sn3">03</div>
-        <div class="step-info">
-          <div class="step-title">ZIP 파일 업로드</div>
-          <div class="step-desc">압축 풀지 말고 그대로 올려주세요</div>
-        </div>
+        <div class="step-info"><div class="step-title">ZIP 파일 업로드</div><div class="step-desc">압축 풀지 말고 그대로 올려주세요</div></div>
       </div>
-      <div class="step-body">
-        <div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">
-          이메일에서 받은 <span class="tag">instagram-XXXXXX.zip</span> 파일을<br>
-          <b style="color:var(--text)">압축 해제하지 말고</b> 아래 업로드 영역에 올려주세요.
-        </div>
-      </div>
+      <div class="step-body"><div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">
+        이메일에서 받은 <span class="tag">instagram-XXXXXX.zip</span> 파일을<br><b style="color:var(--text)">압축 해제하지 말고</b> 아래 업로드 영역에 올려주세요.
+      </div></div>
     </div>
   </div>
 </div>
@@ -345,7 +499,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
   <div class="upload-zone" id="uploadZone"
     onclick="triggerFileInput(event)"
     ondragover="onDrag(event)" ondragleave="offDrag()" ondrop="onDrop(event)">
-    <input type="file" accept=".zip,.json" id="fileInput" onchange="handleFile(event)" style="display:none">
+    <input type="file" accept=".zip,.json,.csv" id="fileInput" onchange="handleFile(event)" style="display:none">
     <div class="upload-default">
       <span class="upload-icon">📦</span>
       <div class="upload-title">ZIP, JSON 파일을 드래그하거나 클릭 하세요.</div>
@@ -361,7 +515,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 <div class="cta-area">
   <div class="loading-bar" id="loadingBar"></div>
   <button class="btn-analyze" id="btnAnalyze" onclick="runAnalysis()" disabled>분석 시작 →</button>
-  <div class="cta-note">파일은 내 브라우저에서만 처리 · 서버 전송 없음</div>
+
 </div>
 
 <div id="results">
@@ -450,6 +604,24 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
   Sosiq 디어스컴퍼니© 2026
 </div>
 
+<!-- 로그인/회원가입 모달 -->
+<div class="auth-modal-bg" id="authModalBg">
+  <div class="auth-modal">
+    <h3 id="authModalTitle">로그인</h3>
+    <p id="authModalDesc">이메일로 간편하게 시작하세요</p>
+    <input class="auth-input" type="email" id="authEmail" placeholder="이메일 주소">
+    <input class="auth-input" type="password" id="authPassword" placeholder="비밀번호 (6자 이상)">
+    <div class="auth-msg" id="authMsg"></div>
+    <button class="btn-auth-submit" id="btnAuthSubmit" onclick="submitAuth()">로그인</button>
+    <div class="auth-switch" id="authSwitch">
+      계정이 없으신가요? <a onclick="toggleAuthMode()">회원가입</a>
+    </div>
+    <div style="margin-top:12px;text-align:center">
+      <a onclick="closeAuthModal()" style="font-size:12px;color:var(--muted);cursor:pointer">닫기</a>
+    </div>
+  </div>
+</div>
+
 <div class="pay-modal-bg" id="payModalBg">
   <div class="pay-modal">
     <span class="pm-icon">🎉</span>
@@ -461,12 +633,23 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+// ── SUPABASE 설정 ──
+const SUPABASE_URL='https://jyiohkrbdjuwdjjatkgb.supabase.co';
+const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5aW9oa3JiZGp1d2RqamF0a2diIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzcwODIsImV4cCI6MjA4OTQxMzA4Mn0.oFP4fzJz2YvTsg3Qm3RjINew7vu8nqJuNSrxaw82FfU';
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+
 const FREE_LIMIT=5;
-const store={followers:null,following:null,blocked:null,pending:null,restricted:null,close_friends:null};
+const store={followers:null,following:null,blocked:null,pending:null,restricted:null,close_friends:null,
+  tk_fans:null,tk_following:null,tk_blocked:null,tk_liked:null,
+  th_followers:null,th_following:null,
+  li_connections:null,
+  x_following:null,x_followers:null,x_mutes:null,x_blocks:null};
 const data={notback:[],fans:[],blocked:[],pending:[],restricted:[],close_friends:[]};
 let stepDone=0;
 let isPro=false;
+let currentUser=null;
 
 function toggleStep(n){
   const el=document.getElementById('s'+n);
@@ -510,67 +693,26 @@ function onDrop(e){e.preventDefault();offDrag();const f=e.dataTransfer.files[0];
 function handleFile(e){const f=e.target.files[0];if(f)processFile(f)}
 
 async function processFile(file){
-  const zone=document.getElementById('uploadZone');
-  const found=document.getElementById('foundFiles');
+  var zone=document.getElementById('uploadZone');
+  var found=document.getElementById('foundFiles');
   try{
-    if(file.name.endsWith('.zip')){
-      const zip=await JSZip.loadAsync(file);
-      const files=Object.keys(zip.files);
-      let chips='';
-      // ★ 파일명 탐색 — 인스타 ZIP 버전별 파일명 모두 커버
-      // followers: followers_1.json / followers.json (following_hashtags 제외)
-      const fwrFile=files.find(f=>{
-        const name=f.split('/').pop();
-        return name==='followers_1.json'||name==='followers.json';
-      });
-      if(fwrFile){
-        store.followers=JSON.parse(await zip.files[fwrFile].async('text'));
-        chips+='<span class="file-chip ok">✓ 팔로워 '+extractUsers(store.followers).length.toLocaleString()+'명</span>';
-      } else chips+='<span class="file-chip miss">✗ followers 없음</span>';
-
-      // following: following.json (following_hashtags.json 제외)
-      const fwgFile=files.find(f=>{
-        const name=f.split('/').pop();
-        return name==='following.json';
-      });
-      if(fwgFile){
-        store.following=JSON.parse(await zip.files[fwgFile].async('text'));
-        chips+='<span class="file-chip ok">✓ 팔로잉 '+extractUsers(store.following).length.toLocaleString()+'명</span>';
-      } else chips+='<span class="file-chip miss">✗ following 없음</span>';
-
-      // blocked: blocked_accounts.json / blocked_profiles.json
-      const blkFile=files.find(f=>{
-        const name=f.split('/').pop();
-        return name==='blocked_accounts.json'||name==='blocked_profiles.json';
-      });
-      if(blkFile){try{store.blocked=JSON.parse(await zip.files[blkFile].async('text'));chips+='<span class="file-chip opt">✓ 차단 목록</span>'}catch(e){}}
-
-      // pending: pending_follow_requests.json / follow_requests_sent.json
-      const pndFile=files.find(f=>{
-        const name=f.split('/').pop();
-        return name==='pending_follow_requests.json'||name==='follow_requests_sent.json';
-      });
-      if(pndFile){try{store.pending=JSON.parse(await zip.files[pndFile].async('text'));chips+='<span class="file-chip opt">✓ 요청 대기</span>'}catch(e){}}
-
-      // restricted: restricted_accounts.json / restricted_profiles.json
-      const rstFile=files.find(f=>{
-        const name=f.split('/').pop();
-        return name==='restricted_accounts.json'||name==='restricted_profiles.json';
-      });
-      if(rstFile){try{store.restricted=JSON.parse(await zip.files[rstFile].async('text'));chips+='<span class="file-chip opt">✓ 제한 계정</span>'}catch(e){}}
-
-      // close_friends: close_friends.json
-      const cfFile=files.find(f=>{
-        const name=f.split('/').pop();
-        return name==='close_friends.json';
-      });
-      if(cfFile){try{store.close_friends=JSON.parse(await zip.files[cfFile].async('text'));chips+='<span class="file-chip opt">✓ 친한 친구</span>'}catch(e){}}
-      found.innerHTML=chips;
-      zone.classList.add('loaded');
-      if(stepDone<3) completeStep(3);
+    if(file.name.endsWith('.csv')){
+      await processLinkedInCSV(file,zone,found);
+    } else if(file.name.endsWith('.zip')){
+      var zip=await JSZip.loadAsync(file);
+      var files=Object.keys(zip.files);
+      if(currentPlatform==='tiktok'){
+        await processTikTokZip(zip,files,zone,found);
+      } else if(currentPlatform==='threads'){
+        await processThreadsZip(zip,files,zone,found);
+      } else if(currentPlatform==='x'){
+        await processXZip(zip,files,zone,found);
+      } else {
+        await processInstagramZip(zip,files,zone,found);
+      }
     } else if(file.name.endsWith('.json')){
-      const d=JSON.parse(await file.text());
-      const users=extractUsers(d);
+      var d=JSON.parse(await file.text());
+      var users=extractUsers(d);
       if(users.length>0){
         if(file.name.includes('following')){store.following=d;found.innerHTML='<span class="file-chip ok">✓ following '+users.length+'명</span>';}
         else{store.followers=d;found.innerHTML='<span class="file-chip ok">✓ followers '+users.length+'명</span>';}
@@ -580,8 +722,363 @@ async function processFile(file){
     }
     checkReady();
   } catch(err){
-    alert('파일을 읽을 수 없습니다.\n인스타그램 ZIP 파일인지 확인해주세요.\n\n오류: '+err.message);
+    alert('파일을 읽을 수 없습니다.\nZIP/CSV 파일인지 확인해주세요.\n\n오류: '+err.message);
   }
+}
+
+async function processInstagramZip(zip,files,zone,found){
+  var chips='';
+  var fwrFile=files.find(function(f){var n=f.split('/').pop();return n==='followers_1.json'||n==='followers.json';});
+  if(fwrFile){store.followers=JSON.parse(await zip.files[fwrFile].async('text'));chips+='<span class="file-chip ok">✓ 팔로워 '+extractUsers(store.followers).length.toLocaleString()+'명</span>';}
+  else chips+='<span class="file-chip miss">✗ followers 없음</span>';
+  var fwgFile=files.find(function(f){var n=f.split('/').pop();return n==='following.json';});
+  if(fwgFile){store.following=JSON.parse(await zip.files[fwgFile].async('text'));chips+='<span class="file-chip ok">✓ 팔로잉 '+extractUsers(store.following).length.toLocaleString()+'명</span>';}
+  else chips+='<span class="file-chip miss">✗ following 없음</span>';
+  var blkFile=files.find(function(f){var n=f.split('/').pop();return n==='blocked_accounts.json'||n==='blocked_profiles.json';});
+  if(blkFile){try{store.blocked=JSON.parse(await zip.files[blkFile].async('text'));chips+='<span class="file-chip opt">✓ 차단 목록</span>'}catch(e){}}
+  var pndFile=files.find(function(f){var n=f.split('/').pop();return n==='pending_follow_requests.json'||n==='follow_requests_sent.json';});
+  if(pndFile){try{store.pending=JSON.parse(await zip.files[pndFile].async('text'));chips+='<span class="file-chip opt">✓ 요청 대기</span>'}catch(e){}}
+  var rstFile=files.find(function(f){var n=f.split('/').pop();return n==='restricted_accounts.json'||n==='restricted_profiles.json';});
+  if(rstFile){try{store.restricted=JSON.parse(await zip.files[rstFile].async('text'));chips+='<span class="file-chip opt">✓ 제한 계정</span>'}catch(e){}}
+  var cfFile=files.find(function(f){var n=f.split('/').pop();return n==='close_friends.json';});
+  if(cfFile){try{store.close_friends=JSON.parse(await zip.files[cfFile].async('text'));chips+='<span class="file-chip opt">✓ 친한 친구</span>'}catch(e){}}
+  found.innerHTML=chips;
+  zone.classList.add('loaded');
+  if(stepDone<3) completeStep(3);
+}
+
+async function processTikTokZip(zip,files,zone,found){
+  var chips='';
+  var udFile=files.find(function(f){var n=f.split('/').pop();return n==='user_data.json'||n==='user_data_tiktok.json';});
+  if(!udFile){
+    found.innerHTML='<span class="file-chip miss">✗ user_data.json 없음 — JSON 형식으로 요청했는지 확인</span>';
+    zone.classList.add('loaded');
+    return;
+  }
+  var raw=JSON.parse(await zip.files[udFile].async('text'));
+  var act=raw['Activity']||raw['activity']||{};
+  var fansList=(act['Follower List']||{})['FansList']||(act['Follower List']||{})['Followers List']||[];
+  store.tk_fans=fansList;
+  chips+='<span class="file-chip ok">✓ 팔로워 '+fansList.length.toLocaleString()+'명</span>';
+  var followingList=(act['Following List']||{})['Following']||[];
+  store.tk_following=followingList;
+  chips+='<span class="file-chip ok">✓ 팔로잉 '+followingList.length.toLocaleString()+'명</span>';
+  var blockList=(act['Block List']||{})['BlockList']||[];
+  store.tk_blocked=blockList;
+  if(blockList.length>0) chips+='<span class="file-chip opt">✓ 차단 '+blockList.length+'명</span>';
+  var likedList=(act['Like List']||{})['ItemFavoriteList']||[];
+  store.tk_liked=likedList;
+  if(likedList.length>0) chips+='<span class="file-chip opt">✓ 좋아요 '+likedList.length+'개</span>';
+  found.innerHTML=chips;
+  zone.classList.add('loaded');
+  if(tkStepDone<2) completeTkStep(2);
+}
+
+// ── THREADS 파싱 ──
+async function processThreadsZip(zip,files,zone,found){
+  var chips='';
+  // Threads 팔로워: your_instagram_activity/threads/followers.json 또는 threads_followers.json
+  var thFwrFile=files.find(function(f){
+    var n=f.split('/').pop();
+    return (f.includes('threads')&&n==='followers_1.json')||(f.includes('threads')&&n==='followers.json')||n==='threads_followers.json';
+  });
+  // Threads 팔로잉: your_instagram_activity/threads/following.json
+  var thFwgFile=files.find(function(f){
+    var n=f.split('/').pop();
+    return (f.includes('threads')&&n==='following.json')||n==='threads_following.json';
+  });
+  if(thFwrFile){
+    store.th_followers=JSON.parse(await zip.files[thFwrFile].async('text'));
+    chips+='<span class="file-chip ok">✓ 팔로워 '+extractUsers(store.th_followers).length.toLocaleString()+'명</span>';
+  } else chips+='<span class="file-chip miss">✗ Threads 팔로워 없음</span>';
+  if(thFwgFile){
+    store.th_following=JSON.parse(await zip.files[thFwgFile].async('text'));
+    chips+='<span class="file-chip ok">✓ 팔로잉 '+extractUsers(store.th_following).length.toLocaleString()+'명</span>';
+  } else chips+='<span class="file-chip miss">✗ Threads 팔로잉 없음</span>';
+  found.innerHTML=chips;
+  zone.classList.add('loaded');
+  if(thStepDone<2) completeThStep(2);
+}
+
+// ── LINKEDIN CSV 파싱 ──
+async function processLinkedInCSV(file,zone,found){
+  var text=await file.text();
+  // BOM 제거
+  if(text.charCodeAt(0)===0xFEFF) text=text.slice(1);
+  // 헤더 이후 첫 번째 빈 줄(LinkedIn 특성) 제거
+  var lines=text.split('\n').filter(function(l){return l.trim()!==''});
+  // 헤더 찾기 (First Name 포함 줄)
+  var headerIdx=lines.findIndex(function(l){return l.includes('First Name')||l.includes('FirstName');});
+  if(headerIdx===-1){
+    found.innerHTML='<span class="file-chip miss">✗ Connections.csv 형식이 맞지 않습니다</span>';
+    zone.classList.add('loaded');
+    return;
+  }
+  var headers=lines[headerIdx].split(',').map(function(h){return h.trim().replace(/"/g,'');});
+  var rows=lines.slice(headerIdx+1).map(function(line){
+    var cols=[];var cur='';var inQ=false;
+    for(var i=0;i<line.length;i++){
+      if(line[i]==='"') inQ=!inQ;
+      else if(line[i]===','&&!inQ){cols.push(cur.trim());cur='';}
+      else cur+=line[i];
+    }
+    cols.push(cur.trim());
+    var obj={};
+    headers.forEach(function(h,i){obj[h]=cols[i]||'';});
+    return obj;
+  }).filter(function(r){return r['First Name']||r['FirstName'];});
+  store.li_connections=rows;
+  found.innerHTML='<span class="file-chip ok">✓ 연결 '+rows.length.toLocaleString()+'명</span>';
+  zone.classList.add('loaded');
+  if(liStepDone<2) completeLiStep(2);
+}
+
+// ── X (TWITTER) 파싱 ──
+async function processXZip(zip,files,zone,found){
+  var chips='';
+  // X 아카이브 구조: data/following.js, data/follower.js, data/mute.js, data/block.js
+  // 파일 형식: window.YTD.following.part0 = [{following:{accountId:"",userLink:""}}]
+
+  function parseXjsFile(content){
+    // window.YTD.xxx.partN = [...] 형식에서 JSON 배열 추출
+    var match=content.match(/window\.YTD\.\w+\.\w+\s*=\s*(\[[\s\S]*\])/);
+    if(match){try{return JSON.parse(match[1]);}catch(e){return [];}}
+    // 혹은 그냥 JSON 배열인 경우
+    try{return JSON.parse(content.trim());}catch(e){return [];}
+  }
+
+  // following.js
+  var fwgFile=files.find(function(f){return f.split('/').pop()==='following.js';});
+  if(fwgFile){
+    var raw=await zip.files[fwgFile].async('text');
+    store.x_following=parseXjsFile(raw);
+    chips+='<span class="file-chip ok">✓ 팔로잉 '+store.x_following.length.toLocaleString()+'명</span>';
+  } else chips+='<span class="file-chip miss">✗ following.js 없음</span>';
+
+  // follower.js
+  var fwrFile=files.find(function(f){return f.split('/').pop()==='follower.js';});
+  if(fwrFile){
+    var raw=await zip.files[fwrFile].async('text');
+    store.x_followers=parseXjsFile(raw);
+    chips+='<span class="file-chip ok">✓ 팔로워 '+store.x_followers.length.toLocaleString()+'명</span>';
+  } else chips+='<span class="file-chip miss">✗ follower.js 없음</span>';
+
+  // mute.js
+  var muteFile=files.find(function(f){return f.split('/').pop()==='mute.js';});
+  if(muteFile){
+    var raw=await zip.files[muteFile].async('text');
+    store.x_mutes=parseXjsFile(raw);
+    if(store.x_mutes.length>0) chips+='<span class="file-chip opt">✓ 뮤트 '+store.x_mutes.length+'명</span>';
+  }
+
+  // block.js
+  var blockFile=files.find(function(f){return f.split('/').pop()==='block.js';});
+  if(blockFile){
+    var raw=await zip.files[blockFile].async('text');
+    store.x_blocks=parseXjsFile(raw);
+    if(store.x_blocks.length>0) chips+='<span class="file-chip opt">✓ 차단 '+store.x_blocks.length+'명</span>';
+  }
+
+  found.innerHTML=chips;
+  zone.classList.add('loaded');
+  if(xStepDone<2) completeXStep(2);
+}
+
+// ── X 분석 ──
+function runXAnalysis(){
+  var btn=document.getElementById('btnAnalyze');
+  var bar=document.getElementById('loadingBar');
+  btn.disabled=true;btn.textContent='분석 중...';bar.style.display='block';
+  setTimeout(function(){
+    var following=store.x_following||[];
+    var followers=store.x_followers||[];
+    var mutes=store.x_mutes||[];
+    var blocks=store.x_blocks||[];
+
+    // X 아카이브 username 추출 (userLink에서 파싱)
+    // userLink: "https://twitter.com/intent/user?user_id=12345"
+    // accountId만 있고 handle은 없음 → accountId를 표시
+    function getXId(item){
+      var inner=item.following||item.follower||item.muting||item.blocking||item;
+      return inner.accountId||inner.userLink||'unknown';
+    }
+    function getXLink(item){
+      var inner=item.following||item.follower||item.muting||item.blocking||item;
+      return inner.userLink||('https://twitter.com/intent/user?user_id='+(inner.accountId||''));
+    }
+
+    var followingIds=new Set(following.map(function(u){return getXId(u);}));
+    var followerIds=new Set(followers.map(function(u){return getXId(u);}));
+
+    // 맞팔 안 함: 내가 팔로우하는데 팔로우 안 받음
+    var notback=following.filter(function(u){return !followerIds.has(getXId(u));});
+    // 나만 팔로: 팔로워인데 내가 안 팔로우
+    var fans=followers.filter(function(u){return !followingIds.has(getXId(u));});
+
+    function toXUserObj(arr){
+      return arr.map(function(item){
+        var id=getXId(item);
+        return {username:'ID:'+id,href:getXLink(item),ts:0,xId:id};
+      });
+    }
+
+    data.notback=toXUserObj(notback);
+    data.fans=toXUserObj(fans);
+    data.blocked=toXUserObj(blocks);
+    data.pending=[];
+    data.restricted=toXUserObj(mutes);
+    data.close_friends=[];
+
+    var total=followers.length;
+    var mutualCount=followers.filter(function(u){return followingIds.has(getXId(u));}).length;
+    var mutualScore=total>0?Math.round(mutualCount/total*100):0;
+    var fanScore=total>0?Math.round(fans.length/total*100):0;
+    var qualityScore=Math.round(mutualScore*0.7+Math.min(fanScore*2,100)*0.3);
+    renderScoreCard(qualityScore,mutualScore,fanScore,mutualCount,total);
+
+    document.getElementById('statsRow1').innerHTML=
+      '<div class="stat-card"><div class="stat-num c-red">'+notback.length.toLocaleString()+'</div><div class="stat-lbl">😤 맞팔 안 함</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-green">'+fans.length.toLocaleString()+'</div><div class="stat-lbl">🩷 나만 팔로</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-purple">'+total.toLocaleString()+'</div><div class="stat-lbl">👥 전체 팔로워</div></div>';
+    document.getElementById('statsRow2').innerHTML=
+      '<div class="stat-card"><div class="stat-num c-green">'+mutualCount.toLocaleString()+'</div><div class="stat-lbl">🤝 서로 맞팔</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-orange">'+blocks.length.toLocaleString()+'</div><div class="stat-lbl">🚫 차단</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-yellow">'+mutes.length.toLocaleString()+'</div><div class="stat-lbl">🔇 뮤트</div></div>';
+
+    document.getElementById('tc1').textContent='('+data.notback.length+')';
+    document.getElementById('tc2').textContent=fans.length>0?'('+fans.length+')':'';
+    document.getElementById('tc4').textContent=blocks.length>0?'('+blocks.length+')':'';
+    document.getElementById('tc5').textContent='';
+    document.getElementById('tc6').textContent=mutes.length>0?'('+mutes.length+')':'';
+    document.getElementById('tc7').textContent='';
+
+    document.getElementById('resultsMeta').textContent=
+      '𝕏 X·Twitter · 팔로워 '+total.toLocaleString()+'명 · 팔로잉 '+following.length.toLocaleString()+'명 분석 완료';
+
+    // 탭 이름 X용으로 변경
+    var t6=document.querySelector('.tab-btn[data-t="restricted"]');
+    if(t6) t6.innerHTML='🔇 뮤트 <span id="tc6">'+(mutes.length>0?'('+mutes.length+')':'')+'</span>';
+
+    renderList('notback',data.notback,'red','맞팔 안 함',true,null,false);
+    renderList('fans',data.fans,'green','팬',false,null,false);
+    renderList('blocked',data.blocked,'orange','차단',false,blocks.length===0?'blocked':null,false);
+    renderList('pending',[],'blue','대기',false,'pending',false);
+    renderList('restricted',data.restricted,'yellow','뮤트',false,mutes.length===0?'restricted':null,false);
+    renderList('close_friends',[],'pink','친한 친구',false,'close_friends',false);
+
+    bar.style.display='none';btn.textContent='✓ 분석 완료';
+    document.getElementById('results').style.display='block';
+    document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+  },800);
+}
+
+
+// ── THREADS 분석 ──
+function runThreadsAnalysis(){
+  var btn=document.getElementById('btnAnalyze');
+  var bar=document.getElementById('loadingBar');
+  btn.disabled=true;btn.textContent='분석 중...';bar.style.display='block';
+  setTimeout(function(){
+    var followers=extractUsers(store.th_followers);
+    var following=extractUsers(store.th_following);
+    var fwrSet=new Set(followers.map(function(u){return u.username.toLowerCase();}));
+    var fwgSet=new Set(following.map(function(u){return u.username.toLowerCase();}));
+    data.notback=following.filter(function(u){return !fwrSet.has(u.username.toLowerCase());});
+    data.fans=followers.filter(function(u){return !fwgSet.has(u.username.toLowerCase());});
+    data.blocked=[];data.pending=[];data.restricted=[];data.close_friends=[];
+    var totalFollowers=followers.length;
+    var mutualCount=followers.filter(function(u){return fwgSet.has(u.username.toLowerCase());}).length;
+    var mutualScore=totalFollowers>0?Math.round(mutualCount/totalFollowers*100):0;
+    var fanScore=totalFollowers>0?Math.round(data.fans.length/totalFollowers*100):0;
+    var qualityScore=Math.round(mutualScore*0.7+Math.min(fanScore*2,100)*0.3);
+    renderScoreCard(qualityScore,mutualScore,fanScore,mutualCount,totalFollowers);
+    document.getElementById('statsRow1').innerHTML=
+      '<div class="stat-card"><div class="stat-num c-red">'+data.notback.length.toLocaleString()+'</div><div class="stat-lbl">😤 맞팔 안 함</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-green">'+data.fans.length.toLocaleString()+'</div><div class="stat-lbl">🩷 나만 팔로</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-purple">'+totalFollowers.toLocaleString()+'</div><div class="stat-lbl">👥 전체 팔로워</div></div>';
+    document.getElementById('statsRow2').innerHTML=
+      '<div class="stat-card"><div class="stat-num c-green">'+mutualCount.toLocaleString()+'</div><div class="stat-lbl">🤝 서로 맞팔</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-blue">'+following.length.toLocaleString()+'</div><div class="stat-lbl">➡️ 내 팔로잉</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-purple">'+totalFollowers.toLocaleString()+'</div><div class="stat-lbl">📊 팔로워 총계</div></div>';
+    document.getElementById('tc1').textContent='('+data.notback.length+')';
+    document.getElementById('tc2').textContent='('+data.fans.length+')';
+    document.getElementById('tc4').textContent='';document.getElementById('tc5').textContent='';
+    document.getElementById('tc6').textContent='';document.getElementById('tc7').textContent='';
+    document.getElementById('resultsMeta').textContent='🧵 Threads · 팔로워 '+totalFollowers.toLocaleString()+'명 · 팔로잉 '+following.length.toLocaleString()+'명 분석 완료';
+    renderList('notback',data.notback,'red','맞팔 안 함',true,null,true);
+    renderList('fans',data.fans,'green','팬',false,null,false);
+    renderList('blocked',[],'orange','차단',false,'blocked',false);
+    renderList('pending',[],'blue','대기 중',false,'pending',false);
+    renderList('restricted',[],'yellow','제한',false,'restricted',false);
+    renderList('close_friends',[],'pink','친한 친구',false,'close_friends',false);
+    bar.style.display='none';btn.textContent='✓ 분석 완료';
+    document.getElementById('results').style.display='block';
+    document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+  },800);
+}
+
+// ── LINKEDIN 분석 ──
+function runLinkedInAnalysis(){
+  var btn=document.getElementById('btnAnalyze');
+  var bar=document.getElementById('loadingBar');
+  btn.disabled=true;btn.textContent='분석 중...';bar.style.display='block';
+  setTimeout(function(){
+    var conns=store.li_connections||[];
+    // LinkedIn은 팔로워/팔로잉 개념 없음 → 연결 목록 + 날짜 분석
+    // 최근 30일 연결 vs 오래된 연결
+    var now=new Date();
+    var recent=[];var old=[];
+    conns.forEach(function(c){
+      var name=(c['First Name']||c['FirstName']||'')+(c['Last Name']||c['LastName']?' '+(c['Last Name']||c['LastName']):'');
+      var company=c['Company']||'';
+      var position=c['Position']||'';
+      var connDate=c['Connected On']||c['ConnectedOn']||'';
+      var ts=connDate?new Date(connDate).getTime()/1000:0;
+      var u={username:name,href:c['Profile URL']||'',ts:ts,company:company,position:position};
+      var daysDiff=connDate?Math.floor((now-new Date(connDate))/(1000*60*60*24)):9999;
+      if(daysDiff<=30) recent.push(u);
+      else old.push(u);
+    });
+    // 탭 재활용: notback=전체, fans=최근 30일, blocked=직업별 분류 없음
+    data.notback=conns.map(function(c){
+      var name=(c['First Name']||c['FirstName']||'')+(c['Last Name']||c['LastName']?' '+(c['Last Name']||c['LastName']):'');
+      var connDate=c['Connected On']||c['ConnectedOn']||'';
+      return {username:name,href:c['Profile URL']||'',ts:connDate?new Date(connDate).getTime()/1000:0};
+    });
+    data.fans=recent;
+    data.blocked=[];data.pending=[];data.restricted=[];data.close_friends=[];
+    var total=conns.length;
+    renderScoreCard(Math.min(100,Math.round(recent.length/Math.max(total,1)*100*3)),
+      Math.round(recent.length/Math.max(total,1)*100),0,recent.length,total);
+    document.getElementById('statsRow1').innerHTML=
+      '<div class="stat-card"><div class="stat-num c-purple">'+total.toLocaleString()+'</div><div class="stat-lbl">🤝 전체 연결</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-green">'+recent.length.toLocaleString()+'</div><div class="stat-lbl">🆕 최근 30일</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-blue">'+old.length.toLocaleString()+'</div><div class="stat-lbl">📅 오래된 연결</div></div>';
+    document.getElementById('statsRow2').innerHTML=
+      '<div class="stat-card"><div class="stat-num c-orange">'+conns.filter(function(c){return c['Company']||c['company'];}).length.toLocaleString()+'</div><div class="stat-lbl">🏢 회사 있음</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-yellow">'+conns.filter(function(c){return c['Email Address']||c['email'];}).length.toLocaleString()+'</div><div class="stat-lbl">📧 이메일 있음</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-purple">'+total.toLocaleString()+'</div><div class="stat-lbl">👥 총 연결 수</div></div>';
+    // 탭 레이블 LinkedIn용으로 변경
+    document.getElementById('tc1').textContent='('+data.notback.length+')';
+    document.getElementById('tc2').textContent=recent.length>0?'('+recent.length+')':'';
+    document.getElementById('tc4').textContent='';document.getElementById('tc5').textContent='';
+    document.getElementById('tc6').textContent='';document.getElementById('tc7').textContent='';
+    document.getElementById('resultsMeta').textContent='💼 LinkedIn · 전체 연결 '+total.toLocaleString()+'명 분석 완료';
+    // 탭 이름 변경
+    var t1=document.querySelector('.tab-btn[data-t="notback"]');
+    var t2=document.querySelector('.tab-btn[data-t="fans"]');
+    if(t1) t1.innerHTML='🤝 전체 연결 <span id="tc1">('+data.notback.length+')</span>';
+    if(t2) t2.innerHTML='🆕 최근 30일 <span id="tc2">'+(recent.length>0?'('+recent.length+')':'')+'</span>';
+    renderList('notback',data.notback,'blue','연결',true,null,true);
+    renderList('fans',recent,'green','최근',false,null,true);
+    renderList('blocked',[],'orange','차단',false,'blocked',false);
+    renderList('pending',[],'blue','대기',false,'pending',false);
+    renderList('restricted',[],'yellow','제한',false,'restricted',false);
+    renderList('close_friends',[],'pink','친한 친구',false,'close_friends',false);
+    bar.style.display='none';btn.textContent='✓ 분석 완료';
+    document.getElementById('results').style.display='block';
+    document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+  },800);
 }
 
 function extractUsers(d){
@@ -622,10 +1119,24 @@ function extractRestrictedUsers(d){
 }
 
 function checkReady(){
-  document.getElementById('btnAnalyze').disabled=!(store.followers&&store.following);
+  var ok=false;
+  if(currentPlatform==='tiktok') ok=(store.tk_fans!==null&&store.tk_following!==null);
+  else if(currentPlatform==='threads') ok=(store.th_followers!==null&&store.th_following!==null);
+  else if(currentPlatform==='linkedin') ok=(store.li_connections!==null&&store.li_connections.length>0);
+  else if(currentPlatform==='x') ok=(store.x_following!==null&&store.x_followers!==null);
+  else ok=!!(store.followers&&store.following);
+  document.getElementById('btnAnalyze').disabled=!ok;
 }
 
 function runAnalysis(){
+  if(currentPlatform==='tiktok') runTikTokAnalysis();
+  else if(currentPlatform==='threads') runThreadsAnalysis();
+  else if(currentPlatform==='linkedin') runLinkedInAnalysis();
+  else if(currentPlatform==='x') runXAnalysis();
+  else runInstagramAnalysis();
+}
+
+function runInstagramAnalysis(){
   const btn=document.getElementById('btnAnalyze');
   const bar=document.getElementById('loadingBar');
   btn.disabled=true;
@@ -686,6 +1197,81 @@ function runAnalysis(){
     renderList('pending',data.pending,'blue','대기 중',false,store.pending===null?'pending':null,false);
     renderList('restricted',data.restricted,'yellow','제한',false,store.restricted===null?'restricted':null,false);
     renderList('close_friends',data.close_friends,'pink','친한 친구',false,store.close_friends===null?'close_friends':null,false);
+    bar.style.display='none';
+    btn.textContent='✓ 분석 완료';
+    document.getElementById('results').style.display='block';
+    document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+  },800);
+}
+
+// ── 틱톡 분석 ──
+function runTikTokAnalysis(){
+  var btn=document.getElementById('btnAnalyze');
+  var bar=document.getElementById('loadingBar');
+  btn.disabled=true;
+  btn.textContent='분석 중...';
+  bar.style.display='block';
+  setTimeout(function(){
+    // 틱톡 데이터 파싱
+    var fans=store.tk_fans||[];       // 나를 팔로우하는 사람
+    var following=store.tk_following||[];  // 내가 팔로우하는 사람
+    var blocked=store.tk_blocked||[];
+
+    // 틱톡 팔로워/팔로잉 username 추출
+    function tkName(item){ return item['UserName']||item['Username']||item['username']||''; }
+    function tkDate(item){ return item['Date']||item['date']||''; }
+
+    var fansSet=new Set(fans.map(function(u){return tkName(u).toLowerCase();}));
+    var followingSet=new Set(following.map(function(u){return tkName(u).toLowerCase();}));
+
+    // 맞팔 안 함: 내가 팔로우하는데 안 받아준 사람
+    var tkNotback=following.filter(function(u){return !fansSet.has(tkName(u).toLowerCase());});
+    // 나만 팔로: 나를 팔로우하는데 내가 안 하는 팬
+    var tkFans=fans.filter(function(u){return !followingSet.has(tkName(u).toLowerCase());});
+
+    var totalFans=fans.length;
+    var mutualCount=fans.filter(function(u){return followingSet.has(tkName(u).toLowerCase());}).length;
+    var mutualRate=totalFans>0?mutualCount/totalFans:0;
+    var fanRate=totalFans>0?tkFans.length/totalFans:0;
+    var mutualScore=Math.round(mutualRate*100);
+    var fanScore=Math.round(fanRate*100);
+    var qualityScore=Math.round(mutualScore*0.7+Math.min(fanScore*2,100)*0.3);
+
+    renderScoreCard(qualityScore,mutualScore,fanScore,mutualCount,totalFans);
+
+    document.getElementById('statsRow1').innerHTML=
+      '<div class="stat-card"><div class="stat-num c-red">'+tkNotback.length.toLocaleString()+'</div><div class="stat-lbl">😤 맞팔 안 함</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-green">'+tkFans.length.toLocaleString()+'</div><div class="stat-lbl">🩷 나만 팔로</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-purple">'+totalFans.toLocaleString()+'</div><div class="stat-lbl">👥 전체 팔로워</div></div>';
+    document.getElementById('statsRow2').innerHTML=
+      '<div class="stat-card"><div class="stat-num c-green">'+mutualCount.toLocaleString()+'</div><div class="stat-lbl">🤝 서로 맞팔</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-orange">'+blocked.length.toLocaleString()+'</div><div class="stat-lbl">🚫 차단 계정</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-blue">'+following.length.toLocaleString()+'</div><div class="stat-lbl">➡️ 내 팔로잉</div></div>';
+
+    document.getElementById('tc1').textContent='('+tkNotback.length+')';
+    document.getElementById('tc2').textContent='('+tkFans.length+')';
+    document.getElementById('tc4').textContent=blocked.length>0?'('+blocked.length+')':'';
+    document.getElementById('tc5').textContent='';
+    document.getElementById('tc6').textContent='';
+    document.getElementById('tc7').textContent='';
+
+    document.getElementById('resultsMeta').textContent=
+      '🎵 TikTok · 팔로워 '+totalFans.toLocaleString()+'명 · 팔로잉 '+following.length.toLocaleString()+'명 분석 완료';
+
+    // 틱톡용 유저 객체로 변환 (renderList 재사용)
+    function toUserObj(arr){
+      return arr.map(function(u){
+        return {username:tkName(u),href:'https://www.tiktok.com/@'+tkName(u),ts:0};
+      });
+    }
+
+    renderList('notback',toUserObj(tkNotback),'red','맞팔 안 함',true,null,false);
+    renderList('fans',toUserObj(tkFans),'green','팬',false,null,false);
+    renderList('blocked',toUserObj(blocked),'orange','차단',false,blocked.length===0?'blocked':null,false);
+    renderList('pending',[],'blue','대기 중',false,'pending',false);
+    renderList('restricted',[],'yellow','제한',false,'restricted',false);
+    renderList('close_friends',[],'pink','친한 친구',false,'close_friends',false);
+
     bar.style.display='none';
     btn.textContent='✓ 분석 완료';
     document.getElementById('results').style.display='block';
@@ -866,6 +1452,246 @@ function copyResult(){
   var text='[Sosiq 분석 결과]\n맞팔 안 한 사람 '+data.notback.length+'명\n\n'+lines+(data.notback.length>FREE_LIMIT?'\n...외 '+(data.notback.length-FREE_LIMIT)+'명':'')+'\n\n나만 팔로하는 팬 '+data.fans.length+'명\n차단 '+data.blocked.length+' · 대기 '+data.pending.length+' · 제한 '+data.restricted.length;
   navigator.clipboard.writeText(text).then(function(){alert('복사 완료! 📋')}).catch(function(){alert('직접 선택해서 복사해주세요.')});
 }
+
+// ── SUPABASE 인증 ──
+let authMode='login';
+
+// 플랫폼 선택
+let currentPlatform='instagram';
+
+function selectPlatform(plt){
+  currentPlatform=plt;
+  document.querySelectorAll('.platform-card').forEach(function(c){c.classList.remove('active')});
+  var card=document.getElementById('plt-'+plt);
+  if(card) card.classList.add('active');
+  // 모든 가이드 숨김
+  ['instagram','tiktok','threads','linkedin','x'].forEach(function(p){
+    var g=document.getElementById('guide-'+p);
+    if(g) g.style.display='none';
+  });
+  // 선택 플랫폼 가이드 표시
+  var g=document.getElementById('guide-'+plt);
+  if(g) g.style.display='';
+  var uploadTitle=document.querySelector('.upload-title');
+  var hints={
+    instagram:'ZIP, JSON 파일을 드래그하거나 클릭하세요.',
+    threads:'ZIP 파일을 드래그하거나 클릭하세요.',
+    tiktok:'ZIP 파일을 드래그하거나 클릭하세요.',
+    linkedin:'Connections.csv 파일을 드래그하거나 클릭하세요.',
+    x:'ZIP 파일을 드래그하거나 클릭하세요.'
+  };
+  if(uploadTitle) uploadTitle.textContent=hints[plt]||hints.instagram;
+  resetUpload();
+}
+
+function resetUpload(){
+  var zone=document.getElementById('uploadZone');
+  zone.classList.remove('loaded');
+  document.getElementById('foundFiles').innerHTML='';
+  document.getElementById('btnAnalyze').disabled=true;
+  store.followers=null;store.following=null;
+  store.blocked=null;store.pending=null;
+  store.restricted=null;store.close_friends=null;
+  store.tk_fans=null;store.tk_following=null;store.tk_blocked=null;store.tk_liked=null;
+  store.th_followers=null;store.th_following=null;
+  store.li_connections=null;
+  store.x_following=null;store.x_followers=null;store.x_mutes=null;store.x_blocks=null;
+}
+
+// 틱톡 스텝
+let tkStepDone=0;
+function completeTkStep(n){
+  var el=document.getElementById('tk'+n);var sn=document.getElementById('tkn'+n);
+  el.classList.remove('active');el.classList.add('done');sn.textContent='✓';
+  tkStepDone=Math.max(tkStepDone,n);
+  var pct=Math.round(tkStepDone/2*100);
+  document.getElementById('progFillTk').style.width=pct+'%';
+  document.getElementById('progLabelTk').textContent=tkStepDone+' / 2';
+  var next=document.getElementById('tk'+(n+1));if(next) next.classList.add('active');
+}
+
+// 쓰레드 스텝
+let thStepDone=0;
+function completeThStep(n){
+  var el=document.getElementById('th'+n);var sn=document.getElementById('thn'+n);
+  el.classList.remove('active');el.classList.add('done');sn.textContent='✓';
+  thStepDone=Math.max(thStepDone,n);
+  var pct=Math.round(thStepDone/2*100);
+  document.getElementById('progFillTh').style.width=pct+'%';
+  document.getElementById('progLabelTh').textContent=thStepDone+' / 2';
+  var next=document.getElementById('th'+(n+1));if(next) next.classList.add('active');
+}
+
+// 링크드인 스텝
+let liStepDone=0;
+function completeLiStep(n){
+  var el=document.getElementById('li'+n);var sn=document.getElementById('lin'+n);
+  el.classList.remove('active');el.classList.add('done');sn.textContent='✓';
+  liStepDone=Math.max(liStepDone,n);
+  var pct=Math.round(liStepDone/2*100);
+  document.getElementById('progFillLi').style.width=pct+'%';
+  document.getElementById('progLabelLi').textContent=liStepDone+' / 2';
+  var next=document.getElementById('li'+(n+1));if(next) next.classList.add('active');
+}
+
+// X 스텝
+let xStepDone=0;
+function completeXStep(n){
+  var el=document.getElementById('xg'+n);var sn=document.getElementById('xn'+n);
+  el.classList.remove('active');el.classList.add('done');sn.textContent='✓';
+  xStepDone=Math.max(xStepDone,n);
+  var pct=Math.round(xStepDone/2*100);
+  document.getElementById('progFillX').style.width=pct+'%';
+  document.getElementById('progLabelX').textContent=xStepDone+' / 2';
+  var next=document.getElementById('xg'+(n+1));if(next) next.classList.add('active');
+} // login | signup
+
+// 앱 시작 시 세션 확인
+(async function initAuth(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(session&&session.user){
+    await onSignedIn(session.user);
+  }
+  // 세션 변경 리스너
+  sb.auth.onAuthStateChange(async function(_event,session){
+    if(session&&session.user){
+      await onSignedIn(session.user);
+    } else {
+      onSignedOut();
+    }
+  });
+})();
+
+async function onSignedIn(user){
+  currentUser=user;
+  // DB에서 is_pro 확인
+  const {data:userData}=await sb.from('users').select('is_pro').eq('id',user.id).single();
+  if(userData&&userData.is_pro){
+    isPro=true;
+  }
+  // users 테이블에 없으면 insert
+  const {data:existing}=await sb.from('users').select('id').eq('id',user.id).single();
+  if(!existing){
+    await sb.from('users').insert({id:user.id,email:user.email,is_pro:false});
+  }
+  updateAuthUI();
+}
+
+function onSignedOut(){
+  currentUser=null;
+  isPro=false;
+  updateAuthUI();
+}
+
+function updateAuthUI(){
+  const emailEl=document.getElementById('authUserEmail');
+  const btnEl=document.getElementById('btnAuthAction');
+  if(currentUser){
+    emailEl.textContent=currentUser.email+(isPro?' 🔴 PRO':'');
+    btnEl.textContent='로그아웃';
+    btnEl.className='btn-auth'+(isPro?' pro':'');
+  } else {
+    emailEl.textContent='';
+    btnEl.textContent='로그인';
+    btnEl.className='btn-auth';
+  }
+}
+
+function handleAuthBtn(){
+  if(currentUser){
+    sb.auth.signOut();
+  } else {
+    openAuthModal();
+  }
+}
+
+function openAuthModal(){
+  authMode='login';
+  document.getElementById('authModalTitle').textContent='로그인';
+  document.getElementById('authModalDesc').textContent='이메일로 간편하게 시작하세요';
+  document.getElementById('btnAuthSubmit').textContent='로그인';
+  document.getElementById('authSwitch').innerHTML='계정이 없으신가요? <a onclick="toggleAuthMode()">회원가입</a>';
+  document.getElementById('authMsg').style.display='none';
+  document.getElementById('authEmail').value='';
+  document.getElementById('authPassword').value='';
+  document.getElementById('authModalBg').classList.add('show');
+}
+
+function closeAuthModal(){
+  document.getElementById('authModalBg').classList.remove('show');
+}
+
+function toggleAuthMode(){
+  if(authMode==='login'){
+    authMode='signup';
+    document.getElementById('authModalTitle').textContent='회원가입';
+    document.getElementById('authModalDesc').textContent='무료로 시작하고 Pro로 업그레이드하세요';
+    document.getElementById('btnAuthSubmit').textContent='회원가입';
+    document.getElementById('authSwitch').innerHTML='이미 계정이 있으신가요? <a onclick="toggleAuthMode()">로그인</a>';
+  } else {
+    authMode='login';
+    document.getElementById('authModalTitle').textContent='로그인';
+    document.getElementById('authModalDesc').textContent='이메일로 간편하게 시작하세요';
+    document.getElementById('btnAuthSubmit').textContent='로그인';
+    document.getElementById('authSwitch').innerHTML='계정이 없으신가요? <a onclick="toggleAuthMode()">회원가입</a>';
+  }
+  document.getElementById('authMsg').style.display='none';
+}
+
+async function submitAuth(){
+  const email=document.getElementById('authEmail').value.trim();
+  const password=document.getElementById('authPassword').value;
+  const msgEl=document.getElementById('authMsg');
+  const btn=document.getElementById('btnAuthSubmit');
+
+  if(!email||!password){
+    showAuthMsg('이메일과 비밀번호를 입력해주세요','err');
+    return;
+  }
+  btn.disabled=true;
+  btn.textContent='처리 중...';
+
+  if(authMode==='login'){
+    const {error}=await sb.auth.signInWithPassword({email,password});
+    if(error){
+      showAuthMsg('로그인 실패: '+error.message,'err');
+      btn.disabled=false;
+      btn.textContent='로그인';
+    } else {
+      closeAuthModal();
+    }
+  } else {
+    const {error}=await sb.auth.signUp({email,password});
+    if(error){
+      showAuthMsg('회원가입 실패: '+error.message,'err');
+      btn.disabled=false;
+      btn.textContent='회원가입';
+    } else {
+      showAuthMsg('✅ 가입 완료! 이메일 확인 후 로그인해주세요','ok');
+      btn.disabled=false;
+      btn.textContent='회원가입';
+    }
+  }
+}
+
+function showAuthMsg(msg,type){
+  const el=document.getElementById('authMsg');
+  el.textContent=msg;
+  el.className='auth-msg '+type;
+  el.style.display='block';
+}
+
+// 유료 여부 서버 확인 함수 (결제 연동 시 호출)
+async function checkProStatus(){
+  if(!currentUser) return false;
+  const {data}=await sb.from('users').select('is_pro').eq('id',currentUser.id).single();
+  isPro=data&&data.is_pro;
+  return isPro;
+}
+
+// 관리자용: 특정 유저 Pro 활성화 (Supabase SQL에서 직접 실행 가능)
+// UPDATE users SET is_pro=true WHERE email='유저이메일';
+
 </script>
 </body>
 </html>
