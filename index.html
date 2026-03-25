@@ -36,7 +36,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-weight:
 .wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:48px 20px 100px}
 header{margin-bottom:56px;animation:fadeUp .7s ease both;position:relative;z-index:1}
 .top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px}
-.logo{display:flex;align-items:center;gap:6px}
+.logo{display:flex;align-items:center;gap:2px}
 .logo-symbol{width:94px;height:94px;display:flex;align-items:center;justify-content:center;flex-shrink:0;filter:drop-shadow(0 4px 14px rgba(192,57,43,.32))}
 .logo-text{font-family:var(--font-display);font-size:22px;font-weight:300;letter-spacing:.02em;color:var(--text)}
 .logo-r{font-weight:700;color:#C0392B}
@@ -306,9 +306,9 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 .agree-row a{color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
 
 /* ── 사업자 정보 footer ── */
-.biz-info{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:10px;color:var(--muted2);line-height:2;text-align:center}
-.biz-info a{color:var(--muted2);text-decoration:underline;cursor:pointer}
-.biz-info a:hover{color:var(--muted)}
+.biz-info{display:block!important;visibility:visible!important;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:11px;color:#888!important;line-height:2;text-align:center}
+.biz-info a{color:#888!important;text-decoration:underline;cursor:pointer}
+.biz-info a:hover{color:#555!important}
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);box-shadow:0 0 0 0 rgba(232,0,29,.4)}50%{opacity:.7;transform:scale(.85);box-shadow:0 0 0 6px rgba(232,0,29,0)}}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
@@ -1028,14 +1028,26 @@ const legalContent = {
 function openLegal(type) {
   var content = legalContent[type];
   if (!content) return;
+  // 모달이 없으면 동적 생성
+  var bg = document.getElementById('legalModalBg');
+  if (!bg) {
+    bg = document.createElement('div');
+    bg.id = 'legalModalBg';
+    bg.className = 'legal-modal-bg';
+    bg.innerHTML = '<div class="legal-modal"><div class="legal-modal-head"><h3 id="legalModalTitle"></h3><button class="btn-legal-close" onclick="closeLegal()">✕</button></div><div class="legal-modal-body" id="legalModalBody"></div></div>';
+    document.body.appendChild(bg);
+    bg.addEventListener('click', function(e){ if(e.target===bg) closeLegal(); });
+  }
   document.getElementById('legalModalTitle').textContent = content.title;
   document.getElementById('legalModalBody').innerHTML = content.body;
-  document.getElementById('legalModalBg').classList.add('show');
+  bg.classList.add('show');
+  document.body.style.overflow = 'hidden';
 }
 function closeLegal() {
-  document.getElementById('legalModalBg').classList.remove('show');
+  var bg = document.getElementById('legalModalBg');
+  if (bg) bg.classList.remove('show');
+  document.body.style.overflow = '';
 }
-// 배경 클릭 시 닫기
 document.addEventListener('click', function(e) {
   if (e.target.id === 'legalModalBg') closeLegal();
 });
@@ -1044,7 +1056,7 @@ document.addEventListener('click', function(e) {
 async function signInWithGoogle() {
   const {error} = await sb.auth.signInWithOAuth({
     provider: 'google',
-    options: { redirectTo: window.location.origin }
+    options: { redirectTo: 'https://realation.world' }
   });
   if (error) showAuthMsg('Google 로그인 실패: ' + error.message, 'err');
 }
@@ -1052,7 +1064,7 @@ async function signInWithGoogle() {
 async function signInWithKakao() {
   const {error} = await sb.auth.signInWithOAuth({
     provider: 'kakao',
-    options: { redirectTo: window.location.origin }
+    options: { redirectTo: 'https://realation.world' }
   });
   if (error) showAuthMsg('카카오 로그인 실패: ' + error.message, 'err');
 }
