@@ -266,6 +266,39 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 .lang-opt:hover{background:var(--s2)}
 .lang-opt.active{color:var(--accent);font-weight:600}
 .lang-flag{font-size:14px;line-height:1}
+
+/* ── 법적 모달 (약관/정책) ── */
+.legal-modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:3000;display:none;align-items:center;justify-content:center;padding:20px}
+.legal-modal-bg.show{display:flex;animation:fadeInBg .2s ease}
+.legal-modal{background:var(--s1);border-radius:16px;width:100%;max-width:600px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.legal-modal-head{padding:20px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.legal-modal-head h3{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text)}
+.btn-legal-close{background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer;line-height:1;padding:2px 6px;border-radius:4px}
+.btn-legal-close:hover{background:var(--s2)}
+.legal-modal-body{padding:20px 24px;overflow-y:auto;flex:1;font-size:13px;color:var(--text2);line-height:1.9}
+.legal-modal-body h4{font-size:13px;font-weight:700;color:var(--text);margin:16px 0 6px}
+.legal-modal-body h4:first-child{margin-top:0}
+.legal-modal-body p{margin-bottom:10px;font-weight:300}
+.legal-modal-body ul{padding-left:16px;margin-bottom:10px}
+.legal-modal-body li{margin-bottom:4px;font-weight:300}
+
+/* ── 소셜 로그인 버튼 ── */
+.social-divider{display:flex;align-items:center;gap:10px;margin:14px 0;font-size:11px;color:var(--muted2)}
+.social-divider::before,.social-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.btn-social{width:100%;border:1px solid var(--border2);border-radius:10px;padding:11px;font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px;background:var(--s1);color:var(--text2)}
+.btn-social:hover{border-color:var(--border);background:var(--s2);transform:translateY(-1px)}
+.btn-social svg{width:18px;height:18px;flex-shrink:0}
+
+/* ── 약관 동의 체크박스 ── */
+.agree-wrap{margin-top:12px;display:flex;flex-direction:column;gap:7px}
+.agree-row{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.agree-row input[type=checkbox]{width:15px;height:15px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.agree-row a{color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+
+/* ── 사업자 정보 footer ── */
+.biz-info{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:10px;color:var(--muted2);line-height:2;text-align:center}
+.biz-info a{color:var(--muted2);text-decoration:underline;cursor:pointer}
+.biz-info a:hover{color:var(--muted)}
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);box-shadow:0 0 0 0 rgba(232,0,29,.4)}50%{opacity:.7;transform:scale(.85);box-shadow:0 0 0 6px rgba(232,0,29,0)}}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
@@ -668,7 +701,15 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 
 <div class="footer-note">
   <b>Realations는 비밀번호 불필요, 파일이 서버로 전송되지않아 안전합니다.</b><br>
-  Realations 디어스컴퍼니© 2026
+  <div class="biz-info">
+    상호: 디어스컴퍼니 &nbsp;|&nbsp; 대표: 어광효 &nbsp;|&nbsp; 사업자등록번호: 215-27-09838<br>
+    주소: 경상남도 창원시 성산구 용지로169번길 11-31, 3층<br>
+    이메일: gahee007@gmail.com<br>
+    <a onclick="openLegal('terms')">이용약관</a> &nbsp;·&nbsp;
+    <a onclick="openLegal('privacy')">개인정보처리방침</a> &nbsp;·&nbsp;
+    <a onclick="openLegal('refund')">환불정책</a><br>
+    © 2026 디어스컴퍼니. All rights reserved.
+  </div>
 </div>
 
 <!-- 로그인/회원가입 모달 -->
@@ -676,10 +717,40 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
   <div class="auth-modal">
     <h3 id="authModalTitle">로그인</h3>
     <p id="authModalDesc">이메일로 간편하게 시작하세요</p>
+
+    <!-- 소셜 로그인 -->
+    <button class="btn-social" onclick="signInWithGoogle()">
+      <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/><path d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>
+      Google로 계속하기
+    </button>
+    <button class="btn-social" onclick="signInWithKakao()">
+      <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#FEE500"/><path d="M9 3.5C5.91 3.5 3.5 5.4 3.5 7.75c0 1.45.95 2.73 2.38 3.46l-.6 2.24c-.05.18.15.33.3.22L8.2 11.9c.26.03.53.05.8.05 3.09 0 5.5-1.9 5.5-4.25S12.09 3.5 9 3.5z" fill="#1A1A1A"/></svg>
+      카카오로 계속하기
+    </button>
+
+    <div class="social-divider">또는 이메일로</div>
+
     <input class="auth-input" type="email" id="authEmail" placeholder="이메일 주소">
     <input class="auth-input" type="password" id="authPassword" placeholder="비밀번호 (6자 이상)">
     <div class="auth-msg" id="authMsg"></div>
-    <button class="btn-auth-submit" id="btnAuthSubmit" onclick="submitAuth()">로그인</button>
+
+    <!-- 회원가입 시 약관 동의 (회원가입 모드에서만 표시) -->
+    <div class="agree-wrap" id="agreeWrap" style="display:none">
+      <div class="agree-row">
+        <input type="checkbox" id="agreeTerms">
+        <label for="agreeTerms"><a onclick="openLegal('terms')">이용약관</a> 동의 (필수)</label>
+      </div>
+      <div class="agree-row">
+        <input type="checkbox" id="agreePrivacy">
+        <label for="agreePrivacy"><a onclick="openLegal('privacy')">개인정보처리방침</a> 동의 (필수)</label>
+      </div>
+      <div class="agree-row">
+        <input type="checkbox" id="agreeMarketing">
+        <label for="agreeMarketing">마케팅 정보 수신 동의 (선택)</label>
+      </div>
+    </div>
+
+    <button class="btn-auth-submit" id="btnAuthSubmit" onclick="submitAuth()" style="margin-top:12px">로그인</button>
     <div class="auth-switch" id="authSwitch">
       계정이 없으신가요? <a onclick="toggleAuthMode()">회원가입</a>
     </div>
@@ -695,6 +766,16 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
     <h3>결제 완료!</h3>
     <p>Realations Pro가 활성화됐어요.<br>전체 결과를 모두 확인해보세요.</p>
     <button class="btn-pm-confirm" onclick="unlockAll()">전체 결과 보기 →</button>
+  </div>
+
+<!-- 약관/정책 모달 -->
+<div class="legal-modal-bg" id="legalModalBg">
+  <div class="legal-modal">
+    <div class="legal-modal-head">
+      <h3 id="legalModalTitle">이용약관</h3>
+      <button class="btn-legal-close" onclick="closeLegal()">✕</button>
+    </div>
+    <div class="legal-modal-body" id="legalModalBody"></div>
   </div>
 </div>
 
@@ -838,6 +919,134 @@ function setLang(lang) {
     applyLang(currentLang);
   });
 })();
+
+
+// ── 약관/정책 내용 ──
+const legalContent = {
+  terms: {
+    title: '이용약관',
+    body: `
+<h4>제1조 (목적)</h4>
+<p>이 약관은 디어스컴퍼니(이하 "회사")가 운영하는 Realations 서비스(이하 "서비스")의 이용조건 및 절차, 회사와 이용자의 권리·의무 및 책임사항을 규정함을 목적으로 합니다.</p>
+<h4>제2조 (정의)</h4>
+<ul>
+<li>"서비스"란 회사가 제공하는 소셜미디어 팔로워 관계 분석 서비스를 말합니다.</li>
+<li>"이용자"란 본 약관에 따라 서비스를 이용하는 회원 및 비회원을 말합니다.</li>
+<li>"회원"이란 회사에 개인정보를 제공하여 회원가입을 한 자를 말합니다.</li>
+</ul>
+<h4>제3조 (서비스 내용)</h4>
+<p>회사는 이용자가 소셜미디어 플랫폼의 공식 데이터 내보내기 파일(ZIP/CSV)을 업로드하면, 팔로워 관계를 분석하여 결과를 제공하는 서비스를 제공합니다. 업로드된 파일은 이용자의 브라우저에서만 처리되며 서버로 전송되지 않습니다.</p>
+<h4>제4조 (유료 서비스)</h4>
+<ul>
+<li>무료 이용자는 분석 결과 일부(최대 5명)를 확인할 수 있습니다.</li>
+<li>Pro 구독자(월 ₩4,900)는 전체 분석 결과를 이용할 수 있습니다.</li>
+<li>구독은 월 단위로 자동 갱신되며, 언제든지 해지 가능합니다.</li>
+</ul>
+<h4>제5조 (회원의 의무)</h4>
+<p>이용자는 서비스 이용 시 타인의 계정 정보를 무단으로 사용하거나, 서비스를 이용하여 타인의 개인정보를 수집하는 행위를 해서는 안 됩니다.</p>
+<h4>제6조 (서비스 이용 제한)</h4>
+<p>회사는 이용자가 약관을 위반하거나 서비스의 정상적인 운영을 방해할 경우 서비스 이용을 제한할 수 있습니다.</p>
+<h4>제7조 (면책조항)</h4>
+<p>회사는 천재지변, 서비스 장애 등 불가항력적인 사유로 서비스를 제공하지 못한 경우 책임을 지지 않습니다. 분석 결과는 소셜미디어 플랫폼이 제공한 데이터를 기반으로 하며, 플랫폼 정책 변경에 따라 데이터 정확성이 달라질 수 있습니다.</p>
+<h4>제8조 (약관 변경)</h4>
+<p>회사는 필요한 경우 약관을 변경할 수 있으며, 변경 시 서비스 내 공지사항을 통해 고지합니다.</p>
+<p style="margin-top:16px;color:var(--muted);font-size:11px">시행일: 2026년 04월 01일 &nbsp;|&nbsp; 디어스컴퍼니</p>`
+  },
+  privacy: {
+    title: '개인정보처리방침',
+    body: `
+<h4>1. 수집하는 개인정보 항목</h4>
+<ul>
+<li>회원가입 시: 이메일 주소, 비밀번호(암호화 저장)</li>
+<li>소셜 로그인 시: 이메일 주소, 프로필 이름 (OAuth 제공 정보)</li>
+<li>서비스 이용 시: 서비스 이용 기록, 결제 정보(카드번호 미저장)</li>
+</ul>
+<h4>2. 개인정보 수집 목적</h4>
+<ul>
+<li>회원 식별 및 서비스 제공</li>
+<li>유료 구독 관리 및 결제 처리</li>
+<li>고객 문의 응대</li>
+</ul>
+<h4>3. 개인정보 보유 및 이용기간</h4>
+<p>회원 탈퇴 시까지 보유합니다. 단, 관련 법령에 따라 일정 기간 보유가 필요한 경우 해당 기간 동안 보관합니다.</p>
+<ul>
+<li>전자상거래 계약·청약철회 기록: 5년</li>
+<li>소비자 불만·분쟁처리 기록: 3년</li>
+</ul>
+<h4>4. 업로드 파일 처리</h4>
+<p>이용자가 업로드하는 ZIP/CSV 파일은 이용자의 브라우저(기기)에서만 처리됩니다. 해당 파일은 회사 서버로 전송되거나 저장되지 않습니다.</p>
+<h4>5. 개인정보 제3자 제공</h4>
+<p>회사는 이용자의 동의 없이 개인정보를 제3자에게 제공하지 않습니다. 단, 결제 처리를 위해 PG사(포트원, 카카오페이)에 필요한 최소한의 정보가 전달될 수 있습니다.</p>
+<h4>6. 개인정보 보호 조치</h4>
+<p>비밀번호는 암호화하여 저장하며, Supabase의 보안 인프라를 통해 개인정보를 보호합니다.</p>
+<h4>7. 이용자의 권리</h4>
+<p>이용자는 언제든지 자신의 개인정보를 조회, 수정, 삭제할 수 있으며 회원 탈퇴를 통해 개인정보 처리를 중단할 수 있습니다.</p>
+<h4>8. 문의</h4>
+<p>개인정보 관련 문의: gahee007@gmail.com</p>
+<p style="margin-top:16px;color:var(--muted);font-size:11px">시행일: 2026년 04월 01일 &nbsp;|&nbsp; 디어스컴퍼니</p>`
+  },
+  refund: {
+    title: '환불정책',
+    body: `
+<h4>환불 원칙</h4>
+<p>Realations Pro 구독 서비스의 환불은 아래 정책에 따라 처리됩니다.</p>
+<h4>환불 가능 기간</h4>
+<ul>
+<li>최초 결제일로부터 7일 이내에 서비스를 이용하지 않은 경우 전액 환불이 가능합니다.</li>
+<li>7일 이후 또는 서비스 이용 후에는 환불이 제한될 수 있습니다.</li>
+</ul>
+<h4>자동 갱신 구독 해지</h4>
+<ul>
+<li>구독은 언제든지 해지할 수 있습니다.</li>
+<li>해지 신청 시 다음 결제일부터 청구되지 않으며, 현재 구독 기간 만료 시까지 서비스를 계속 이용할 수 있습니다.</li>
+<li>이미 결제된 구독 기간에 대한 중도 해지 환불은 제공되지 않습니다.</li>
+</ul>
+<h4>환불 신청 방법</h4>
+<p>환불을 원하시는 경우 아래 이메일로 문의해 주세요.</p>
+<ul>
+<li>이메일: gahee007@gmail.com</li>
+<li>제목: [환불요청] 이메일 주소 + 결제일</li>
+<li>처리 기간: 영업일 기준 3~5일</li>
+</ul>
+<h4>서비스 장애에 의한 환불</h4>
+<p>회사의 귀책사유로 서비스를 정상적으로 이용하지 못한 경우, 해당 기간에 대한 환불 또는 이용 기간 연장으로 보상합니다.</p>
+<p style="margin-top:16px;color:var(--muted);font-size:11px">시행일: 2026년 04월 01일 &nbsp;|&nbsp; 디어스컴퍼니</p>`
+  }
+};
+
+function openLegal(type) {
+  var content = legalContent[type];
+  if (!content) return;
+  document.getElementById('legalModalTitle').textContent = content.title;
+  document.getElementById('legalModalBody').innerHTML = content.body;
+  document.getElementById('legalModalBg').classList.add('show');
+}
+function closeLegal() {
+  document.getElementById('legalModalBg').classList.remove('show');
+}
+// 배경 클릭 시 닫기
+document.addEventListener('click', function(e) {
+  if (e.target.id === 'legalModalBg') closeLegal();
+});
+
+// ── 소셜 로그인 ──
+async function signInWithGoogle() {
+  const {error} = await sb.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: window.location.origin }
+  });
+  if (error) showAuthMsg('Google 로그인 실패: ' + error.message, 'err');
+}
+
+async function signInWithKakao() {
+  const {error} = await sb.auth.signInWithOAuth({
+    provider: 'kakao',
+    options: { redirectTo: window.location.origin }
+  });
+  if (error) showAuthMsg('카카오 로그인 실패: ' + error.message, 'err');
+}
+
+// ── toggleAuthMode에 약관 동의 show/hide 추가 ──
 
 // ── SUPABASE 설정 ──
 const SUPABASE_URL='https://jyiohkrbdjuwdjjatkgb.supabase.co';
@@ -1837,6 +2046,10 @@ function openAuthModal(){
   document.getElementById('authMsg').style.display='none';
   document.getElementById('authEmail').value='';
   document.getElementById('authPassword').value='';
+  document.getElementById('agreeWrap').style.display='none';
+  if(document.getElementById('agreeTerms')) document.getElementById('agreeTerms').checked=false;
+  if(document.getElementById('agreePrivacy')) document.getElementById('agreePrivacy').checked=false;
+  if(document.getElementById('agreeMarketing')) document.getElementById('agreeMarketing').checked=false;
   document.getElementById('authModalBg').classList.add('show');
 }
 
@@ -1851,12 +2064,14 @@ function toggleAuthMode(){
     document.getElementById('authModalDesc').textContent='무료로 시작하고 Pro로 업그레이드하세요';
     document.getElementById('btnAuthSubmit').textContent='회원가입';
     document.getElementById('authSwitch').innerHTML='이미 계정이 있으신가요? <a onclick="toggleAuthMode()">로그인</a>';
+    document.getElementById('agreeWrap').style.display='flex';
   } else {
     authMode='login';
     document.getElementById('authModalTitle').textContent='로그인';
     document.getElementById('authModalDesc').textContent='이메일로 간편하게 시작하세요';
     document.getElementById('btnAuthSubmit').textContent='로그인';
     document.getElementById('authSwitch').innerHTML='계정이 없으신가요? <a onclick="toggleAuthMode()">회원가입</a>';
+    document.getElementById('agreeWrap').style.display='none';
   }
   document.getElementById('authMsg').style.display='none';
 }
@@ -1870,6 +2085,13 @@ async function submitAuth(){
   if(!email||!password){
     showAuthMsg('이메일과 비밀번호를 입력해주세요','err');
     return;
+  }
+  // 회원가입 시 약관 동의 필수 확인
+  if(authMode==='signup'){
+    if(!document.getElementById('agreeTerms').checked || !document.getElementById('agreePrivacy').checked){
+      showAuthMsg('이용약관 및 개인정보처리방침에 동의해주세요','err');
+      return;
+    }
   }
   btn.disabled=true;
   btn.textContent='처리 중...';
