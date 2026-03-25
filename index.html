@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Realations — 소셜 관계 분석</title>
+<meta name="description" content="인스타그램, 틱톡, X, 쓰레드, 링크드인 팔로워 관계 분석 툴. 비밀번호 없이 ZIP 파일만으로 맞팔 안 한 사람, 나만 팔로하는 팬을 5초 만에 확인하세요.">
+<meta property="og:title" content="Realations — 소셜 관계의 진실">
+<meta property="og:description" content="맞팔 안 한 사람이 몇 명인지 알고 싶으세요? 비밀번호 없이 안전하게 분석하세요.">
+<meta property="og:url" content="https://realation.world">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://realation.world/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Realations — 소셜 관계 분석">
+<meta name="twitter:description" content="맞팔 안 한 사람, 나만 팔로하는 팬을 5초 만에 확인. 비밀번호 불필요.">
+<link rel="canonical" href="https://realation.world">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -303,6 +313,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);box-shadow:0 0 0 0 rgba(232,0,29,.4)}50%{opacity:.7;transform:scale(.85);box-shadow:0 0 0 6px rgba(232,0,29,0)}}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 </style>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><path d='M100,100 C106,80 102,64 100,54' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C118,90 132,88 142,80' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C120,106 134,116 144,124' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C106,120 104,134 102,146' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C80,108 66,112 58,122' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C84,88 70,86 60,78' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><circle cx='100' cy='100' r='18' fill='%23C0392B' opacity='0.15'/><circle cx='100' cy='100' r='14' fill='%23C0392B'/><circle cx='100' cy='100' r='7' fill='white' opacity='0.95'/></svg>">
 </head>
 <body>
@@ -1429,7 +1440,7 @@ function runThreadsAnalysis(){
     document.getElementById('tc4').textContent='';document.getElementById('tc5').textContent='';
     document.getElementById('tc6').textContent='';document.getElementById('tc7').textContent='';
     document.getElementById('resultsMeta').textContent='🧵 Threads · 팔로워 '+totalFollowers.toLocaleString()+'명 · 팔로잉 '+following.length.toLocaleString()+'명 분석 완료';
-    renderList('notback',data.notback,'red','맞팔 안 함',true,null,true);
+    renderList('notback',data.notback,'red','맞팔 안 함',!isPro,null,true);
     renderList('fans',data.fans,'green','팬',false,null,false);
     renderList('blocked',[],'orange','차단',false,'blocked',false);
     renderList('pending',[],'blue','대기 중',false,'pending',false);
@@ -1615,7 +1626,7 @@ function runInstagramAnalysis(){
       summaryEl.textContent='맞팔 비율 '+mutualPct+'% · '+grade;
       summaryEl.style.display='block';
     }
-    renderList('notback',data.notback,'red','맞팔 안 함',true,null,true);
+    renderList('notback',data.notback,'red','맞팔 안 함',!isPro,null,true);
     renderList('fans',data.fans,'green','팬',false,null,false);
     renderList('blocked',data.blocked,'orange','차단',false,store.blocked===null?'blocked':null,false);
     renderList('pending',data.pending,'blue','대기 중',false,store.pending===null?'pending':null,false);
@@ -1852,8 +1863,58 @@ function switchTab(name,btn){
 }
 
 function handleTossPay(){
-  var ok=confirm('💳 Realations Pro 결제\n\n금액: ₩4,900/월\n결제수단: 토스페이\n\n[베타 테스트 시뮬레이션]\n확인을 누르면 잠금이 해제됩니다.');
-  if(ok) showPaySuccess();
+  // 로그인 확인
+  if(!currentUser){
+    alert('결제를 위해 먼저 로그인해주세요.');
+    openAuthModal();
+    return;
+  }
+
+  // ── 포트원 V1 결제 ──
+  // 포트원 가맹점 코드 (포트원 대시보드 → 시스템 설정 → 식별코드)
+  var IMP_CODE = 'imp00000000'; // ← 포트원 심사 완료 후 실제 코드로 교체
+  var MERCHANT_UID = 'realations_' + currentUser.id + '_' + Date.now();
+
+  IMP.init(IMP_CODE);
+  IMP.request_pay({
+    pg: 'kakaopay',           // 카카오페이 (포트원 계약 후 활성화)
+    pay_method: 'card',
+    merchant_uid: MERCHANT_UID,
+    name: 'Realations Pro (월 구독)',
+    amount: 4900,
+    buyer_email: currentUser.email,
+    buyer_name: currentUser.email,
+    m_redirect_url: 'https://realation.world'
+  }, async function(rsp) {
+    if(rsp.success){
+      // 결제 성공 → Supabase DB 업데이트
+      await updateProStatus(rsp.imp_uid, rsp.merchant_uid);
+    } else {
+      alert('결제 실패: ' + rsp.error_msg);
+    }
+  });
+}
+
+async function updateProStatus(impUid, merchantUid){
+  try{
+    // Supabase users 테이블 is_pro 업데이트
+    const {error} = await sb.from('users').update({
+      is_pro: true,
+      pro_since: new Date().toISOString(),
+      imp_uid: impUid,
+      merchant_uid: merchantUid
+    }).eq('id', currentUser.id);
+
+    if(error) throw error;
+    isPro = true;
+    showPaySuccess();
+  } catch(e){
+    console.error('DB 업데이트 오류:', e);
+    // DB 실패해도 결제는 성공했으므로 잠금 해제
+    isPro = true;
+    showPaySuccess();
+    alert('결제는 완료됐습니다. 새로고침 후 이용해주세요.');
+  }
 }
 
 function showPaySuccess(){
@@ -2000,13 +2061,19 @@ async function onSignedIn(user){
   const {data:userData}=await sb.from('users').select('is_pro').eq('id',user.id).single();
   if(userData&&userData.is_pro){
     isPro=true;
+    // 이미 분석 결과가 있으면 자동 잠금해제
+    if(data.notback&&data.notback.length>0){
+      renderList('notback',data.notback,'red','맞팔 안 함',false,null,true);
+      renderList('fans',data.fans,'green','팬',false,null,false);
+    }
   }
   // users 테이블에 없으면 insert
   const {data:existing}=await sb.from('users').select('id').eq('id',user.id).single();
   if(!existing){
-    await sb.from('users').insert({id:user.id,email:user.email,is_pro:false});
+    await sb.from('users').insert({id:user.id,email:user.email,is_pro:false,created_at:new Date().toISOString()});
   }
   updateAuthUI();
+  closeAuthModal();
 }
 
 function onSignedOut(){
@@ -2106,12 +2173,17 @@ async function submitAuth(){
       closeAuthModal();
     }
   } else {
-    const {error}=await sb.auth.signUp({email,password});
+    const marketingAgree = document.getElementById('agreeMarketing') ? document.getElementById('agreeMarketing').checked : false;
+    const {data:signUpData,error}=await sb.auth.signUp({email,password});
     if(error){
       showAuthMsg('회원가입 실패: '+error.message,'err');
       btn.disabled=false;
       btn.textContent='회원가입';
     } else {
+      // 마케팅 동의 여부 저장 (users 테이블에 insert는 onSignedIn에서 처리)
+      if(signUpData&&signUpData.user){
+        await sb.from('users').upsert({id:signUpData.user.id,email:email,is_pro:false,marketing_agree:marketingAgree,created_at:new Date().toISOString()});
+      }
       showAuthMsg('✅ 가입 완료! 이메일 확인 후 로그인해주세요','ok');
       btn.disabled=false;
       btn.textContent='회원가입';
@@ -2126,16 +2198,35 @@ function showAuthMsg(msg,type){
   el.style.display='block';
 }
 
-// 유료 여부 서버 확인 함수 (결제 연동 시 호출)
+// 유료 여부 서버 확인 함수
 async function checkProStatus(){
   if(!currentUser) return false;
-  const {data}=await sb.from('users').select('is_pro').eq('id',currentUser.id).single();
+  const {data}=await sb.from('users').select('is_pro,pro_since').eq('id',currentUser.id).single();
   isPro=data&&data.is_pro;
+  updateAuthUI();
   return isPro;
+}
+
+// 구독 해지 (관리자 또는 향후 마이페이지용)
+async function cancelPro(){
+  if(!currentUser||!isPro) return;
+  if(!confirm('Pro 구독을 해지하시겠습니까?\n현재 구독 기간 만료까지 서비스는 계속 이용 가능합니다.')) return;
+  const {error}=await sb.from('users').update({is_pro:false}).eq('id',currentUser.id);
+  if(!error){
+    isPro=false;
+    updateAuthUI();
+    alert('구독이 해지되었습니다.');
+  }
 }
 
 // 관리자용: 특정 유저 Pro 활성화 (Supabase SQL에서 직접 실행 가능)
 // UPDATE users SET is_pro=true WHERE email='유저이메일';
+
+// ── Supabase users 테이블 필요 컬럼 (SQL Editor에서 실행) ──
+// ALTER TABLE users ADD COLUMN IF NOT EXISTS pro_since TIMESTAMPTZ;
+// ALTER TABLE users ADD COLUMN IF NOT EXISTS imp_uid TEXT;
+// ALTER TABLE users ADD COLUMN IF NOT EXISTS merchant_uid TEXT;
+// ALTER TABLE users ADD COLUMN IF NOT EXISTS marketing_agree BOOLEAN DEFAULT false;
 
 </script>
 </body>
