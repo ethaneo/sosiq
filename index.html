@@ -40,7 +40,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-weight:
 .wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:48px 20px 100px}
 header{margin-bottom:56px;animation:fadeUp .7s ease both;position:relative;z-index:1}
 .top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px}
-.logo{display:flex;align-items:center;gap:2px}
+.logo{display:flex;align-items:center;gap:1px}
 .logo-symbol{width:94px;height:94px;display:flex;align-items:center;justify-content:center;flex-shrink:0;filter:drop-shadow(0 4px 14px rgba(192,57,43,.32))}
 .logo-text{font-family:var(--font-display);font-size:22px;font-weight:300;letter-spacing:.02em;color:var(--text)}
 .logo-r{font-weight:700;color:#C0392B}
@@ -56,7 +56,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 .trust-pill svg{width:12px;height:12px;stroke:var(--accent);fill:none;stroke-width:2.5}
 .section{margin-bottom:32px;animation:fadeUp .6s ease both;position:relative;z-index:1}
 .section-label{display:flex;align-items:center;gap:8px;margin-bottom:16px}
-.section-label-text{font-family:var(--font-mono);font-size:10px;color:var(--muted2);letter-spacing:.12em;text-transform:uppercase}
+.section-label-text{font-family:var(--font-mono);font-size:20px;color:var(--muted2);letter-spacing:.06em;word-spacing:-.3em;text-transform:uppercase}
 .section-label-line{flex:1;height:1px;background:var(--border)}
 .progress-track{background:transparent;border:none;padding:8px 0;margin-bottom:16px;display:flex;align-items:center;gap:14px}
 /* 2D 천지창조 프로그레스 바 */
@@ -373,6 +373,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
   <!-- 로그인 상태 바 -->
   <div class="auth-bar" id="authBar">
     <span class="auth-user" id="authUserEmail"></span>
+    <button class="btn-auth" onclick="openPricingModal()" style="margin-right:4px;background:var(--grad);color:#fff;border:none">업그레이드</button>
     <div class="lang-wrap" id="langWrap">
       <button class="btn-lang" id="btnLang" onclick="toggleLang()">
         <span id="langFlag">🇰🇷</span>
@@ -425,43 +426,43 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 
 <div class="section" style="animation-delay:.15s">
   <div class="section-label">
-    <div class="section-label-text">PLATFORM</div>
+    <div class="section-label-text">분석 대상을 선택</div>
     <div class="section-label-line"></div>
   </div>
   <div class="platform-grid-row1">
     <div class="platform-card active" id="plt-instagram" onclick="selectPlatform('instagram')">
       <div class="platform-icon">📸</div>
       <div class="platform-name">Instagram</div>
-      <div class="platform-desc">ZIP 업로드</div>
+      
     </div>
     <div class="platform-card" id="plt-tiktok" onclick="selectPlatform('tiktok')">
       <div class="platform-icon">🎵</div>
       <div class="platform-name">TikTok</div>
-      <div class="platform-desc">ZIP 업로드</div>
+      
     </div>
   </div>
   <div class="platform-grid-row2">
     <div class="platform-card" id="plt-threads" onclick="selectPlatform('threads')">
       <div class="platform-icon">🧵</div>
       <div class="platform-name">Threads</div>
-      <div class="platform-desc">ZIP 업로드</div>
+      
     </div>
     <div class="platform-card" id="plt-linkedin" onclick="selectPlatform('linkedin')">
       <div class="platform-icon">💼</div>
       <div class="platform-name">LinkedIn</div>
-      <div class="platform-desc">CSV 업로드</div>
+      
     </div>
     <div class="platform-card" id="plt-x" onclick="selectPlatform('x')">
       <div class="platform-icon">𝕏</div>
       <div class="platform-name">X·Twitter</div>
-      <div class="platform-desc">ZIP 업로드</div>
+      
     </div>
   </div>
 </div>
 
 <!-- 인스타 가이드 -->
 <div class="section" id="guide-instagram" style="animation-delay:.1s">
-  <div class="section-label"><div class="section-label-text">STEP GUIDE</div><div class="section-label-line"></div></div>
+  <div class="section-label"><div class="section-label-text">아래방법을 따라 파일을 추출해주세요.</div><div class="section-label-line"></div></div>
   <div class="progress-track">
     <div class="prog-creation">
       <div class="prog-hand-l"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sglig"><stop offset="0%" style="stop-color:#F4C89A"/><stop offset="100%" style="stop-color:#E8A870"/></linearGradient><linearGradient id="sgdig"><stop offset="0%" style="stop-color:#D4946A"/><stop offset="100%" style="stop-color:#C07850"/></linearGradient></defs><path d="M8,52 C6,44 6,36 8,30 C10,24 14,22 18,24 C20,20 24,18 28,21 C30,17 34,16 37,19 C38,15 42,14 44,18 L46,42 C48,44 48,50 44,54 C40,58 36,60 30,60 C20,60 10,60 8,52Z" fill="url(#sglig)"/><path d="M44,18 C44,10 46,6 50,5 C54,4 58,7 58,14 L58,38 C58,42 56,44 52,44 L46,42Z" fill="url(#sglig)"/><ellipse cx="52" cy="7" rx="4" ry="3" fill="#F0E0D0" opacity="0.9"/></svg></div>
@@ -522,7 +523,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 
 <!-- 틱톡 가이드 -->
 <div class="section" id="guide-tiktok" style="display:none;animation-delay:.1s">
-  <div class="section-label"><div class="section-label-text">STEP GUIDE · TIKTOK</div><div class="section-label-line"></div></div>
+  <div class="section-label"><div class="section-label-text">아래방법을 따라 파일을 추출해주세요. · TIKTOK</div><div class="section-label-line"></div></div>
   <div class="progress-track">
     <div class="prog-creation">
       <div class="prog-hand-l"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sgltk"><stop offset="0%" style="stop-color:#F4C89A"/><stop offset="100%" style="stop-color:#E8A870"/></linearGradient><linearGradient id="sgdtk"><stop offset="0%" style="stop-color:#D4946A"/><stop offset="100%" style="stop-color:#C07850"/></linearGradient></defs><path d="M8,52 C6,44 6,36 8,30 C10,24 14,22 18,24 C20,20 24,18 28,21 C30,17 34,16 37,19 C38,15 42,14 44,18 L46,42 C48,44 48,50 44,54 C40,58 36,60 30,60 C20,60 10,60 8,52Z" fill="url(#sgltk)"/><path d="M44,18 C44,10 46,6 50,5 C54,4 58,7 58,14 L58,38 C58,42 56,44 52,44 L46,42Z" fill="url(#sgltk)"/><ellipse cx="52" cy="7" rx="4" ry="3" fill="#F0E0D0" opacity="0.9"/></svg></div>
@@ -555,7 +556,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 
 <!-- 쓰레드 가이드 -->
 <div class="section" id="guide-threads" style="display:none;animation-delay:.1s">
-  <div class="section-label"><div class="section-label-text">STEP GUIDE · THREADS</div><div class="section-label-line"></div></div>
+  <div class="section-label"><div class="section-label-text">아래방법을 따라 파일을 추출해주세요. · THREADS</div><div class="section-label-line"></div></div>
   <div class="progress-track">
     <div class="prog-creation">
       <div class="prog-hand-l"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sglth"><stop offset="0%" style="stop-color:#F4C89A"/><stop offset="100%" style="stop-color:#E8A870"/></linearGradient><linearGradient id="sgdth"><stop offset="0%" style="stop-color:#D4946A"/><stop offset="100%" style="stop-color:#C07850"/></linearGradient></defs><path d="M8,52 C6,44 6,36 8,30 C10,24 14,22 18,24 C20,20 24,18 28,21 C30,17 34,16 37,19 C38,15 42,14 44,18 L46,42 C48,44 48,50 44,54 C40,58 36,60 30,60 C20,60 10,60 8,52Z" fill="url(#sglth)"/><path d="M44,18 C44,10 46,6 50,5 C54,4 58,7 58,14 L58,38 C58,42 56,44 52,44 L46,42Z" fill="url(#sglth)"/><ellipse cx="52" cy="7" rx="4" ry="3" fill="#F0E0D0" opacity="0.9"/></svg></div>
@@ -587,7 +588,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 
 <!-- 링크드인 가이드 -->
 <div class="section" id="guide-linkedin" style="display:none;animation-delay:.1s">
-  <div class="section-label"><div class="section-label-text">STEP GUIDE · LINKEDIN</div><div class="section-label-line"></div></div>
+  <div class="section-label"><div class="section-label-text">아래방법을 따라 파일을 추출해주세요. · LINKEDIN</div><div class="section-label-line"></div></div>
   <div class="progress-track">
     <div class="prog-creation">
       <div class="prog-hand-l"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sglli"><stop offset="0%" style="stop-color:#F4C89A"/><stop offset="100%" style="stop-color:#E8A870"/></linearGradient><linearGradient id="sgdli"><stop offset="0%" style="stop-color:#D4946A"/><stop offset="100%" style="stop-color:#C07850"/></linearGradient></defs><path d="M8,52 C6,44 6,36 8,30 C10,24 14,22 18,24 C20,20 24,18 28,21 C30,17 34,16 37,19 C38,15 42,14 44,18 L46,42 C48,44 48,50 44,54 C40,58 36,60 30,60 C20,60 10,60 8,52Z" fill="url(#sglli)"/><path d="M44,18 C44,10 46,6 50,5 C54,4 58,7 58,14 L58,38 C58,42 56,44 52,44 L46,42Z" fill="url(#sglli)"/><ellipse cx="52" cy="7" rx="4" ry="3" fill="#F0E0D0" opacity="0.9"/></svg></div>
@@ -619,7 +620,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 
 <!-- X 가이드 -->
 <div class="section" id="guide-x" style="display:none;animation-delay:.1s">
-  <div class="section-label"><div class="section-label-text">STEP GUIDE · X · TWITTER</div><div class="section-label-line"></div></div>
+  <div class="section-label"><div class="section-label-text">아래방법을 따라 파일을 추출해주세요. · X</div><div class="section-label-line"></div></div>
   <div class="progress-track">
     <div class="prog-creation">
       <div class="prog-hand-l"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sglx"><stop offset="0%" style="stop-color:#F4C89A"/><stop offset="100%" style="stop-color:#E8A870"/></linearGradient><linearGradient id="sgdx"><stop offset="0%" style="stop-color:#D4946A"/><stop offset="100%" style="stop-color:#C07850"/></linearGradient></defs><path d="M8,52 C6,44 6,36 8,30 C10,24 14,22 18,24 C20,20 24,18 28,21 C30,17 34,16 37,19 C38,15 42,14 44,18 L46,42 C48,44 48,50 44,54 C40,58 36,60 30,60 C20,60 10,60 8,52Z" fill="url(#sglx)"/><path d="M44,18 C44,10 46,6 50,5 C54,4 58,7 58,14 L58,38 C58,42 56,44 52,44 L46,42Z" fill="url(#sglx)"/><ellipse cx="52" cy="7" rx="4" ry="3" fill="#F0E0D0" opacity="0.9"/></svg></div>
@@ -651,7 +652,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 
 <div class="section" style="animation-delay:.2s" id="uploadArea">
   <div class="section-label">
-    <div class="section-label-text">FILE UPLOAD</div>
+    <div class="section-label-text">추출한 파일을 아래에 업로드해주세요.</div>
     <div class="section-label-line"></div>
   </div>
   <!-- ★ 핵심 수정: input display:none, onclick으로 triggerFileInput 호출 -->
@@ -841,6 +842,112 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
   </div>
 </div>
 
+
+<!-- 가격 안내 모달 -->
+<div id="pricingBg" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);z-index:9500;align-items:center;justify-content:center;padding:16px">
+  <div style="background:#fff;border-radius:20px;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.2)">
+    <!-- 헤더 -->
+    <div style="padding:28px 28px 0;text-align:center;position:relative">
+      <button onclick="closePricingModal()" style="position:absolute;right:20px;top:20px;background:none;border:none;font-size:22px;color:#aaa;cursor:pointer">✕</button>
+      <div style="font-size:13px;font-weight:700;color:#e8001d;letter-spacing:.08em;margin-bottom:8px">PRICING</div>
+      <div style="font-size:22px;font-weight:800;color:#1a1a1a;margin-bottom:6px">합리적인 가격으로<br>소셜 관계의 진실을</div>
+      <div style="font-size:13px;color:#888;margin-bottom:24px">언제든 해지 가능 · 자동 갱신</div>
+    </div>
+    <!-- 플랜 카드 3개 -->
+    <div style="padding:0 20px 28px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+      <!-- FREE -->
+      <div style="border:1.5px solid #e4e1dd;border-radius:16px;padding:20px 16px;text-align:center">
+        <div style="font-size:10px;font-weight:700;color:#aaa;letter-spacing:.1em;margin-bottom:8px">FREE</div>
+        <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">₩0</div>
+        <div style="font-size:11px;color:#aaa;margin-bottom:16px">영원히 무료</div>
+        <div style="text-align:left;font-size:11px;color:#555;line-height:2;margin-bottom:16px">
+          ✓ 1개 플랫폼 선택<br>
+          ✓ 월 3회 분석<br>
+          ✓ 결과 5명 공개<br>
+          ✗ 히스토리<br>
+          ✗ 멀티계정
+        </div>
+        <button onclick="closePricingModal()" style="width:100%;padding:10px;background:#f2f1ef;color:#888;border:none;border-radius:10px;font-weight:600;font-size:12px;cursor:pointer">현재 플랜</button>
+      </div>
+      <!-- BASIC -->
+      <div style="border:2px solid #e8001d;border-radius:16px;padding:20px 16px;text-align:center;position:relative">
+        <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#e8001d;color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap">추천</div>
+        <div style="font-size:10px;font-weight:700;color:#e8001d;letter-spacing:.1em;margin-bottom:8px">BASIC</div>
+        <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">₩7,900</div>
+        <div style="font-size:11px;color:#aaa;margin-bottom:16px">/월 · $3.99</div>
+        <div style="text-align:left;font-size:11px;color:#555;line-height:2;margin-bottom:16px">
+          ✓ <b>5개 플랫폼 전체</b><br>
+          ✓ <b>무제한 분석</b><br>
+          ✓ <b>전체 결과 공개</b><br>
+          ✓ 1개 계정<br>
+          ✗ 히스토리
+        </div>
+        <button onclick="closePricingModal();handleBasicPay()" style="width:100%;padding:10px;background:linear-gradient(135deg,#e8001d,#ff6b35);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:12px;cursor:pointer">시작하기</button>
+      </div>
+      <!-- PRO -->
+      <div style="border:1.5px solid #e4e1dd;border-radius:16px;padding:20px 16px;text-align:center">
+        <div style="font-size:10px;font-weight:700;color:#888;letter-spacing:.1em;margin-bottom:8px">PRO</div>
+        <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">₩14,900</div>
+        <div style="font-size:11px;color:#aaa;margin-bottom:16px">/월 · $9.99</div>
+        <div style="text-align:left;font-size:11px;color:#555;line-height:2;margin-bottom:16px">
+          ✓ <b>5개 플랫폼 전체</b><br>
+          ✓ <b>무제한 분석</b><br>
+          ✓ <b>전체 결과 공개</b><br>
+          ✓ <b>히스토리 비교</b><br>
+          ✓ <b>10개 계정</b>
+        </div>
+        <button onclick="closePricingModal();handleProPay()" style="width:100%;padding:10px;background:#1a1a1a;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:12px;cursor:pointer">시작하기</button>
+      </div>
+    </div>
+    <!-- 비교표 -->
+    <div style="padding:0 20px 28px">
+      <div style="background:#f8f7f5;border-radius:14px;overflow:hidden">
+        <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;padding:12px 16px;border-bottom:1px solid #e4e1dd">
+          <div style="font-size:11px;font-weight:700;color:#888">기능</div>
+          <div style="font-size:11px;font-weight:700;color:#aaa;text-align:center">FREE</div>
+          <div style="font-size:11px;font-weight:700;color:#e8001d;text-align:center">BASIC</div>
+          <div style="font-size:11px;font-weight:700;color:#888;text-align:center">PRO</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;padding:10px 16px;border-bottom:1px solid #e4e1dd">
+          <div style="font-size:12px;color:#555">플랫폼</div>
+          <div style="font-size:12px;text-align:center;color:#888">1개</div>
+          <div style="font-size:12px;text-align:center;font-weight:600;color:#1a1a1a">5개 전체</div>
+          <div style="font-size:12px;text-align:center;font-weight:600;color:#1a1a1a">5개 전체</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;padding:10px 16px;border-bottom:1px solid #e4e1dd">
+          <div style="font-size:12px;color:#555">분석 횟수</div>
+          <div style="font-size:12px;text-align:center;color:#888">월 3회</div>
+          <div style="font-size:12px;text-align:center;font-weight:600;color:#1a1a1a">무제한</div>
+          <div style="font-size:12px;text-align:center;font-weight:600;color:#1a1a1a">무제한</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;padding:10px 16px;border-bottom:1px solid #e4e1dd">
+          <div style="font-size:12px;color:#555">결과 공개</div>
+          <div style="font-size:12px;text-align:center;color:#888">5명</div>
+          <div style="font-size:12px;text-align:center;font-weight:600;color:#1a1a1a">전체</div>
+          <div style="font-size:12px;text-align:center;font-weight:600;color:#1a1a1a">전체</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;padding:10px 16px;border-bottom:1px solid #e4e1dd">
+          <div style="font-size:12px;color:#555">히스토리</div>
+          <div style="font-size:12px;text-align:center;color:#ccc">✗</div>
+          <div style="font-size:12px;text-align:center;color:#ccc">✗</div>
+          <div style="font-size:12px;text-align:center;font-weight:600;color:#1a1a1a">✓</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;padding:10px 16px">
+          <div style="font-size:12px;color:#555">계정 수</div>
+          <div style="font-size:12px;text-align:center;color:#888">1개</div>
+          <div style="font-size:12px;text-align:center;color:#888">1개</div>
+          <div style="font-size:12px;text-align:center;font-weight:600;color:#1a1a1a">10개</div>
+        </div>
+      </div>
+    </div>
+    <!-- 안내 -->
+    <div style="padding:0 20px 24px;text-align:center;font-size:11px;color:#aaa;line-height:1.8">
+      모든 플랜은 언제든지 해지 가능합니다 · 해지 후 만료일까지 이용 가능<br>
+      문의: gahee007@gmail.com
+    </div>
+  </div>
+</div>
+
 <!-- 약관/정책 모달 -->
 <div class="legal-modal-bg" id="legalModalBg">
   <div class="legal-modal">
@@ -872,7 +979,7 @@ var i18n = {
     analyzeBtn: '분석 시작 →',
     analyzingBtn: '분석 중...',
     analyzeDoneBtn: '✓ 분석 완료',
-    footerText: '<div style="font-size:11px;color:#666;line-height:2;text-align:center">상호: 디어스컴퍼니 &nbsp;|&nbsp; 대표: 어광효 &nbsp;|&nbsp; 사업자등록번호: 215-27-09838<br>주소: 경상남도 창원시 성산구 용지로169번길 11-31, 3층<br><a onclick="openLegal(\'terms\')" style="color:#888;text-decoration:underline;cursor:pointer">이용약관</a> &nbsp;·&nbsp; <a onclick="openLegal(\'privacy\')" style="color:#888;text-decoration:underline;cursor:pointer">개인정보처리방침</a> &nbsp;·&nbsp; <a onclick="openLegal(\'refund\')" style="color:#888;text-decoration:underline;cursor:pointer">환불정책</a><br>© 2026 디어스컴퍼니. All rights reserved.</div>',
+    footerText: '<div style="font-size:11px;color:#666;line-height:2;text-align:center">상호: 디어스컴퍼니 &nbsp;|&nbsp; 대표: 어광효 &nbsp;|&nbsp; 사업자등록번호: 215-27-09838 &nbsp;|&nbsp; 경상남도 창원시 성산구 용지로169번길 11-31, 3층<br><a onclick="openLegal(\'terms\')" style="color:#888;text-decoration:underline;cursor:pointer">이용약관</a> &nbsp;·&nbsp; <a onclick="openLegal(\'privacy\')" style="color:#888;text-decoration:underline;cursor:pointer">개인정보처리방침</a> &nbsp;·&nbsp; <a onclick="openLegal(\'refund\')" style="color:#888;text-decoration:underline;cursor:pointer">환불정책</a> &nbsp;|&nbsp; 문의: 010-8249-0102<br>© 2026 디어스컴퍼니. All rights reserved.</div>',
     uploadTitle: 'ZIP, JSON 파일을 드래그하거나 클릭 하세요.',
     uploadDone: '✓ 파일 로드 완료',
   },
@@ -887,7 +994,7 @@ var i18n = {
     analyzeBtn: 'Analyze →',
     analyzingBtn: 'Analyzing...',
     analyzeDoneBtn: '✓ Done',
-    footerText: '<div style="font-size:11px;color:#666;line-height:2;text-align:center">Business: Dears Company &nbsp;|&nbsp; CEO: Gwanghyo Eo &nbsp;|&nbsp; Reg No: 215-27-09838<br>Address: 3F, 11-31, Yongji-ro 169beon-gil, Seongsan-gu, Changwon-si, Korea<br><a onclick="openLegal(\'terms\')" style="color:#888;text-decoration:underline;cursor:pointer">Terms</a> &nbsp;·&nbsp; <a onclick="openLegal(\'privacy\')" style="color:#888;text-decoration:underline;cursor:pointer">Privacy</a> &nbsp;·&nbsp; <a onclick="openLegal(\'refund\')" style="color:#888;text-decoration:underline;cursor:pointer">Refund Policy</a><br>© 2026 Dears Company. All rights reserved.</div>',
+    footerText: '<div style="font-size:11px;color:#666;line-height:2;text-align:center">Dears Company &nbsp;|&nbsp; CEO: Gwanghyo Eo &nbsp;|&nbsp; Reg No: 215-27-09838 &nbsp;|&nbsp; 3F, 11-31, Yongji-ro 169beon-gil, Seongsan-gu, Changwon-si, Korea<br><a onclick="openLegal(\'terms\')" style="color:#888;text-decoration:underline;cursor:pointer">Terms</a> &nbsp;·&nbsp; <a onclick="openLegal(\'privacy\')" style="color:#888;text-decoration:underline;cursor:pointer">Privacy</a> &nbsp;·&nbsp; <a onclick="openLegal(\'refund\')" style="color:#888;text-decoration:underline;cursor:pointer">Refund Policy</a> &nbsp;|&nbsp; Contact: 010-8249-0102<br>© 2026 Dears Company. All rights reserved.</div>',
     uploadTitle: 'Drag & drop or click to upload ZIP / JSON file.',
     uploadDone: '✓ File loaded',
   }
@@ -1256,6 +1363,101 @@ document.addEventListener('click', function(e) {
   if (e.target.id === 'mypageBg') closeMypage();
 });
 
+
+// ── 플랜 제한 로직 ──
+function getCurrentMonth(){
+  var d=new Date();
+  return d.getFullYear()+'-'+(d.getMonth()+1);
+}
+
+function checkFreeMonthlyLimit(){
+  if(userPlan!=='free') return true;
+  var key='realation_free_count_'+getCurrentMonth();
+  var count=parseInt(localStorage.getItem(key)||'0');
+  if(count>=3){
+    showUpgradeModal('이번 달 무료 분석 3회를 모두 사용했습니다.','monthly');
+    return false;
+  }
+  localStorage.setItem(key, count+1);
+  return true;
+}
+
+function canSelectPlatform(plt){
+  // Free: 분석 이력이 있고 다른 플랫폼 선택 시 제한
+  if(userPlan==='free'){
+    var analyzed=data.notback!==null||data.fans!==null;
+    if(analyzed && plt!==currentPlatform){
+      showUpgradeModal('멀티 플랫폼 분석은 Basic부터 가능합니다.','platform');
+      return false;
+    }
+  }
+  return true;
+}
+
+function showUpgradeModal(msg, reason){
+  var bg=document.createElement('div');
+  bg.id='upgradeBg';
+  bg.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px';
+  
+  var plans={
+    free:{name:'무료',price:'₩0',features:['1개 플랫폼','월 3회 분석','결과 5명 공개']},
+    basic:{name:'Basic',price:'₩7,900/월',features:['5개 플랫폼 전체','무제한 분석','전체 결과 공개','1개 계정']},
+    pro:{name:'Pro',price:'₩14,900/월',features:['5개 플랫폼 전체','무제한 분석','전체 결과 공개','히스토리 비교','10개 계정']}
+  };
+
+  var isHistory=(reason==='history'||reason==='account');
+  var highlightBasic=!isHistory;
+
+  bg.innerHTML=
+    '<div style="background:#fff;border-radius:20px;width:100%;max-width:440px;box-shadow:0 24px 64px rgba(0,0,0,.2);overflow:hidden">'+
+    '<div style="padding:24px 24px 0;text-align:center">'+
+    '<div style="font-size:28px;margin-bottom:8px">🔒</div>'+
+    '<div style="font-size:16px;font-weight:700;color:#1a1a1a;margin-bottom:6px">'+msg+'</div>'+
+    '<div style="font-size:12px;color:#888;margin-bottom:20px">플랜을 업그레이드하면 더 많은 기능을 이용할 수 있습니다.</div>'+
+    '</div>'+
+    '<div style="padding:0 20px 20px;display:grid;grid-template-columns:1fr 1fr;gap:10px">'+
+    '<div style="border:2px solid '+(highlightBasic?'#e8001d':'#e4e1dd')+';border-radius:14px;padding:16px;text-align:center">'+
+    '<div style="font-size:11px;font-weight:700;color:'+(highlightBasic?'#e8001d':'#888')+';letter-spacing:.06em;margin-bottom:4px">BASIC'+(highlightBasic?' ✦ 추천':'')+' </div>'+
+    '<div style="font-size:20px;font-weight:800;color:#1a1a1a;margin-bottom:10px">₩7,900<span style="font-size:11px;font-weight:400;color:#888">/월</span></div>'+
+    '<div style="font-size:11px;color:#555;line-height:1.8;margin-bottom:14px">5개 플랫폼<br>무제한 분석<br>전체 결과 공개<br>1개 계정</div>'+
+    '<button onclick="closeUpgradeModal();handleBasicPay()" style="width:100%;padding:10px;background:'+(highlightBasic?'linear-gradient(135deg,#e8001d,#ff6b35)':'#f2f1ef')+';color:'+(highlightBasic?'#fff':'#1a1a1a')+';border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">시작하기</button>'+
+    '</div>'+
+    '<div style="border:2px solid '+(!highlightBasic?'#e8001d':'#e4e1dd')+';border-radius:14px;padding:16px;text-align:center">'+
+    '<div style="font-size:11px;font-weight:700;color:'+(!highlightBasic?'#e8001d':'#888')+';letter-spacing:.06em;margin-bottom:4px">PRO'+(!highlightBasic?' ✦ 추천':'')+' </div>'+
+    '<div style="font-size:20px;font-weight:800;color:#1a1a1a;margin-bottom:10px">₩14,900<span style="font-size:11px;font-weight:400;color:#888">/월</span></div>'+
+    '<div style="font-size:11px;color:#555;line-height:1.8;margin-bottom:14px">5개 플랫폼<br>무제한 분석<br>전체 결과 공개<br>히스토리 비교<br>10개 계정</div>'+
+    '<button onclick="closeUpgradeModal();handleProPay()" style="width:100%;padding:10px;background:'+(!highlightBasic?'linear-gradient(135deg,#e8001d,#ff6b35)':'#f2f1ef')+';color:'+(!highlightBasic?'#fff':'#1a1a1a')+';border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">시작하기</button>'+
+    '</div>'+
+    '</div>'+
+    '<div style="padding:0 20px 20px;text-align:center">'+
+    '<button onclick="closeUpgradeModal()" style="background:none;border:none;font-size:12px;color:#aaa;cursor:pointer">닫기</button>'+
+    '</div>'+
+    '</div>';
+
+  document.body.appendChild(bg);
+  document.body.style.overflow='hidden';
+  bg.addEventListener('click',function(e){if(e.target===bg)closeUpgradeModal();});
+}
+
+function closeUpgradeModal(){
+  var bg=document.getElementById('upgradeBg');
+  if(bg) bg.remove();
+  document.body.style.overflow='';
+}
+
+
+function openPricingModal(){
+  var bg=document.getElementById('pricingBg');
+  if(bg){ bg.style.display='flex'; document.body.style.overflow='hidden'; }
+}
+function closePricingModal(){
+  var bg=document.getElementById('pricingBg');
+  if(bg){ bg.style.display='none'; document.body.style.overflow=''; }
+}
+document.addEventListener('click',function(e){
+  if(e.target.id==='pricingBg') closePricingModal();
+});
+
 // ── SUPABASE 설정 ──
 const SUPABASE_URL='https://jyiohkrbdjuwdjjatkgb.supabase.co';
 const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5aW9oa3JiZGp1d2RqamF0a2diIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzcwODIsImV4cCI6MjA4OTQxMzA4Mn0.oFP4fzJz2YvTsg3Qm3RjINew7vu8nqJuNSrxaw82FfU';
@@ -1270,6 +1472,7 @@ const store={followers:null,following:null,blocked:null,pending:null,restricted:
 const data={notback:[],fans:[],blocked:[],pending:[],restricted:[],close_friends:[]};
 let stepDone=0;
 let isPro=false;
+let userPlan='free'; // 'free'|'basic'|'pro'
 let currentUser=null;
 
 function toggleStep(n){
@@ -1520,6 +1723,8 @@ async function processXZip(zip,files,zone,found){
 function runXAnalysis(){
   var btn=document.getElementById('btnAnalyze');
   var bar=document.getElementById('loadingBar');
+  // Free 플랜 월 3회 제한
+  if(!checkFreeMonthlyLimit()){return;}
   btn.disabled=true;btn.textContent='분석 중...';bar.style.display='block';
   setTimeout(function(){
     var following=store.x_following||[];
@@ -1609,6 +1814,8 @@ function runXAnalysis(){
 function runThreadsAnalysis(){
   var btn=document.getElementById('btnAnalyze');
   var bar=document.getElementById('loadingBar');
+  // Free 플랜 월 3회 제한
+  if(!checkFreeMonthlyLimit()){return;}
   btn.disabled=true;btn.textContent='분석 중...';bar.style.display='block';
   setTimeout(function(){
     var followers=extractUsers(store.th_followers);
@@ -1653,6 +1860,8 @@ function runThreadsAnalysis(){
 function runLinkedInAnalysis(){
   var btn=document.getElementById('btnAnalyze');
   var bar=document.getElementById('loadingBar');
+  // Free 플랜 월 3회 제한
+  if(!checkFreeMonthlyLimit()){return;}
   btn.disabled=true;btn.textContent='분석 중...';bar.style.display='block';
   setTimeout(function(){
     var conns=store.li_connections||[];
@@ -1840,6 +2049,8 @@ function runInstagramAnalysis(){
 function runTikTokAnalysis(){
   var btn=document.getElementById('btnAnalyze');
   var bar=document.getElementById('loadingBar');
+  // Free 플랜 월 3회 제한
+  if(!checkFreeMonthlyLimit()){return;}
   btn.disabled=true;
   btn.textContent='분석 중...';
   bar.style.display='block';
@@ -1989,7 +2200,8 @@ function renderList(key,users,badgeClass,badgeText,hasWall,unavailKey,showTs){
         '<div class="pf-row"><div class="pf-icon">✓</div>인스타그램 프로필 바로가기</div>'+
         '</div>'+
         '<div class="paywall-price"><div class="price-original">월 ₩9,800</div><div class="price-main">₩4,900</div><div class="price-period">/ 월 · 언제든 해지 가능</div></div>'+
-        '<button class="btn-toss-pay" onclick="handleTossPay()"><span class="toss-logo-badge">toss</span>토스페이로 결제하기</button>'+
+        '<button class="btn-toss-pay" onclick="handleBasicPay()"><span class="toss-logo-badge">✦</span>Basic으로 업그레이드 — ₩7,900/월</button>'+
+        '<button onclick="closePricingModal||openPricingModal()" style="width:100%;padding:10px;background:none;border:1px solid #e4e1dd;border-radius:10px;font-size:12px;color:#888;cursor:pointer;margin-top:6px" onclick="openPricingModal()">요금제 전체 보기</button>'+
         '<div class="paywall-note">결제 후 즉시 잠금 해제 · 자동 갱신 · 구독 해지 언제든 가능</div>'+
         '</div></div>';
     } else wallEl.innerHTML='';
@@ -2045,7 +2257,8 @@ function sortList(key,val){
         '<div class="pf-row"><div class="pf-icon">✓</div>인스타그램 프로필 바로가기</div>'+
         '</div>'+
         '<div class="paywall-price"><div class="price-original">월 ₩9,800</div><div class="price-main">₩4,900</div><div class="price-period">/ 월 · 언제든 해지 가능</div></div>'+
-        '<button class="btn-toss-pay" onclick="handleTossPay()"><span class="toss-logo-badge">toss</span>토스페이로 결제하기</button>'+
+        '<button class="btn-toss-pay" onclick="handleBasicPay()"><span class="toss-logo-badge">✦</span>Basic으로 업그레이드 — ₩7,900/월</button>'+
+        '<button onclick="closePricingModal||openPricingModal()" style="width:100%;padding:10px;background:none;border:1px solid #e4e1dd;border-radius:10px;font-size:12px;color:#888;cursor:pointer;margin-top:6px" onclick="openPricingModal()">요금제 전체 보기</button>'+
         '<div class="paywall-note">결제 후 즉시 잠금 해제 · 자동 갱신 · 구독 해지 언제든 가능</div>'+
         '</div></div>';
     } else if(wallEl) wallEl.innerHTML='';
@@ -2059,56 +2272,65 @@ function switchTab(name,btn){
   document.getElementById('tab-'+name).classList.add('active');
 }
 
-function handleTossPay(){
-  // 로그인 확인
-  if(!currentUser){
-    alert('결제를 위해 먼저 로그인해주세요.');
-    openAuthModal();
-    return;
-  }
+function handleTossPay(){ handleBasicPay(); } // 하위 호환
 
-  // ── 포트원 V1 결제 ──
-  // 포트원 가맹점 코드 (포트원 대시보드 → 시스템 설정 → 식별코드)
-  var IMP_CODE = 'imp00000000'; // ← 포트원 심사 완료 후 실제 코드로 교체
-  var MERCHANT_UID = 'realations_' + currentUser.id + '_' + Date.now();
-
+function handleBasicPay(){
+  if(!currentUser){ alert('결제를 위해 먼저 로그인해주세요.'); openAuthModal(); return; }
+  var IMP_CODE='imp00000000'; // ← 포트원 심사 완료 후 교체
+  var MERCHANT_UID='realations_basic_'+currentUser.id+'_'+Date.now();
   IMP.init(IMP_CODE);
   IMP.request_pay({
-    pg: 'kakaopay',           // 카카오페이 (포트원 계약 후 활성화)
-    pay_method: 'card',
+    pg:'kakaopay', pay_method:'card',
     merchant_uid: MERCHANT_UID,
-    name: 'Realations Pro (월 구독)',
-    amount: 4900,
-    buyer_email: currentUser.email,
-    buyer_name: currentUser.email,
-    m_redirect_url: 'https://realation.world'
-  }, async function(rsp) {
-    if(rsp.success){
-      // 결제 성공 → Supabase DB 업데이트
-      await updateProStatus(rsp.imp_uid, rsp.merchant_uid);
-    } else {
-      alert('결제 실패: ' + rsp.error_msg);
-    }
+    name:'Realations Basic (월 구독)',
+    amount:7900,
+    buyer_email:currentUser.email,
+    buyer_name:currentUser.email,
+    m_redirect_url:'https://realation.world'
+  }, async function(rsp){
+    if(rsp.success){ await updatePlanStatus('basic', rsp.imp_uid, rsp.merchant_uid); }
+    else { alert('결제 실패: '+rsp.error_msg); }
   });
 }
 
-async function updateProStatus(impUid, merchantUid){
+function handleProPay(){
+  if(!currentUser){ alert('결제를 위해 먼저 로그인해주세요.'); openAuthModal(); return; }
+  var IMP_CODE='imp00000000'; // ← 포트원 심사 완료 후 교체
+  var MERCHANT_UID='realations_pro_'+currentUser.id+'_'+Date.now();
+  IMP.init(IMP_CODE);
+  IMP.request_pay({
+    pg:'kakaopay', pay_method:'card',
+    merchant_uid: MERCHANT_UID,
+    name:'Realations Pro (월 구독)',
+    amount:14900,
+    buyer_email:currentUser.email,
+    buyer_name:currentUser.email,
+    m_redirect_url:'https://realation.world'
+  }, async function(rsp){
+    if(rsp.success){ await updatePlanStatus('pro', rsp.imp_uid, rsp.merchant_uid); }
+    else { alert('결제 실패: '+rsp.error_msg); }
+  });
+}
+
+async function updateProStatus(impUid, merchantUid){ await updatePlanStatus('basic', impUid, merchantUid); } // 하위 호환
+
+async function updatePlanStatus(plan, impUid, merchantUid){
   try{
-    // Supabase users 테이블 is_pro 업데이트
-    const {error} = await sb.from('users').update({
+    const {error}=await sb.from('users').update({
       is_pro: true,
+      plan: plan,
       pro_since: new Date().toISOString(),
       imp_uid: impUid,
       merchant_uid: merchantUid
     }).eq('id', currentUser.id);
-
     if(error) throw error;
-    isPro = true;
+    userPlan=plan;
+    isPro=true;
     showPaySuccess();
   } catch(e){
     console.error('DB 업데이트 오류:', e);
-    // DB 실패해도 결제는 성공했으므로 잠금 해제
-    isPro = true;
+    userPlan=plan;
+    isPro=true;
     showPaySuccess();
     alert('결제는 완료됐습니다. 새로고침 후 이용해주세요.');
   }
@@ -2264,12 +2486,19 @@ function completeXStep(n){
 
 async function onSignedIn(user){
   currentUser=user;
-  // DB에서 is_pro 확인
-  const {data:userData}=await sb.from('users').select('is_pro').eq('id',user.id).single();
-  if(userData&&userData.is_pro){
-    isPro=true;
+  // DB에서 plan + is_pro 확인
+  const {data:userData}=await sb.from('users').select('is_pro,plan').eq('id',user.id).single();
+  if(userData){
+    // plan 컬럼 우선, 없으면 is_pro로 하위 호환
+    if(userData.plan && userData.plan !== 'free'){
+      userPlan=userData.plan;
+      isPro=(userData.plan==='basic'||userData.plan==='pro');
+    } else if(userData.is_pro){
+      userPlan='basic';
+      isPro=true;
+    }
     // 이미 분석 결과가 있으면 자동 잠금해제
-    if(data.notback&&data.notback.length>0){
+    if(isPro && data.notback&&data.notback.length>0){
       renderList('notback',data.notback,'red','맞팔 안 함',false,null,true);
       renderList('fans',data.fans,'green','팬',false,null,false);
     }
@@ -2286,9 +2515,9 @@ async function onSignedIn(user){
 function onSignedOut(){
   currentUser=null;
   isPro=false;
+  userPlan='free';
   var mypageBtn=document.getElementById('btnMypage');
   if(mypageBtn) mypageBtn.style.display='none';
-  // 마이페이지 모달 열려있으면 닫기
   closeMypage();
   updateAuthUI();
 }
