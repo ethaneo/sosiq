@@ -827,127 +827,6 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
     <p>Realations Pro가 활성화됐어요.<br>전체 결과를 모두 확인해보세요.</p>
     <button class="btn-pm-confirm" onclick="unlockAll()">전체 결과 보기 →</button>
   </div>
-
-
-<!-- 마이페이지 모달 -->
-<div class="mypage-bg" id="mypageBg">
-  <div class="mypage-modal">
-    <div class="mypage-head">
-      <h3>마이페이지</h3>
-      <button class="btn-mypage-close" onclick="closeMypage()">✕</button>
-    </div>
-    <div class="mypage-body" id="mypageBody">
-      <div class="mp-empty">로딩 중...</div>
-    </div>
-  </div>
-</div>
-
-
-<!-- 가격 안내 모달 -->
-<div id="pricingBg" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);z-index:9500;align-items:center;justify-content:center;padding:16px">
-  <div style="background:#fff;border-radius:20px;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.2)">
-    <!-- 헤더 -->
-    <div style="padding:28px 28px 0;text-align:center;position:relative">
-      <button onclick="closePricingModal()" style="position:absolute;right:20px;top:20px;background:none;border:none;font-size:22px;color:#aaa;cursor:pointer">✕</button>
-      <div style="font-size:13px;font-weight:700;color:#e8001d;letter-spacing:.08em;margin-bottom:8px">PRICING</div>
-      <div style="font-size:22px;font-weight:800;color:#1a1a1a;margin-bottom:6px">합리적인 가격으로<br>소셜 관계의 진실을</div>
-      <div style="font-size:13px;color:#888;margin-bottom:24px">언제든 해지 가능 · 자동 갱신</div>
-    </div>
-    <!-- 플랜 카드 3개 -->
-    <div style="padding:0 20px 28px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
-      <!-- FREE -->
-      <div style="border:1.5px solid #e4e1dd;border-radius:16px;padding:20px 16px;text-align:center">
-        <div style="font-size:10px;font-weight:700;color:#aaa;letter-spacing:.1em;margin-bottom:8px">FREE</div>
-        <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">₩0</div>
-        <div style="font-size:11px;color:#aaa;margin-bottom:16px">영원히 무료</div>
-        <div style="text-align:left;font-size:11px;color:#555;line-height:2;margin-bottom:16px">
-          ✓ 1개 플랫폼 선택<br>
-          ✓ 월 3회 분석<br>
-          ✓ 결과 5명 공개<br>
-          ✗ 히스토리<br>
-          ✗ 멀티계정
-        </div>
-        <button onclick="closePricingModal()" style="width:100%;padding:10px;background:#f2f1ef;color:#888;border:none;border-radius:10px;font-weight:600;font-size:12px;cursor:pointer">현재 플랜</button>
-      </div>
-      <!-- BASIC -->
-      <div style="border:2px solid #e8001d;border-radius:16px;padding:20px 16px;text-align:center;position:relative">
-        <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#e8001d;color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap">추천</div>
-        <div style="font-size:10px;font-weight:700;color:#e8001d;letter-spacing:.1em;margin-bottom:8px">BASIC</div>
-        <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">₩7,900</div>
-        <div style="font-size:11px;color:#aaa;margin-bottom:16px">/월 · $3.99</div>
-        <div style="text-align:left;font-size:11px;color:#555;line-height:2;margin-bottom:16px">
-          ✓ <b>5개 플랫폼 전체</b><br>
-          ✓ <b>무제한 분석</b><br>
-          ✓ <b>전체 결과 공개</b><br>
-          ✓ 1개 계정<br>
-          ✗ 히스토리
-        </div>
-        <button onclick="closePricingModal();handleBasicPay()" style="width:100%;padding:10px;background:linear-gradient(135deg,#e8001d,#ff6b35);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:12px;cursor:pointer">시작하기</button>
-      </div>
-      <!-- PRO -->
-      <div style="border:1.5px solid #e4e1dd;border-radius:16px;padding:20px 16px;text-align:center">
-        <div style="font-size:10px;font-weight:700;color:#888;letter-spacing:.1em;margin-bottom:8px">PRO</div>
-        <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">₩14,900</div>
-        <div style="font-size:11px;color:#aaa;margin-bottom:16px">/월 · $9.99</div>
-        <div style="text-align:left;font-size:11px;color:#555;line-height:2;margin-bottom:16px">
-          ✓ <b>5개 플랫폼 전체</b><br>
-          ✓ <b>무제한 분석</b><br>
-          ✓ <b>전체 결과 공개</b><br>
-          ✓ <b>히스토리 비교</b><br>
-          ✓ <b>10개 계정</b>
-        </div>
-        <button onclick="closePricingModal();handleProPay()" style="width:100%;padding:10px;background:#1a1a1a;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:12px;cursor:pointer">시작하기</button>
-      </div>
-    </div>
-    <!-- 비교표 -->
-    <div style="padding:0 20px 28px">
-      <div style="background:#f8f7f5;border-radius:14px;overflow:hidden">
-        <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;padding:12px 16px;border-bottom:1px solid #e4e1dd">
-          <div style="font-size:11px;font-weight:700;color:#888">기능</div>
-          <div style="font-size:11px;font-weight:700;color:#aaa;text-align:center">FREE</div>
-          <div style="font-size:11px;font-weight:700;color:#e8001d;text-align:center">BASIC</div>
-          <div style="font-size:11px;font-weight:700;color:#888;text-align:center">PRO</div>
-        </div>
-        <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;padding:10px 16px;border-bottom:1px solid #e4e1dd">
-          <div style="font-size:12px;color:#555">플랫폼</div>
-          <div style="font-size:12px;text-align:center;color:#888">1개</div>
-          <div style="font-size:12px;text-align:center;font-weight:600;color:#1a1a1a">5개 전체</div>
-          <div style="font-size:12px;text-align:center;font-weight:600;color:#1a1a1a">5개 전체</div>
-        </div>
-        <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;padding:10px 16px;border-bottom:1px solid #e4e1dd">
-          <div style="font-size:12px;color:#555">분석 횟수</div>
-          <div style="font-size:12px;text-align:center;color:#888">월 3회</div>
-          <div style="font-size:12px;text-align:center;font-weight:600;color:#1a1a1a">무제한</div>
-          <div style="font-size:12px;text-align:center;font-weight:600;color:#1a1a1a">무제한</div>
-        </div>
-        <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;padding:10px 16px;border-bottom:1px solid #e4e1dd">
-          <div style="font-size:12px;color:#555">결과 공개</div>
-          <div style="font-size:12px;text-align:center;color:#888">5명</div>
-          <div style="font-size:12px;text-align:center;font-weight:600;color:#1a1a1a">전체</div>
-          <div style="font-size:12px;text-align:center;font-weight:600;color:#1a1a1a">전체</div>
-        </div>
-        <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;padding:10px 16px;border-bottom:1px solid #e4e1dd">
-          <div style="font-size:12px;color:#555">히스토리</div>
-          <div style="font-size:12px;text-align:center;color:#ccc">✗</div>
-          <div style="font-size:12px;text-align:center;color:#ccc">✗</div>
-          <div style="font-size:12px;text-align:center;font-weight:600;color:#1a1a1a">✓</div>
-        </div>
-        <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;padding:10px 16px">
-          <div style="font-size:12px;color:#555">계정 수</div>
-          <div style="font-size:12px;text-align:center;color:#888">1개</div>
-          <div style="font-size:12px;text-align:center;color:#888">1개</div>
-          <div style="font-size:12px;text-align:center;font-weight:600;color:#1a1a1a">10개</div>
-        </div>
-      </div>
-    </div>
-    <!-- 안내 -->
-    <div style="padding:0 20px 24px;text-align:center;font-size:11px;color:#aaa;line-height:1.8">
-      모든 플랜은 언제든지 해지 가능합니다 · 해지 후 만료일까지 이용 가능<br>
-      문의: gahee007@gmail.com
-    </div>
-  </div>
-</div>
-
 <!-- 약관/정책 모달 -->
 <div class="legal-modal-bg" id="legalModalBg">
   <div class="legal-modal">
@@ -1096,6 +975,8 @@ function setLang(lang) {
   }
   // DOM 로드 후 적용
   document.addEventListener('DOMContentLoaded', function() {
+    // 혹시 overflow 막힌 경우 초기화
+    document.body.style.overflow = '';
     applyLang(currentLang);
   });
 })();
@@ -1229,7 +1110,9 @@ function openLegal(type) {
 function closeLegal() {
   var bg = document.getElementById('legalModalBg');
   if (bg) bg.remove();
-  document.body.style.overflow = '';
+  // overflow 복원 (다른 모달이 열려있지 않을 때만)
+  var anyOpen = document.getElementById('mypageBg') && document.getElementById('mypageBg').classList.contains('show');
+  if (!anyOpen) document.body.style.overflow = '';
 }
 document.addEventListener('click', function(e) {
   if (e.target.id === 'legalModalBg') closeLegal();
@@ -1266,7 +1149,10 @@ async function openMypage() {
 function closeMypage() {
   var bg = document.getElementById('mypageBg');
   if (bg) bg.classList.remove('show');
-  document.body.style.overflow = '';
+  // pricing이나 legal 모달이 열려있지 않을 때만 복원
+  var pricingOpen = document.getElementById('pricingBg') && document.getElementById('pricingBg').style.display === 'flex';
+  var legalOpen = document.getElementById('legalModalBg');
+  if (!pricingOpen && !legalOpen) document.body.style.overflow = '';
 }
 
 async function renderMypage() {
@@ -1448,14 +1334,24 @@ function closeUpgradeModal(){
 
 function openPricingModal(){
   var bg=document.getElementById('pricingBg');
-  if(bg){ bg.style.display='flex'; document.body.style.overflow='hidden'; }
+  if(!bg){ console.error('pricingBg not found'); return; }
+  bg.style.display='block';
 }
 function closePricingModal(){
   var bg=document.getElementById('pricingBg');
-  if(bg){ bg.style.display='none'; document.body.style.overflow=''; }
+  if(bg) bg.style.display='none';
 }
 document.addEventListener('click',function(e){
   if(e.target.id==='pricingBg') closePricingModal();
+});
+// ESC 키로 모든 모달 닫기
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    closePricingModal();
+    closeMypage();
+    closeLegal();
+    closeUpgradeModal();
+  }
 });
 
 // ── SUPABASE 설정 ──
@@ -2671,6 +2567,81 @@ async function cancelPro(){
 // ALTER TABLE users ADD COLUMN IF NOT EXISTS marketing_agree BOOLEAN DEFAULT false;
 
 </script>
+<!-- 가격 안내 모달 -->
+<div id="pricingBg" onclick="if(event.target===this)closePricingModal()" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:99999;overflow-y:auto">
+  <div style="min-height:100%;display:flex;align-items:flex-start;justify-content:center;padding:20px;box-sizing:border-box">
+    <div style="background:#fff;border-radius:20px;width:100%;max-width:640px;box-shadow:0 24px 64px rgba(0,0,0,.25);position:relative">
+      <!-- 헤더 -->
+      <div style="padding:28px 28px 0;text-align:center">
+        <button onclick="closePricingModal()" style="position:absolute;right:16px;top:16px;background:none;border:none;font-size:24px;color:#aaa;cursor:pointer;line-height:1;width:32px;height:32px">✕</button>
+        <div style="font-size:13px;font-weight:700;color:#e8001d;letter-spacing:.08em;margin-bottom:8px">PRICING</div>
+        <div style="font-size:22px;font-weight:800;color:#1a1a1a;margin-bottom:6px">합리적인 가격으로<br>소셜 관계의 진실을</div>
+        <div style="font-size:13px;color:#888;margin-bottom:24px">언제든 해지 가능 · 자동 갱신</div>
+      </div>
+      <!-- 플랜 카드 3개 -->
+      <div style="padding:0 20px 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+        <!-- FREE -->
+        <div style="border:1.5px solid #e4e1dd;border-radius:16px;padding:20px 16px;text-align:center">
+          <div style="font-size:10px;font-weight:700;color:#aaa;letter-spacing:.1em;margin-bottom:8px">FREE</div>
+          <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">₩0</div>
+          <div style="font-size:11px;color:#aaa;margin-bottom:16px">영원히 무료</div>
+          <div style="text-align:left;font-size:11px;color:#555;line-height:2;margin-bottom:16px">
+            ✓ 1개 플랫폼<br>✓ 월 3회 분석<br>✓ 결과 5명 공개<br><span style="color:#ccc">✗ 히스토리</span><br><span style="color:#ccc">✗ 멀티계정</span>
+          </div>
+          <button onclick="closePricingModal()" style="width:100%;padding:10px;background:#f2f1ef;color:#888;border:none;border-radius:10px;font-weight:600;font-size:12px;cursor:pointer">현재 플랜</button>
+        </div>
+        <!-- BASIC -->
+        <div style="border:2px solid #e8001d;border-radius:16px;padding:20px 16px;text-align:center;position:relative">
+          <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#e8001d;color:#fff;font-size:10px;font-weight:700;padding:3px 12px;border-radius:20px;white-space:nowrap">추천</div>
+          <div style="font-size:10px;font-weight:700;color:#e8001d;letter-spacing:.1em;margin-bottom:8px">BASIC</div>
+          <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">₩7,900</div>
+          <div style="font-size:11px;color:#aaa;margin-bottom:16px">/월 · $3.99</div>
+          <div style="text-align:left;font-size:11px;color:#555;line-height:2;margin-bottom:16px">
+            ✓ <b>5개 플랫폼</b><br>✓ <b>무제한 분석</b><br>✓ <b>전체 결과</b><br>✓ 1개 계정<br><span style="color:#ccc">✗ 히스토리</span>
+          </div>
+          <button onclick="closePricingModal();handleBasicPay()" style="width:100%;padding:10px;background:linear-gradient(135deg,#e8001d,#ff6b35);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:12px;cursor:pointer">시작하기</button>
+        </div>
+        <!-- PRO -->
+        <div style="border:1.5px solid #e4e1dd;border-radius:16px;padding:20px 16px;text-align:center">
+          <div style="font-size:10px;font-weight:700;color:#888;letter-spacing:.1em;margin-bottom:8px">PRO</div>
+          <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">₩14,900</div>
+          <div style="font-size:11px;color:#aaa;margin-bottom:16px">/월 · $9.99</div>
+          <div style="text-align:left;font-size:11px;color:#555;line-height:2;margin-bottom:16px">
+            ✓ <b>5개 플랫폼</b><br>✓ <b>무제한 분석</b><br>✓ <b>전체 결과</b><br>✓ <b>히스토리</b><br>✓ <b>10개 계정</b>
+          </div>
+          <button onclick="closePricingModal();handleProPay()" style="width:100%;padding:10px;background:#1a1a1a;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:12px;cursor:pointer">시작하기</button>
+        </div>
+      </div>
+      <!-- 비교표 -->
+      <div style="padding:0 20px 24px">
+        <div style="background:#f8f7f5;border-radius:14px;overflow:hidden;font-size:12px">
+          <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;padding:10px 16px;border-bottom:1px solid #e4e1dd;font-weight:700;color:#888;font-size:11px">
+            <span>기능</span><span style="text-align:center">FREE</span><span style="text-align:center;color:#e8001d">BASIC</span><span style="text-align:center">PRO</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;padding:9px 16px;border-bottom:1px solid #e4e1dd">
+            <span style="color:#555">플랫폼</span><span style="text-align:center;color:#888">1개</span><span style="text-align:center;font-weight:600">5개</span><span style="text-align:center;font-weight:600">5개</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;padding:9px 16px;border-bottom:1px solid #e4e1dd">
+            <span style="color:#555">분석 횟수</span><span style="text-align:center;color:#888">월 3회</span><span style="text-align:center;font-weight:600">무제한</span><span style="text-align:center;font-weight:600">무제한</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;padding:9px 16px;border-bottom:1px solid #e4e1dd">
+            <span style="color:#555">결과 공개</span><span style="text-align:center;color:#888">5명</span><span style="text-align:center;font-weight:600">전체</span><span style="text-align:center;font-weight:600">전체</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;padding:9px 16px;border-bottom:1px solid #e4e1dd">
+            <span style="color:#555">히스토리</span><span style="text-align:center;color:#ccc">✗</span><span style="text-align:center;color:#ccc">✗</span><span style="text-align:center;font-weight:600">✓</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;padding:9px 16px">
+            <span style="color:#555">계정 수</span><span style="text-align:center;color:#888">1개</span><span style="text-align:center;color:#888">1개</span><span style="text-align:center;font-weight:600">10개</span>
+          </div>
+        </div>
+      </div>
+      <!-- 안내 -->
+      <div style="padding:0 20px 24px;text-align:center;font-size:11px;color:#aaa;line-height:1.8">
+        모든 플랜은 언제든지 해지 가능 · 해지 후 만료일까지 이용 가능<br>문의: gahee007@gmail.com
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
 <!-- deploy-refresh -->
