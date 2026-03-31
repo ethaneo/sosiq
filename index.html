@@ -2201,10 +2201,10 @@ function handleBasicPay(){
   var MERCHANT_UID='realations_basic_'+currentUser.id+'_'+Date.now();
   IMP.init(IMP_CODE);
   IMP.request_pay({
-    pg:'kakaopay', pay_method:'card',
+    pg:'kcp.A52LD', pay_method:'card',
     merchant_uid: MERCHANT_UID,
     name:'Realations Basic (월 구독)',
-    amount:7900,
+    amount:100, // 테스트용 (실제: 7900)
     buyer_email:currentUser.email,
     buyer_name:currentUser.email,
     m_redirect_url:'https://realation.world'
@@ -2220,10 +2220,10 @@ function handleProPay(){
   var MERCHANT_UID='realations_pro_'+currentUser.id+'_'+Date.now();
   IMP.init(IMP_CODE);
   IMP.request_pay({
-    pg:'kakaopay', pay_method:'card',
+    pg:'html5_inicis.INIBillTst', pay_method:'card',
     merchant_uid: MERCHANT_UID,
     name:'Realations Pro (월 구독)',
-    amount:14900,
+    amount:100, // 테스트용 (실제: 14900)
     buyer_email:currentUser.email,
     buyer_name:currentUser.email,
     m_redirect_url:'https://realation.world'
