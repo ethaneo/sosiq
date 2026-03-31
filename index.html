@@ -2201,7 +2201,7 @@ function handleBasicPay(){
   var MERCHANT_UID='realations_basic_'+currentUser.id+'_'+Date.now();
   IMP.init(IMP_CODE);
   IMP.request_pay({
-    pg:'html5_inicis', pay_method:'card', // 테스트용 (실제: kcp.A52LD)
+    pg:'kcp.A52LD', pay_method:'card',
     merchant_uid: MERCHANT_UID,
     name:'Realations Basic (월 구독)',
     amount:100, // 테스트용 (실제: 7900)
@@ -2220,7 +2220,7 @@ function handleProPay(){
   var MERCHANT_UID='realations_pro_'+currentUser.id+'_'+Date.now();
   IMP.init(IMP_CODE);
   IMP.request_pay({
-    pg:'html5_inicis', pay_method:'card', // 테스트용 (실제: html5_inicis.INIBillTst)
+    pg:'kcp.A52LD', pay_method:'card',
     merchant_uid: MERCHANT_UID,
     name:'Realations Pro (월 구독)',
     amount:100, // 테스트용 (실제: 14900)
