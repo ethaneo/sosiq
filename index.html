@@ -2198,13 +2198,16 @@ function handleTossPay(){ handleBasicPay(); } // 하위 호환
 function handleBasicPay(){
   if(!currentUser){ alert('결제를 위해 먼저 로그인해주세요.'); openAuthModal(); return; }
   var IMP_CODE='imp45411646';
+  var CUSTOMER_UID='realations_basic_'+currentUser.id;
   var MERCHANT_UID='realations_basic_'+currentUser.id+'_'+Date.now();
   IMP.init(IMP_CODE);
   IMP.request_pay({
-    pg:'kcp.IP719', pay_method:'card',
+    pg:'kcp_billing.IP719',
+    pay_method:'card',
     merchant_uid: MERCHANT_UID,
-    name:'Realations Basic (월 구독)',
-    amount:100, // 테스트용 (실제: 7900)
+    customer_uid: CUSTOMER_UID,
+    name:'Realations Basic (월 정기구독)',
+    amount:100,
     buyer_email:currentUser.email,
     buyer_name:currentUser.email,
     m_redirect_url:'https://realation.world'
@@ -2217,13 +2220,16 @@ function handleBasicPay(){
 function handleProPay(){
   if(!currentUser){ alert('결제를 위해 먼저 로그인해주세요.'); openAuthModal(); return; }
   var IMP_CODE='imp45411646';
+  var CUSTOMER_UID='realations_pro_'+currentUser.id;
   var MERCHANT_UID='realations_pro_'+currentUser.id+'_'+Date.now();
   IMP.init(IMP_CODE);
   IMP.request_pay({
-    pg:'kcp.IP719', pay_method:'card',
+    pg:'kcp_billing.IP719',
+    pay_method:'card',
     merchant_uid: MERCHANT_UID,
-    name:'Realations Pro (월 구독)',
-    amount:100, // 테스트용 (실제: 14900)
+    customer_uid: CUSTOMER_UID,
+    name:'Realations Pro (월 정기구독)',
+    amount:100,
     buyer_email:currentUser.email,
     buyer_name:currentUser.email,
     m_redirect_url:'https://realation.world'
