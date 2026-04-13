@@ -2210,7 +2210,8 @@ function handleBasicPay(){
     amount:100,
     buyer_email:currentUser.email,
     buyer_name:currentUser.email,
-    m_redirect_url:'https://realation.world'
+    m_redirect_url:'https://realation.world',
+    bypass: { kcp_group_id: 'IP7191056644' }
   }, async function(rsp){
     if(rsp.success){ await updatePlanStatus('basic', rsp.imp_uid, rsp.merchant_uid); }
     else { alert('결제 실패: '+rsp.error_msg); }
@@ -2232,7 +2233,8 @@ function handleProPay(){
     amount:100,
     buyer_email:currentUser.email,
     buyer_name:currentUser.email,
-    m_redirect_url:'https://realation.world'
+    m_redirect_url:'https://realation.world',
+    bypass: { kcp_group_id: 'IP7191056644' }
   }, async function(rsp){
     if(rsp.success){ await updatePlanStatus('pro', rsp.imp_uid, rsp.merchant_uid); }
     else { alert('결제 실패: '+rsp.error_msg); }
