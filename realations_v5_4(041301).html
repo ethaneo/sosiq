@@ -1,0 +1,2703 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<!-- build:20260325170215 -->
+<title>Realations — 소셜 관계 분석</title>
+<meta name="description" content="인스타그램, 틱톡, X, 쓰레드, 링크드인 팔로워 관계 분석 툴. 비밀번호 없이 ZIP 파일만으로 맞팔 안 한 사람, 나만 팔로하는 팬을 5초 만에 확인하세요.">
+<meta property="og:title" content="Realations — 소셜 관계의 진실">
+<meta property="og:description" content="맞팔 안 한 사람이 몇 명인지 알고 싶으세요? 비밀번호 없이 안전하게 분석하세요.">
+<meta property="og:url" content="https://realation.world">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://realation.world/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Realations — 소셜 관계 분석">
+<meta name="twitter:description" content="맞팔 안 한 사람, 나만 팔로하는 팬을 5초 만에 확인. 비밀번호 불필요.">
+<link rel="canonical" href="https://realation.world">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f7f5;--s1:#ffffff;--s2:#f2f1ef;--s3:#ebe9e6;--border:#e4e1dd;--border2:#d4d0ca;
+  --accent:#e8001d;--accent2:#c4001a;--accent-light:#ff1a35;--accent-glow:rgba(232,0,29,.10);
+  --grad:linear-gradient(135deg,#e8001d 0%,#ff4040 50%,#ff6b35 100%);
+  --grad-soft:linear-gradient(135deg,rgba(232,0,29,.08) 0%,rgba(255,107,53,.06) 100%);
+  --red:#e8001d;--blue:#2563eb;--orange:#ea580c;--yellow:#d97706;--purple:#7c3aed;--green:#059669;--pink:#db2777;
+  --text:#1a1714;--text2:#3d3a36;--muted:#8a8580;--muted2:#b8b4ae;
+  --font:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
+  --font-display:'Poppins',sans-serif;--font-mono:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-weight:400;min-height:100vh;overflow-x:hidden}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(0,0,0,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+.bg-glow{position:fixed;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(232,0,29,.07) 0%,transparent 65%);top:-280px;right:-180px;pointer-events:none;z-index:0}
+.bg-glow2{position:fixed;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,53,.05) 0%,transparent 65%);bottom:-150px;left:-80px;pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:48px 20px 100px}
+header{margin-bottom:56px;animation:fadeUp .7s ease both;position:relative;z-index:1}
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px}
+.logo{display:flex;align-items:center;gap:1px}
+.logo-symbol{width:94px;height:94px;display:flex;align-items:center;justify-content:center;flex-shrink:0;filter:drop-shadow(0 4px 14px rgba(192,57,43,.32))}
+.logo-text{font-family:var(--font-display);font-size:22px;font-weight:300;letter-spacing:.02em;color:var(--text)}
+.logo-r{font-weight:700;color:#C0392B}
+.beta-chip{background:var(--s2);border:1px solid var(--border2);border-radius:6px;padding:4px 10px;font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.06em}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.pulse-dot{width:7px;height:7px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;box-shadow:0 0 0 0 rgba(232,0,29,.4)}
+.eyebrow-text{font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;font-weight:500}
+h1{font-family:var(--font-display);font-size:clamp(34px,5.5vw,54px);font-weight:800;line-height:1.08;letter-spacing:-.03em;margin-bottom:16px;color:var(--text)}
+h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:15px;color:var(--muted);line-height:1.8;max-width:480px;font-weight:300}
+.trust-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.trust-pill{display:flex;align-items:center;gap:6px;background:var(--s1);border:1px solid var(--border);border-radius:100px;padding:5px 12px;font-size:11px;color:var(--muted);font-weight:400;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.trust-pill svg{width:12px;height:12px;stroke:var(--accent);fill:none;stroke-width:2.5}
+.section{margin-bottom:32px;animation:fadeUp .6s ease both;position:relative;z-index:1}
+.section-label{display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.section-label-text{font-family:var(--font-mono);font-size:20px;color:var(--muted2);letter-spacing:.06em;word-spacing:-.3em;text-transform:uppercase}
+.section-label-line{flex:1;height:1px;background:var(--border)}
+.progress-track{background:transparent;border:none;padding:8px 0;margin-bottom:16px;display:flex;align-items:center;gap:14px}
+/* 2D 천지창조 프로그레스 바 */
+.prog-creation{flex:1;position:relative;height:44px;display:flex;align-items:center}
+.prog-track{position:absolute;left:38px;right:38px;height:3px;background:var(--border);border-radius:2px;top:50%;transform:translateY(-50%)}
+.prog-fill{height:100%;background:var(--grad);border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1);width:0%}
+/* SVG 실사 손 */
+.prog-hand-l{position:absolute;left:0;top:50%;transform:translateY(-50%);width:36px;height:36px;transition:filter .3s}
+.prog-hand-r{position:absolute;right:0;top:50%;transform:translateY(-50%);width:36px;height:36px;opacity:.3;transition:opacity .5s,transform .3s;transform:translateY(-50%) scaleX(-1)}
+.prog-hand-r.active{opacity:1;transform:translateY(-50%) scaleX(-1) scale(1.12)}
+@keyframes fingerPulse{0%,100%{transform:translateY(-50%) rotate(-5deg)}50%{transform:translateY(-50%) rotate(3deg)}}
+.prog-hand-l{animation:fingerPulse 2.5s ease-in-out infinite}
+/* 날아가는 심볼 점 */
+.prog-dot{position:absolute;top:50%;left:0%;transform:translate(-50%,-50%);transition:left .5s cubic-bezier(.4,0,.2,1);z-index:2;width:14px;height:14px}
+.prog-dot svg{width:14px;height:14px;display:block}
+.prog-label{font-family:var(--font-mono);font-size:11px;color:var(--muted);white-space:nowrap}
+.steps{display:flex;flex-direction:column;gap:8px}
+.step{background:var(--s1);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:all .2s;opacity:.45;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.step.active{opacity:1;border-color:rgba(232,0,29,.25);pointer-events:all;box-shadow:0 2px 12px rgba(232,0,29,.08)}
+.step.done{opacity:1;border-color:rgba(232,0,29,.15);pointer-events:all}
+.step-head{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--s3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:11px;color:var(--muted);flex-shrink:0;transition:all .2s}
+.step.active .step-num{background:rgba(232,0,29,.1);border-color:rgba(232,0,29,.35);color:var(--accent)}
+.step.done .step-num{background:rgba(232,0,29,.08);border-color:rgba(232,0,29,.25);color:var(--accent)}
+.step-info{flex:1}
+.step-title{font-size:13px;font-weight:500;color:var(--text)}
+.step-desc{font-size:11px;color:var(--muted);margin-top:2px;font-weight:300}
+.step-body{display:none;padding:0 18px 18px;border-top:1px solid var(--border)}
+.step.active .step-body{display:block}
+.step-body-inner{padding-top:16px}
+.path-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.path-card{background:var(--s2);border:1.5px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:all .2s}
+.path-card:hover{border-color:var(--accent);background:rgba(232,0,29,.03)}
+.path-card.sel{border-color:var(--accent);background:rgba(232,0,29,.04);box-shadow:0 0 0 3px rgba(232,0,29,.06)}
+.path-card-label{font-family:var(--font-mono);font-size:11px;color:var(--accent);font-weight:500;margin-bottom:4px}
+.path-card-desc{font-size:11px;color:var(--muted);line-height:1.5;font-weight:300}
+.path-detail{display:none;margin-top:12px}
+.path-detail.show{display:block}
+.path-steps-list{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.psl{display:flex;gap:10px;align-items:flex-start;font-size:12px;color:var(--muted);line-height:1.6;font-weight:300}
+.psl-n{width:18px;height:18px;border-radius:4px;background:rgba(232,0,29,.08);color:var(--accent);font-family:var(--font-mono);font-size:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.psl b{color:var(--text);font-weight:500}
+.tag{display:inline-block;background:var(--s3);border:1px solid var(--border2);border-radius:4px;padding:1px 6px;font-family:var(--font-mono);font-size:10px;color:var(--text2)}
+.tag.warn{color:var(--yellow);border-color:rgba(217,119,6,.3)}
+.tag.green{color:var(--green);border-color:rgba(5,150,105,.3)}
+.btn-go{display:inline-flex;align-items:center;gap:7px;background:var(--grad);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;box-shadow:0 2px 12px rgba(232,0,29,.25)}
+.btn-go:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(232,0,29,.35)}
+.btn-confirm{display:inline-flex;align-items:center;gap:7px;background:rgba(232,0,29,.06);color:var(--accent);border:1px solid rgba(232,0,29,.2);border-radius:8px;padding:9px 18px;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;margin-left:8px}
+.btn-confirm:hover{background:rgba(232,0,29,.12)}
+.wait-note{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--yellow);margin-top:10px;padding:8px 12px;background:rgba(217,119,6,.06);border-radius:6px;border:1px solid rgba(217,119,6,.18);font-weight:300}
+.upload-zone{background:var(--s1);border:2px dashed var(--border2);border-radius:20px;padding:44px 24px;text-align:center;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.04);z-index:1}
+.upload-zone::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,var(--accent-glow) 0%,transparent 70%);opacity:0;transition:opacity .3s;pointer-events:none}
+.upload-zone:hover::before,.upload-zone.drag::before{opacity:1}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--accent)}
+.upload-zone.loaded{border-color:var(--accent);border-style:solid;background:rgba(232,0,29,.02)}
+.upload-icon{font-size:36px;margin-bottom:12px;display:block}
+.upload-title{font-size:15px;font-weight:500;margin-bottom:6px;color:var(--text)}
+.upload-sub{font-size:12px;color:var(--muted);line-height:1.8;font-weight:300}
+.upload-loaded{display:none}
+.upload-zone.loaded .upload-loaded{display:block}
+.upload-zone.loaded .upload-default{display:none}
+.found-files{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+.file-chip{padding:4px 12px;border-radius:100px;font-size:11px;font-weight:500;font-family:var(--font-mono)}
+.file-chip.ok{background:rgba(5,150,105,.08);border:1px solid rgba(5,150,105,.2);color:var(--green)}
+.file-chip.miss{background:rgba(232,0,29,.08);border:1px solid rgba(232,0,29,.2);color:var(--red)}
+.file-chip.opt{background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);color:var(--blue)}
+.cta-area{text-align:center;margin:24px 0 36px;animation:fadeUp .6s .2s ease both;position:relative;z-index:10}
+.btn-analyze{background:var(--grad);color:#fff;border:none;border-radius:12px;padding:16px 56px;font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:-.01em;cursor:pointer;transition:all .25s;box-shadow:0 4px 20px rgba(232,0,29,.3)}
+.btn-analyze:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 40px rgba(232,0,29,.4)}
+.btn-analyze:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
+.loading-bar{height:2px;background:var(--grad);background-size:200% 100%;animation:shimmer 1s infinite;border-radius:2px;margin-bottom:18px;display:none}
+.cta-note{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.8;font-weight:300}
+#results{display:none;animation:fadeUp .5s ease both}
+.results-header{margin-bottom:24px}
+.results-title{font-family:var(--font-display);font-size:24px;font-weight:700;letter-spacing:-.02em;margin-bottom:4px;color:var(--text)}
+.results-meta{font-family:var(--font-mono);font-size:11px;color:var(--muted)}
+.score-card{background:var(--s1);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:16px;position:relative;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.score-card::before{content:'';position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,rgba(232,0,29,.06) 0%,transparent 70%);pointer-events:none}
+.score-row{display:flex;align-items:center;gap:20px}
+.score-circle{width:80px;height:80px;border-radius:50%;border:3px solid var(--border);display:flex;align-items:center;justify-content:center;flex-direction:column;flex-shrink:0;position:relative}
+.score-num{font-family:var(--font-display);font-size:26px;font-weight:800;line-height:1;color:var(--text)}
+.score-label{font-size:9px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:2px;font-family:var(--font-mono)}
+.score-info{flex:1}
+.score-title{font-family:var(--font-display);font-size:16px;font-weight:700;margin-bottom:6px;color:var(--text)}
+.score-bars{display:flex;flex-direction:column;gap:6px}
+.score-bar-row{display:flex;align-items:center;gap:10px;font-size:11px}
+.score-bar-label{color:var(--muted);width:80px;flex-shrink:0;font-weight:300}
+.score-bar-track{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.score-bar-fill{height:100%;border-radius:2px;transition:width .8s cubic-bezier(.4,0,.2,1) .3s}
+.score-bar-val{color:var(--text2);font-family:var(--font-mono);font-size:10px;width:28px;text-align:right}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px}
+.stats-grid-2{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
+.stat-card{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center;transition:all .2s;cursor:default;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.stat-card:hover{border-color:var(--border2);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.stat-num{font-family:var(--font-display);font-size:26px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.stat-num.c-red{color:var(--red)}.stat-num.c-green{color:var(--green)}.stat-num.c-purple{color:var(--purple)}.stat-num.c-blue{color:var(--blue)}.stat-num.c-orange{color:var(--orange)}.stat-num.c-yellow{color:var(--yellow)}
+.stat-lbl{font-size:11px;color:var(--muted);font-weight:300}
+.tabs-wrap{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:4px;display:flex;gap:4px;margin-bottom:20px;overflow-x:auto;box-shadow:0 1px 6px rgba(0,0,0,.05)}
+.tabs-wrap::-webkit-scrollbar{display:none}
+.tab-btn{flex:1;min-width:max-content;padding:8px 12px;border:none;background:none;border-radius:8px;font-family:var(--font);font-size:11px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap}
+.tab-btn.active{background:var(--s2);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.tab-btn[data-t="notback"].active{color:var(--red)}
+.tab-btn[data-t="fans"].active{color:var(--green)}
+.tab-btn[data-t="blocked"].active{color:var(--orange)}
+.tab-btn[data-t="pending"].active{color:var(--blue)}
+.tab-btn[data-t="restricted"].active{color:var(--yellow)}
+.tab-btn[data-t="close_friends"].active{color:var(--pink)}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.list-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.search-box{flex:1;position:relative}
+.search-box input{width:100%;background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:9px 14px 9px 36px;font-family:var(--font);font-size:13px;color:var(--text);outline:none;transition:border-color .15s;font-weight:400}
+.search-box input:focus{border-color:rgba(232,0,29,.4);box-shadow:0 0 0 3px rgba(232,0,29,.06)}
+.search-box input::placeholder{color:var(--muted2)}
+.search-box::before{content:'⌕';position:absolute;left:12px;top:50%;transform:translateY(-52%);font-size:16px;color:var(--muted2);pointer-events:none}
+.sort-select{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-family:var(--font-mono);font-size:11px;color:var(--muted);outline:none;cursor:pointer;transition:border-color .15s}
+.sort-select:focus{border-color:rgba(232,0,29,.4)}
+.user-list{display:flex;flex-direction:column;gap:6px;max-height:440px;overflow-y:auto;padding-right:2px}
+.user-list::-webkit-scrollbar{width:3px}
+.user-list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.user-card{display:flex;align-items:center;gap:12px;background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:12px 14px;transition:all .15s;text-decoration:none;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.user-card:hover{border-color:rgba(232,0,29,.2);background:rgba(232,0,29,.015);transform:translateX(2px);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.avatar{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:14px;color:#fff;flex-shrink:0}
+.user-details{flex:1;min-width:0}
+.user-name{font-size:13px;font-weight:500;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.user-handle{font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-top:1px}
+.user-meta{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.badge{font-size:10px;padding:3px 8px;border-radius:4px;font-weight:500;font-family:var(--font-mono)}
+.badge.red{background:rgba(232,0,29,.08);color:var(--red);border:1px solid rgba(232,0,29,.18)}
+.badge.green{background:rgba(5,150,105,.08);color:var(--green);border:1px solid rgba(5,150,105,.18)}
+.badge.orange{background:rgba(234,88,12,.08);color:var(--orange);border:1px solid rgba(234,88,12,.18)}
+.badge.blue{background:rgba(37,99,235,.08);color:var(--blue);border:1px solid rgba(37,99,235,.18)}
+.badge.yellow{background:rgba(217,119,6,.08);color:var(--yellow);border:1px solid rgba(217,119,6,.18)}
+.badge.purple{background:rgba(124,58,237,.08);color:var(--purple);border:1px solid rgba(124,58,237,.18)}
+.badge.pink{background:rgba(219,39,119,.08);color:var(--pink);border:1px solid rgba(219,39,119,.18)}
+.ts-label{font-family:var(--font-mono);font-size:9px;color:var(--muted2)}
+.empty-state{text-align:center;padding:44px 20px;color:var(--muted)}
+.empty-state .empty-icon{font-size:32px;margin-bottom:10px}
+.empty-state .empty-text{font-size:13px;font-weight:300}
+.tab-unavail{background:var(--s2);border:1px dashed var(--border2);border-radius:12px;padding:32px;text-align:center}
+.tab-unavail .ua-icon{font-size:28px;margin-bottom:10px}
+.tab-unavail .ua-title{font-size:13px;font-weight:500;color:var(--muted);margin-bottom:6px}
+.tab-unavail .ua-desc{font-size:11px;color:var(--muted2);line-height:1.7;font-weight:300}
+.paywall{position:relative;margin-top:-80px}
+.paywall::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent,var(--bg) 45%);z-index:1;pointer-events:none}
+.paywall-box{position:relative;z-index:2;background:var(--s1);border:1px solid var(--border);border-radius:20px;padding:28px 24px 24px;max-width:400px;margin:0 auto;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.1)}
+.paywall-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(232,0,29,.07);border:1px solid rgba(232,0,29,.15);border-radius:100px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--accent);margin-bottom:14px;font-family:var(--font-mono)}
+.paywall-box h3{font-family:var(--font-display);font-size:20px;font-weight:700;margin-bottom:8px;color:var(--text);letter-spacing:-.02em}
+.pw-sub{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.7;font-weight:300}
+.paywall-features{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;text-align:left;background:var(--s2);border-radius:12px;padding:14px 16px}
+.pf-row{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text2)}
+.pf-icon{width:20px;height:20px;border-radius:50%;background:rgba(232,0,29,.1);color:var(--accent);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.paywall-price{margin-bottom:18px}
+.price-original{font-size:12px;color:var(--muted2);text-decoration:line-through;margin-bottom:4px}
+.price-main{font-family:var(--font-display);font-size:34px;font-weight:800;color:var(--text);letter-spacing:-.03em;line-height:1}
+.price-period{font-size:12px;color:var(--muted);font-weight:300;margin-top:4px}
+.btn-toss-pay{width:100%;background:#0064FF;color:#fff;border:none;border-radius:12px;padding:16px;font-family:var(--font);font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;box-shadow:0 4px 16px rgba(0,100,255,.3)}
+.btn-toss-pay:hover{background:#0052d9;transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,100,255,.4)}
+.btn-toss-pay:active{transform:translateY(0)}
+.toss-logo-badge{background:#fff;border-radius:5px;padding:2px 7px;font-family:var(--font-display);font-size:12px;font-weight:800;color:#0064FF;letter-spacing:-.03em}
+.paywall-note{font-size:11px;color:var(--muted2);line-height:1.8}
+.pay-modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:none;align-items:flex-end;justify-content:center}
+.pay-modal-bg.show{display:flex;animation:fadeInBg .2s ease}
+.pay-modal{background:var(--s1);border-radius:24px 24px 0 0;padding:32px 24px 48px;width:100%;max-width:480px;text-align:center;animation:slideUpModal .25s ease}
+.pay-modal .pm-icon{font-size:48px;margin-bottom:14px;display:block}
+.pay-modal h3{font-family:var(--font-display);font-size:22px;font-weight:700;margin-bottom:8px;color:var(--text)}
+.pay-modal p{font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.7;font-weight:300}
+.btn-pm-confirm{width:100%;background:var(--grad);color:#fff;border:none;border-radius:12px;padding:16px;font-family:var(--font);font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(232,0,29,.3)}
+.btn-pm-confirm:hover{transform:translateY(-1px)}
+@keyframes fadeInBg{from{opacity:0}to{opacity:1}}
+@keyframes slideUpModal{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
+.share-row{margin-top:20px;display:flex;justify-content:center;gap:8px}
+.btn-share{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:10px 20px;font-family:var(--font);font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-weight:400;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.btn-share:hover{border-color:var(--accent);color:var(--accent)}
+.footer-note{margin-top:48px;background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:16px 20px;font-size:11px;color:#777;line-height:1.8;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.footer-note b{color:var(--muted);font-weight:500}
+/* ── 플랫폼 선택 ── */
+.platform-grid-row1{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:10px}
+.platform-grid-row2{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:480px){.platform-grid-row1,.platform-grid-row2{grid-template-columns:repeat(2,1fr)}}
+.platform-card{background:var(--s1);border:1.5px solid var(--border);border-radius:14px;padding:16px 10px;text-align:center;cursor:pointer;transition:all .2s;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.platform-card:hover:not(.soon){border-color:var(--accent);transform:translateY(-1px)}
+.platform-card.active{border-color:var(--accent);background:rgba(232,0,29,.04);box-shadow:0 0 0 3px rgba(232,0,29,.08)}
+.platform-card.soon{opacity:.45;cursor:default}
+.platform-icon{font-size:28px;margin-bottom:8px}
+.platform-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
+.platform-desc{font-size:10px;color:var(--muted);font-family:var(--font-mono)}
+.platform-card.soon .platform-desc{color:var(--muted2)}
+/* ── AUTH UI ── */
+.auth-bar{display:flex;align-items:center;gap:10px;justify-content:flex-end;margin-bottom:24px}
+.auth-user{font-size:12px;color:var(--muted);font-family:var(--font-mono)}
+.btn-auth{background:var(--s1);border:1px solid var(--border2);border-radius:8px;padding:7px 14px;font-family:var(--font);font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .15s;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.btn-auth:hover{border-color:var(--accent);color:var(--accent)}
+.btn-auth.pro{background:rgba(232,0,29,.06);border-color:rgba(232,0,29,.2);color:var(--accent)}
+/* 로그인 모달 */
+.auth-modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px}
+.auth-modal-bg.show{display:flex;animation:fadeInBg .2s ease}
+.auth-modal{background:var(--s1);border-radius:20px;padding:32px 28px;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.auth-modal h3{font-family:var(--font-display);font-size:20px;font-weight:700;margin-bottom:6px;color:var(--text)}
+.auth-modal p{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.6;font-weight:300}
+.auth-input{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-family:var(--font);font-size:14px;color:var(--text);outline:none;margin-bottom:10px;transition:border-color .15s}
+.auth-input:focus{border-color:rgba(232,0,29,.4);box-shadow:0 0 0 3px rgba(232,0,29,.06)}
+.btn-auth-submit{width:100%;background:var(--grad);color:#fff;border:none;border-radius:10px;padding:13px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:4px;box-shadow:0 4px 16px rgba(232,0,29,.25)}
+.btn-auth-submit:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(232,0,29,.35)}
+.btn-auth-submit:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.auth-switch{text-align:center;margin-top:14px;font-size:12px;color:var(--muted)}
+.auth-switch a{color:var(--accent);cursor:pointer;font-weight:500;text-decoration:none}
+.auth-msg{font-size:12px;margin-top:8px;padding:8px 12px;border-radius:6px;display:none}
+.auth-msg.ok{background:rgba(5,150,105,.08);color:var(--green);border:1px solid rgba(5,150,105,.2)}
+.auth-msg.err{background:rgba(232,0,29,.08);color:var(--red);border:1px solid rgba(232,0,29,.2)}
+.pro-badge{display:inline-flex;align-items:center;gap:4px;background:var(--grad);color:#fff;border-radius:100px;padding:2px 8px;font-size:10px;font-weight:700;font-family:var(--font-mono);margin-left:6px;vertical-align:middle}
+
+/* 언어 선택 드롭다운 */
+.lang-wrap{position:relative;display:flex;align-items:center}
+.btn-lang{background:var(--s1);border:1px solid var(--border2);border-radius:8px;padding:7px 10px;font-family:var(--font-mono);font-size:11px;font-weight:500;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.btn-lang:hover{border-color:var(--accent);color:var(--accent)}
+.btn-lang svg{width:10px;height:10px;transition:transform .2s}
+.btn-lang.open svg{transform:rotate(180deg)}
+.lang-dropdown{position:absolute;top:calc(100% + 6px);right:0;background:var(--s1);border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);min-width:110px;z-index:200;overflow:hidden;display:none}
+.lang-dropdown.show{display:block;animation:fadeUp .15s ease}
+.lang-opt{padding:9px 14px;font-size:12px;color:var(--text2);cursor:pointer;transition:background .1s;display:flex;align-items:center;gap:8px;font-family:var(--font)}
+.lang-opt:hover{background:var(--s2)}
+.lang-opt.active{color:var(--accent);font-weight:600}
+.lang-flag{font-size:14px;line-height:1}
+
+/* ── 법적 모달 (약관/정책) ── */
+.legal-modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px}
+.legal-modal-bg.show{display:flex!important;animation:fadeUp .2s ease}
+.legal-modal{background:var(--s1);border-radius:16px;width:100%;max-width:600px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.legal-modal-head{padding:20px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.legal-modal-head h3{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text)}
+.btn-legal-close{background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer;line-height:1;padding:2px 6px;border-radius:4px}
+.btn-legal-close:hover{background:var(--s2)}
+.legal-modal-body{padding:20px 24px;overflow-y:auto;flex:1;font-size:13px;color:var(--text2);line-height:1.9}
+.legal-modal-body h4{font-size:13px;font-weight:700;color:var(--text);margin:16px 0 6px}
+.legal-modal-body h4:first-child{margin-top:0}
+.legal-modal-body p{margin-bottom:10px;font-weight:300}
+.legal-modal-body ul{padding-left:16px;margin-bottom:10px}
+.legal-modal-body li{margin-bottom:4px;font-weight:300}
+
+/* ── 소셜 로그인 버튼 ── */
+.social-divider{display:flex;align-items:center;gap:10px;margin:14px 0;font-size:11px;color:var(--muted2)}
+.social-divider::before,.social-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.btn-social{width:100%;border:1px solid var(--border2);border-radius:10px;padding:11px;font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px;background:var(--s1);color:var(--text2)}
+.btn-social:hover{border-color:var(--border);background:var(--s2);transform:translateY(-1px)}
+.btn-social svg{width:18px;height:18px;flex-shrink:0}
+
+/* ── 약관 동의 체크박스 ── */
+.agree-wrap{margin-top:12px;display:flex;flex-direction:column;gap:7px}
+.agree-row{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.agree-row input[type=checkbox]{width:15px;height:15px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.agree-row a{color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+
+/* ── 사업자 정보 footer ── */
+.biz-info{display:block!important;visibility:visible!important;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:11px;color:#666!important;line-height:2;text-align:center;opacity:1!important}
+.biz-info a{color:#888!important;text-decoration:underline;cursor:pointer}
+.biz-info a:hover{color:#555!important}
+
+/* ── 마이페이지 모달 ── */
+.mypage-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:9000;display:none;align-items:center;justify-content:center;padding:16px}
+.mypage-bg.show{display:flex;animation:fadeUp .2s ease}
+.mypage-modal{background:var(--s1);border-radius:20px;width:100%;max-width:480px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.18);overflow:hidden}
+.mypage-head{padding:22px 24px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.mypage-head h3{font-family:var(--font-display);font-size:17px;font-weight:700;color:var(--text)}
+.btn-mypage-close{background:none;border:none;font-size:22px;color:var(--muted);cursor:pointer;padding:0 4px;line-height:1}
+.mypage-body{overflow-y:auto;flex:1;padding:20px 24px}
+/* 프로필 섹션 */
+.mp-profile{display:flex;align-items:center;gap:14px;padding:16px;background:var(--s2);border-radius:14px;margin-bottom:20px}
+.mp-avatar{width:46px;height:46px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.mp-email{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.mp-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;letter-spacing:.06em;padding:3px 8px;border-radius:20px}
+.mp-badge.pro{background:rgba(232,0,29,.1);color:var(--accent)}
+.mp-badge.free{background:var(--s3);color:var(--muted)}
+/* 섹션 카드 */
+.mp-section{margin-bottom:16px}
+.mp-section-title{font-family:var(--font-mono);font-size:10px;color:var(--muted2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.mp-card{background:var(--s2);border-radius:14px;overflow:hidden}
+.mp-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border)}
+.mp-row:last-child{border-bottom:none}
+.mp-row-label{font-size:12px;color:var(--muted);font-weight:400}
+.mp-row-value{font-size:13px;color:var(--text);font-weight:600;text-align:right}
+.mp-row-value.accent{color:var(--accent)}
+.mp-row-value.muted{color:var(--muted);font-weight:400}
+/* 결제 내역 */
+.mp-pay-item{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border)}
+.mp-pay-item:last-child{border-bottom:none}
+.mp-pay-date{font-size:11px;color:var(--muted);margin-top:2px}
+.mp-pay-amount{font-size:13px;font-weight:700;color:var(--text)}
+.mp-pay-status{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:600}
+.mp-pay-status.ok{background:rgba(0,180,80,.1);color:#00b450}
+.mp-pay-status.refund{background:rgba(232,0,29,.1);color:var(--accent)}
+/* 버튼 */
+.mp-btn{width:100%;padding:13px;border-radius:12px;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s;margin-bottom:8px}
+.mp-btn.primary{background:var(--grad);color:#fff;box-shadow:0 2px 12px rgba(232,0,29,.2)}
+.mp-btn.primary:hover{opacity:.9}
+.mp-btn.outline{background:transparent;border:1px solid var(--border2);color:var(--text2)}
+.mp-btn.outline:hover{background:var(--s2)}
+.mp-btn.danger{background:transparent;border:1px solid rgba(232,0,29,.3);color:var(--accent)}
+.mp-btn.danger:hover{background:rgba(232,0,29,.05)}
+.mp-empty{text-align:center;padding:24px;font-size:12px;color:var(--muted);line-height:1.8}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);box-shadow:0 0 0 0 rgba(232,0,29,.4)}50%{opacity:.7;transform:scale(.85);box-shadow:0 0 0 6px rgba(232,0,29,0)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+</style>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><path d='M100,100 C106,80 102,64 100,54' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C118,90 132,88 142,80' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C120,106 134,116 144,124' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C106,120 104,134 102,146' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C80,108 66,112 58,122' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C84,88 70,86 60,78' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><circle cx='100' cy='100' r='18' fill='%23C0392B' opacity='0.15'/><circle cx='100' cy='100' r='14' fill='%23C0392B'/><circle cx='100' cy='100' r='7' fill='white' opacity='0.95'/></svg>">
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+<div class="bg-glow2"></div>
+<div class="wrap">
+
+<header>
+  <!-- 로그인 상태 바 -->
+  <div class="auth-bar" id="authBar">
+    <span class="auth-user" id="authUserEmail"></span>
+    <button class="btn-auth" onclick="openPricingModal()" style="margin-right:4px;background:var(--grad);color:#fff;border:none">서비스 가격</button>
+    <div class="lang-wrap" id="langWrap">
+      <button class="btn-lang" id="btnLang" onclick="toggleLang()">
+        <span id="langFlag">🇰🇷</span>
+        <span id="langLabel">KO</span>
+        <svg viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg>
+      </button>
+      <div class="lang-dropdown" id="langDropdown">
+        <div class="lang-opt active" id="langOptKo" onclick="setLang('ko')"><span class="lang-flag">🇰🇷</span>한국어</div>
+        <div class="lang-opt" id="langOptEn" onclick="setLang('en')"><span class="lang-flag">🇺🇸</span>English</div>
+      </div>
+    </div>
+    <button class="btn-mypage-trigger" id="btnMypage" onclick="openMypage()" style="display:none;background:var(--s1);border:1px solid var(--border2);border-radius:8px;padding:7px 12px;font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;margin-right:6px;transition:all .15s">👤 마이페이지</button>
+    <button class="btn-auth" id="btnAuthAction" onclick="handleAuthBtn()">로그인</button>
+  </div>
+  <div class="top-bar">
+    <div class="logo">
+      <div class="logo-symbol">
+        <svg xmlns="http://www.w3.org/2000/svg" width="94" height="94" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="44" fill="none" stroke="#C0392B" stroke-width="0.8" opacity="0.13"/>
+          <path d="M100,100 C106,80 102,64 100,54" fill="none" stroke="#C0392B" stroke-width="1.8" opacity="0.72"/>
+          <path d="M100,100 C118,90 132,88 142,80" fill="none" stroke="#C0392B" stroke-width="1.8" opacity="0.72"/>
+          <path d="M100,100 C120,106 134,116 144,124" fill="none" stroke="#C0392B" stroke-width="1.8" opacity="0.72"/>
+          <path d="M100,100 C106,120 104,134 102,146" fill="none" stroke="#C0392B" stroke-width="1.8" opacity="0.72"/>
+          <path d="M100,100 C80,108 66,112 58,122" fill="none" stroke="#C0392B" stroke-width="1.8" opacity="0.72"/>
+          <path d="M100,100 C84,88 70,86 60,78" fill="none" stroke="#C0392B" stroke-width="1.8" opacity="0.72"/>
+          <circle cx="100" cy="54" r="6.5" fill="#C0392B" opacity="0.75"/>
+          <circle cx="142" cy="80" r="6" fill="#C0392B" opacity="0.70"/>
+          <circle cx="144" cy="124" r="6" fill="#C0392B" opacity="0.70"/>
+          <circle cx="102" cy="146" r="6.5" fill="#C0392B" opacity="0.75"/>
+          <circle cx="58" cy="122" r="6" fill="#C0392B" opacity="0.70"/>
+          <circle cx="60" cy="78" r="6" fill="#C0392B" opacity="0.70"/>
+          <circle cx="100" cy="100" r="14" fill="#C0392B" opacity="0.12"/>
+          <circle cx="100" cy="100" r="11" fill="#C0392B" opacity="1"/>
+          <circle cx="100" cy="100" r="5.5" fill="white" opacity="0.95"/>
+        </svg>
+      </div>
+      <div class="logo-text"><span class="logo-r">R</span>ealations</div>
+    </div>
+    <div class="beta-chip">BETA · v5.4</div>
+  </div>
+
+  <h1>아무도 알려주지 않는<br><span class="line2">관계의 진실</span></h1>
+  <p class="hero-sub">너만아는 지구최강 인스타그램 팔로워 분석 툴</p>
+  <div class="trust-pills">
+    <div class="trust-pill"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>계정 문제없고</div>
+    <div class="trust-pill"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>해킹 문제없이</div>
+    <div class="trust-pill"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>5초 만에 분석</div>
+  </div>
+</header>
+
+<!-- 서비스 상세 설명 (KG이니시스/카카오페이 검수용) -->
+<div class="section" style="animation-delay:.1s">
+  <div style="background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:8px">
+    <div style="font-size:13px;font-weight:700;color:#1a1a1a;margin-bottom:12px">🔍 Realations는 어떤 서비스인가요?</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="background:#f8f7f5;border-radius:10px;padding:12px">
+        <div style="font-size:11px;font-weight:700;color:#e8001d;margin-bottom:4px">📊 소셜미디어 팔로워 관계 분석</div>
+        <div style="font-size:11px;color:#666;line-height:1.7">인스타그램·틱톡·X·쓰레드·링크드인의 팔로워 데이터를 분석하여 맞팔 여부, 팬, 차단 계정 등을 한눈에 확인할 수 있는 서비스입니다.</div>
+      </div>
+      <div style="background:#f8f7f5;border-radius:10px;padding:12px">
+        <div style="font-size:11px;font-weight:700;color:#e8001d;margin-bottom:4px">🔒 안전한 파일 업로드 방식</div>
+        <div style="font-size:11px;color:#666;line-height:1.7">각 플랫폼의 공식 데이터 내보내기 ZIP/CSV 파일을 업로드하는 방식으로, 비밀번호 입력이 불필요하고 파일이 서버로 전송되지 않아 안전합니다.</div>
+      </div>
+      <div style="background:#f8f7f5;border-radius:10px;padding:12px">
+        <div style="font-size:11px;font-weight:700;color:#e8001d;margin-bottom:4px">📋 주요 분석 항목</div>
+        <div style="font-size:11px;color:#666;line-height:1.7">• 맞팔 안 한 계정 목록<br>• 나만 팔로우하는 팬 목록<br>• 차단·제한·뮤트 계정<br>• 팔로우 요청 대기 목록</div>
+      </div>
+      <div style="background:#f8f7f5;border-radius:10px;padding:12px">
+        <div style="font-size:11px;font-weight:700;color:#e8001d;margin-bottom:4px">💳 구독 서비스 안내</div>
+        <div style="font-size:11px;color:#666;line-height:1.7">• FREE: 무료, 월 3회 분석, 결과 5명<br>• BASIC ₩7,900/월: 무제한 분석<br>• PRO ₩14,900/월: 히스토리+10계정<br>• 결제일로부터 30일, 자동 갱신</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="animation-delay:.15s">
+  <div class="section-label">
+    <div class="section-label-text">분석 대상을 선택</div>
+    <div class="section-label-line"></div>
+  </div>
+  <div class="platform-grid-row1">
+    <div class="platform-card active" id="plt-instagram" onclick="selectPlatform('instagram')">
+      <div class="platform-icon">📸</div>
+      <div class="platform-name">Instagram</div>
+      
+    </div>
+    <div class="platform-card" id="plt-tiktok" onclick="selectPlatform('tiktok')">
+      <div class="platform-icon">🎵</div>
+      <div class="platform-name">TikTok</div>
+      
+    </div>
+  </div>
+  <div class="platform-grid-row2">
+    <div class="platform-card" id="plt-threads" onclick="selectPlatform('threads')">
+      <div class="platform-icon">🧵</div>
+      <div class="platform-name">Threads</div>
+      
+    </div>
+    <div class="platform-card" id="plt-linkedin" onclick="selectPlatform('linkedin')">
+      <div class="platform-icon">💼</div>
+      <div class="platform-name">LinkedIn</div>
+      
+    </div>
+    <div class="platform-card" id="plt-x" onclick="selectPlatform('x')">
+      <div class="platform-icon">𝕏</div>
+      <div class="platform-name">X·Twitter</div>
+      
+    </div>
+  </div>
+</div>
+
+<!-- 인스타 가이드 -->
+<div class="section" id="guide-instagram" style="animation-delay:.1s">
+  <div class="section-label"><div class="section-label-text">아래방법을 따라 파일을 추출해주세요.</div><div class="section-label-line"></div></div>
+  <div class="progress-track">
+    <div class="prog-creation">
+      <div class="prog-hand-l"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sglig"><stop offset="0%" style="stop-color:#F4C89A"/><stop offset="100%" style="stop-color:#E8A870"/></linearGradient><linearGradient id="sgdig"><stop offset="0%" style="stop-color:#D4946A"/><stop offset="100%" style="stop-color:#C07850"/></linearGradient></defs><path d="M8,52 C6,44 6,36 8,30 C10,24 14,22 18,24 C20,20 24,18 28,21 C30,17 34,16 37,19 C38,15 42,14 44,18 L46,42 C48,44 48,50 44,54 C40,58 36,60 30,60 C20,60 10,60 8,52Z" fill="url(#sglig)"/><path d="M44,18 C44,10 46,6 50,5 C54,4 58,7 58,14 L58,38 C58,42 56,44 52,44 L46,42Z" fill="url(#sglig)"/><ellipse cx="52" cy="7" rx="4" ry="3" fill="#F0E0D0" opacity="0.9"/></svg></div>
+      <div class="prog-track"><div class="prog-fill" id="progFill"></div><div class="prog-dot" id="progDot"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M100,100 C106,80 102,64 100,54" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C118,90 132,88 142,80" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C120,106 134,116 144,124" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C106,120 104,134 102,146" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C80,108 66,112 58,122" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C84,88 70,86 60,78" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><circle cx="100" cy="100" r="18" fill="#C0392B" opacity="0.15"/><circle cx="100" cy="100" r="14" fill="#C0392B"/><circle cx="100" cy="100" r="7" fill="white" opacity="0.95"/></svg></div></div>
+      <div class="prog-hand-r" id="progDotHR"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sgrig"><stop offset="0%" style="stop-color:#F4C89A"/><stop offset="100%" style="stop-color:#E8A870"/></linearGradient><linearGradient id="sgdrig"><stop offset="0%" style="stop-color:#D4946A"/><stop offset="100%" style="stop-color:#C07850"/></linearGradient></defs><path d="M72,52 C74,44 74,36 72,30 C70,24 66,22 62,24 C60,20 56,18 52,21 C50,17 46,16 43,19 C42,15 38,14 36,18 L34,42 C32,44 32,50 36,54 C40,58 44,60 50,60 C60,60 70,60 72,52Z" fill="url(#sgrig)"/><path d="M36,18 C36,10 34,6 30,5 C26,4 22,7 22,14 L22,38 C22,42 24,44 28,44 L34,42Z" fill="url(#sgrig)"/><ellipse cx="28" cy="7" rx="4" ry="3" fill="#F0E0D0" opacity="0.9"/></svg></div>
+    </div>
+    <div class="prog-label" id="progLabel">0 / 3</div>
+  </div>
+  <div class="steps">
+    <div class="step active" id="s1">
+      <div class="step-head" onclick="toggleStep(1)"><div class="step-num" id="sn1">01</div><div class="step-info"><div class="step-title">인스타그램 데이터 내보내기</div><div class="step-desc">버튼 클릭 → 인스타 계정 센터로 이동</div></div></div>
+      <div class="step-body"><div class="step-body-inner">
+        <a class="btn-go" href="https://accountscenter.facebook.com/info_and_permissions/dyi/" target="_blank" onclick="completeStep(1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>내보내기 페이지로 이동</a>
+        <div style="margin-top:12px;font-size:11px;color:var(--muted);line-height:1.9">앱에서: 프로필 → ☰ → <span class="tag">계정 센터</span> → <span class="tag">내 정보 및 권한</span></div>
+      </div></div>
+    </div>
+    <div class="step" id="s2">
+      <div class="step-head" onclick="toggleStep(2)"><div class="step-num" id="sn2">02</div><div class="step-info"><div class="step-title">내 화면에 맞는 경로 선택</div><div class="step-desc">인스타 UI 버전에 따라 다릅니다</div></div></div>
+      <div class="step-body"><div class="step-body-inner">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:12px">지금 인스타 화면에 어떤 버튼이 보이나요?</div>
+        <div class="path-grid">
+          <div class="path-card" id="pa-btn" onclick="pickPath('A')"><div class="path-card-label">PATH A</div><div class="path-card-desc">"내 정보 내보내기"<br>Export your information</div></div>
+          <div class="path-card" id="pb-btn" onclick="pickPath('B')"><div class="path-card-label">PATH B</div><div class="path-card-desc">"내 정보 다운로드"<br>Download your information</div></div>
+        </div>
+        <div class="path-detail" id="pa-detail">
+          <div class="path-steps-list">
+            <div class="psl"><div class="psl-n">1</div><div><b>내 정보 내보내기</b> 탭</div></div>
+            <div class="psl"><div class="psl-n">2</div><div><b>내보내기 만들기</b> 탭</div></div>
+            <div class="psl"><div class="psl-n">3</div><div>계정 선택 → <b>기기로 내보내기</b> → 다음</div></div>
+            <div class="psl"><div class="psl-n">4</div><div><b>정보 맞춤설정</b> → 모두 해제 후 <span class="tag green">팔로워 및 팔로잉</span>만 체크</div></div>
+            <div class="psl"><div class="psl-n">5</div><div>기간: <span class="tag">전체 기간</span> · 형식: <span class="tag warn">JSON</span></div></div>
+            <div class="psl"><div class="psl-n">6</div><div><b>내보내기 시작</b></div></div>
+          </div>
+          <button class="btn-confirm" onclick="completeStep(2)">✓ 요청 완료</button>
+          <div class="wait-note">⏱ 이메일 파일 수령까지 수 분 ~ 최대 1시간</div>
+        </div>
+        <div class="path-detail" id="pb-detail">
+          <div class="path-steps-list">
+            <div class="psl"><div class="psl-n">1</div><div><b>내 정보 다운로드</b> 탭</div></div>
+            <div class="psl"><div class="psl-n">2</div><div><b>정보 다운로드 또는 전송</b> 탭</div></div>
+            <div class="psl"><div class="psl-n">3</div><div>계정 선택 → <b>일부 정보</b> 선택</div></div>
+            <div class="psl"><div class="psl-n">4</div><div><span class="tag green">팔로워 및 팔로잉</span> 체크 → 다음</div></div>
+            <div class="psl"><div class="psl-n">5</div><div><b>기기에 다운로드</b> 선택</div></div>
+            <div class="psl"><div class="psl-n">6</div><div>기간: <span class="tag">전체 기간</span> · 형식: <span class="tag warn">JSON</span></div></div>
+            <div class="psl"><div class="psl-n">7</div><div><b>파일 만들기</b></div></div>
+          </div>
+          <button class="btn-confirm" onclick="completeStep(2)">✓ 요청 완료</button>
+          <div class="wait-note">⏱ 이메일 파일 수령까지 수 분 ~ 최대 1시간</div>
+        </div>
+      </div></div>
+    </div>
+    <div class="step" id="s3">
+      <div class="step-head" onclick="toggleStep(3)"><div class="step-num" id="sn3">03</div><div class="step-info"><div class="step-title">ZIP 파일 업로드</div><div class="step-desc">압축 풀지 말고 그대로 올려주세요</div></div></div>
+      <div class="step-body"><div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">이메일에서 받은 <span class="tag">instagram-XXXXXX.zip</span> 파일을<br><b style="color:var(--text)">압축 해제하지 말고</b> 아래 업로드 영역에 올려주세요.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 틱톡 가이드 -->
+<div class="section" id="guide-tiktok" style="display:none;animation-delay:.1s">
+  <div class="section-label"><div class="section-label-text">아래방법을 따라 파일을 추출해주세요. · TIKTOK</div><div class="section-label-line"></div></div>
+  <div class="progress-track">
+    <div class="prog-creation">
+      <div class="prog-hand-l"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sgltk"><stop offset="0%" style="stop-color:#F4C89A"/><stop offset="100%" style="stop-color:#E8A870"/></linearGradient><linearGradient id="sgdtk"><stop offset="0%" style="stop-color:#D4946A"/><stop offset="100%" style="stop-color:#C07850"/></linearGradient></defs><path d="M8,52 C6,44 6,36 8,30 C10,24 14,22 18,24 C20,20 24,18 28,21 C30,17 34,16 37,19 C38,15 42,14 44,18 L46,42 C48,44 48,50 44,54 C40,58 36,60 30,60 C20,60 10,60 8,52Z" fill="url(#sgltk)"/><path d="M44,18 C44,10 46,6 50,5 C54,4 58,7 58,14 L58,38 C58,42 56,44 52,44 L46,42Z" fill="url(#sgltk)"/><ellipse cx="52" cy="7" rx="4" ry="3" fill="#F0E0D0" opacity="0.9"/></svg></div>
+      <div class="prog-track"><div class="prog-fill" id="progFillTk"></div><div class="prog-dot" id="progDotTk"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M100,100 C106,80 102,64 100,54" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C118,90 132,88 142,80" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C120,106 134,116 144,124" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C106,120 104,134 102,146" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C80,108 66,112 58,122" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C84,88 70,86 60,78" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><circle cx="100" cy="100" r="18" fill="#C0392B" opacity="0.15"/><circle cx="100" cy="100" r="14" fill="#C0392B"/><circle cx="100" cy="100" r="7" fill="white" opacity="0.95"/></svg></div></div>
+      <div class="prog-hand-r" id="progDotTkHR"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sgrtk"><stop offset="0%" style="stop-color:#F4C89A"/><stop offset="100%" style="stop-color:#E8A870"/></linearGradient><linearGradient id="sgdrtk"><stop offset="0%" style="stop-color:#D4946A"/><stop offset="100%" style="stop-color:#C07850"/></linearGradient></defs><path d="M72,52 C74,44 74,36 72,30 C70,24 66,22 62,24 C60,20 56,18 52,21 C50,17 46,16 43,19 C42,15 38,14 36,18 L34,42 C32,44 32,50 36,54 C40,58 44,60 50,60 C60,60 70,60 72,52Z" fill="url(#sgrtk)"/><path d="M36,18 C36,10 34,6 30,5 C26,4 22,7 22,14 L22,38 C22,42 24,44 28,44 L34,42Z" fill="url(#sgrtk)"/><ellipse cx="28" cy="7" rx="4" ry="3" fill="#F0E0D0" opacity="0.9"/></svg></div>
+    </div>
+    <div class="prog-label" id="progLabelTk">0 / 2</div>
+  </div>
+  <div class="steps">
+    <div class="step active" id="tk1">
+      <div class="step-head"><div class="step-num" id="tkn1">01</div><div class="step-info"><div class="step-title">틱톡 데이터 내보내기</div><div class="step-desc">앱에서 직접 요청 → 이메일로 수령</div></div></div>
+      <div class="step-body" style="display:block"><div class="step-body-inner">
+        <div class="path-steps-list">
+          <div class="psl"><div class="psl-n">1</div><div>틱톡 앱 → 프로필 → 우측 상단 <b>☰</b></div></div>
+          <div class="psl"><div class="psl-n">2</div><div><b>설정 및 개인정보</b> → <b>계정</b></div></div>
+          <div class="psl"><div class="psl-n">3</div><div><b>내 데이터 다운로드</b> 탭</div></div>
+          <div class="psl"><div class="psl-n">4</div><div>형식: <span class="tag warn">JSON</span> 선택 → <b>데이터 요청</b></div></div>
+          <div class="psl"><div class="psl-n">5</div><div>이메일로 <span class="tag">TikTok_Data.zip</span> 수령</div></div>
+        </div>
+        <button class="btn-confirm" onclick="completeTkStep(1)">✓ 요청 완료</button>
+        <div class="wait-note">⏱ 이메일 파일 수령까지 수 분 ~ 최대 48시간</div>
+      </div></div>
+    </div>
+    <div class="step" id="tk2">
+      <div class="step-head"><div class="step-num" id="tkn2">02</div><div class="step-info"><div class="step-title">ZIP 파일 업로드</div><div class="step-desc">압축 풀지 말고 그대로 올려주세요</div></div></div>
+      <div class="step-body"><div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">이메일에서 받은 <span class="tag">TikTok_Data.zip</span> 파일을<br><b style="color:var(--text)">압축 해제하지 말고</b> 아래 업로드 영역에 올려주세요.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 쓰레드 가이드 -->
+<div class="section" id="guide-threads" style="display:none;animation-delay:.1s">
+  <div class="section-label"><div class="section-label-text">아래방법을 따라 파일을 추출해주세요. · THREADS</div><div class="section-label-line"></div></div>
+  <div class="progress-track">
+    <div class="prog-creation">
+      <div class="prog-hand-l"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sglth"><stop offset="0%" style="stop-color:#F4C89A"/><stop offset="100%" style="stop-color:#E8A870"/></linearGradient><linearGradient id="sgdth"><stop offset="0%" style="stop-color:#D4946A"/><stop offset="100%" style="stop-color:#C07850"/></linearGradient></defs><path d="M8,52 C6,44 6,36 8,30 C10,24 14,22 18,24 C20,20 24,18 28,21 C30,17 34,16 37,19 C38,15 42,14 44,18 L46,42 C48,44 48,50 44,54 C40,58 36,60 30,60 C20,60 10,60 8,52Z" fill="url(#sglth)"/><path d="M44,18 C44,10 46,6 50,5 C54,4 58,7 58,14 L58,38 C58,42 56,44 52,44 L46,42Z" fill="url(#sglth)"/><ellipse cx="52" cy="7" rx="4" ry="3" fill="#F0E0D0" opacity="0.9"/></svg></div>
+      <div class="prog-track"><div class="prog-fill" id="progFillTh"></div><div class="prog-dot" id="progDotTh"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M100,100 C106,80 102,64 100,54" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C118,90 132,88 142,80" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C120,106 134,116 144,124" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C106,120 104,134 102,146" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C80,108 66,112 58,122" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C84,88 70,86 60,78" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><circle cx="100" cy="100" r="18" fill="#C0392B" opacity="0.15"/><circle cx="100" cy="100" r="14" fill="#C0392B"/><circle cx="100" cy="100" r="7" fill="white" opacity="0.95"/></svg></div></div>
+      <div class="prog-hand-r" id="progDotThHR"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sgrth"><stop offset="0%" style="stop-color:#F4C89A"/><stop offset="100%" style="stop-color:#E8A870"/></linearGradient><linearGradient id="sgdrth"><stop offset="0%" style="stop-color:#D4946A"/><stop offset="100%" style="stop-color:#C07850"/></linearGradient></defs><path d="M72,52 C74,44 74,36 72,30 C70,24 66,22 62,24 C60,20 56,18 52,21 C50,17 46,16 43,19 C42,15 38,14 36,18 L34,42 C32,44 32,50 36,54 C40,58 44,60 50,60 C60,60 70,60 72,52Z" fill="url(#sgrth)"/><path d="M36,18 C36,10 34,6 30,5 C26,4 22,7 22,14 L22,38 C22,42 24,44 28,44 L34,42Z" fill="url(#sgrth)"/><ellipse cx="28" cy="7" rx="4" ry="3" fill="#F0E0D0" opacity="0.9"/></svg></div>
+    </div>
+    <div class="prog-label" id="progLabelTh">0 / 2</div>
+  </div>
+  <div class="steps">
+    <div class="step active" id="th1">
+      <div class="step-head"><div class="step-num" id="thn1">01</div><div class="step-info"><div class="step-title">Meta 계정센터에서 데이터 내보내기</div><div class="step-desc">인스타그램과 동일한 경로 — Threads 포함</div></div></div>
+      <div class="step-body" style="display:block"><div class="step-body-inner">
+        <a class="btn-go" href="https://accountscenter.facebook.com/info_and_permissions/dyi/" target="_blank" onclick="completeThStep(1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>내보내기 페이지로 이동</a>
+        <div class="path-steps-list" style="margin-top:12px">
+          <div class="psl"><div class="psl-n">1</div><div>계정 선택 → <b>기기로 내보내기</b></div></div>
+          <div class="psl"><div class="psl-n">2</div><div><b>정보 맞춤설정</b> → <span class="tag green">팔로워 및 팔로잉</span> 체크</div></div>
+          <div class="psl"><div class="psl-n">3</div><div>형식: <span class="tag warn">JSON</span> → <b>내보내기 시작</b></div></div>
+        </div>
+        <button class="btn-confirm" onclick="completeThStep(1)">✓ 요청 완료</button>
+        <div class="wait-note">⏱ Threads 데이터는 인스타 ZIP 안에 함께 포함됩니다</div>
+      </div></div>
+    </div>
+    <div class="step" id="th2">
+      <div class="step-head"><div class="step-num" id="thn2">02</div><div class="step-info"><div class="step-title">ZIP 파일 업로드</div><div class="step-desc">인스타 ZIP 그대로 올리면 Threads 자동 인식</div></div></div>
+      <div class="step-body"><div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">이메일에서 받은 <span class="tag">instagram-XXXXXX.zip</span> 파일을<br><b style="color:var(--text)">압축 해제하지 말고</b> 아래 업로드 영역에 올려주세요.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 링크드인 가이드 -->
+<div class="section" id="guide-linkedin" style="display:none;animation-delay:.1s">
+  <div class="section-label"><div class="section-label-text">아래방법을 따라 파일을 추출해주세요. · LINKEDIN</div><div class="section-label-line"></div></div>
+  <div class="progress-track">
+    <div class="prog-creation">
+      <div class="prog-hand-l"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sglli"><stop offset="0%" style="stop-color:#F4C89A"/><stop offset="100%" style="stop-color:#E8A870"/></linearGradient><linearGradient id="sgdli"><stop offset="0%" style="stop-color:#D4946A"/><stop offset="100%" style="stop-color:#C07850"/></linearGradient></defs><path d="M8,52 C6,44 6,36 8,30 C10,24 14,22 18,24 C20,20 24,18 28,21 C30,17 34,16 37,19 C38,15 42,14 44,18 L46,42 C48,44 48,50 44,54 C40,58 36,60 30,60 C20,60 10,60 8,52Z" fill="url(#sglli)"/><path d="M44,18 C44,10 46,6 50,5 C54,4 58,7 58,14 L58,38 C58,42 56,44 52,44 L46,42Z" fill="url(#sglli)"/><ellipse cx="52" cy="7" rx="4" ry="3" fill="#F0E0D0" opacity="0.9"/></svg></div>
+      <div class="prog-track"><div class="prog-fill" id="progFillLi"></div><div class="prog-dot" id="progDotLi"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M100,100 C106,80 102,64 100,54" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C118,90 132,88 142,80" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C120,106 134,116 144,124" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C106,120 104,134 102,146" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C80,108 66,112 58,122" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C84,88 70,86 60,78" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><circle cx="100" cy="100" r="18" fill="#C0392B" opacity="0.15"/><circle cx="100" cy="100" r="14" fill="#C0392B"/><circle cx="100" cy="100" r="7" fill="white" opacity="0.95"/></svg></div></div>
+      <div class="prog-hand-r" id="progDotLiHR"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sgrli"><stop offset="0%" style="stop-color:#F4C89A"/><stop offset="100%" style="stop-color:#E8A870"/></linearGradient><linearGradient id="sgdrli"><stop offset="0%" style="stop-color:#D4946A"/><stop offset="100%" style="stop-color:#C07850"/></linearGradient></defs><path d="M72,52 C74,44 74,36 72,30 C70,24 66,22 62,24 C60,20 56,18 52,21 C50,17 46,16 43,19 C42,15 38,14 36,18 L34,42 C32,44 32,50 36,54 C40,58 44,60 50,60 C60,60 70,60 72,52Z" fill="url(#sgrli)"/><path d="M36,18 C36,10 34,6 30,5 C26,4 22,7 22,14 L22,38 C22,42 24,44 28,44 L34,42Z" fill="url(#sgrli)"/><ellipse cx="28" cy="7" rx="4" ry="3" fill="#F0E0D0" opacity="0.9"/></svg></div>
+    </div>
+    <div class="prog-label" id="progLabelLi">0 / 2</div>
+  </div>
+  <div class="steps">
+    <div class="step active" id="li1">
+      <div class="step-head"><div class="step-num" id="lin1">01</div><div class="step-info"><div class="step-title">LinkedIn 데이터 내보내기</div><div class="step-desc">설정에서 연결 CSV 다운로드</div></div></div>
+      <div class="step-body" style="display:block"><div class="step-body-inner">
+        <a class="btn-go" href="https://www.linkedin.com/mypreferences/d/download-my-data" target="_blank" onclick="completeLiStep(1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>데이터 내보내기 페이지로 이동</a>
+        <div class="path-steps-list" style="margin-top:12px">
+          <div class="psl"><div class="psl-n">1</div><div><b>Connections</b> 선택 → <b>Request archive</b></div></div>
+          <div class="psl"><div class="psl-n">2</div><div>이메일로 ZIP 수령 → 압축 해제</div></div>
+          <div class="psl"><div class="psl-n">3</div><div>ZIP 안의 <span class="tag">Connections.csv</span> 파일 업로드</div></div>
+        </div>
+        <button class="btn-confirm" onclick="completeLiStep(1)">✓ 요청 완료</button>
+        <div class="wait-note">⏱ 이메일 수령까지 10분 ~ 24시간 · CSV 파일만 업로드</div>
+      </div></div>
+    </div>
+    <div class="step" id="li2">
+      <div class="step-head"><div class="step-num" id="lin2">02</div><div class="step-info"><div class="step-title">Connections.csv 업로드</div><div class="step-desc">ZIP에서 꺼낸 CSV 파일을 올려주세요</div></div></div>
+      <div class="step-body"><div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">ZIP 압축 해제 후 <span class="tag">Connections.csv</span> 파일을<br>아래 업로드 영역에 올려주세요.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- X 가이드 -->
+<div class="section" id="guide-x" style="display:none;animation-delay:.1s">
+  <div class="section-label"><div class="section-label-text">아래방법을 따라 파일을 추출해주세요. · X</div><div class="section-label-line"></div></div>
+  <div class="progress-track">
+    <div class="prog-creation">
+      <div class="prog-hand-l"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sglx"><stop offset="0%" style="stop-color:#F4C89A"/><stop offset="100%" style="stop-color:#E8A870"/></linearGradient><linearGradient id="sgdx"><stop offset="0%" style="stop-color:#D4946A"/><stop offset="100%" style="stop-color:#C07850"/></linearGradient></defs><path d="M8,52 C6,44 6,36 8,30 C10,24 14,22 18,24 C20,20 24,18 28,21 C30,17 34,16 37,19 C38,15 42,14 44,18 L46,42 C48,44 48,50 44,54 C40,58 36,60 30,60 C20,60 10,60 8,52Z" fill="url(#sglx)"/><path d="M44,18 C44,10 46,6 50,5 C54,4 58,7 58,14 L58,38 C58,42 56,44 52,44 L46,42Z" fill="url(#sglx)"/><ellipse cx="52" cy="7" rx="4" ry="3" fill="#F0E0D0" opacity="0.9"/></svg></div>
+      <div class="prog-track"><div class="prog-fill" id="progFillX"></div><div class="prog-dot" id="progDotX"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M100,100 C106,80 102,64 100,54" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C118,90 132,88 142,80" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C120,106 134,116 144,124" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C106,120 104,134 102,146" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C80,108 66,112 58,122" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><path d="M100,100 C84,88 70,86 60,78" fill="none" stroke="#C0392B" stroke-width="10" opacity="0.72"/><circle cx="100" cy="100" r="18" fill="#C0392B" opacity="0.15"/><circle cx="100" cy="100" r="14" fill="#C0392B"/><circle cx="100" cy="100" r="7" fill="white" opacity="0.95"/></svg></div></div>
+      <div class="prog-hand-r" id="progDotXHR"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sgrx"><stop offset="0%" style="stop-color:#F4C89A"/><stop offset="100%" style="stop-color:#E8A870"/></linearGradient><linearGradient id="sgdrx"><stop offset="0%" style="stop-color:#D4946A"/><stop offset="100%" style="stop-color:#C07850"/></linearGradient></defs><path d="M72,52 C74,44 74,36 72,30 C70,24 66,22 62,24 C60,20 56,18 52,21 C50,17 46,16 43,19 C42,15 38,14 36,18 L34,42 C32,44 32,50 36,54 C40,58 44,60 50,60 C60,60 70,60 72,52Z" fill="url(#sgrx)"/><path d="M36,18 C36,10 34,6 30,5 C26,4 22,7 22,14 L22,38 C22,42 24,44 28,44 L34,42Z" fill="url(#sgrx)"/><ellipse cx="28" cy="7" rx="4" ry="3" fill="#F0E0D0" opacity="0.9"/></svg></div>
+    </div>
+    <div class="prog-label" id="progLabelX">0 / 2</div>
+  </div>
+  <div class="steps">
+    <div class="step active" id="xg1">
+      <div class="step-head"><div class="step-num" id="xn1">01</div><div class="step-info"><div class="step-title">X 데이터 아카이브 내보내기</div><div class="step-desc">설정에서 내 데이터 ZIP 다운로드</div></div></div>
+      <div class="step-body" style="display:block"><div class="step-body-inner">
+        <a class="btn-go" href="https://x.com/settings/download_your_data" target="_blank" onclick="completeXStep(1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>X 데이터 내보내기 페이지로 이동</a>
+        <div class="path-steps-list" style="margin-top:12px">
+          <div class="psl"><div class="psl-n">1</div><div>X 앱 또는 웹 → <b>설정</b> → <b>계정</b></div></div>
+          <div class="psl"><div class="psl-n">2</div><div><b>내 데이터 아카이브</b> → <b>아카이브 요청</b></div></div>
+          <div class="psl"><div class="psl-n">3</div><div>이메일로 <span class="tag">twitter-XXXXXX.zip</span> 수령</div></div>
+        </div>
+        <button class="btn-confirm" onclick="completeXStep(1)">✓ 요청 완료</button>
+        <div class="wait-note">⏱ 이메일 수령까지 수 분 ~ 최대 24시간</div>
+      </div></div>
+    </div>
+    <div class="step" id="xg2">
+      <div class="step-head"><div class="step-num" id="xn2">02</div><div class="step-info"><div class="step-title">ZIP 파일 업로드</div><div class="step-desc">압축 풀지 말고 그대로 올려주세요</div></div></div>
+      <div class="step-body"><div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">이메일에서 받은 <span class="tag">twitter-XXXXXX.zip</span> 파일을<br><b style="color:var(--text)">압축 해제하지 말고</b> 아래 업로드 영역에 올려주세요.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="animation-delay:.2s" id="uploadArea">
+  <div class="section-label">
+    <div class="section-label-text">추출한 파일을 아래에 업로드해주세요.</div>
+    <div class="section-label-line"></div>
+  </div>
+  <!-- ★ 핵심 수정: input display:none, onclick으로 triggerFileInput 호출 -->
+  <div class="upload-zone" id="uploadZone"
+    onclick="triggerFileInput(event)"
+    ondragover="onDrag(event)" ondragleave="offDrag()" ondrop="onDrop(event)">
+    <input type="file" accept=".zip,.json,.csv" id="fileInput" onchange="handleFile(event)" style="display:none">
+    <div class="upload-default">
+      <span class="upload-icon">📦</span>
+      <div class="upload-title">ZIP, JSON 파일을 드래그하거나 클릭 하세요.</div>
+      <div class="upload-sub"></div>
+    </div>
+    <div class="upload-loaded">
+      <div style="font-size:14px;font-weight:500;color:var(--accent);margin-bottom:10px">✓ 파일 로드 완료</div>
+      <div class="found-files" id="foundFiles"></div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-area">
+  <div class="loading-bar" id="loadingBar"></div>
+  <button class="btn-analyze" id="btnAnalyze" onclick="runAnalysis()" disabled>분석 시작 →</button>
+
+</div>
+
+<div id="results">
+  <div class="section-label" style="margin-bottom:16px">
+    <div class="section-label-text">ANALYSIS RESULTS</div>
+    <div class="section-label-line"></div>
+  </div>
+  <div class="results-header">
+    <div class="results-title">분석 결과</div>
+    <div class="results-meta" id="resultsMeta"></div>
+    <div id="mutualSummary" style="display:none;margin-top:8px;font-size:12px;color:var(--accent);background:rgba(232,0,29,.05);border:1px solid rgba(232,0,29,.15);border-radius:8px;padding:8px 14px;font-family:var(--font-mono)"></div>
+  </div>
+  <div class="score-card">
+    <div class="score-row">
+      <div class="score-circle">
+        <svg width="80" height="80" style="position:absolute;top:0;left:0;transform:rotate(-90deg)">
+          <circle cx="40" cy="40" r="34" fill="none" stroke="var(--border)" stroke-width="3"/>
+          <circle id="scoreArc" cx="40" cy="40" r="34" fill="none" stroke="var(--accent)" stroke-width="3"
+            stroke-dasharray="213.6" stroke-dashoffset="213.6" stroke-linecap="round"
+            style="transition:stroke-dashoffset 1s cubic-bezier(.4,0,.2,1) .4s"/>
+        </svg>
+        <div class="score-num" id="scoreNum">—</div>
+        <div class="score-label">SCORE</div>
+      </div>
+      <div class="score-info">
+        <div class="score-title" id="scoreTitle">팔로워 품질 분석</div>
+        <div class="score-bars" id="scoreBars"></div>
+      </div>
+    </div>
+  </div>
+  <div class="stats-grid" id="statsRow1"></div>
+  <div class="stats-grid-2" id="statsRow2"></div>
+  <div class="tabs-wrap">
+    <button class="tab-btn active" data-t="notback" onclick="switchTab('notback',this)">😤 맞팔 안 함 <span id="tc1"></span></button>
+    <button class="tab-btn" data-t="fans" onclick="switchTab('fans',this)">🩷 나만 팔로 <span id="tc2"></span></button>
+    <button class="tab-btn" data-t="blocked" onclick="switchTab('blocked',this)">🚫 차단 <span id="tc4"></span></button>
+    <button class="tab-btn" data-t="pending" onclick="switchTab('pending',this)">⏳ 요청 대기 <span id="tc5"></span></button>
+    <button class="tab-btn" data-t="restricted" onclick="switchTab('restricted',this)">🔇 제한 <span id="tc6"></span></button>
+    <button class="tab-btn" data-t="close_friends" onclick="switchTab('close_friends',this)">💚 친한 친구 <span id="tc7"></span></button>
+  </div>
+  <div class="tab-pane active" id="tab-notback">
+    <div class="list-toolbar">
+      <div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('notback',this.value)"></div>
+      <select class="sort-select" onchange="sortList('notback',this.value)">
+        <option value="default">기본순</option><option value="newest">최근 팔로우</option>
+        <option value="oldest">오래된 순</option><option value="az">이름순</option>
+      </select>
+    </div>
+    <div class="user-list" id="list-notback"></div>
+    <div id="wall-notback"></div>
+  </div>
+  <div class="tab-pane" id="tab-fans">
+    <div class="list-toolbar">
+      <div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('fans',this.value)"></div>
+      <select class="sort-select" onchange="sortList('fans',this.value)">
+        <option value="default">기본순</option><option value="newest">최근 팔로우</option>
+        <option value="oldest">오래된 순</option><option value="az">이름순</option>
+      </select>
+    </div>
+    <div class="user-list" id="list-fans"></div>
+  </div>
+  <div class="tab-pane" id="tab-blocked">
+    <div class="list-toolbar"><div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('blocked',this.value)"></div></div>
+    <div class="user-list" id="list-blocked"></div>
+    <div id="wall-blocked"></div>
+  </div>
+  <div class="tab-pane" id="tab-pending">
+    <div class="list-toolbar"><div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('pending',this.value)"></div></div>
+    <div class="user-list" id="list-pending"></div>
+  </div>
+  <div class="tab-pane" id="tab-restricted">
+    <div class="list-toolbar"><div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('restricted',this.value)"></div></div>
+    <div class="user-list" id="list-restricted"></div>
+  </div>
+  <div class="tab-pane" id="tab-close_friends">
+    <div class="list-toolbar"><div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('close_friends',this.value)"></div></div>
+    <div class="user-list" id="list-close_friends"></div>
+  </div>
+  <div class="share-row">
+    <button class="btn-share" onclick="copyResult()">📋 결과 복사</button>
+  </div>
+</div>
+
+<div class="footer-note">
+  <b>Realations는 비밀번호 불필요, 파일이 서버로 전송되지않아 안전합니다.</b><br>
+  <div class="biz-info">
+    상호: 디어스컴퍼니 &nbsp;|&nbsp; 대표: 어광효 &nbsp;|&nbsp; 사업자등록번호: 215-27-09838<br>
+    주소: 경상남도 창원시 성산구 용지로169번길 11-31, 3층<br>
+    이메일: gahee007@gmail.com<br>
+    <a onclick="openLegal('terms')">이용약관</a> &nbsp;·&nbsp;
+    <a onclick="openLegal('privacy')">개인정보처리방침</a> &nbsp;·&nbsp;
+    <a onclick="openLegal('refund')">환불정책</a><br>
+    © 2026 디어스컴퍼니. All rights reserved.
+  </div>
+</div>
+
+<!-- 로그인/회원가입 모달 -->
+<div class="auth-modal-bg" id="authModalBg">
+  <div class="auth-modal">
+    <h3 id="authModalTitle">로그인</h3>
+    <p id="authModalDesc">이메일로 간편하게 시작하세요</p>
+
+    <!-- 소셜 로그인 -->
+    <button class="btn-social" onclick="signInWithGoogle()">
+      <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/><path d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>
+      Google로 계속하기
+    </button>
+    <button class="btn-social" onclick="signInWithKakao()">
+      <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#FEE500"/><path d="M9 3.5C5.91 3.5 3.5 5.4 3.5 7.75c0 1.45.95 2.73 2.38 3.46l-.6 2.24c-.05.18.15.33.3.22L8.2 11.9c.26.03.53.05.8.05 3.09 0 5.5-1.9 5.5-4.25S12.09 3.5 9 3.5z" fill="#1A1A1A"/></svg>
+      카카오로 계속하기
+    </button>
+
+    <div class="social-divider">또는 이메일로</div>
+
+    <input class="auth-input" type="email" id="authEmail" placeholder="이메일 주소">
+    <input class="auth-input" type="password" id="authPassword" placeholder="비밀번호 (6자 이상)">
+    <div class="auth-msg" id="authMsg"></div>
+
+    <!-- 회원가입 시 약관 동의 (회원가입 모드에서만 표시) -->
+    <div class="agree-wrap" id="agreeWrap" style="display:none">
+      <div class="agree-row">
+        <input type="checkbox" id="agreeTerms">
+        <label for="agreeTerms"><a onclick="openLegal('terms')">이용약관</a> 동의 (필수)</label>
+      </div>
+      <div class="agree-row">
+        <input type="checkbox" id="agreePrivacy">
+        <label for="agreePrivacy"><a onclick="openLegal('privacy')">개인정보처리방침</a> 동의 (필수)</label>
+      </div>
+      <div class="agree-row">
+        <input type="checkbox" id="agreeMarketing">
+        <label for="agreeMarketing">마케팅 정보 수신 동의 (선택)</label>
+      </div>
+    </div>
+
+    <button class="btn-auth-submit" id="btnAuthSubmit" onclick="submitAuth()" style="margin-top:12px">로그인</button>
+    <div class="auth-switch" id="authSwitch">
+      계정이 없으신가요? <a onclick="toggleAuthMode()">회원가입</a>
+    </div>
+    <div style="margin-top:12px;text-align:center">
+      <a onclick="closeAuthModal()" style="font-size:12px;color:var(--muted);cursor:pointer">닫기</a>
+    </div>
+  </div>
+</div>
+
+<div class="pay-modal-bg" id="payModalBg">
+  <div class="pay-modal">
+    <span class="pm-icon">🎉</span>
+    <h3>결제 완료!</h3>
+    <p>Realations Pro가 활성화됐어요.<br>전체 결과를 모두 확인해보세요.</p>
+    <button class="btn-pm-confirm" onclick="unlockAll()">전체 결과 보기 →</button>
+  </div>
+
+<!-- 마이페이지 모달 -->
+<div class="mypage-bg" id="mypageBg">
+  <div class="mypage-modal">
+    <div class="mypage-head">
+      <h3>마이페이지</h3>
+      <button class="btn-mypage-close" onclick="closeMypage()">✕</button>
+    </div>
+    <div class="mypage-body" id="mypageBody">
+      <div class="mp-empty">로딩 중...</div>
+    </div>
+  </div>
+</div>
+
+<!-- 약관/정책 모달 -->
+<div class="legal-modal-bg" id="legalModalBg">
+  <div class="legal-modal">
+    <div class="legal-modal-head">
+      <h3 id="legalModalTitle">이용약관</h3>
+      <button class="btn-legal-close" onclick="closeLegal()">✕</button>
+    </div>
+    <div class="legal-modal-body" id="legalModalBody"></div>
+  </div>
+</div>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+
+// ── 언어 설정 ──
+var currentLang = 'ko';
+
+var i18n = {
+  ko: {
+    loginBtn: '로그인',
+    logoutBtn: '로그아웃',
+    h1: '아무도 알려주지 않는<br><span class="line2">관계의 진실</span>',
+    heroSub: '너만아는 지구최강 인스타그램 팔로워 분석 툴',
+    pill1: '계정 문제없고',
+    pill2: '해킹 문제없이',
+    pill3: '5초 만에 분석',
+    analyzeBtn: '분석 시작 →',
+    analyzingBtn: '분석 중...',
+    analyzeDoneBtn: '✓ 분석 완료',
+    footerText: '<div style="font-size:11px;color:#666;line-height:2;text-align:center">상호: 디어스컴퍼니 &nbsp;|&nbsp; 대표: 어광효 &nbsp;|&nbsp; 사업자등록번호: 215-27-09838 &nbsp;|&nbsp; 통신판매업신고: 2024-창원성산-0413 &nbsp;|&nbsp; 경상남도 창원시 성산구 용지로169번길 11-31, 3층<br><a onclick="openLegal(\'terms\')" style="color:#888;text-decoration:underline;cursor:pointer">이용약관</a> &nbsp;·&nbsp; <a onclick="openLegal(\'privacy\')" style="color:#888;text-decoration:underline;cursor:pointer">개인정보처리방침</a> &nbsp;·&nbsp; <a onclick="openLegal(\'refund\')" style="color:#888;text-decoration:underline;cursor:pointer">환불정책</a> &nbsp;|&nbsp; 문의: 010-8249-0102<br>© 2026 디어스컴퍼니. All rights reserved.</div>',
+    uploadTitle: 'ZIP, JSON 파일을 드래그하거나 클릭 하세요.',
+    uploadDone: '✓ 파일 로드 완료',
+  },
+  en: {
+    loginBtn: 'Sign In',
+    logoutBtn: 'Sign Out',
+    h1: 'The Truth About<br><span class="line2">Your Relationships</span>',
+    heroSub: 'The ultimate Instagram follower analyzer only you know about',
+    pill1: 'No account risk',
+    pill2: 'No hacking risk',
+    pill3: 'Analysis in 5 sec',
+    analyzeBtn: 'Analyze →',
+    analyzingBtn: 'Analyzing...',
+    analyzeDoneBtn: '✓ Done',
+    footerText: '<div style="font-size:11px;color:#666;line-height:2;text-align:center">Dears Company &nbsp;|&nbsp; CEO: Gwanghyo Eo &nbsp;|&nbsp; Reg No: 215-27-09838 &nbsp;|&nbsp; 3F, 11-31, Yongji-ro 169beon-gil, Seongsan-gu, Changwon-si, Korea<br><a onclick="openLegal(\'terms\')" style="color:#888;text-decoration:underline;cursor:pointer">Terms</a> &nbsp;·&nbsp; <a onclick="openLegal(\'privacy\')" style="color:#888;text-decoration:underline;cursor:pointer">Privacy</a> &nbsp;·&nbsp; <a onclick="openLegal(\'refund\')" style="color:#888;text-decoration:underline;cursor:pointer">Refund Policy</a> &nbsp;|&nbsp; Contact: 010-8249-0102<br>© 2026 Dears Company. All rights reserved.</div>',
+    uploadTitle: 'Drag & drop or click to upload ZIP / JSON file.',
+    uploadDone: '✓ File loaded',
+  }
+};
+
+function applyLang(lang) {
+  var t = i18n[lang];
+  if (!t) return;
+  currentLang = lang;
+
+  // 버튼 텍스트
+  var authBtn = document.getElementById('btnAuthAction');
+  if (authBtn) {
+    var isLoggedIn = currentUser != null;
+    authBtn.textContent = isLoggedIn ? t.logoutBtn : t.loginBtn;
+  }
+
+  // 헤로 영역
+  var h1 = document.querySelector('h1');
+  if (h1) h1.innerHTML = t.h1;
+  var sub = document.querySelector('.hero-sub');
+  if (sub) sub.textContent = t.heroSub;
+
+  // 트러스트 필
+  var pills = document.querySelectorAll('.trust-pill');
+  var pillTexts = [t.pill1, t.pill2, t.pill3];
+  pills.forEach(function(p, i) {
+    if (!pillTexts[i]) return;
+    var svg = p.querySelector('svg');
+    p.textContent = pillTexts[i];
+    if (svg) p.insertBefore(svg, p.firstChild);
+  });
+
+  // 분석 버튼
+  var analyzeBtn = document.getElementById('btnAnalyze');
+  if (analyzeBtn && analyzeBtn.textContent !== (i18n[lang === 'ko' ? 'en' : 'ko'].analyzingBtn)) {
+    if (!analyzeBtn.disabled || analyzeBtn.textContent === i18n[lang === 'ko' ? 'en' : 'ko'].analyzeBtn) {
+      analyzeBtn.textContent = t.analyzeBtn;
+    }
+  }
+
+  // 업로드 타이틀
+  var upTitle = document.querySelector('.upload-title');
+  if (upTitle && !document.getElementById('uploadZone').classList.contains('loaded')) {
+    upTitle.textContent = t.uploadTitle;
+  }
+
+  // 푸터
+  var footer = document.querySelector('.footer-note');
+  if (footer) footer.innerHTML = t.footerText;
+
+  // 드롭다운 UI 업데이트
+  document.getElementById('langFlag').textContent = lang === 'ko' ? '🇰🇷' : '🇺🇸';
+  document.getElementById('langLabel').textContent = lang === 'ko' ? 'KO' : 'EN';
+  document.getElementById('langOptKo').classList.toggle('active', lang === 'ko');
+  document.getElementById('langOptEn').classList.toggle('active', lang === 'en');
+
+  // localStorage 저장
+  try { localStorage.setItem('realations_lang', lang); } catch(e){}
+}
+
+function toggleLang() {
+  var dd = document.getElementById('langDropdown');
+  var btn = document.getElementById('btnLang');
+  dd.classList.toggle('show');
+  btn.classList.toggle('open');
+  // 외부 클릭 시 닫기
+  if (dd.classList.contains('show')) {
+    setTimeout(function() {
+      document.addEventListener('click', closeLangOnOutside, {once: true});
+    }, 0);
+  }
+}
+
+function closeLangOnOutside(e) {
+  var wrap = document.getElementById('langWrap');
+  if (wrap && !wrap.contains(e.target)) {
+    document.getElementById('langDropdown').classList.remove('show');
+    document.getElementById('btnLang').classList.remove('open');
+  }
+}
+
+function setLang(lang) {
+  document.getElementById('langDropdown').classList.remove('show');
+  document.getElementById('btnLang').classList.remove('open');
+  applyLang(lang);
+}
+
+// 초기 언어 설정: localStorage → 브라우저 언어 → 기본 ko
+(function initLang() {
+  var saved;
+  try { saved = localStorage.getItem('realations_lang'); } catch(e){}
+  if (saved === 'ko' || saved === 'en') {
+    currentLang = saved;
+  } else {
+    // 브라우저 언어로 감지 (IP 없이 클라이언트만으로)
+    var nav = (navigator.language || navigator.userLanguage || 'ko').toLowerCase();
+    currentLang = nav.startsWith('ko') ? 'ko' : 'en';
+  }
+  // DOM 로드 후 적용
+  document.addEventListener('DOMContentLoaded', function() {
+    // 혹시 overflow 막힌 경우 초기화
+    document.body.style.overflow = '';
+    applyLang(currentLang);
+  });
+})();
+
+
+// ── 약관/정책 내용 ──
+const legalContent = {
+  terms: {
+    title: '이용약관',
+    body: `
+<h4>제1조 (목적)</h4>
+<p>이 약관은 디어스컴퍼니(이하 "회사")가 운영하는 Realations 서비스(이하 "서비스")의 이용조건 및 절차, 회사와 이용자의 권리·의무 및 책임사항을 규정함을 목적으로 합니다.</p>
+<h4>제2조 (정의)</h4>
+<ul>
+<li>"서비스"란 회사가 제공하는 소셜미디어 팔로워 관계 분석 서비스를 말합니다.</li>
+<li>"이용자"란 본 약관에 따라 서비스를 이용하는 회원 및 비회원을 말합니다.</li>
+<li>"회원"이란 회사에 개인정보를 제공하여 회원가입을 한 자를 말합니다.</li>
+</ul>
+<h4>제3조 (서비스 내용)</h4>
+<p>회사는 이용자가 소셜미디어 플랫폼의 공식 데이터 내보내기 파일(ZIP/CSV)을 업로드하면, 팔로워 관계를 분석하여 결과를 제공하는 서비스를 제공합니다. 업로드된 파일은 이용자의 브라우저에서만 처리되며 서버로 전송되지 않습니다.</p>
+<h4>제4조 (유료 서비스)</h4>
+<ul>
+<li>무료 이용자는 분석 결과 일부(최대 5명)를 확인할 수 있습니다.</li>
+<li>Pro 구독자(월 ₩4,900)는 전체 분석 결과를 이용할 수 있습니다.</li>
+<li>구독은 월 단위로 자동 갱신되며, 언제든지 해지 가능합니다.</li>
+</ul>
+<h4>제5조 (회원의 의무)</h4>
+<p>이용자는 서비스 이용 시 타인의 계정 정보를 무단으로 사용하거나, 서비스를 이용하여 타인의 개인정보를 수집하는 행위를 해서는 안 됩니다.</p>
+<h4>제6조 (서비스 이용 제한)</h4>
+<p>회사는 이용자가 약관을 위반하거나 서비스의 정상적인 운영을 방해할 경우 서비스 이용을 제한할 수 있습니다.</p>
+<h4>제7조 (면책조항)</h4>
+<p>회사는 천재지변, 서비스 장애 등 불가항력적인 사유로 서비스를 제공하지 못한 경우 책임을 지지 않습니다. 분석 결과는 소셜미디어 플랫폼이 제공한 데이터를 기반으로 하며, 플랫폼 정책 변경에 따라 데이터 정확성이 달라질 수 있습니다.</p>
+<h4>제8조 (약관 변경)</h4>
+<p>회사는 필요한 경우 약관을 변경할 수 있으며, 변경 시 서비스 내 공지사항을 통해 고지합니다.</p>
+<p style="margin-top:16px;color:var(--muted);font-size:11px">시행일: 2026년 04월 01일 &nbsp;|&nbsp; 디어스컴퍼니</p>`
+  },
+  privacy: {
+    title: '개인정보처리방침',
+    body: `
+<h4>1. 수집하는 개인정보 항목</h4>
+<ul>
+<li>회원가입 시: 이메일 주소, 비밀번호(암호화 저장)</li>
+<li>소셜 로그인 시: 이메일 주소, 프로필 이름 (OAuth 제공 정보)</li>
+<li>서비스 이용 시: 서비스 이용 기록, 결제 정보(카드번호 미저장)</li>
+</ul>
+<h4>2. 개인정보 수집 목적</h4>
+<ul>
+<li>회원 식별 및 서비스 제공</li>
+<li>유료 구독 관리 및 결제 처리</li>
+<li>고객 문의 응대</li>
+</ul>
+<h4>3. 개인정보 보유 및 이용기간</h4>
+<p>회원 탈퇴 시까지 보유합니다. 단, 관련 법령에 따라 일정 기간 보유가 필요한 경우 해당 기간 동안 보관합니다.</p>
+<ul>
+<li>전자상거래 계약·청약철회 기록: 5년</li>
+<li>소비자 불만·분쟁처리 기록: 3년</li>
+</ul>
+<h4>4. 업로드 파일 처리</h4>
+<p>이용자가 업로드하는 ZIP/CSV 파일은 이용자의 브라우저(기기)에서만 처리됩니다. 해당 파일은 회사 서버로 전송되거나 저장되지 않습니다.</p>
+<h4>5. 개인정보 제3자 제공</h4>
+<p>회사는 이용자의 동의 없이 개인정보를 제3자에게 제공하지 않습니다. 단, 결제 처리를 위해 PG사(포트원, 카카오페이)에 필요한 최소한의 정보가 전달될 수 있습니다.</p>
+<h4>6. 개인정보 보호 조치</h4>
+<p>비밀번호는 암호화하여 저장하며, Supabase의 보안 인프라를 통해 개인정보를 보호합니다.</p>
+<h4>7. 이용자의 권리</h4>
+<p>이용자는 언제든지 자신의 개인정보를 조회, 수정, 삭제할 수 있으며 회원 탈퇴를 통해 개인정보 처리를 중단할 수 있습니다.</p>
+<h4>8. 문의</h4>
+<p>개인정보 관련 문의: gahee007@gmail.com</p>
+<p style="margin-top:16px;color:var(--muted);font-size:11px">시행일: 2026년 04월 01일 &nbsp;|&nbsp; 디어스컴퍼니</p>`
+  },
+  refund: {
+    title: '환불정책',
+    body: `
+<h4>환불 원칙</h4>
+<p>Realations Pro 구독 서비스의 환불은 아래 정책에 따라 처리됩니다.</p>
+<h4>환불 가능 기간</h4>
+<ul>
+<li>최초 결제일로부터 7일 이내에 서비스를 이용하지 않은 경우 전액 환불이 가능합니다.</li>
+<li>7일 이후 또는 서비스 이용 후에는 환불이 제한될 수 있습니다.</li>
+</ul>
+<h4>자동 갱신 구독 해지</h4>
+<ul>
+<li>구독은 언제든지 해지할 수 있습니다.</li>
+<li>해지 신청 시 다음 결제일부터 청구되지 않으며, 현재 구독 기간 만료 시까지 서비스를 계속 이용할 수 있습니다.</li>
+<li>이미 결제된 구독 기간에 대한 중도 해지 환불은 제공되지 않습니다.</li>
+</ul>
+<h4>환불 신청 방법</h4>
+<p>환불을 원하시는 경우 아래 이메일로 문의해 주세요.</p>
+<ul>
+<li>이메일: gahee007@gmail.com</li>
+<li>제목: [환불요청] 이메일 주소 + 결제일</li>
+<li>처리 기간: 영업일 기준 3~5일</li>
+</ul>
+<h4>서비스 장애에 의한 환불</h4>
+<p>회사의 귀책사유로 서비스를 정상적으로 이용하지 못한 경우, 해당 기간에 대한 환불 또는 이용 기간 연장으로 보상합니다.</p>
+<p style="margin-top:16px;color:var(--muted);font-size:11px">시행일: 2026년 04월 01일 &nbsp;|&nbsp; 디어스컴퍼니</p>`
+  }
+};
+
+function openLegal(type) {
+  var content = legalContent[type];
+  if (!content) return;
+
+  // 기존 모달 제거 후 새로 생성 (CSS 충돌 완전 차단)
+  var existing = document.getElementById('legalModalBg');
+  if (existing) existing.remove();
+
+  var bg = document.createElement('div');
+  bg.id = 'legalModalBg';
+  bg.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px';
+  
+  var modal = document.createElement('div');
+  modal.style.cssText = 'background:#fff;border-radius:16px;width:100%;max-width:580px;max-height:82vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.25)';
+  
+  var head = document.createElement('div');
+  head.style.cssText = 'padding:18px 22px;border-bottom:1px solid #e8e8e8;display:flex;align-items:center;justify-content:space-between;flex-shrink:0';
+  head.innerHTML = '<span style="font-size:16px;font-weight:700;color:#1a1a1a">' + content.title + '</span><button onclick="closeLegal()" style="background:none;border:none;font-size:24px;color:#aaa;cursor:pointer;line-height:1;padding:0 2px;margin-left:12px">×</button>';
+  
+  var body = document.createElement('div');
+  body.style.cssText = 'padding:20px 22px;overflow-y:auto;flex:1;font-size:13px;color:#444;line-height:1.9';
+  body.innerHTML = content.body;
+  
+  modal.appendChild(head);
+  modal.appendChild(body);
+  bg.appendChild(modal);
+  document.body.appendChild(bg);
+  document.body.style.overflow = 'hidden';
+  
+  bg.addEventListener('click', function(e){ if(e.target===bg) closeLegal(); });
+}
+
+function closeLegal() {
+  var bg = document.getElementById('legalModalBg');
+  if (bg) bg.remove();
+  // overflow 복원 (다른 모달이 열려있지 않을 때만)
+  var anyOpen = document.getElementById('mypageBg') && document.getElementById('mypageBg').classList.contains('show');
+  if (!anyOpen) document.body.style.overflow = '';
+}
+document.addEventListener('click', function(e) {
+  if (e.target.id === 'legalModalBg') closeLegal();
+});
+
+// ── 소셜 로그인 ──
+async function signInWithGoogle() {
+  const {error} = await sb.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: 'https://realation.world' }
+  });
+  if (error) showAuthMsg('Google 로그인 실패: ' + error.message, 'err');
+}
+
+async function signInWithKakao() {
+  const {error} = await sb.auth.signInWithOAuth({
+    provider: 'kakao',
+    options: { redirectTo: 'https://realation.world' }
+  });
+  if (error) showAuthMsg('카카오 로그인 실패: ' + error.message, 'err');
+}
+
+// ── toggleAuthMode에 약관 동의 show/hide 추가 ──
+
+
+// ── 마이페이지 ──
+async function openMypage() {
+  if (!currentUser) return;
+  document.getElementById('mypageBg').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  await renderMypage();
+}
+
+function closeMypage() {
+  var bg = document.getElementById('mypageBg');
+  if (bg) bg.classList.remove('show');
+  // pricing이나 legal 모달이 열려있지 않을 때만 복원
+  var pricingOpen = document.getElementById('pricingBg') && document.getElementById('pricingBg').style.display === 'flex';
+  var legalOpen = document.getElementById('legalModalBg');
+  if (!pricingOpen && !legalOpen) document.body.style.overflow = '';
+}
+
+async function renderMypage() {
+  var body = document.getElementById('mypageBody');
+  body.innerHTML = '<div class="mp-empty">정보를 불러오는 중...</div>';
+
+  try {
+    var res1 = await sb.from('users').select('is_pro,pro_since,created_at').eq('id',currentUser.id).single();
+    var userData = res1.data;
+    var res2 = await sb.from('subscriptions').select('*').eq('user_id',currentUser.id).order('started_at',{ascending:false}).limit(10);
+    var payments = res2.data || [];
+
+    var proStatus = userData && userData.is_pro;
+    var proSince = userData && userData.pro_since ? new Date(userData.pro_since) : null;
+    var joinedAt = userData && userData.created_at ? new Date(userData.created_at) : new Date();
+
+    // 다음 결제일 계산
+    var nextBilling = null;
+    if (proStatus && proSince) {
+      nextBilling = new Date(proSince);
+      var now = new Date();
+      while (nextBilling <= now) { nextBilling.setMonth(nextBilling.getMonth()+1); }
+    }
+
+    var fd = function(d){ return d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0'); };
+    var initial = currentUser.email ? currentUser.email[0].toUpperCase() : '?';
+
+    // HTML 조합
+    var h = '';
+
+    // 프로필
+    h += '<div class="mp-profile">';
+    h += '<div class="mp-avatar">'+initial+'</div>';
+    h += '<div><div class="mp-email">'+currentUser.email+'</div>';
+    h += '<span class="mp-badge '+(proStatus?'pro':'free')+'">'+(proStatus?'✦ Pro 구독 중':'무료 이용 중')+'</span></div></div>';
+
+    // 구독 정보
+    h += '<div class="mp-section"><div class="mp-section-title">구독 정보</div><div class="mp-card">';
+    h += '<div class="mp-row"><span class="mp-row-label">현재 플랜</span><span class="mp-row-value '+(proStatus?'accent':'')+'">'+( proStatus?'Realations Pro':'무료 플랜')+'</span></div>';
+    h += '<div class="mp-row"><span class="mp-row-label">월 요금</span><span class="mp-row-value">'+(proStatus?'₩4,900/월':'무료')+'</span></div>';
+    if (proStatus && proSince) {
+      h += '<div class="mp-row"><span class="mp-row-label">구독 시작일</span><span class="mp-row-value">'+fd(proSince)+'</span></div>';
+    }
+    if (proStatus && nextBilling) {
+      h += '<div class="mp-row"><span class="mp-row-label">다음 결제일</span><span class="mp-row-value accent">'+fd(nextBilling)+'</span></div>';
+    }
+    h += '<div class="mp-row"><span class="mp-row-label">가입일</span><span class="mp-row-value muted">'+fd(joinedAt)+'</span></div>';
+    h += '</div></div>';
+
+    // Pro 아닐 때 업그레이드
+    if (!proStatus) {
+      h += '<div class="mp-section"><button class="mp-btn primary" onclick="closeMypage()">✦ Pro로 업그레이드 — ₩4,900/월</button></div>';
+    }
+
+    // 결제 내역
+    h += '<div class="mp-section"><div class="mp-section-title">결제 내역</div><div class="mp-card">';
+    if (payments.length > 0) {
+      payments.forEach(function(p) {
+        var d = new Date(p.started_at);
+        h += '<div class="mp-pay-item">';
+        h += '<div><div style="font-size:13px;font-weight:600;color:var(--text)">Realations Pro</div>';
+        h += '<div class="mp-pay-date">'+fd(d)+'</div></div>';
+        h += '<div style="text-align:right"><div class="mp-pay-amount">₩4,900</div>';
+        h += '<span class="mp-pay-status '+(p.status==='active'?'ok':'refund')+'">'+(p.status==='active'?'결제완료':'환불')+'</span></div>';
+        h += '</div>';
+      });
+    } else {
+      h += '<div class="mp-empty">결제 내역이 없습니다.</div>';
+    }
+    h += '</div></div>';
+
+    // 계정 관리
+    h += '<div class="mp-section"><div class="mp-section-title">계정 관리</div>';
+    if (proStatus) {
+      h += '<button class="mp-btn danger" onclick="confirmCancelPro()">유료 서비스 해지 신청</button>';
+    }
+    h += '<button class="mp-btn outline" onclick="confirmDeleteAccount()">회원 탈퇴</button></div>';
+
+    // 고객센터
+    h += '<div class="mp-section"><div class="mp-section-title">고객센터</div><div class="mp-card">';
+    h += '<div class="mp-row"><span class="mp-row-label">이메일 문의</span><span class="mp-row-value muted">gahee007@gmail.com</span></div>';
+    h += '</div></div>';
+
+    body.innerHTML = h;
+
+  } catch(e) {
+    body.innerHTML = '<div class="mp-empty">정보를 불러오지 못했습니다.<br>잠시 후 다시 시도해주세요.</div>';
+    console.error('마이페이지 오류:', e);
+  }
+}
+
+// 배경 클릭으로 닫기
+document.addEventListener('click', function(e) {
+  if (e.target.id === 'mypageBg') closeMypage();
+});
+
+
+// ── 플랜 제한 로직 ──
+function getCurrentMonth(){
+  var d=new Date();
+  return d.getFullYear()+'-'+(d.getMonth()+1);
+}
+
+function checkFreeMonthlyLimit(){
+  if(userPlan!=='free') return true;
+  var key='realation_free_count_'+getCurrentMonth();
+  var count=parseInt(localStorage.getItem(key)||'0');
+  if(count>=3){
+    showUpgradeModal('이번 달 무료 분석 3회를 모두 사용했습니다.','monthly');
+    return false;
+  }
+  localStorage.setItem(key, count+1);
+  return true;
+}
+
+function canSelectPlatform(plt){
+  // Free: 분석 이력이 있고 다른 플랫폼 선택 시 제한
+  if(userPlan==='free'){
+    var analyzed=data.notback!==null||data.fans!==null;
+    if(analyzed && plt!==currentPlatform){
+      showUpgradeModal('멀티 플랫폼 분석은 Basic부터 가능합니다.','platform');
+      return false;
+    }
+  }
+  return true;
+}
+
+function showUpgradeModal(msg, reason){
+  var bg=document.createElement('div');
+  bg.id='upgradeBg';
+  bg.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px';
+  
+  var plans={
+    free:{name:'무료',price:'₩0',features:['1개 플랫폼','월 3회 분석','결과 5명 공개']},
+    basic:{name:'Basic',price:'₩7,900/월',features:['5개 플랫폼 전체','무제한 분석','전체 결과 공개','1개 계정']},
+    pro:{name:'Pro',price:'₩14,900/월',features:['5개 플랫폼 전체','무제한 분석','전체 결과 공개','히스토리 비교','10개 계정']}
+  };
+
+  var isHistory=(reason==='history'||reason==='account');
+  var highlightBasic=!isHistory;
+
+  bg.innerHTML=
+    '<div style="background:#fff;border-radius:20px;width:100%;max-width:440px;box-shadow:0 24px 64px rgba(0,0,0,.2);overflow:hidden">'+
+    '<div style="padding:24px 24px 0;text-align:center">'+
+    '<div style="font-size:28px;margin-bottom:8px">🔒</div>'+
+    '<div style="font-size:16px;font-weight:700;color:#1a1a1a;margin-bottom:6px">'+msg+'</div>'+
+    '<div style="font-size:12px;color:#888;margin-bottom:20px">플랜을 업그레이드하면 더 많은 기능을 이용할 수 있습니다.</div>'+
+    '</div>'+
+    '<div style="padding:0 20px 20px;display:grid;grid-template-columns:1fr 1fr;gap:10px">'+
+    '<div style="border:2px solid '+(highlightBasic?'#e8001d':'#e4e1dd')+';border-radius:14px;padding:16px;text-align:center">'+
+    '<div style="font-size:11px;font-weight:700;color:'+(highlightBasic?'#e8001d':'#888')+';letter-spacing:.06em;margin-bottom:4px">BASIC'+(highlightBasic?' ✦ 추천':'')+' </div>'+
+    '<div style="font-size:20px;font-weight:800;color:#1a1a1a;margin-bottom:10px">₩7,900<span style="font-size:11px;font-weight:400;color:#888">/월</span></div>'+
+    '<div style="font-size:11px;color:#555;line-height:1.8;margin-bottom:14px">5개 플랫폼<br>무제한 분석<br>전체 결과 공개<br>1개 계정</div>'+
+    '<button onclick="closeUpgradeModal();handleBasicPay()" style="width:100%;padding:10px;background:'+(highlightBasic?'linear-gradient(135deg,#e8001d,#ff6b35)':'#f2f1ef')+';color:'+(highlightBasic?'#fff':'#1a1a1a')+';border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">시작하기</button>'+
+    '</div>'+
+    '<div style="border:2px solid '+(!highlightBasic?'#e8001d':'#e4e1dd')+';border-radius:14px;padding:16px;text-align:center">'+
+    '<div style="font-size:11px;font-weight:700;color:'+(!highlightBasic?'#e8001d':'#888')+';letter-spacing:.06em;margin-bottom:4px">PRO'+(!highlightBasic?' ✦ 추천':'')+' </div>'+
+    '<div style="font-size:20px;font-weight:800;color:#1a1a1a;margin-bottom:10px">₩14,900<span style="font-size:11px;font-weight:400;color:#888">/월</span></div>'+
+    '<div style="font-size:11px;color:#555;line-height:1.8;margin-bottom:14px">5개 플랫폼<br>무제한 분석<br>전체 결과 공개<br>히스토리 비교<br>10개 계정</div>'+
+    '<button onclick="closeUpgradeModal();handleProPay()" style="width:100%;padding:10px;background:'+(!highlightBasic?'linear-gradient(135deg,#e8001d,#ff6b35)':'#f2f1ef')+';color:'+(!highlightBasic?'#fff':'#1a1a1a')+';border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">시작하기</button>'+
+    '</div>'+
+    '</div>'+
+    '<div style="padding:0 20px 20px;text-align:center">'+
+    '<button onclick="closeUpgradeModal()" style="background:none;border:none;font-size:12px;color:#aaa;cursor:pointer">닫기</button>'+
+    '</div>'+
+    '</div>';
+
+  document.body.appendChild(bg);
+  document.body.style.overflow='hidden';
+  bg.addEventListener('click',function(e){if(e.target===bg)closeUpgradeModal();});
+}
+
+function closeUpgradeModal(){
+  var bg=document.getElementById('upgradeBg');
+  if(bg) bg.remove();
+  document.body.style.overflow='';
+}
+
+
+function openPricingModal(){
+  var bg=document.getElementById('pricingBg');
+  if(!bg){ console.error('pricingBg not found'); return; }
+  bg.style.display='block';
+}
+function closePricingModal(){
+  var bg=document.getElementById('pricingBg');
+  if(bg) bg.style.display='none';
+}
+document.addEventListener('click',function(e){
+  if(e.target.id==='pricingBg') closePricingModal();
+});
+// ESC 키로 모든 모달 닫기
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    closePricingModal();
+    closeMypage();
+    closeLegal();
+    closeUpgradeModal();
+  }
+});
+
+// ── SUPABASE 설정 ──
+const SUPABASE_URL='https://jyiohkrbdjuwdjjatkgb.supabase.co';
+const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5aW9oa3JiZGp1d2RqamF0a2diIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzcwODIsImV4cCI6MjA4OTQxMzA4Mn0.oFP4fzJz2YvTsg3Qm3RjINew7vu8nqJuNSrxaw82FfU';
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+
+const FREE_LIMIT=5;
+const store={followers:null,following:null,blocked:null,pending:null,restricted:null,close_friends:null,
+  tk_fans:null,tk_following:null,tk_blocked:null,tk_liked:null,
+  th_followers:null,th_following:null,
+  li_connections:null,
+  x_following:null,x_followers:null,x_mutes:null,x_blocks:null};
+const data={notback:[],fans:[],blocked:[],pending:[],restricted:[],close_friends:[]};
+let stepDone=0;
+let isPro=false;
+let userPlan='free'; // 'free'|'basic'|'pro'
+let currentUser=null;
+
+function toggleStep(n){
+  const el=document.getElementById('s'+n);
+  if(el.classList.contains('done')){
+    const body=el.querySelector('.step-body');
+    if(body) body.style.display=body.style.display==='block'?'none':'block';
+  }
+}
+
+function completeStep(n){
+  const el=document.getElementById('s'+n);
+  const sn=document.getElementById('sn'+n);
+  el.classList.remove('active');
+  el.classList.add('done');
+  sn.textContent='✓';
+  stepDone=Math.max(stepDone,n);
+  const pct=Math.round(stepDone/3*100);
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('progLabel').textContent=stepDone+' / 3';
+  var dot=document.getElementById('progDot');
+  if(dot){
+    var trackEl=dot.closest('.prog-track');
+    var trackW=trackEl?trackEl.offsetWidth:0;
+    var leftPx=trackW>0?Math.min(pct/100*(trackW-14),trackW-14):0;
+    dot.style.left='calc('+pct+'% - 7px)';
+  }
+  if(pct>=100){
+    var hr=document.getElementById('progDotHandR');
+    if(hr) hr.classList.add('active');
+  }
+  const next=document.getElementById('s'+(n+1));
+  if(next) next.classList.add('active');
+}
+
+function pickPath(p){
+  document.getElementById('pa-btn').classList.remove('sel');
+  document.getElementById('pb-btn').classList.remove('sel');
+  document.getElementById('pa-detail').classList.remove('show');
+  document.getElementById('pb-detail').classList.remove('show');
+  document.getElementById('p'+p.toLowerCase()+'-btn').classList.add('sel');
+  document.getElementById('p'+p.toLowerCase()+'-detail').classList.add('show');
+}
+
+// ★ 클릭 시 파일창 열기 — input이 display:none이라 직접 click() 호출
+function triggerFileInput(e){
+  document.getElementById('fileInput').click();
+}
+
+function onDrag(e){e.preventDefault();document.getElementById('uploadZone').classList.add('drag')}
+function offDrag(){document.getElementById('uploadZone').classList.remove('drag')}
+function onDrop(e){e.preventDefault();offDrag();const f=e.dataTransfer.files[0];if(f)processFile(f)}
+function handleFile(e){const f=e.target.files[0];if(f)processFile(f)}
+
+async function processFile(file){
+  var zone=document.getElementById('uploadZone');
+  var found=document.getElementById('foundFiles');
+  try{
+    if(file.name.endsWith('.csv')){
+      await processLinkedInCSV(file,zone,found);
+    } else if(file.name.endsWith('.zip')){
+      var zip=await JSZip.loadAsync(file);
+      var files=Object.keys(zip.files);
+      if(currentPlatform==='tiktok'){
+        await processTikTokZip(zip,files,zone,found);
+      } else if(currentPlatform==='threads'){
+        await processThreadsZip(zip,files,zone,found);
+      } else if(currentPlatform==='x'){
+        await processXZip(zip,files,zone,found);
+      } else {
+        await processInstagramZip(zip,files,zone,found);
+      }
+    } else if(file.name.endsWith('.json')){
+      var d=JSON.parse(await file.text());
+      var users=extractUsers(d);
+      if(users.length>0){
+        if(file.name.includes('following')){store.following=d;found.innerHTML='<span class="file-chip ok">✓ following '+users.length+'명</span>';}
+        else{store.followers=d;found.innerHTML='<span class="file-chip ok">✓ followers '+users.length+'명</span>';}
+        zone.classList.add('loaded');
+        if(stepDone<3) completeStep(3);
+      }
+    }
+    checkReady();
+  } catch(err){
+    alert('파일을 읽을 수 없습니다.\nZIP/CSV 파일인지 확인해주세요.\n\n오류: '+err.message);
+  }
+}
+
+async function processInstagramZip(zip,files,zone,found){
+  var chips='';
+  var fwrFile=files.find(function(f){var n=f.split('/').pop();return n==='followers_1.json'||n==='followers.json';});
+  if(fwrFile){store.followers=JSON.parse(await zip.files[fwrFile].async('text'));chips+='<span class="file-chip ok">✓ 팔로워 '+extractUsers(store.followers).length.toLocaleString()+'명</span>';}
+  else chips+='<span class="file-chip miss">✗ followers 없음</span>';
+  var fwgFile=files.find(function(f){var n=f.split('/').pop();return n==='following.json';});
+  if(fwgFile){store.following=JSON.parse(await zip.files[fwgFile].async('text'));chips+='<span class="file-chip ok">✓ 팔로잉 '+extractUsers(store.following).length.toLocaleString()+'명</span>';}
+  else chips+='<span class="file-chip miss">✗ following 없음</span>';
+  var blkFile=files.find(function(f){var n=f.split('/').pop();return n==='blocked_accounts.json'||n==='blocked_profiles.json';});
+  if(blkFile){try{store.blocked=JSON.parse(await zip.files[blkFile].async('text'));chips+='<span class="file-chip opt">✓ 차단 목록</span>'}catch(e){}}
+  var pndFile=files.find(function(f){var n=f.split('/').pop();return n==='pending_follow_requests.json'||n==='follow_requests_sent.json';});
+  if(pndFile){try{store.pending=JSON.parse(await zip.files[pndFile].async('text'));chips+='<span class="file-chip opt">✓ 요청 대기</span>'}catch(e){}}
+  var rstFile=files.find(function(f){var n=f.split('/').pop();return n==='restricted_accounts.json'||n==='restricted_profiles.json';});
+  if(rstFile){try{store.restricted=JSON.parse(await zip.files[rstFile].async('text'));chips+='<span class="file-chip opt">✓ 제한 계정</span>'}catch(e){}}
+  var cfFile=files.find(function(f){var n=f.split('/').pop();return n==='close_friends.json';});
+  if(cfFile){try{store.close_friends=JSON.parse(await zip.files[cfFile].async('text'));chips+='<span class="file-chip opt">✓ 친한 친구</span>'}catch(e){}}
+  found.innerHTML=chips;
+  zone.classList.add('loaded');
+  if(stepDone<3) completeStep(3);
+}
+
+async function processTikTokZip(zip,files,zone,found){
+  var chips='';
+  var udFile=files.find(function(f){var n=f.split('/').pop();return n==='user_data.json'||n==='user_data_tiktok.json';});
+  if(!udFile){
+    found.innerHTML='<span class="file-chip miss">✗ user_data.json 없음 — JSON 형식으로 요청했는지 확인</span>';
+    zone.classList.add('loaded');
+    return;
+  }
+  var raw=JSON.parse(await zip.files[udFile].async('text'));
+  var act=raw['Activity']||raw['activity']||{};
+  var fansList=(act['Follower List']||{})['FansList']||(act['Follower List']||{})['Followers List']||[];
+  store.tk_fans=fansList;
+  chips+='<span class="file-chip ok">✓ 팔로워 '+fansList.length.toLocaleString()+'명</span>';
+  var followingList=(act['Following List']||{})['Following']||[];
+  store.tk_following=followingList;
+  chips+='<span class="file-chip ok">✓ 팔로잉 '+followingList.length.toLocaleString()+'명</span>';
+  var blockList=(act['Block List']||{})['BlockList']||[];
+  store.tk_blocked=blockList;
+  if(blockList.length>0) chips+='<span class="file-chip opt">✓ 차단 '+blockList.length+'명</span>';
+  var likedList=(act['Like List']||{})['ItemFavoriteList']||[];
+  store.tk_liked=likedList;
+  if(likedList.length>0) chips+='<span class="file-chip opt">✓ 좋아요 '+likedList.length+'개</span>';
+  found.innerHTML=chips;
+  zone.classList.add('loaded');
+  if(tkStepDone<2) completeTkStep(2);
+}
+
+// ── THREADS 파싱 ──
+async function processThreadsZip(zip,files,zone,found){
+  var chips='';
+  // Threads 팔로워: your_instagram_activity/threads/followers.json 또는 threads_followers.json
+  var thFwrFile=files.find(function(f){
+    var n=f.split('/').pop();
+    return (f.includes('threads')&&n==='followers_1.json')||(f.includes('threads')&&n==='followers.json')||n==='threads_followers.json';
+  });
+  // Threads 팔로잉: your_instagram_activity/threads/following.json
+  var thFwgFile=files.find(function(f){
+    var n=f.split('/').pop();
+    return (f.includes('threads')&&n==='following.json')||n==='threads_following.json';
+  });
+  if(thFwrFile){
+    store.th_followers=JSON.parse(await zip.files[thFwrFile].async('text'));
+    chips+='<span class="file-chip ok">✓ 팔로워 '+extractUsers(store.th_followers).length.toLocaleString()+'명</span>';
+  } else chips+='<span class="file-chip miss">✗ Threads 팔로워 없음</span>';
+  if(thFwgFile){
+    store.th_following=JSON.parse(await zip.files[thFwgFile].async('text'));
+    chips+='<span class="file-chip ok">✓ 팔로잉 '+extractUsers(store.th_following).length.toLocaleString()+'명</span>';
+  } else chips+='<span class="file-chip miss">✗ Threads 팔로잉 없음</span>';
+  found.innerHTML=chips;
+  zone.classList.add('loaded');
+  if(thStepDone<2) completeThStep(2);
+}
+
+// ── LINKEDIN CSV 파싱 ──
+async function processLinkedInCSV(file,zone,found){
+  var text=await file.text();
+  // BOM 제거
+  if(text.charCodeAt(0)===0xFEFF) text=text.slice(1);
+  // 헤더 이후 첫 번째 빈 줄(LinkedIn 특성) 제거
+  var lines=text.split('\n').filter(function(l){return l.trim()!==''});
+  // 헤더 찾기 (First Name 포함 줄)
+  var headerIdx=lines.findIndex(function(l){return l.includes('First Name')||l.includes('FirstName');});
+  if(headerIdx===-1){
+    found.innerHTML='<span class="file-chip miss">✗ Connections.csv 형식이 맞지 않습니다</span>';
+    zone.classList.add('loaded');
+    return;
+  }
+  var headers=lines[headerIdx].split(',').map(function(h){return h.trim().replace(/"/g,'');});
+  var rows=lines.slice(headerIdx+1).map(function(line){
+    var cols=[];var cur='';var inQ=false;
+    for(var i=0;i<line.length;i++){
+      if(line[i]==='"') inQ=!inQ;
+      else if(line[i]===','&&!inQ){cols.push(cur.trim());cur='';}
+      else cur+=line[i];
+    }
+    cols.push(cur.trim());
+    var obj={};
+    headers.forEach(function(h,i){obj[h]=cols[i]||'';});
+    return obj;
+  }).filter(function(r){return r['First Name']||r['FirstName'];});
+  store.li_connections=rows;
+  found.innerHTML='<span class="file-chip ok">✓ 연결 '+rows.length.toLocaleString()+'명</span>';
+  zone.classList.add('loaded');
+  if(liStepDone<2) completeLiStep(2);
+}
+
+// ── X (TWITTER) 파싱 ──
+async function processXZip(zip,files,zone,found){
+  var chips='';
+  // X 아카이브 구조: data/following.js, data/follower.js, data/mute.js, data/block.js
+  // 파일 형식: window.YTD.following.part0 = [{following:{accountId:"",userLink:""}}]
+
+  function parseXjsFile(content){
+    // window.YTD.xxx.partN = [...] 형식에서 JSON 배열 추출
+    var match=content.match(/window\.YTD\.\w+\.\w+\s*=\s*(\[[\s\S]*\])/);
+    if(match){try{return JSON.parse(match[1]);}catch(e){return [];}}
+    // 혹은 그냥 JSON 배열인 경우
+    try{return JSON.parse(content.trim());}catch(e){return [];}
+  }
+
+  // following.js
+  var fwgFile=files.find(function(f){return f.split('/').pop()==='following.js';});
+  if(fwgFile){
+    var raw=await zip.files[fwgFile].async('text');
+    store.x_following=parseXjsFile(raw);
+    chips+='<span class="file-chip ok">✓ 팔로잉 '+store.x_following.length.toLocaleString()+'명</span>';
+  } else chips+='<span class="file-chip miss">✗ following.js 없음</span>';
+
+  // follower.js
+  var fwrFile=files.find(function(f){return f.split('/').pop()==='follower.js';});
+  if(fwrFile){
+    var raw=await zip.files[fwrFile].async('text');
+    store.x_followers=parseXjsFile(raw);
+    chips+='<span class="file-chip ok">✓ 팔로워 '+store.x_followers.length.toLocaleString()+'명</span>';
+  } else chips+='<span class="file-chip miss">✗ follower.js 없음</span>';
+
+  // mute.js
+  var muteFile=files.find(function(f){return f.split('/').pop()==='mute.js';});
+  if(muteFile){
+    var raw=await zip.files[muteFile].async('text');
+    store.x_mutes=parseXjsFile(raw);
+    if(store.x_mutes.length>0) chips+='<span class="file-chip opt">✓ 뮤트 '+store.x_mutes.length+'명</span>';
+  }
+
+  // block.js
+  var blockFile=files.find(function(f){return f.split('/').pop()==='block.js';});
+  if(blockFile){
+    var raw=await zip.files[blockFile].async('text');
+    store.x_blocks=parseXjsFile(raw);
+    if(store.x_blocks.length>0) chips+='<span class="file-chip opt">✓ 차단 '+store.x_blocks.length+'명</span>';
+  }
+
+  found.innerHTML=chips;
+  zone.classList.add('loaded');
+  if(xStepDone<2) completeXStep(2);
+}
+
+// ── X 분석 ──
+function runXAnalysis(){
+  var btn=document.getElementById('btnAnalyze');
+  var bar=document.getElementById('loadingBar');
+  // Free 플랜 월 3회 제한
+  if(!checkFreeMonthlyLimit()){return;}
+  btn.disabled=true;btn.textContent='분석 중...';bar.style.display='block';
+  setTimeout(function(){
+    var following=store.x_following||[];
+    var followers=store.x_followers||[];
+    var mutes=store.x_mutes||[];
+    var blocks=store.x_blocks||[];
+
+    // X 아카이브 username 추출 (userLink에서 파싱)
+    // userLink: "https://twitter.com/intent/user?user_id=12345"
+    // accountId만 있고 handle은 없음 → accountId를 표시
+    function getXId(item){
+      var inner=item.following||item.follower||item.muting||item.blocking||item;
+      return inner.accountId||inner.userLink||'unknown';
+    }
+    function getXLink(item){
+      var inner=item.following||item.follower||item.muting||item.blocking||item;
+      return inner.userLink||('https://twitter.com/intent/user?user_id='+(inner.accountId||''));
+    }
+
+    var followingIds=new Set(following.map(function(u){return getXId(u);}));
+    var followerIds=new Set(followers.map(function(u){return getXId(u);}));
+
+    // 맞팔 안 함: 내가 팔로우하는데 팔로우 안 받음
+    var notback=following.filter(function(u){return !followerIds.has(getXId(u));});
+    // 나만 팔로: 팔로워인데 내가 안 팔로우
+    var fans=followers.filter(function(u){return !followingIds.has(getXId(u));});
+
+    function toXUserObj(arr){
+      return arr.map(function(item){
+        var id=getXId(item);
+        return {username:'ID:'+id,href:getXLink(item),ts:0,xId:id};
+      });
+    }
+
+    data.notback=toXUserObj(notback);
+    data.fans=toXUserObj(fans);
+    data.blocked=toXUserObj(blocks);
+    data.pending=[];
+    data.restricted=toXUserObj(mutes);
+    data.close_friends=[];
+
+    var total=followers.length;
+    var mutualCount=followers.filter(function(u){return followingIds.has(getXId(u));}).length;
+    var mutualScore=total>0?Math.round(mutualCount/total*100):0;
+    var fanScore=total>0?Math.round(fans.length/total*100):0;
+    var qualityScore=Math.round(mutualScore*0.7+Math.min(fanScore*2,100)*0.3);
+    renderScoreCard(qualityScore,mutualScore,fanScore,mutualCount,total);
+
+    document.getElementById('statsRow1').innerHTML=
+      '<div class="stat-card"><div class="stat-num c-red">'+notback.length.toLocaleString()+'</div><div class="stat-lbl">😤 맞팔 안 함</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-green">'+fans.length.toLocaleString()+'</div><div class="stat-lbl">🩷 나만 팔로</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-purple">'+total.toLocaleString()+'</div><div class="stat-lbl">👥 전체 팔로워</div></div>';
+    document.getElementById('statsRow2').innerHTML=
+      '<div class="stat-card"><div class="stat-num c-green">'+mutualCount.toLocaleString()+'</div><div class="stat-lbl">🤝 서로 맞팔</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-orange">'+blocks.length.toLocaleString()+'</div><div class="stat-lbl">🚫 차단</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-yellow">'+mutes.length.toLocaleString()+'</div><div class="stat-lbl">🔇 뮤트</div></div>';
+
+    document.getElementById('tc1').textContent='('+data.notback.length+')';
+    document.getElementById('tc2').textContent=fans.length>0?'('+fans.length+')':'';
+    document.getElementById('tc4').textContent=blocks.length>0?'('+blocks.length+')':'';
+    document.getElementById('tc5').textContent='';
+    document.getElementById('tc6').textContent=mutes.length>0?'('+mutes.length+')':'';
+    document.getElementById('tc7').textContent='';
+
+    document.getElementById('resultsMeta').textContent=
+      '𝕏 X·Twitter · 팔로워 '+total.toLocaleString()+'명 · 팔로잉 '+following.length.toLocaleString()+'명 분석 완료';
+
+    // 탭 이름 X용으로 변경
+    var t6=document.querySelector('.tab-btn[data-t="restricted"]');
+    if(t6) t6.innerHTML='🔇 뮤트 <span id="tc6">'+(mutes.length>0?'('+mutes.length+')':'')+'</span>';
+
+    renderList('notback',data.notback,'red','맞팔 안 함',true,null,false);
+    renderList('fans',data.fans,'green','팬',false,null,false);
+    renderList('blocked',data.blocked,'orange','차단',false,blocks.length===0?'blocked':null,false);
+    renderList('pending',[],'blue','대기',false,'pending',false);
+    renderList('restricted',data.restricted,'yellow','뮤트',false,mutes.length===0?'restricted':null,false);
+    renderList('close_friends',[],'pink','친한 친구',false,'close_friends',false);
+
+    bar.style.display='none';btn.textContent='✓ 분석 완료';
+    document.getElementById('results').style.display='block';
+    document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+  },800);
+}
+
+
+// ── THREADS 분석 ──
+function runThreadsAnalysis(){
+  var btn=document.getElementById('btnAnalyze');
+  var bar=document.getElementById('loadingBar');
+  // Free 플랜 월 3회 제한
+  if(!checkFreeMonthlyLimit()){return;}
+  btn.disabled=true;btn.textContent='분석 중...';bar.style.display='block';
+  setTimeout(function(){
+    var followers=extractUsers(store.th_followers);
+    var following=extractUsers(store.th_following);
+    var fwrSet=new Set(followers.map(function(u){return u.username.toLowerCase();}));
+    var fwgSet=new Set(following.map(function(u){return u.username.toLowerCase();}));
+    data.notback=following.filter(function(u){return !fwrSet.has(u.username.toLowerCase());});
+    data.fans=followers.filter(function(u){return !fwgSet.has(u.username.toLowerCase());});
+    data.blocked=[];data.pending=[];data.restricted=[];data.close_friends=[];
+    var totalFollowers=followers.length;
+    var mutualCount=followers.filter(function(u){return fwgSet.has(u.username.toLowerCase());}).length;
+    var mutualScore=totalFollowers>0?Math.round(mutualCount/totalFollowers*100):0;
+    var fanScore=totalFollowers>0?Math.round(data.fans.length/totalFollowers*100):0;
+    var qualityScore=Math.round(mutualScore*0.7+Math.min(fanScore*2,100)*0.3);
+    renderScoreCard(qualityScore,mutualScore,fanScore,mutualCount,totalFollowers);
+    document.getElementById('statsRow1').innerHTML=
+      '<div class="stat-card"><div class="stat-num c-red">'+data.notback.length.toLocaleString()+'</div><div class="stat-lbl">😤 맞팔 안 함</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-green">'+data.fans.length.toLocaleString()+'</div><div class="stat-lbl">🩷 나만 팔로</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-purple">'+totalFollowers.toLocaleString()+'</div><div class="stat-lbl">👥 전체 팔로워</div></div>';
+    document.getElementById('statsRow2').innerHTML=
+      '<div class="stat-card"><div class="stat-num c-green">'+mutualCount.toLocaleString()+'</div><div class="stat-lbl">🤝 서로 맞팔</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-blue">'+following.length.toLocaleString()+'</div><div class="stat-lbl">➡️ 내 팔로잉</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-purple">'+totalFollowers.toLocaleString()+'</div><div class="stat-lbl">📊 팔로워 총계</div></div>';
+    document.getElementById('tc1').textContent='('+data.notback.length+')';
+    document.getElementById('tc2').textContent='('+data.fans.length+')';
+    document.getElementById('tc4').textContent='';document.getElementById('tc5').textContent='';
+    document.getElementById('tc6').textContent='';document.getElementById('tc7').textContent='';
+    document.getElementById('resultsMeta').textContent='🧵 Threads · 팔로워 '+totalFollowers.toLocaleString()+'명 · 팔로잉 '+following.length.toLocaleString()+'명 분석 완료';
+    renderList('notback',data.notback,'red','맞팔 안 함',!isPro,null,true);
+    renderList('fans',data.fans,'green','팬',false,null,false);
+    renderList('blocked',[],'orange','차단',false,'blocked',false);
+    renderList('pending',[],'blue','대기 중',false,'pending',false);
+    renderList('restricted',[],'yellow','제한',false,'restricted',false);
+    renderList('close_friends',[],'pink','친한 친구',false,'close_friends',false);
+    bar.style.display='none';btn.textContent='✓ 분석 완료';
+    document.getElementById('results').style.display='block';
+    document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+  },800);
+}
+
+// ── LINKEDIN 분석 ──
+function runLinkedInAnalysis(){
+  var btn=document.getElementById('btnAnalyze');
+  var bar=document.getElementById('loadingBar');
+  // Free 플랜 월 3회 제한
+  if(!checkFreeMonthlyLimit()){return;}
+  btn.disabled=true;btn.textContent='분석 중...';bar.style.display='block';
+  setTimeout(function(){
+    var conns=store.li_connections||[];
+    // LinkedIn은 팔로워/팔로잉 개념 없음 → 연결 목록 + 날짜 분석
+    // 최근 30일 연결 vs 오래된 연결
+    var now=new Date();
+    var recent=[];var old=[];
+    conns.forEach(function(c){
+      var name=(c['First Name']||c['FirstName']||'')+(c['Last Name']||c['LastName']?' '+(c['Last Name']||c['LastName']):'');
+      var company=c['Company']||'';
+      var position=c['Position']||'';
+      var connDate=c['Connected On']||c['ConnectedOn']||'';
+      var ts=connDate?new Date(connDate).getTime()/1000:0;
+      var u={username:name,href:c['Profile URL']||'',ts:ts,company:company,position:position};
+      var daysDiff=connDate?Math.floor((now-new Date(connDate))/(1000*60*60*24)):9999;
+      if(daysDiff<=30) recent.push(u);
+      else old.push(u);
+    });
+    // 탭 재활용: notback=전체, fans=최근 30일, blocked=직업별 분류 없음
+    data.notback=conns.map(function(c){
+      var name=(c['First Name']||c['FirstName']||'')+(c['Last Name']||c['LastName']?' '+(c['Last Name']||c['LastName']):'');
+      var connDate=c['Connected On']||c['ConnectedOn']||'';
+      return {username:name,href:c['Profile URL']||'',ts:connDate?new Date(connDate).getTime()/1000:0};
+    });
+    data.fans=recent;
+    data.blocked=[];data.pending=[];data.restricted=[];data.close_friends=[];
+    var total=conns.length;
+    renderScoreCard(Math.min(100,Math.round(recent.length/Math.max(total,1)*100*3)),
+      Math.round(recent.length/Math.max(total,1)*100),0,recent.length,total);
+    document.getElementById('statsRow1').innerHTML=
+      '<div class="stat-card"><div class="stat-num c-purple">'+total.toLocaleString()+'</div><div class="stat-lbl">🤝 전체 연결</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-green">'+recent.length.toLocaleString()+'</div><div class="stat-lbl">🆕 최근 30일</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-blue">'+old.length.toLocaleString()+'</div><div class="stat-lbl">📅 오래된 연결</div></div>';
+    document.getElementById('statsRow2').innerHTML=
+      '<div class="stat-card"><div class="stat-num c-orange">'+conns.filter(function(c){return c['Company']||c['company'];}).length.toLocaleString()+'</div><div class="stat-lbl">🏢 회사 있음</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-yellow">'+conns.filter(function(c){return c['Email Address']||c['email'];}).length.toLocaleString()+'</div><div class="stat-lbl">📧 이메일 있음</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-purple">'+total.toLocaleString()+'</div><div class="stat-lbl">👥 총 연결 수</div></div>';
+    // 탭 레이블 LinkedIn용으로 변경
+    document.getElementById('tc1').textContent='('+data.notback.length+')';
+    document.getElementById('tc2').textContent=recent.length>0?'('+recent.length+')':'';
+    document.getElementById('tc4').textContent='';document.getElementById('tc5').textContent='';
+    document.getElementById('tc6').textContent='';document.getElementById('tc7').textContent='';
+    document.getElementById('resultsMeta').textContent='💼 LinkedIn · 전체 연결 '+total.toLocaleString()+'명 분석 완료';
+    // 탭 이름 변경
+    var t1=document.querySelector('.tab-btn[data-t="notback"]');
+    var t2=document.querySelector('.tab-btn[data-t="fans"]');
+    if(t1) t1.innerHTML='🤝 전체 연결 <span id="tc1">('+data.notback.length+')</span>';
+    if(t2) t2.innerHTML='🆕 최근 30일 <span id="tc2">'+(recent.length>0?'('+recent.length+')':'')+'</span>';
+    renderList('notback',data.notback,'blue','연결',true,null,true);
+    renderList('fans',recent,'green','최근',false,null,true);
+    renderList('blocked',[],'orange','차단',false,'blocked',false);
+    renderList('pending',[],'blue','대기',false,'pending',false);
+    renderList('restricted',[],'yellow','제한',false,'restricted',false);
+    renderList('close_friends',[],'pink','친한 친구',false,'close_friends',false);
+    bar.style.display='none';btn.textContent='✓ 분석 완료';
+    document.getElementById('results').style.display='block';
+    document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+  },800);
+}
+
+function extractUsers(d){
+  if(!d) return [];
+  const users=[];
+  const parse=item=>{
+    if(item&&item.string_list_data){
+      item.string_list_data.forEach(x=>{if(x.value) users.push({username:x.value,href:x.href||'',ts:x.timestamp||0});});
+    }
+  };
+  if(Array.isArray(d)){d.forEach(parse);return users;}
+  Object.values(d).forEach(v=>{if(Array.isArray(v))v.forEach(parse);});
+  return users;
+}
+
+function extractBlockedUsers(d){
+  if(!d) return [];
+  if(d.blocked_accounts&&Array.isArray(d.blocked_accounts)){
+    const users=[];
+    d.blocked_accounts.forEach(item=>{
+      if(item.string_list_data) item.string_list_data.forEach(x=>{if(x.value) users.push({username:x.value,href:x.href||'',ts:x.timestamp||0});});
+    });
+    return users;
+  }
+  return extractUsers(d);
+}
+
+function extractRestrictedUsers(d){
+  if(!d) return [];
+  if(d.restricted_accounts&&Array.isArray(d.restricted_accounts)){
+    const users=[];
+    d.restricted_accounts.forEach(item=>{
+      if(item.string_list_data) item.string_list_data.forEach(x=>{if(x.value) users.push({username:x.value,href:x.href||'',ts:x.timestamp||0});});
+    });
+    return users;
+  }
+  return extractUsers(d);
+}
+
+function checkReady(){
+  var ok=false;
+  if(currentPlatform==='tiktok') ok=(store.tk_fans!==null&&store.tk_following!==null);
+  else if(currentPlatform==='threads') ok=(store.th_followers!==null&&store.th_following!==null);
+  else if(currentPlatform==='linkedin') ok=(store.li_connections!==null&&store.li_connections.length>0);
+  else if(currentPlatform==='x') ok=(store.x_following!==null&&store.x_followers!==null);
+  else ok=!!(store.followers&&store.following);
+  document.getElementById('btnAnalyze').disabled=!ok;
+}
+
+function runAnalysis(){
+  if(currentPlatform==='tiktok') runTikTokAnalysis();
+  else if(currentPlatform==='threads') runThreadsAnalysis();
+  else if(currentPlatform==='linkedin') runLinkedInAnalysis();
+  else if(currentPlatform==='x') runXAnalysis();
+  else runInstagramAnalysis();
+}
+
+function runInstagramAnalysis(){
+  const btn=document.getElementById('btnAnalyze');
+  const bar=document.getElementById('loadingBar');
+  btn.disabled=true;
+  btn.textContent='분석 중...';
+  bar.style.display='block';
+  setTimeout(function(){
+    const followers=extractUsers(store.followers);
+    const following=extractUsers(store.following);
+    const blocked=extractBlockedUsers(store.blocked);
+    const pending=extractUsers(store.pending);
+    const restricted=extractRestrictedUsers(store.restricted);
+    const closeFriends=extractUsers(store.close_friends);
+    const fwrSet=new Set(followers.map(function(u){return u.username.toLowerCase()}));
+    const fwgSet=new Set(following.map(function(u){return u.username.toLowerCase()}));
+    data.notback=following.filter(function(u){return !fwrSet.has(u.username.toLowerCase())});
+    data.fans=followers.filter(function(u){return !fwgSet.has(u.username.toLowerCase())});
+    data.blocked=blocked;
+    data.pending=pending;
+    data.restricted=restricted;
+    data.close_friends=closeFriends;
+    const totalFollowers=followers.length;
+    const mutualCount=followers.filter(function(u){return fwgSet.has(u.username.toLowerCase())}).length;
+    const mutualRate=totalFollowers>0?mutualCount/totalFollowers:0;
+    const fanRate=totalFollowers>0?data.fans.length/totalFollowers:0;
+    const mutualScore=Math.round(mutualRate*100);
+    const fanScore=Math.round(fanRate*100);
+    const qualityScore=Math.round(mutualScore*0.7+Math.min(fanScore*2,100)*0.3);
+    renderScoreCard(qualityScore,mutualScore,fanScore,mutualCount,totalFollowers);
+    document.getElementById('statsRow1').innerHTML=
+      '<div class="stat-card"><div class="stat-num c-red">'+data.notback.length.toLocaleString()+'</div><div class="stat-lbl">😤 맞팔 안 함</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-green">'+data.fans.length.toLocaleString()+'</div><div class="stat-lbl">🩷 나만 팔로</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-purple">'+totalFollowers.toLocaleString()+'</div><div class="stat-lbl">👥 전체 팔로워</div></div>';
+    document.getElementById('statsRow2').innerHTML=
+      '<div class="stat-card"><div class="stat-num c-green">'+mutualCount.toLocaleString()+'</div><div class="stat-lbl">🤝 서로 맞팔</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-orange">'+data.blocked.length.toLocaleString()+'</div><div class="stat-lbl">🚫 차단 계정</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-blue">'+data.pending.length.toLocaleString()+'</div><div class="stat-lbl">⏳ 요청 대기</div></div>';
+    document.getElementById('tc1').textContent='('+data.notback.length+')';
+    document.getElementById('tc2').textContent='('+data.fans.length+')';
+    document.getElementById('tc4').textContent=data.blocked.length>0?'('+data.blocked.length+')':'';
+    document.getElementById('tc5').textContent=data.pending.length>0?'('+data.pending.length+')':'';
+    document.getElementById('tc6').textContent=data.restricted.length>0?'('+data.restricted.length+')':'';
+    document.getElementById('tc7').textContent=data.close_friends.length>0?'('+data.close_friends.length+')':'';
+    document.getElementById('resultsMeta').textContent='팔로워 '+totalFollowers.toLocaleString()+'명 · 팔로잉 '+following.length.toLocaleString()+'명 분석 완료';
+    const mutualPct=totalFollowers>0?Math.round(mutualCount/totalFollowers*100):0;
+    const summaryEl=document.getElementById('mutualSummary');
+    if(summaryEl){
+      var grade='';
+      if(mutualPct>=70) grade='상위 10% 수준의 맞팔 비율이에요 🏆';
+      else if(mutualPct>=50) grade='평균 이상의 맞팔 비율이에요 👍';
+      else if(mutualPct>=30) grade='맞팔 비율을 높여볼 여지가 있어요 💡';
+      else grade='맞팔 비율이 낮아요 — 정리해볼 타이밍 ✂️';
+      summaryEl.textContent='맞팔 비율 '+mutualPct+'% · '+grade;
+      summaryEl.style.display='block';
+    }
+    renderList('notback',data.notback,'red','맞팔 안 함',!isPro,null,true);
+    renderList('fans',data.fans,'green','팬',false,null,false);
+    renderList('blocked',data.blocked,'orange','차단',false,store.blocked===null?'blocked':null,false);
+    renderList('pending',data.pending,'blue','대기 중',false,store.pending===null?'pending':null,false);
+    renderList('restricted',data.restricted,'yellow','제한',false,store.restricted===null?'restricted':null,false);
+    renderList('close_friends',data.close_friends,'pink','친한 친구',false,store.close_friends===null?'close_friends':null,false);
+    bar.style.display='none';
+    btn.textContent='✓ 분석 완료';
+    document.getElementById('results').style.display='block';
+    document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+  },800);
+}
+
+// ── 틱톡 분석 ──
+function runTikTokAnalysis(){
+  var btn=document.getElementById('btnAnalyze');
+  var bar=document.getElementById('loadingBar');
+  // Free 플랜 월 3회 제한
+  if(!checkFreeMonthlyLimit()){return;}
+  btn.disabled=true;
+  btn.textContent='분석 중...';
+  bar.style.display='block';
+  setTimeout(function(){
+    // 틱톡 데이터 파싱
+    var fans=store.tk_fans||[];       // 나를 팔로우하는 사람
+    var following=store.tk_following||[];  // 내가 팔로우하는 사람
+    var blocked=store.tk_blocked||[];
+
+    // 틱톡 팔로워/팔로잉 username 추출
+    function tkName(item){ return item['UserName']||item['Username']||item['username']||''; }
+    function tkDate(item){ return item['Date']||item['date']||''; }
+
+    var fansSet=new Set(fans.map(function(u){return tkName(u).toLowerCase();}));
+    var followingSet=new Set(following.map(function(u){return tkName(u).toLowerCase();}));
+
+    // 맞팔 안 함: 내가 팔로우하는데 안 받아준 사람
+    var tkNotback=following.filter(function(u){return !fansSet.has(tkName(u).toLowerCase());});
+    // 나만 팔로: 나를 팔로우하는데 내가 안 하는 팬
+    var tkFans=fans.filter(function(u){return !followingSet.has(tkName(u).toLowerCase());});
+
+    var totalFans=fans.length;
+    var mutualCount=fans.filter(function(u){return followingSet.has(tkName(u).toLowerCase());}).length;
+    var mutualRate=totalFans>0?mutualCount/totalFans:0;
+    var fanRate=totalFans>0?tkFans.length/totalFans:0;
+    var mutualScore=Math.round(mutualRate*100);
+    var fanScore=Math.round(fanRate*100);
+    var qualityScore=Math.round(mutualScore*0.7+Math.min(fanScore*2,100)*0.3);
+
+    renderScoreCard(qualityScore,mutualScore,fanScore,mutualCount,totalFans);
+
+    document.getElementById('statsRow1').innerHTML=
+      '<div class="stat-card"><div class="stat-num c-red">'+tkNotback.length.toLocaleString()+'</div><div class="stat-lbl">😤 맞팔 안 함</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-green">'+tkFans.length.toLocaleString()+'</div><div class="stat-lbl">🩷 나만 팔로</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-purple">'+totalFans.toLocaleString()+'</div><div class="stat-lbl">👥 전체 팔로워</div></div>';
+    document.getElementById('statsRow2').innerHTML=
+      '<div class="stat-card"><div class="stat-num c-green">'+mutualCount.toLocaleString()+'</div><div class="stat-lbl">🤝 서로 맞팔</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-orange">'+blocked.length.toLocaleString()+'</div><div class="stat-lbl">🚫 차단 계정</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-blue">'+following.length.toLocaleString()+'</div><div class="stat-lbl">➡️ 내 팔로잉</div></div>';
+
+    document.getElementById('tc1').textContent='('+tkNotback.length+')';
+    document.getElementById('tc2').textContent='('+tkFans.length+')';
+    document.getElementById('tc4').textContent=blocked.length>0?'('+blocked.length+')':'';
+    document.getElementById('tc5').textContent='';
+    document.getElementById('tc6').textContent='';
+    document.getElementById('tc7').textContent='';
+
+    document.getElementById('resultsMeta').textContent=
+      '🎵 TikTok · 팔로워 '+totalFans.toLocaleString()+'명 · 팔로잉 '+following.length.toLocaleString()+'명 분석 완료';
+
+    // 틱톡용 유저 객체로 변환 (renderList 재사용)
+    function toUserObj(arr){
+      return arr.map(function(u){
+        return {username:tkName(u),href:'https://www.tiktok.com/@'+tkName(u),ts:0};
+      });
+    }
+
+    renderList('notback',toUserObj(tkNotback),'red','맞팔 안 함',true,null,false);
+    renderList('fans',toUserObj(tkFans),'green','팬',false,null,false);
+    renderList('blocked',toUserObj(blocked),'orange','차단',false,blocked.length===0?'blocked':null,false);
+    renderList('pending',[],'blue','대기 중',false,'pending',false);
+    renderList('restricted',[],'yellow','제한',false,'restricted',false);
+    renderList('close_friends',[],'pink','친한 친구',false,'close_friends',false);
+
+    bar.style.display='none';
+    btn.textContent='✓ 분석 완료';
+    document.getElementById('results').style.display='block';
+    document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+  },800);
+}
+
+// ★ 핵심 수정: renderScoreCard 함수 — 잉여 } 제거
+function renderScoreCard(score,mutualScore,fanScore,mutual,total){
+  var scoreNum=document.getElementById('scoreNum');
+  var scoreArc=document.getElementById('scoreArc');
+  var scoreBars=document.getElementById('scoreBars');
+  var scoreTitle=document.getElementById('scoreTitle');
+  scoreNum.textContent=score;
+  var dash=213.6*(1-score/100);
+  scoreArc.style.strokeDashoffset=dash;
+  var color=score>=70?'var(--accent)':score>=40?'var(--yellow)':'var(--orange)';
+  scoreArc.style.stroke=color;
+  scoreNum.style.color=color;
+  var titles=['관계 정리가 필요해요','관계 구성이 보통이에요','관계 구성이 좋아요','팔로워 관계가 매우 좋아요!'];
+  var ti=score<30?0:score<50?1:score<75?2:3;
+  scoreTitle.textContent=titles[ti];
+  var mutualRate=total>0?Math.round(mutual/total*100):0;
+  var fanRate=total>0?Math.round(fanScore):0;
+  scoreBars.innerHTML=
+    '<div class="score-bar-row"><div class="score-bar-label">맞팔 비율</div>'+
+    '<div class="score-bar-track"><div class="score-bar-fill" style="width:'+mutualRate+'%;background:var(--accent)"></div></div>'+
+    '<div class="score-bar-val">'+mutualRate+'%</div></div>'+
+    '<div class="score-bar-row"><div class="score-bar-label">팬 비율</div>'+
+    '<div class="score-bar-track"><div class="score-bar-fill" style="width:'+Math.min(fanRate*2,100)+'%;background:var(--blue)"></div></div>'+
+    '<div class="score-bar-val">'+fanRate+'%</div></div>';
+}
+
+const GRAD=['135deg,#7c3aed,#a78bfa','135deg,#0ea5e9,#38bdf8','135deg,#f59e0b,#fcd34d','135deg,#10b981,#34d399','135deg,#f43f5e,#fb7185','135deg,#06b6d4,#67e8f9','135deg,#8b5cf6,#c4b5fd'];
+function gc(n){return GRAD[n.charCodeAt(0)%GRAD.length]}
+
+function tsLabel(ts){
+  if(!ts) return '';
+  var d=new Date(ts*1000);
+  return d.toLocaleDateString('ko-KR',{year:'2-digit',month:'short',day:'numeric'});
+}
+
+function renderList(key,users,badgeClass,badgeText,hasWall,unavailKey,showTs){
+  var container=document.getElementById('list-'+key);
+  var wallEl=document.getElementById('wall-'+key);
+  if(unavailKey){
+    var msgs={
+      blocked:{icon:'🚫',title:'차단 목록이 ZIP에 없어요',desc:'데이터 내보내기 시 차단 계정이 포함되지 않은 경우가 있어요.'},
+      pending:{icon:'⏳',title:'요청 대기 파일이 없어요',desc:'비공개 계정에 팔로우 요청을 보낸 경우에만 포함됩니다.'},
+      restricted:{icon:'🔇',title:'제한 계정 파일이 없어요',desc:'제한 기능을 사용한 경우에만 ZIP에 포함됩니다.'},
+      close_friends:{icon:'💚',title:'친한 친구 목록이 없어요',desc:'친한 친구 기능을 사용한 경우에만 포함됩니다.'}
+    };
+    var m=msgs[unavailKey]||{icon:'📂',title:'데이터 없음',desc:'ZIP에 해당 파일이 없습니다.'};
+    container.innerHTML='<div class="tab-unavail"><div class="ua-icon">'+m.icon+'</div><div class="ua-title">'+m.title+'</div><div class="ua-desc">'+m.desc+'</div></div>';
+    if(wallEl) wallEl.innerHTML='';
+    return;
+  }
+  if(!users.length){
+    container.innerHTML='<div class="empty-state"><div class="empty-icon">🎉</div><div class="empty-text">해당 목록이 없습니다!</div></div>';
+    if(wallEl) wallEl.innerHTML='';
+    return;
+  }
+  var display=hasWall?users.slice(0,FREE_LIMIT):users;
+  container.innerHTML=display.map(function(u){
+    return '<a class="user-card" href="https://instagram.com/'+u.username+'" target="_blank" rel="noopener">'+
+      '<div class="avatar" style="background:linear-gradient('+gc(u.username)+')">'+u.username.charAt(0).toUpperCase()+'</div>'+
+      '<div class="user-details"><div class="user-name">@'+u.username+'</div><div class="user-handle">instagram.com/'+u.username+'</div></div>'+
+      '<div class="user-meta">'+(u.ts&&showTs?'<span class="ts-label">'+tsLabel(u.ts)+'</span>':'')+
+      '<span class="badge '+badgeClass+'">'+badgeText+'</span></div></a>';
+  }).join('');
+  if(wallEl){
+    if(hasWall&&users.length>FREE_LIMIT){
+      var remain=users.length-FREE_LIMIT;
+      wallEl.innerHTML=
+        '<div class="paywall"><div class="paywall-box">'+
+        '<div class="paywall-badge">🔒 PRO 전용</div>'+
+        '<h3>나머지 '+remain.toLocaleString()+'명이 잠겨있어요</h3>'+
+        '<p class="pw-sub">무료로 '+FREE_LIMIT+'명까지 확인했어요.<br>전체 목록을 보려면 Pro로 업그레이드하세요.</p>'+
+        '<div class="paywall-features">'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>맞팔 안 한 전체 목록 무제한 확인</div>'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>나만 팔로하는 팬 전체 목록</div>'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>차단·제한·대기 계정 전체 확인</div>'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>인스타그램 프로필 바로가기</div>'+
+        '</div>'+
+        '<div class="paywall-price"><div class="price-original">월 ₩9,800</div><div class="price-main">₩4,900</div><div class="price-period">/ 월 · 언제든 해지 가능</div></div>'+
+        '<button class="btn-toss-pay" onclick="handleBasicPay()"><span class="toss-logo-badge">✦</span>Basic으로 업그레이드 — ₩7,900/월</button>'+
+        '<button onclick="closePricingModal||openPricingModal()" style="width:100%;padding:10px;background:none;border:1px solid #e4e1dd;border-radius:10px;font-size:12px;color:#888;cursor:pointer;margin-top:6px" onclick="openPricingModal()">요금제 전체 보기</button>'+
+        '<div class="paywall-note">결제 후 즉시 잠금 해제 · 자동 갱신 · 구독 해지 언제든 가능</div>'+
+        '</div></div>';
+    } else wallEl.innerHTML='';
+  }
+}
+
+function filterList(key,q){
+  var filtered=data[key].filter(function(u){return u.username.toLowerCase().includes(q.toLowerCase())});
+  var cfg={notback:['red','맞팔 안 함'],fans:['green','팬'],blocked:['orange','차단'],pending:['blue','대기 중'],restricted:['yellow','제한'],close_friends:['pink','친한 친구']};
+  var bc=cfg[key][0],bt=cfg[key][1];
+  var container=document.getElementById('list-'+key);
+  if(!filtered.length){container.innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-text">검색 결과 없음</div></div>';return;}
+  container.innerHTML=filtered.map(function(u){
+    return '<a class="user-card" href="https://instagram.com/'+u.username+'" target="_blank" rel="noopener">'+
+      '<div class="avatar" style="background:linear-gradient('+gc(u.username)+')">'+u.username.charAt(0).toUpperCase()+'</div>'+
+      '<div class="user-details"><div class="user-name">@'+u.username+'</div><div class="user-handle">instagram.com/'+u.username+'</div></div>'+
+      '<div class="user-meta"><span class="badge '+bc+'">'+bt+'</span></div></a>';
+  }).join('');
+}
+
+function sortList(key,val){
+  var sorted=data[key].slice();
+  if(val==='newest') sorted.sort(function(a,b){return b.ts-a.ts});
+  else if(val==='oldest') sorted.sort(function(a,b){return a.ts-b.ts});
+  else if(val==='az') sorted.sort(function(a,b){return a.username.localeCompare(b.username)});
+  var cfg={notback:['red','맞팔 안 함'],fans:['green','팬']};
+  var pair=cfg[key]||['red',''];
+  var bc=pair[0],bt=pair[1];
+  var container=document.getElementById('list-'+key);
+  var wallEl=document.getElementById('wall-'+key);
+  var hasWall=key==='notback';
+  var display=hasWall?sorted.slice(0,FREE_LIMIT):sorted;
+  var showTs=key==='notback';
+  container.innerHTML=display.map(function(u){
+    return '<a class="user-card" href="https://instagram.com/'+u.username+'" target="_blank" rel="noopener">'+
+      '<div class="avatar" style="background:linear-gradient('+gc(u.username)+')">'+u.username.charAt(0).toUpperCase()+'</div>'+
+      '<div class="user-details"><div class="user-name">@'+u.username+'</div><div class="user-handle">instagram.com/'+u.username+'</div></div>'+
+      '<div class="user-meta">'+(u.ts&&showTs?'<span class="ts-label">'+tsLabel(u.ts)+'</span>':'')+
+      '<span class="badge '+bc+'">'+bt+'</span></div></a>';
+  }).join('');
+  if(wallEl){
+    if(hasWall&&data[key].length>FREE_LIMIT){
+      var remain=data[key].length-FREE_LIMIT;
+      wallEl.innerHTML=
+        '<div class="paywall"><div class="paywall-box">'+
+        '<div class="paywall-badge">🔒 PRO 전용</div>'+
+        '<h3>나머지 '+remain.toLocaleString()+'명이 잠겨있어요</h3>'+
+        '<p class="pw-sub">무료로 '+FREE_LIMIT+'명까지 확인했어요.<br>전체 목록을 보려면 Pro로 업그레이드하세요.</p>'+
+        '<div class="paywall-features">'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>맞팔 안 한 전체 목록 무제한 확인</div>'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>나만 팔로하는 팬 전체 목록</div>'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>차단·제한·대기 계정 전체 확인</div>'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>인스타그램 프로필 바로가기</div>'+
+        '</div>'+
+        '<div class="paywall-price"><div class="price-original">월 ₩9,800</div><div class="price-main">₩4,900</div><div class="price-period">/ 월 · 언제든 해지 가능</div></div>'+
+        '<button class="btn-toss-pay" onclick="handleBasicPay()"><span class="toss-logo-badge">✦</span>Basic으로 업그레이드 — ₩7,900/월</button>'+
+        '<button onclick="closePricingModal||openPricingModal()" style="width:100%;padding:10px;background:none;border:1px solid #e4e1dd;border-radius:10px;font-size:12px;color:#888;cursor:pointer;margin-top:6px" onclick="openPricingModal()">요금제 전체 보기</button>'+
+        '<div class="paywall-note">결제 후 즉시 잠금 해제 · 자동 갱신 · 구독 해지 언제든 가능</div>'+
+        '</div></div>';
+    } else if(wallEl) wallEl.innerHTML='';
+  }
+}
+
+function switchTab(name,btn){
+  document.querySelectorAll('.tab-btn').forEach(function(t){t.classList.remove('active')});
+  document.querySelectorAll('.tab-pane').forEach(function(p){p.classList.remove('active')});
+  btn.classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+function handleTossPay(){ handleBasicPay(); } // 하위 호환
+
+function handleBasicPay(){
+  if(!currentUser){ alert('결제를 위해 먼저 로그인해주세요.'); openAuthModal(); return; }
+  var IMP_CODE='imp45411646';
+  var CUSTOMER_UID='realations_basic_'+currentUser.id;
+  var MERCHANT_UID='realations_basic_'+currentUser.id+'_'+Date.now();
+  IMP.init(IMP_CODE);
+  IMP.request_pay({
+    channelKey:'channel-key-350fcf6a-b7fa-4ed7-9724-e42a06c05d0c',
+    pay_method:'card',
+    merchant_uid: MERCHANT_UID,
+    customer_uid: CUSTOMER_UID,
+    name:'Realations Basic (월 정기구독)',
+    amount:100,
+    buyer_email:currentUser.email,
+    buyer_name:currentUser.email,
+    m_redirect_url:'https://realation.world',
+    bypass: { kcp_group_id: 'IP7191056644' }
+  }, async function(rsp){
+    if(rsp.success){ await updatePlanStatus('basic', rsp.imp_uid, rsp.merchant_uid); }
+    else { alert('결제 실패: '+rsp.error_msg); }
+  });
+}
+
+function handleProPay(){
+  if(!currentUser){ alert('결제를 위해 먼저 로그인해주세요.'); openAuthModal(); return; }
+  var IMP_CODE='imp45411646';
+  var CUSTOMER_UID='realations_pro_'+currentUser.id;
+  var MERCHANT_UID='realations_pro_'+currentUser.id+'_'+Date.now();
+  IMP.init(IMP_CODE);
+  IMP.request_pay({
+    channelKey:'channel-key-350fcf6a-b7fa-4ed7-9724-e42a06c05d0c',
+    pay_method:'card',
+    merchant_uid: MERCHANT_UID,
+    customer_uid: CUSTOMER_UID,
+    name:'Realations Pro (월 정기구독)',
+    amount:100,
+    buyer_email:currentUser.email,
+    buyer_name:currentUser.email,
+    m_redirect_url:'https://realation.world',
+    bypass: { kcp_group_id: 'IP7191056644' }
+  }, async function(rsp){
+    if(rsp.success){ await updatePlanStatus('pro', rsp.imp_uid, rsp.merchant_uid); }
+    else { alert('결제 실패: '+rsp.error_msg); }
+  });
+}
+
+async function updateProStatus(impUid, merchantUid){ await updatePlanStatus('basic', impUid, merchantUid); } // 하위 호환
+
+async function updatePlanStatus(plan, impUid, merchantUid){
+  try{
+    const {error}=await sb.from('users').update({
+      is_pro: true,
+      plan: plan,
+      pro_since: new Date().toISOString(),
+      imp_uid: impUid,
+      merchant_uid: merchantUid
+    }).eq('id', currentUser.id);
+    if(error) throw error;
+    userPlan=plan;
+    isPro=true;
+    showPaySuccess();
+  } catch(e){
+    console.error('DB 업데이트 오류:', e);
+    userPlan=plan;
+    isPro=true;
+    showPaySuccess();
+    alert('결제는 완료됐습니다. 새로고침 후 이용해주세요.');
+  }
+}
+
+function showPaySuccess(){
+  isPro=true;
+  document.getElementById('payModalBg').classList.add('show');
+}
+
+function unlockAll(){
+  isPro=true;
+  document.getElementById('payModalBg').classList.remove('show');
+  renderList('notback',data.notback,'red','맞팔 안 함',false,null,true);
+  renderList('fans',data.fans,'green','팬',false,null,false);
+  var btn=document.querySelector('.tab-btn[data-t="notback"]');
+  if(btn) switchTab('notback',btn);
+  document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function copyResult(){
+  var lines=data.notback.slice(0,FREE_LIMIT).map(function(u){return '@'+u.username}).join('\n');
+  var text='[Realations 분석 결과]\n맞팔 안 한 사람 '+data.notback.length+'명\n\n'+lines+(data.notback.length>FREE_LIMIT?'\n...외 '+(data.notback.length-FREE_LIMIT)+'명':'')+'\n\n나만 팔로하는 팬 '+data.fans.length+'명\n차단 '+data.blocked.length+' · 대기 '+data.pending.length+' · 제한 '+data.restricted.length;
+  navigator.clipboard.writeText(text).then(function(){alert('복사 완료! 📋')}).catch(function(){alert('직접 선택해서 복사해주세요.')});
+}
+
+// ── SUPABASE 인증 ──
+let authMode='login';
+
+// 플랫폼 선택
+let currentPlatform='instagram';
+
+function selectPlatform(plt){
+  currentPlatform=plt;
+  document.querySelectorAll('.platform-card').forEach(function(c){c.classList.remove('active')});
+  var card=document.getElementById('plt-'+plt);
+  if(card) card.classList.add('active');
+  // 모든 가이드 숨김
+  ['instagram','tiktok','threads','linkedin','x'].forEach(function(p){
+    var g=document.getElementById('guide-'+p);
+    if(g) g.style.display='none';
+  });
+  // 선택 플랫폼 가이드 표시
+  var g=document.getElementById('guide-'+plt);
+  if(g) g.style.display='';
+  var uploadTitle=document.querySelector('.upload-title');
+  var hints={
+    instagram:'ZIP, JSON 파일을 드래그하거나 클릭하세요.',
+    threads:'ZIP 파일을 드래그하거나 클릭하세요.',
+    tiktok:'ZIP 파일을 드래그하거나 클릭하세요.',
+    linkedin:'Connections.csv 파일을 드래그하거나 클릭하세요.',
+    x:'ZIP 파일을 드래그하거나 클릭하세요.'
+  };
+  if(uploadTitle) uploadTitle.textContent=hints[plt]||hints.instagram;
+  resetUpload();
+}
+
+function resetUpload(){
+  var zone=document.getElementById('uploadZone');
+  zone.classList.remove('loaded');
+  document.getElementById('foundFiles').innerHTML='';
+  document.getElementById('btnAnalyze').disabled=true;
+  store.followers=null;store.following=null;
+  store.blocked=null;store.pending=null;
+  store.restricted=null;store.close_friends=null;
+  store.tk_fans=null;store.tk_following=null;store.tk_blocked=null;store.tk_liked=null;
+  store.th_followers=null;store.th_following=null;
+  store.li_connections=null;
+  store.x_following=null;store.x_followers=null;store.x_mutes=null;store.x_blocks=null;
+}
+
+// 틱톡 스텝
+let tkStepDone=0;
+function completeTkStep(n){
+  var el=document.getElementById('tk'+n);var sn=document.getElementById('tkn'+n);
+  el.classList.remove('active');el.classList.add('done');sn.textContent='✓';
+  tkStepDone=Math.max(tkStepDone,n);
+  var pct=Math.round(tkStepDone/2*100);
+  document.getElementById('progFillTk').style.width=pct+'%';
+  document.getElementById('progLabelTk').textContent=tkStepDone+' / 2';
+  var dot=document.getElementById('progDotTk');if(dot) dot.style.left='calc('+pct+'% - 7px)';
+  if(pct>=100){var hr=document.getElementById('progDotTkHandR');if(hr)hr.classList.add('active');}
+  var next=document.getElementById('tk'+(n+1));if(next) next.classList.add('active');
+}
+
+// 쓰레드 스텝
+let thStepDone=0;
+function completeThStep(n){
+  var el=document.getElementById('th'+n);var sn=document.getElementById('thn'+n);
+  el.classList.remove('active');el.classList.add('done');sn.textContent='✓';
+  thStepDone=Math.max(thStepDone,n);
+  var pct=Math.round(thStepDone/2*100);
+  document.getElementById('progFillTh').style.width=pct+'%';
+  document.getElementById('progLabelTh').textContent=thStepDone+' / 2';
+  var dot=document.getElementById('progDotTh');if(dot) dot.style.left='calc('+pct+'% - 7px)';
+  if(pct>=100){var hr=document.getElementById('progDotThHandR');if(hr)hr.classList.add('active');}
+  var next=document.getElementById('th'+(n+1));if(next) next.classList.add('active');
+}
+
+// 링크드인 스텝
+let liStepDone=0;
+function completeLiStep(n){
+  var el=document.getElementById('li'+n);var sn=document.getElementById('lin'+n);
+  el.classList.remove('active');el.classList.add('done');sn.textContent='✓';
+  liStepDone=Math.max(liStepDone,n);
+  var pct=Math.round(liStepDone/2*100);
+  document.getElementById('progFillLi').style.width=pct+'%';
+  document.getElementById('progLabelLi').textContent=liStepDone+' / 2';
+  var dot=document.getElementById('progDotLi');if(dot) dot.style.left='calc('+pct+'% - 7px)';
+  if(pct>=100){var hr=document.getElementById('progDotLiHandR');if(hr)hr.classList.add('active');}
+  var next=document.getElementById('li'+(n+1));if(next) next.classList.add('active');
+}
+
+// X 스텝
+let xStepDone=0;
+function completeXStep(n){
+  var el=document.getElementById('xg'+n);var sn=document.getElementById('xn'+n);
+  el.classList.remove('active');el.classList.add('done');sn.textContent='✓';
+  xStepDone=Math.max(xStepDone,n);
+  var pct=Math.round(xStepDone/2*100);
+  document.getElementById('progFillX').style.width=pct+'%';
+  document.getElementById('progLabelX').textContent=xStepDone+' / 2';
+  var dot=document.getElementById('progDotX');if(dot) dot.style.left='calc('+pct+'% - 7px)';
+  if(pct>=100){var hr=document.getElementById('progDotXHandR');if(hr)hr.classList.add('active');}
+  var next=document.getElementById('xg'+(n+1));if(next) next.classList.add('active');
+} // login | signup
+
+// 앱 시작 시 세션 확인
+(async function initAuth(){
+  // ── 소셜 로그인 후 URL 해시에서 토큰 처리 ──
+  // 카카오/구글 로그인 후 #access_token=... 형태로 돌아오는 경우 처리
+  if(window.location.hash && window.location.hash.includes('access_token')){
+    // Supabase가 자동으로 해시를 파싱해서 세션을 설정함
+    // 해시 제거 (URL 노출 방지)
+    setTimeout(function(){
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }, 1000);
+  }
+
+  const {data:{session}}=await sb.auth.getSession();
+  if(session&&session.user){
+    await onSignedIn(session.user);
+  }
+  // 세션 변경 리스너 - 소셜 로그인 콜백도 여기서 잡힘
+  sb.auth.onAuthStateChange(async function(event, session){
+    if(event === 'SIGNED_IN' && session&&session.user){
+      await onSignedIn(session.user);
+    } else if(event === 'SIGNED_OUT'){
+      onSignedOut();
+    }
+  });
+})();
+
+async function onSignedIn(user){
+  currentUser=user;
+  // DB에서 plan + is_pro 확인
+  const {data:userData}=await sb.from('users').select('is_pro,plan').eq('id',user.id).single();
+  if(userData){
+    // plan 컬럼 우선, 없으면 is_pro로 하위 호환
+    if(userData.plan && userData.plan !== 'free'){
+      userPlan=userData.plan;
+      isPro=(userData.plan==='basic'||userData.plan==='pro');
+    } else if(userData.is_pro){
+      userPlan='basic';
+      isPro=true;
+    }
+    // 이미 분석 결과가 있으면 자동 잠금해제
+    if(isPro && data.notback&&data.notback.length>0){
+      renderList('notback',data.notback,'red','맞팔 안 함',false,null,true);
+      renderList('fans',data.fans,'green','팬',false,null,false);
+    }
+  }
+  // users 테이블에 없으면 insert
+  const {data:existing}=await sb.from('users').select('id').eq('id',user.id).single();
+  if(!existing){
+    await sb.from('users').insert({id:user.id,email:user.email,is_pro:false,created_at:new Date().toISOString()});
+  }
+  updateAuthUI();
+  closeAuthModal();
+}
+
+function onSignedOut(){
+  currentUser=null;
+  isPro=false;
+  userPlan='free';
+  var mypageBtn=document.getElementById('btnMypage');
+  if(mypageBtn) mypageBtn.style.display='none';
+  closeMypage();
+  updateAuthUI();
+}
+
+function updateAuthUI(){
+  const emailEl=document.getElementById('authUserEmail');
+  const btnEl=document.getElementById('btnAuthAction');
+  const mypageBtn=document.getElementById('btnMypage');
+  if(currentUser){
+    emailEl.textContent=currentUser.email+(isPro?' ✦ PRO':'');
+    btnEl.textContent='로그아웃';
+    btnEl.className='btn-auth';
+    if(mypageBtn) mypageBtn.style.display='inline-flex';
+  } else {
+    emailEl.textContent='';
+    btnEl.textContent='로그인';
+    btnEl.className='btn-auth';
+  }
+}
+
+function handleAuthBtn(){
+  if(currentUser){
+    sb.auth.signOut();
+  } else {
+    openAuthModal();
+  }
+}
+
+function openAuthModal(){
+  authMode='login';
+  document.getElementById('authModalTitle').textContent='로그인';
+  document.getElementById('authModalDesc').textContent='이메일로 간편하게 시작하세요';
+  document.getElementById('btnAuthSubmit').textContent='로그인';
+  document.getElementById('authSwitch').innerHTML='계정이 없으신가요? <a onclick="toggleAuthMode()">회원가입</a>';
+  document.getElementById('authMsg').style.display='none';
+  document.getElementById('authEmail').value='';
+  document.getElementById('authPassword').value='';
+  document.getElementById('agreeWrap').style.display='none';
+  if(document.getElementById('agreeTerms')) document.getElementById('agreeTerms').checked=false;
+  if(document.getElementById('agreePrivacy')) document.getElementById('agreePrivacy').checked=false;
+  if(document.getElementById('agreeMarketing')) document.getElementById('agreeMarketing').checked=false;
+  document.getElementById('authModalBg').classList.add('show');
+}
+
+function closeAuthModal(){
+  document.getElementById('authModalBg').classList.remove('show');
+}
+
+function toggleAuthMode(){
+  if(authMode==='login'){
+    authMode='signup';
+    document.getElementById('authModalTitle').textContent='회원가입';
+    document.getElementById('authModalDesc').textContent='무료로 시작하고 Pro로 업그레이드하세요';
+    document.getElementById('btnAuthSubmit').textContent='회원가입';
+    document.getElementById('authSwitch').innerHTML='이미 계정이 있으신가요? <a onclick="toggleAuthMode()">로그인</a>';
+    document.getElementById('agreeWrap').style.display='flex';
+  } else {
+    authMode='login';
+    document.getElementById('authModalTitle').textContent='로그인';
+    document.getElementById('authModalDesc').textContent='이메일로 간편하게 시작하세요';
+    document.getElementById('btnAuthSubmit').textContent='로그인';
+    document.getElementById('authSwitch').innerHTML='계정이 없으신가요? <a onclick="toggleAuthMode()">회원가입</a>';
+    document.getElementById('agreeWrap').style.display='none';
+  }
+  document.getElementById('authMsg').style.display='none';
+}
+
+async function submitAuth(){
+  const email=document.getElementById('authEmail').value.trim();
+  const password=document.getElementById('authPassword').value;
+  const msgEl=document.getElementById('authMsg');
+  const btn=document.getElementById('btnAuthSubmit');
+
+  if(!email||!password){
+    showAuthMsg('이메일과 비밀번호를 입력해주세요','err');
+    return;
+  }
+  // 회원가입 시 약관 동의 필수 확인
+  if(authMode==='signup'){
+    if(!document.getElementById('agreeTerms').checked || !document.getElementById('agreePrivacy').checked){
+      showAuthMsg('이용약관 및 개인정보처리방침에 동의해주세요','err');
+      return;
+    }
+  }
+  btn.disabled=true;
+  btn.textContent='처리 중...';
+
+  if(authMode==='login'){
+    const {error}=await sb.auth.signInWithPassword({email,password});
+    if(error){
+      showAuthMsg('로그인 실패: '+error.message,'err');
+      btn.disabled=false;
+      btn.textContent='로그인';
+    } else {
+      closeAuthModal();
+    }
+  } else {
+    const marketingAgree = document.getElementById('agreeMarketing') ? document.getElementById('agreeMarketing').checked : false;
+    const {data:signUpData,error}=await sb.auth.signUp({email,password});
+    if(error){
+      showAuthMsg('회원가입 실패: '+error.message,'err');
+      btn.disabled=false;
+      btn.textContent='회원가입';
+    } else {
+      // 마케팅 동의 여부 저장 (users 테이블에 insert는 onSignedIn에서 처리)
+      if(signUpData&&signUpData.user){
+        await sb.from('users').upsert({id:signUpData.user.id,email:email,is_pro:false,marketing_agree:marketingAgree,created_at:new Date().toISOString()});
+      }
+      showAuthMsg('✅ 가입 완료! 이메일 확인 후 로그인해주세요','ok');
+      btn.disabled=false;
+      btn.textContent='회원가입';
+    }
+  }
+}
+
+function showAuthMsg(msg,type){
+  const el=document.getElementById('authMsg');
+  el.textContent=msg;
+  el.className='auth-msg '+type;
+  el.style.display='block';
+}
+
+// 유료 여부 서버 확인 함수
+async function checkProStatus(){
+  if(!currentUser) return false;
+  const {data}=await sb.from('users').select('is_pro,pro_since').eq('id',currentUser.id).single();
+  isPro=data&&data.is_pro;
+  updateAuthUI();
+  return isPro;
+}
+
+// 구독 해지 (관리자 또는 향후 마이페이지용)
+async function cancelPro(){
+  if(!currentUser||!isPro) return;
+  if(!confirm('Pro 구독을 해지하시겠습니까?\n현재 구독 기간 만료까지 서비스는 계속 이용 가능합니다.')) return;
+  const {error}=await sb.from('users').update({is_pro:false}).eq('id',currentUser.id);
+  if(!error){
+    isPro=false;
+    updateAuthUI();
+    alert('구독이 해지되었습니다.');
+  }
+}
+
+// 관리자용: 특정 유저 Pro 활성화 (Supabase SQL에서 직접 실행 가능)
+// UPDATE users SET is_pro=true WHERE email='유저이메일';
+
+// ── Supabase users 테이블 필요 컬럼 (SQL Editor에서 실행) ──
+// ALTER TABLE users ADD COLUMN IF NOT EXISTS pro_since TIMESTAMPTZ;
+// ALTER TABLE users ADD COLUMN IF NOT EXISTS imp_uid TEXT;
+// ALTER TABLE users ADD COLUMN IF NOT EXISTS merchant_uid TEXT;
+// ALTER TABLE users ADD COLUMN IF NOT EXISTS marketing_agree BOOLEAN DEFAULT false;
+
+</script>
+<!-- 가격 안내 모달 -->
+<div id="pricingBg" onclick="if(event.target===this)closePricingModal()" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:99999;overflow-y:auto">
+  <div style="min-height:100%;display:flex;align-items:flex-start;justify-content:center;padding:20px;box-sizing:border-box">
+    <div style="background:#fff;border-radius:20px;width:100%;max-width:640px;box-shadow:0 24px 64px rgba(0,0,0,.25);position:relative">
+      <!-- 헤더 -->
+      <div style="padding:28px 28px 0;text-align:center">
+        <button onclick="closePricingModal()" style="position:absolute;right:16px;top:16px;background:none;border:none;font-size:24px;color:#aaa;cursor:pointer;line-height:1;width:32px;height:32px">✕</button>
+        <div style="font-size:13px;font-weight:700;color:#e8001d;letter-spacing:.08em;margin-bottom:8px">PRICING</div>
+        <div style="font-size:22px;font-weight:800;color:#1a1a1a;margin-bottom:6px">합리적인 가격으로<br>소셜 관계의 진실을</div>
+        <div style="font-size:13px;color:#888;margin-bottom:24px">언제든 해지 가능 · 자동 갱신</div>
+      </div>
+      <!-- 플랜 카드 3개 -->
+      <div style="padding:0 20px 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+        <!-- FREE -->
+        <div style="border:1.5px solid #e4e1dd;border-radius:16px;padding:20px 16px;text-align:center">
+          <div style="font-size:10px;font-weight:700;color:#aaa;letter-spacing:.1em;margin-bottom:8px">FREE</div>
+          <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">₩0</div>
+          <div style="font-size:11px;color:#aaa;margin-bottom:16px">영원히 무료</div>
+          <div style="text-align:left;font-size:11px;color:#555;line-height:2;margin-bottom:16px">
+            ✓ 1개 플랫폼<br>✓ 월 3회 분석<br>✓ 결과 5명 공개<br><span style="color:#ccc">✗ 히스토리</span><br><span style="color:#ccc">✗ 멀티계정</span>
+          </div>
+          <button onclick="closePricingModal()" style="width:100%;padding:10px;background:#f2f1ef;color:#888;border:none;border-radius:10px;font-weight:600;font-size:12px;cursor:pointer">현재 플랜</button>
+        </div>
+        <!-- BASIC -->
+        <div style="border:2px solid #e8001d;border-radius:16px;padding:20px 16px;text-align:center;position:relative">
+          <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#e8001d;color:#fff;font-size:10px;font-weight:700;padding:3px 12px;border-radius:20px;white-space:nowrap">추천</div>
+          <div style="font-size:10px;font-weight:700;color:#e8001d;letter-spacing:.1em;margin-bottom:8px">BASIC</div>
+          <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">₩7,900</div>
+          <div style="font-size:11px;color:#aaa;margin-bottom:16px">/월</div>
+          <div style="text-align:left;font-size:11px;color:#555;line-height:2;margin-bottom:16px">
+            ✓ <b>5개 플랫폼</b><br>✓ <b>무제한 분석</b><br>✓ <b>전체 결과</b><br>✓ 1개 계정<br><span style="color:#ccc">✗ 히스토리</span>
+          </div>
+          <button onclick="closePricingModal();handleBasicPay()" style="width:100%;padding:10px;background:linear-gradient(135deg,#e8001d,#ff6b35);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:12px;cursor:pointer">시작하기</button>
+        </div>
+        <!-- PRO -->
+        <div style="border:1.5px solid #e4e1dd;border-radius:16px;padding:20px 16px;text-align:center">
+          <div style="font-size:10px;font-weight:700;color:#888;letter-spacing:.1em;margin-bottom:8px">PRO</div>
+          <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">₩14,900</div>
+          <div style="font-size:11px;color:#aaa;margin-bottom:16px">/월</div>
+          <div style="text-align:left;font-size:11px;color:#555;line-height:2;margin-bottom:16px">
+            ✓ <b>5개 플랫폼</b><br>✓ <b>무제한 분석</b><br>✓ <b>전체 결과</b><br>✓ <b>히스토리</b><br>✓ <b>10개 계정</b>
+          </div>
+          <button onclick="closePricingModal();handleProPay()" style="width:100%;padding:10px;background:#1a1a1a;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:12px;cursor:pointer">시작하기</button>
+        </div>
+      </div>
+      <!-- 비교표 -->
+      <div style="padding:0 20px 24px">
+        <div style="background:#f8f7f5;border-radius:14px;overflow:hidden;font-size:12px">
+          <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;padding:10px 16px;border-bottom:1px solid #e4e1dd;font-weight:700;color:#888;font-size:11px">
+            <span>기능</span><span style="text-align:center">FREE</span><span style="text-align:center;color:#e8001d">BASIC</span><span style="text-align:center">PRO</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;padding:9px 16px;border-bottom:1px solid #e4e1dd">
+            <span style="color:#555">플랫폼</span><span style="text-align:center;color:#888">1개</span><span style="text-align:center;font-weight:600">5개</span><span style="text-align:center;font-weight:600">5개</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;padding:9px 16px;border-bottom:1px solid #e4e1dd">
+            <span style="color:#555">분석 횟수</span><span style="text-align:center;color:#888">월 3회</span><span style="text-align:center;font-weight:600">무제한</span><span style="text-align:center;font-weight:600">무제한</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;padding:9px 16px;border-bottom:1px solid #e4e1dd">
+            <span style="color:#555">결과 공개</span><span style="text-align:center;color:#888">5명</span><span style="text-align:center;font-weight:600">전체</span><span style="text-align:center;font-weight:600">전체</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;padding:9px 16px;border-bottom:1px solid #e4e1dd">
+            <span style="color:#555">히스토리</span><span style="text-align:center;color:#ccc">✗</span><span style="text-align:center;color:#ccc">✗</span><span style="text-align:center;font-weight:600">✓</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;padding:9px 16px">
+            <span style="color:#555">계정 수</span><span style="text-align:center;color:#888">1개</span><span style="text-align:center;color:#888">1개</span><span style="text-align:center;font-weight:600">10개</span>
+          </div>
+        </div>
+      </div>
+      <!-- 안내 -->
+      <!-- 서비스 제공 기간 안내 -->
+      <div style="padding:0 20px 8px">
+        <div style="background:#f8f7f5;border-radius:12px;padding:14px 16px;font-size:11px;color:#666;line-height:1.9">
+          <div style="font-weight:700;color:#1a1a1a;margin-bottom:6px">📋 서비스 제공 기간 안내</div>
+          결제일로부터 <b>1개월(30일)</b> 이용 후 자동 갱신됩니다.<br>
+          매월 동일한 날짜에 자동 결제되며, 언제든지 해지 가능합니다.<br>
+          해지 신청 시 현재 구독 만료일까지 서비스가 유지됩니다.
+        </div>
+      </div>
+      <div style="padding:8px 20px 24px;text-align:center;font-size:11px;color:#aaa;line-height:1.8">
+        모든 플랜은 언제든지 해지 가능 · 해지 후 만료일까지 이용 가능<br>문의: gahee007@gmail.com
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+<!-- deploy-refresh -->
