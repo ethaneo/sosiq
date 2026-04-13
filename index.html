@@ -1199,12 +1199,17 @@ async function renderMypage() {
   body.innerHTML = '<div class="mp-empty">정보를 불러오는 중...</div>';
 
   try {
-    var res1 = await sb.from('users').select('is_pro,pro_since,created_at').eq('id',currentUser.id).single();
+    // maybeSingle() 사용 - 결과 없어도 에러 안 남
+    var res1 = await sb.from('users').select('is_pro,plan,pro_since,created_at').eq('id',currentUser.id).maybeSingle();
     var userData = res1.data;
-    var res2 = await sb.from('subscriptions').select('*').eq('user_id',currentUser.id).order('started_at',{ascending:false}).limit(10);
-    var payments = res2.data || [];
+    // subscriptions 테이블 없으면 빈 배열로 처리
+    var payments = [];
+    try {
+      var res2 = await sb.from('subscriptions').select('*').eq('user_id',currentUser.id).order('started_at',{ascending:false}).limit(10);
+      payments = res2.data || [];
+    } catch(e2) { payments = []; }
 
-    var proStatus = userData && userData.is_pro;
+    var proStatus = userData && (userData.is_pro || (userData.plan && userData.plan !== 'free'));
     var proSince = userData && userData.pro_since ? new Date(userData.pro_since) : null;
     var joinedAt = userData && userData.created_at ? new Date(userData.created_at) : new Date();
 
