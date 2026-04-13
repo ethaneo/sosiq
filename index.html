@@ -443,7 +443,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
       </div>
       <div style="background:#f8f7f5;border-radius:10px;padding:12px">
         <div style="font-size:11px;font-weight:700;color:#e8001d;margin-bottom:4px">💳 구독 서비스 안내</div>
-        <div style="font-size:11px;color:#666;line-height:1.7">• FREE: 무료, 월 3회 분석, 결과 5명<br>• BASIC ₩7,900/월: 무제한 분석<br>• PRO ₩14,900/월: 히스토리+10계정<br>• 결제일로부터 30일, 자동 갱신</div>
+        <div style="font-size:11px;color:#666;line-height:1.7">• FREE: 무료, 월 3회 분석, 결과 5명<br>• BASIC ₩5,900/월: 무제한 분석<br>• PRO ₩9,900/월: 히스토리+10계정<br>• 결제일로부터 30일, 자동 갱신</div>
       </div>
     </div>
   </div>
@@ -1040,7 +1040,7 @@ const legalContent = {
 <h4>제4조 (유료 서비스)</h4>
 <ul>
 <li>무료 이용자는 분석 결과 일부(최대 5명)를 확인할 수 있습니다.</li>
-<li>Pro 구독자(월 ₩4,900)는 전체 분석 결과를 이용할 수 있습니다.</li>
+<li>Pro 구독자(월 ₩9,900)는 전체 분석 결과를 이용할 수 있습니다.</li>
 <li>구독은 월 단위로 자동 갱신되며, 언제든지 해지 가능합니다.</li>
 </ul>
 <h4>제5조 (회원의 의무)</h4>
@@ -1234,12 +1234,14 @@ async function renderMypage() {
     h += '<div class="mp-profile">';
     h += '<div class="mp-avatar">'+initial+'</div>';
     h += '<div><div class="mp-email">'+currentUser.email+'</div>';
-    h += '<span class="mp-badge '+(proStatus?'pro':'free')+'">'+(proStatus?'✦ Pro 구독 중':'무료 이용 중')+'</span></div></div>';
+    h += '<span class="mp-badge '+(proStatus?'pro':'free')+'">'+(userPlan==='pro'?'✦ Pro 구독 중':userPlan==='basic'?'✦ Basic 구독 중':'무료 이용 중')+'</span></div></div>';
 
     // 구독 정보
     h += '<div class="mp-section"><div class="mp-section-title">구독 정보</div><div class="mp-card">';
-    h += '<div class="mp-row"><span class="mp-row-label">현재 플랜</span><span class="mp-row-value '+(proStatus?'accent':'')+'">'+( proStatus?'Realations Pro':'무료 플랜')+'</span></div>';
-    h += '<div class="mp-row"><span class="mp-row-label">월 요금</span><span class="mp-row-value">'+(proStatus?'₩4,900/월':'무료')+'</span></div>';
+    var planName = userPlan==='pro' ? 'Realations Pro' : userPlan==='basic' ? 'Realations Basic' : '무료 플랜';
+    h += '<div class="mp-row"><span class="mp-row-label">현재 플랜</span><span class="mp-row-value '+(proStatus?'accent':'')+'">'+planName+'</span></div>';
+    var planFee = userPlan==='pro' ? '₩9,900/월' : userPlan==='basic' ? '₩5,900/월' : '무료';
+    h += '<div class="mp-row"><span class="mp-row-label">월 요금</span><span class="mp-row-value">'+planFee+'</span></div>';
     if (proStatus && proSince) {
       h += '<div class="mp-row"><span class="mp-row-label">구독 시작일</span><span class="mp-row-value">'+fd(proSince)+'</span></div>';
     }
@@ -1251,7 +1253,7 @@ async function renderMypage() {
 
     // Pro 아닐 때 업그레이드
     if (!proStatus) {
-      h += '<div class="mp-section"><button class="mp-btn primary" onclick="closeMypage()">✦ Pro로 업그레이드 — ₩4,900/월</button></div>';
+      h += '<div class="mp-section"><button class="mp-btn primary" onclick="closeMypage()">✦ Pro로 업그레이드 — ₩5,900/월</button></div>';
     }
 
     // 결제 내역
@@ -1262,7 +1264,7 @@ async function renderMypage() {
         h += '<div class="mp-pay-item">';
         h += '<div><div style="font-size:13px;font-weight:600;color:var(--text)">Realations Pro</div>';
         h += '<div class="mp-pay-date">'+fd(d)+'</div></div>';
-        h += '<div style="text-align:right"><div class="mp-pay-amount">₩4,900</div>';
+        h += '<div style="text-align:right"><div class="mp-pay-amount">₩5,900</div>';
         h += '<span class="mp-pay-status '+(p.status==='active'?'ok':'refund')+'">'+(p.status==='active'?'결제완료':'환불')+'</span></div>';
         h += '</div>';
       });
@@ -1334,8 +1336,8 @@ function showUpgradeModal(msg, reason){
   
   var plans={
     free:{name:'무료',price:'₩0',features:['1개 플랫폼','월 3회 분석','결과 5명 공개']},
-    basic:{name:'Basic',price:'₩7,900/월',features:['5개 플랫폼 전체','무제한 분석','전체 결과 공개','1개 계정']},
-    pro:{name:'Pro',price:'₩14,900/월',features:['5개 플랫폼 전체','무제한 분석','전체 결과 공개','히스토리 비교','10개 계정']}
+    basic:{name:'Basic',price:'₩5,900/월',features:['5개 플랫폼 전체','무제한 분석','전체 결과 공개','1개 계정']},
+    pro:{name:'Pro',price:'₩9,900/월',features:['5개 플랫폼 전체','무제한 분석','전체 결과 공개','히스토리 비교','10개 계정']}
   };
 
   var isHistory=(reason==='history'||reason==='account');
@@ -1351,13 +1353,13 @@ function showUpgradeModal(msg, reason){
     '<div style="padding:0 20px 20px;display:grid;grid-template-columns:1fr 1fr;gap:10px">'+
     '<div style="border:2px solid '+(highlightBasic?'#e8001d':'#e4e1dd')+';border-radius:14px;padding:16px;text-align:center">'+
     '<div style="font-size:11px;font-weight:700;color:'+(highlightBasic?'#e8001d':'#888')+';letter-spacing:.06em;margin-bottom:4px">BASIC'+(highlightBasic?' ✦ 추천':'')+' </div>'+
-    '<div style="font-size:20px;font-weight:800;color:#1a1a1a;margin-bottom:10px">₩7,900<span style="font-size:11px;font-weight:400;color:#888">/월</span></div>'+
+    '<div style="font-size:20px;font-weight:800;color:#1a1a1a;margin-bottom:10px">₩5,900<span style="font-size:11px;font-weight:400;color:#888">/월</span></div>'+
     '<div style="font-size:11px;color:#555;line-height:1.8;margin-bottom:14px">5개 플랫폼<br>무제한 분석<br>전체 결과 공개<br>1개 계정</div>'+
     '<button onclick="closeUpgradeModal();handleBasicPay()" style="width:100%;padding:10px;background:'+(highlightBasic?'linear-gradient(135deg,#e8001d,#ff6b35)':'#f2f1ef')+';color:'+(highlightBasic?'#fff':'#1a1a1a')+';border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">시작하기</button>'+
     '</div>'+
     '<div style="border:2px solid '+(!highlightBasic?'#e8001d':'#e4e1dd')+';border-radius:14px;padding:16px;text-align:center">'+
     '<div style="font-size:11px;font-weight:700;color:'+(!highlightBasic?'#e8001d':'#888')+';letter-spacing:.06em;margin-bottom:4px">PRO'+(!highlightBasic?' ✦ 추천':'')+' </div>'+
-    '<div style="font-size:20px;font-weight:800;color:#1a1a1a;margin-bottom:10px">₩14,900<span style="font-size:11px;font-weight:400;color:#888">/월</span></div>'+
+    '<div style="font-size:20px;font-weight:800;color:#1a1a1a;margin-bottom:10px">₩9,900<span style="font-size:11px;font-weight:400;color:#888">/월</span></div>'+
     '<div style="font-size:11px;color:#555;line-height:1.8;margin-bottom:14px">5개 플랫폼<br>무제한 분석<br>전체 결과 공개<br>히스토리 비교<br>10개 계정</div>'+
     '<button onclick="closeUpgradeModal();handleProPay()" style="width:100%;padding:10px;background:'+(!highlightBasic?'linear-gradient(135deg,#e8001d,#ff6b35)':'#f2f1ef')+';color:'+(!highlightBasic?'#fff':'#1a1a1a')+';border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">시작하기</button>'+
     '</div>'+
@@ -2142,8 +2144,8 @@ function renderList(key,users,badgeClass,badgeText,hasWall,unavailKey,showTs){
         '<div class="pf-row"><div class="pf-icon">✓</div>차단·제한·대기 계정 전체 확인</div>'+
         '<div class="pf-row"><div class="pf-icon">✓</div>인스타그램 프로필 바로가기</div>'+
         '</div>'+
-        '<div class="paywall-price"><div class="price-original">월 ₩9,800</div><div class="price-main">₩4,900</div><div class="price-period">/ 월 · 언제든 해지 가능</div></div>'+
-        '<button class="btn-toss-pay" onclick="handleBasicPay()"><span class="toss-logo-badge">✦</span>Basic으로 업그레이드 — ₩7,900/월</button>'+
+        '<div class="paywall-price"><div class="price-original">월 ₩9,900</div><div class="price-main">₩5,900</div><div class="price-period">/ 월 · 언제든 해지 가능</div></div>'+
+        '<button class="btn-toss-pay" onclick="handleBasicPay()"><span class="toss-logo-badge">✦</span>Basic으로 업그레이드 — ₩5,900/월</button>'+
         '<button onclick="closePricingModal||openPricingModal()" style="width:100%;padding:10px;background:none;border:1px solid #e4e1dd;border-radius:10px;font-size:12px;color:#888;cursor:pointer;margin-top:6px" onclick="openPricingModal()">요금제 전체 보기</button>'+
         '<div class="paywall-note">결제 후 즉시 잠금 해제 · 자동 갱신 · 구독 해지 언제든 가능</div>'+
         '</div></div>';
@@ -2199,8 +2201,8 @@ function sortList(key,val){
         '<div class="pf-row"><div class="pf-icon">✓</div>차단·제한·대기 계정 전체 확인</div>'+
         '<div class="pf-row"><div class="pf-icon">✓</div>인스타그램 프로필 바로가기</div>'+
         '</div>'+
-        '<div class="paywall-price"><div class="price-original">월 ₩9,800</div><div class="price-main">₩4,900</div><div class="price-period">/ 월 · 언제든 해지 가능</div></div>'+
-        '<button class="btn-toss-pay" onclick="handleBasicPay()"><span class="toss-logo-badge">✦</span>Basic으로 업그레이드 — ₩7,900/월</button>'+
+        '<div class="paywall-price"><div class="price-original">월 ₩9,900</div><div class="price-main">₩5,900</div><div class="price-period">/ 월 · 언제든 해지 가능</div></div>'+
+        '<button class="btn-toss-pay" onclick="handleBasicPay()"><span class="toss-logo-badge">✦</span>Basic으로 업그레이드 — ₩5,900/월</button>'+
         '<button onclick="closePricingModal||openPricingModal()" style="width:100%;padding:10px;background:none;border:1px solid #e4e1dd;border-radius:10px;font-size:12px;color:#888;cursor:pointer;margin-top:6px" onclick="openPricingModal()">요금제 전체 보기</button>'+
         '<div class="paywall-note">결제 후 즉시 잠금 해제 · 자동 갱신 · 구독 해지 언제든 가능</div>'+
         '</div></div>';
@@ -2228,8 +2230,8 @@ function handleBasicPay(){
     pay_method:'card',
     merchant_uid: MERCHANT_UID,
     customer_uid: CUSTOMER_UID,
-    name:'Realations Basic (월 정기구독)',
-    amount:100,
+    name:'Realations Basic (월 정기구독 ₩5,900)',
+    amount:5900,
     buyer_email:currentUser.email,
     buyer_name:currentUser.email,
     m_redirect_url:'https://realation.world',
@@ -2251,8 +2253,8 @@ function handleProPay(){
     pay_method:'card',
     merchant_uid: MERCHANT_UID,
     customer_uid: CUSTOMER_UID,
-    name:'Realations Pro (월 정기구독)',
-    amount:100,
+    name:'Realations Pro (월 정기구독 ₩9,900)',
+    amount:9900,
     buyer_email:currentUser.email,
     buyer_name:currentUser.email,
     m_redirect_url:'https://realation.world',
@@ -2289,6 +2291,15 @@ async function updatePlanStatus(plan, impUid, merchantUid){
 
 function showPaySuccess(){
   isPro=true;
+  // 플랜에 맞게 텍스트 변경
+  var modalP = document.querySelector('#payModalBg p');
+  if(modalP){
+    if(userPlan==='basic'){
+      modalP.innerHTML='Realations Basic이 활성화됐어요.<br>전체 결과를 모두 확인해보세요.';
+    } else {
+      modalP.innerHTML='Realations Pro가 활성화됐어요.<br>전체 결과를 모두 확인해보세요.';
+    }
+  }
   document.getElementById('payModalBg').classList.add('show');
 }
 
@@ -2649,7 +2660,7 @@ async function cancelPro(){
         <div style="border:2px solid #e8001d;border-radius:16px;padding:20px 16px;text-align:center;position:relative">
           <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#e8001d;color:#fff;font-size:10px;font-weight:700;padding:3px 12px;border-radius:20px;white-space:nowrap">추천</div>
           <div style="font-size:10px;font-weight:700;color:#e8001d;letter-spacing:.1em;margin-bottom:8px">BASIC</div>
-          <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">₩7,900</div>
+          <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">₩5,900</div>
           <div style="font-size:11px;color:#aaa;margin-bottom:16px">/월</div>
           <div style="text-align:left;font-size:11px;color:#555;line-height:2;margin-bottom:16px">
             ✓ <b>5개 플랫폼</b><br>✓ <b>무제한 분석</b><br>✓ <b>전체 결과</b><br>✓ 1개 계정<br><span style="color:#ccc">✗ 히스토리</span>
@@ -2659,7 +2670,7 @@ async function cancelPro(){
         <!-- PRO -->
         <div style="border:1.5px solid #e4e1dd;border-radius:16px;padding:20px 16px;text-align:center">
           <div style="font-size:10px;font-weight:700;color:#888;letter-spacing:.1em;margin-bottom:8px">PRO</div>
-          <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">₩14,900</div>
+          <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">₩9,900</div>
           <div style="font-size:11px;color:#aaa;margin-bottom:16px">/월</div>
           <div style="text-align:left;font-size:11px;color:#555;line-height:2;margin-bottom:16px">
             ✓ <b>5개 플랫폼</b><br>✓ <b>무제한 분석</b><br>✓ <b>전체 결과</b><br>✓ <b>히스토리</b><br>✓ <b>10개 계정</b>
