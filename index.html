@@ -315,7 +315,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 .biz-info a:hover{color:#555!important}
 
 /* ── 마이페이지 모달 ── */
-.mypage-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:99998;display:none;align-items:center;justify-content:center;padding:16px}
+.mypage-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:99998;display:none;align-items:center;justify-content:center;padding:16px;box-sizing:border-box}
 .mypage-bg.show{display:flex!important;animation:fadeUp .2s ease}
 .mypage-modal{background:var(--s1);border-radius:20px;width:100%;max-width:480px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.18);overflow:hidden}
 .mypage-head{padding:22px 24px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
@@ -852,6 +852,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
     <p>Realations Pro가 활성화됐어요.<br>전체 결과를 모두 확인해보세요.</p>
     <button class="btn-pm-confirm" onclick="unlockAll()">전체 결과 보기 →</button>
   </div>
+</div>
 
 <!-- 마이페이지 모달 -->
 <div class="mypage-bg" id="mypageBg">
@@ -1192,10 +1193,8 @@ async function openMypage() {
 function closeMypage() {
   var bg = document.getElementById('mypageBg');
   if (bg) { bg.classList.remove('show'); bg.style.display = 'none'; }
-  // pricing이나 legal 모달이 열려있지 않을 때만 복원
-  var pricingOpen = document.getElementById('pricingBg') && document.getElementById('pricingBg').style.display === 'flex';
-  var legalOpen = document.getElementById('legalModalBg');
-  if (!pricingOpen && !legalOpen) document.body.style.overflow = '';
+  document.body.style.overflow = '';
+  document.documentElement.style.overflow = '';
 }
 
 async function renderMypage() {
@@ -2439,7 +2438,7 @@ function completeXStep(n){
 async function onSignedIn(user){
   currentUser=user;
   // DB에서 plan + is_pro 확인
-  const {data:userData}=await sb.from('users').select('is_pro,plan').eq('id',user.id).single();
+  const {data:userData}=await sb.from('users').select('is_pro,plan').eq('id',user.id).maybeSingle();
   if(userData){
     // plan 컬럼 우선, 없으면 is_pro로 하위 호환
     if(userData.plan && userData.plan !== 'free'){
@@ -2456,7 +2455,7 @@ async function onSignedIn(user){
     }
   }
   // users 테이블에 없으면 insert
-  const {data:existing}=await sb.from('users').select('id').eq('id',user.id).single();
+  const {data:existing}=await sb.from('users').select('id').eq('id',user.id).maybeSingle();
   if(!existing){
     await sb.from('users').insert({id:user.id,email:user.email,is_pro:false,created_at:new Date().toISOString()});
   }
