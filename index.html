@@ -854,6 +854,17 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
   </div>
 </div>
 
+<div class="pay-modal-bg" id="payRetryModalBg">
+  <div class="pay-modal">
+    <span class="pm-icon">😢</span>
+    <h3>결제 실패</h3>
+    <p id="payRetryMsg">결제에 실패했습니다.</p>
+    <button class="btn-pm-confirm" id="payRetryBtn" onclick="closePayRetry();handleBasicPay()" style="margin-bottom:10px">다시 시도하기</button>
+    <button onclick="closePayRetry()" style="width:100%;background:none;border:1px solid var(--border);border-radius:12px;padding:14px;font-family:var(--font);font-size:14px;color:var(--muted);cursor:pointer">닫기</button>
+    <p style="font-size:11px;color:var(--muted);margin-top:12px;line-height:1.6">계속 문제가 발생하면 <a href="mailto:gahee007@gmail.com" style="color:var(--primary)">gahee007@gmail.com</a>으로 문의해 주세요.</p>
+  </div>
+</div>
+
 <!-- 마이페이지 모달 -->
 <div class="mypage-bg" id="mypageBg">
   <div class="mypage-modal">
@@ -947,10 +958,11 @@ function applyLang(lang) {
     if (svg) p.insertBefore(svg, p.firstChild);
   });
 
-  // 분석 버튼
+  // 분석 버튼 — 분석 중/완료 상태가 아닐 때만 텍스트 교체
   var analyzeBtn = document.getElementById('btnAnalyze');
-  if (analyzeBtn && analyzeBtn.textContent !== (i18n[lang === 'ko' ? 'en' : 'ko'].analyzingBtn)) {
-    if (!analyzeBtn.disabled || analyzeBtn.textContent === i18n[lang === 'ko' ? 'en' : 'ko'].analyzeBtn) {
+  if (analyzeBtn) {
+    var activeTexts = [i18n.ko.analyzingBtn, i18n.en.analyzingBtn, i18n.ko.analyzeDoneBtn, i18n.en.analyzeDoneBtn];
+    if (activeTexts.indexOf(analyzeBtn.textContent) === -1) {
       analyzeBtn.textContent = t.analyzeBtn;
     }
   }
@@ -1147,12 +1159,32 @@ function openLegal(type) {
   bg.addEventListener('click', function(e){ if(e.target===bg) closeLegal(); });
 }
 
+function isAnyModalOpen(){
+  var mypage = document.getElementById('mypageBg');
+  var auth   = document.getElementById('authModalBg');
+  var pay    = document.getElementById('payModalBg');
+  var retry  = document.getElementById('payRetryModalBg');
+  var upgrade= document.getElementById('upgradeBg');
+  var pricing= document.getElementById('pricingBg');
+  return (mypage  && mypage.classList.contains('show'))  ||
+         (auth    && auth.classList.contains('show'))    ||
+         (pay     && pay.classList.contains('show'))     ||
+         (retry   && retry.classList.contains('show'))   ||
+         (!!upgrade) ||
+         (pricing && pricing.style.display !== 'none');
+}
+
+function restoreOverflowIfClear(){
+  if (!isAnyModalOpen()) {
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+  }
+}
+
 function closeLegal() {
   var bg = document.getElementById('legalModalBg');
   if (bg) bg.remove();
-  // overflow 복원 (다른 모달이 열려있지 않을 때만)
-  var anyOpen = document.getElementById('mypageBg') && document.getElementById('mypageBg').classList.contains('show');
-  if (!anyOpen) document.body.style.overflow = '';
+  restoreOverflowIfClear();
 }
 document.addEventListener('click', function(e) {
   if (e.target.id === 'legalModalBg') closeLegal();
@@ -1193,8 +1225,7 @@ async function openMypage() {
 function closeMypage() {
   var bg = document.getElementById('mypageBg');
   if (bg) { bg.classList.remove('show'); bg.style.display = 'none'; }
-  document.body.style.overflow = '';
-  document.documentElement.style.overflow = '';
+  restoreOverflowIfClear();
 }
 
 async function renderMypage() {
@@ -1261,10 +1292,12 @@ async function renderMypage() {
     if (payments.length > 0) {
       payments.forEach(function(p) {
         var d = new Date(p.started_at);
+        var planLabel=p.plan==='pro'?'Realations Pro':p.plan==='basic'?'Realations Basic':'Realations';
+        var planAmount=p.amount?'₩'+p.amount.toLocaleString():(p.plan==='pro'?'₩9,900':'₩5,900');
         h += '<div class="mp-pay-item">';
-        h += '<div><div style="font-size:13px;font-weight:600;color:var(--text)">Realations Pro</div>';
+        h += '<div><div style="font-size:13px;font-weight:600;color:var(--text)">'+planLabel+'</div>';
         h += '<div class="mp-pay-date">'+fd(d)+'</div></div>';
-        h += '<div style="text-align:right"><div class="mp-pay-amount">₩5,900</div>';
+        h += '<div style="text-align:right"><div class="mp-pay-amount">'+planAmount+'</div>';
         h += '<span class="mp-pay-status '+(p.status==='active'?'ok':'refund')+'">'+(p.status==='active'?'결제완료':'환불')+'</span></div>';
         h += '</div>';
       });
@@ -1296,6 +1329,8 @@ async function renderMypage() {
 // 배경 클릭으로 닫기
 document.addEventListener('click', function(e) {
   if (e.target.id === 'mypageBg') closeMypage();
+  if (e.target.id === 'payModalBg') closePayModal();
+  if (e.target.id === 'payRetryModalBg') closePayRetry();
 });
 
 
@@ -1305,22 +1340,39 @@ function getCurrentMonth(){
   return d.getFullYear()+'-'+(d.getMonth()+1);
 }
 
-function checkFreeMonthlyLimit(){
+async function checkFreeMonthlyLimit(){
   if(userPlan!=='free') return true;
-  var key='realation_free_count_'+getCurrentMonth();
-  var count=parseInt(localStorage.getItem(key)||'0');
-  if(count>=3){
-    showUpgradeModal('이번 달 무료 분석 3회를 모두 사용했습니다.','monthly');
-    return false;
+  var month=getCurrentMonth();
+
+  if(currentUser){
+    // 로그인 유저: Supabase에서 카운트 확인
+    // 필요 컬럼: ALTER TABLE users ADD COLUMN IF NOT EXISTS free_count INT DEFAULT 0;
+    //           ALTER TABLE users ADD COLUMN IF NOT EXISTS free_month TEXT;
+    var res=await sb.from('users').select('free_count,free_month').eq('id',currentUser.id).maybeSingle();
+    var d=res.data;
+    var count=(d&&d.free_month===month)?parseInt(d.free_count||0):0;
+    if(count>=3){
+      showUpgradeModal('이번 달 무료 분석 3회를 모두 사용했습니다.','monthly');
+      return false;
+    }
+    await sb.from('users').update({free_count:count+1,free_month:month}).eq('id',currentUser.id);
+  } else {
+    // 비로그인: localStorage (기기 단위, 우회 가능)
+    var key='realation_free_count_'+month;
+    var count=parseInt(localStorage.getItem(key)||'0');
+    if(count>=3){
+      showUpgradeModal('이번 달 무료 분석 3회를 모두 사용했습니다.','monthly');
+      return false;
+    }
+    localStorage.setItem(key,count+1);
   }
-  localStorage.setItem(key, count+1);
   return true;
 }
 
 function canSelectPlatform(plt){
   // Free: 분석 이력이 있고 다른 플랫폼 선택 시 제한
   if(userPlan==='free'){
-    var analyzed=data.notback!==null||data.fans!==null;
+    var analyzed=data.notback.length>0||data.fans.length>0;
     if(analyzed && plt!==currentPlatform){
       showUpgradeModal('멀티 플랫폼 분석은 Basic부터 가능합니다.','platform');
       return false;
@@ -1377,7 +1429,7 @@ function showUpgradeModal(msg, reason){
 function closeUpgradeModal(){
   var bg=document.getElementById('upgradeBg');
   if(bg) bg.remove();
-  document.body.style.overflow='';
+  restoreOverflowIfClear();
 }
 
 
@@ -1400,6 +1452,8 @@ document.addEventListener('keydown',function(e){
     closeMypage();
     closeLegal();
     closeUpgradeModal();
+    closePayModal();
+    closePayRetry();
   }
 });
 
@@ -1446,7 +1500,7 @@ function completeStep(n){
     dot.style.left='calc('+pct+'% - 7px)';
   }
   if(pct>=100){
-    var hr=document.getElementById('progDotHandR');
+    var hr=document.getElementById('progDotHR');
     if(hr) hr.classList.add('active');
   }
   const next=document.getElementById('s'+(n+1));
@@ -1665,11 +1719,11 @@ async function processXZip(zip,files,zone,found){
 }
 
 // ── X 분석 ──
-function runXAnalysis(){
+async function runXAnalysis(){
   var btn=document.getElementById('btnAnalyze');
   var bar=document.getElementById('loadingBar');
   // Free 플랜 월 3회 제한
-  if(!checkFreeMonthlyLimit()){return;}
+  if(!await checkFreeMonthlyLimit()){return;}
   btn.disabled=true;btn.textContent='분석 중...';bar.style.display='block';
   setTimeout(function(){
     var following=store.x_following||[];
@@ -1737,6 +1791,13 @@ function runXAnalysis(){
     document.getElementById('resultsMeta').textContent=
       '𝕏 X·Twitter · 팔로워 '+total.toLocaleString()+'명 · 팔로잉 '+following.length.toLocaleString()+'명 분석 완료';
 
+    // X 아카이브 ID 표시 안내
+    var summaryEl=document.getElementById('mutualSummary');
+    if(summaryEl){
+      summaryEl.textContent='ℹ️ X 아카이브에는 @username이 포함되지 않아 계정 ID로 표시됩니다. 각 항목의 링크를 통해 실제 프로필을 확인하세요.';
+      summaryEl.style.display='block';
+    }
+
     // 탭 이름 X용으로 변경
     var t6=document.querySelector('.tab-btn[data-t="restricted"]');
     if(t6) t6.innerHTML='🔇 뮤트 <span id="tc6">'+(mutes.length>0?'('+mutes.length+')':'')+'</span>';
@@ -1756,11 +1817,11 @@ function runXAnalysis(){
 
 
 // ── THREADS 분석 ──
-function runThreadsAnalysis(){
+async function runThreadsAnalysis(){
   var btn=document.getElementById('btnAnalyze');
   var bar=document.getElementById('loadingBar');
   // Free 플랜 월 3회 제한
-  if(!checkFreeMonthlyLimit()){return;}
+  if(!await checkFreeMonthlyLimit()){return;}
   btn.disabled=true;btn.textContent='분석 중...';bar.style.display='block';
   setTimeout(function(){
     var followers=extractUsers(store.th_followers);
@@ -1802,11 +1863,11 @@ function runThreadsAnalysis(){
 }
 
 // ── LINKEDIN 분석 ──
-function runLinkedInAnalysis(){
+async function runLinkedInAnalysis(){
   var btn=document.getElementById('btnAnalyze');
   var bar=document.getElementById('loadingBar');
   // Free 플랜 월 3회 제한
-  if(!checkFreeMonthlyLimit()){return;}
+  if(!await checkFreeMonthlyLimit()){return;}
   btn.disabled=true;btn.textContent='분석 중...';bar.style.display='block';
   setTimeout(function(){
     var conns=store.li_connections||[];
@@ -1922,9 +1983,10 @@ function runAnalysis(){
   else runInstagramAnalysis();
 }
 
-function runInstagramAnalysis(){
+async function runInstagramAnalysis(){
   const btn=document.getElementById('btnAnalyze');
   const bar=document.getElementById('loadingBar');
+  if(!await checkFreeMonthlyLimit()){return;}
   btn.disabled=true;
   btn.textContent='분석 중...';
   bar.style.display='block';
@@ -1991,11 +2053,11 @@ function runInstagramAnalysis(){
 }
 
 // ── 틱톡 분석 ──
-function runTikTokAnalysis(){
+async function runTikTokAnalysis(){
   var btn=document.getElementById('btnAnalyze');
   var bar=document.getElementById('loadingBar');
   // Free 플랜 월 3회 제한
-  if(!checkFreeMonthlyLimit()){return;}
+  if(!await checkFreeMonthlyLimit()){return;}
   btn.disabled=true;
   btn.textContent='분석 중...';
   bar.style.display='block';
@@ -2102,6 +2164,26 @@ function tsLabel(ts){
   return d.toLocaleDateString('ko-KR',{year:'2-digit',month:'short',day:'numeric'});
 }
 
+function getUserProfileUrl(u){
+  if(u.href) return u.href;
+  switch(currentPlatform){
+    case 'tiktok': return 'https://www.tiktok.com/@'+u.username;
+    case 'threads': return 'https://www.threads.net/@'+u.username;
+    case 'x': return 'https://twitter.com/intent/user?user_id='+u.username.replace('ID:','');
+    case 'linkedin': return '#';
+    default: return 'https://www.instagram.com/'+u.username;
+  }
+}
+function getUserHandleText(u){
+  switch(currentPlatform){
+    case 'tiktok': return 'tiktok.com/@'+u.username;
+    case 'threads': return 'threads.net/@'+u.username;
+    case 'x': return u.username;
+    case 'linkedin': return u.href||u.username;
+    default: return 'instagram.com/'+u.username;
+  }
+}
+
 function renderList(key,users,badgeClass,badgeText,hasWall,unavailKey,showTs){
   var container=document.getElementById('list-'+key);
   var wallEl=document.getElementById('wall-'+key);
@@ -2124,9 +2206,11 @@ function renderList(key,users,badgeClass,badgeText,hasWall,unavailKey,showTs){
   }
   var display=hasWall?users.slice(0,FREE_LIMIT):users;
   container.innerHTML=display.map(function(u){
-    return '<a class="user-card" href="https://instagram.com/'+u.username+'" target="_blank" rel="noopener">'+
+    var profileUrl=getUserProfileUrl(u);
+    var handleText=getUserHandleText(u);
+    return '<a class="user-card" href="'+profileUrl+'" target="_blank" rel="noopener">'+
       '<div class="avatar" style="background:linear-gradient('+gc(u.username)+')">'+u.username.charAt(0).toUpperCase()+'</div>'+
-      '<div class="user-details"><div class="user-name">@'+u.username+'</div><div class="user-handle">instagram.com/'+u.username+'</div></div>'+
+      '<div class="user-details"><div class="user-name">@'+u.username+'</div><div class="user-handle">'+handleText+'</div></div>'+
       '<div class="user-meta">'+(u.ts&&showTs?'<span class="ts-label">'+tsLabel(u.ts)+'</span>':'')+
       '<span class="badge '+badgeClass+'">'+badgeText+'</span></div></a>';
   }).join('');
@@ -2146,7 +2230,7 @@ function renderList(key,users,badgeClass,badgeText,hasWall,unavailKey,showTs){
         '</div>'+
         '<div class="paywall-price"><div class="price-original">월 ₩9,900</div><div class="price-main">₩5,900</div><div class="price-period">/ 월 · 언제든 해지 가능</div></div>'+
         '<button class="btn-toss-pay" onclick="handleBasicPay()"><span class="toss-logo-badge">✦</span>Basic으로 업그레이드 — ₩5,900/월</button>'+
-        '<button onclick="closePricingModal||openPricingModal()" style="width:100%;padding:10px;background:none;border:1px solid #e4e1dd;border-radius:10px;font-size:12px;color:#888;cursor:pointer;margin-top:6px" onclick="openPricingModal()">요금제 전체 보기</button>'+
+        '<button onclick="closeUpgradeModal();openPricingModal()" style="width:100%;padding:10px;background:none;border:1px solid #e4e1dd;border-radius:10px;font-size:12px;color:#888;cursor:pointer;margin-top:6px">요금제 전체 보기</button>'+
         '<div class="paywall-note">결제 후 즉시 잠금 해제 · 자동 갱신 · 구독 해지 언제든 가능</div>'+
         '</div></div>';
     } else wallEl.innerHTML='';
@@ -2160,9 +2244,11 @@ function filterList(key,q){
   var container=document.getElementById('list-'+key);
   if(!filtered.length){container.innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-text">검색 결과 없음</div></div>';return;}
   container.innerHTML=filtered.map(function(u){
-    return '<a class="user-card" href="https://instagram.com/'+u.username+'" target="_blank" rel="noopener">'+
+    var profileUrl=getUserProfileUrl(u);
+    var handleText=getUserHandleText(u);
+    return '<a class="user-card" href="'+profileUrl+'" target="_blank" rel="noopener">'+
       '<div class="avatar" style="background:linear-gradient('+gc(u.username)+')">'+u.username.charAt(0).toUpperCase()+'</div>'+
-      '<div class="user-details"><div class="user-name">@'+u.username+'</div><div class="user-handle">instagram.com/'+u.username+'</div></div>'+
+      '<div class="user-details"><div class="user-name">@'+u.username+'</div><div class="user-handle">'+handleText+'</div></div>'+
       '<div class="user-meta"><span class="badge '+bc+'">'+bt+'</span></div></a>';
   }).join('');
 }
@@ -2181,9 +2267,11 @@ function sortList(key,val){
   var display=hasWall?sorted.slice(0,FREE_LIMIT):sorted;
   var showTs=key==='notback';
   container.innerHTML=display.map(function(u){
-    return '<a class="user-card" href="https://instagram.com/'+u.username+'" target="_blank" rel="noopener">'+
+    var profileUrl=getUserProfileUrl(u);
+    var handleText=getUserHandleText(u);
+    return '<a class="user-card" href="'+profileUrl+'" target="_blank" rel="noopener">'+
       '<div class="avatar" style="background:linear-gradient('+gc(u.username)+')">'+u.username.charAt(0).toUpperCase()+'</div>'+
-      '<div class="user-details"><div class="user-name">@'+u.username+'</div><div class="user-handle">instagram.com/'+u.username+'</div></div>'+
+      '<div class="user-details"><div class="user-name">@'+u.username+'</div><div class="user-handle">'+handleText+'</div></div>'+
       '<div class="user-meta">'+(u.ts&&showTs?'<span class="ts-label">'+tsLabel(u.ts)+'</span>':'')+
       '<span class="badge '+bc+'">'+bt+'</span></div></a>';
   }).join('');
@@ -2203,7 +2291,7 @@ function sortList(key,val){
         '</div>'+
         '<div class="paywall-price"><div class="price-original">월 ₩9,900</div><div class="price-main">₩5,900</div><div class="price-period">/ 월 · 언제든 해지 가능</div></div>'+
         '<button class="btn-toss-pay" onclick="handleBasicPay()"><span class="toss-logo-badge">✦</span>Basic으로 업그레이드 — ₩5,900/월</button>'+
-        '<button onclick="closePricingModal||openPricingModal()" style="width:100%;padding:10px;background:none;border:1px solid #e4e1dd;border-radius:10px;font-size:12px;color:#888;cursor:pointer;margin-top:6px" onclick="openPricingModal()">요금제 전체 보기</button>'+
+        '<button onclick="closeUpgradeModal();openPricingModal()" style="width:100%;padding:10px;background:none;border:1px solid #e4e1dd;border-radius:10px;font-size:12px;color:#888;cursor:pointer;margin-top:6px">요금제 전체 보기</button>'+
         '<div class="paywall-note">결제 후 즉시 잠금 해제 · 자동 갱신 · 구독 해지 언제든 가능</div>'+
         '</div></div>';
     } else if(wallEl) wallEl.innerHTML='';
@@ -2234,11 +2322,11 @@ function handleBasicPay(){
     amount:5900,
     buyer_email:currentUser.email,
     buyer_name:currentUser.email,
-    m_redirect_url:'https://realation.world',
+    m_redirect_url:'https://realation.world?plan=basic',
     bypass: { kcp_group_id: 'IP7191056682' }
   }, async function(rsp){
-    if(rsp.success){ await updatePlanStatus('basic', rsp.imp_uid, rsp.merchant_uid); }
-    else { alert('결제 실패: '+rsp.error_msg); }
+    if(rsp.success){ await verifyAndActivate('basic', rsp.imp_uid, rsp.merchant_uid); }
+    else { showPayRetry('basic', rsp.error_msg||'결제가 취소되었습니다.'); }
   });
 }
 
@@ -2257,37 +2345,53 @@ function handleProPay(){
     amount:9900,
     buyer_email:currentUser.email,
     buyer_name:currentUser.email,
-    m_redirect_url:'https://realation.world',
+    m_redirect_url:'https://realation.world?plan=pro',
     bypass: { kcp_group_id: 'IP7191056682' }
   }, async function(rsp){
-    if(rsp.success){ await updatePlanStatus('pro', rsp.imp_uid, rsp.merchant_uid); }
-    else { alert('결제 실패: '+rsp.error_msg); }
+    if(rsp.success){ await verifyAndActivate('pro', rsp.imp_uid, rsp.merchant_uid); }
+    else { showPayRetry('pro', rsp.error_msg||'결제가 취소되었습니다.'); }
   });
 }
 
-async function updateProStatus(impUid, merchantUid){ await updatePlanStatus('basic', impUid, merchantUid); } // 하위 호환
-
-async function updatePlanStatus(plan, impUid, merchantUid){
+// 서버사이드 결제 검증 후 플랜 활성화
+async function verifyAndActivate(plan, impUid, merchantUid){
   try{
-    const {error}=await sb.from('users').update({
-      is_pro: true,
-      plan: plan,
-      pro_since: new Date().toISOString(),
-      imp_uid: impUid,
-      merchant_uid: merchantUid
-    }).eq('id', currentUser.id);
-    if(error) throw error;
-    userPlan=plan;
-    isPro=true;
-    showPaySuccess();
+    var res=await fetch(SUPABASE_URL+'/functions/v1/verify-payment',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},
+      body:JSON.stringify({imp_uid:impUid,merchant_uid:merchantUid,plan:plan,user_id:currentUser.id})
+    });
+    var result=await res.json();
+    if(res.ok && result.success){
+      userPlan=plan;
+      isPro=true;
+      showPaySuccess();
+    } else {
+      // Edge Function 실패 시 재시도 모달
+      showPayRetry(plan, result.error||'결제 검증에 실패했습니다. 잠시 후 다시 시도해주세요.');
+    }
   } catch(e){
-    console.error('DB 업데이트 오류:', e);
-    userPlan=plan;
-    isPro=true;
-    showPaySuccess();
-    alert('결제는 완료됐습니다. 새로고침 후 이용해주세요.');
+    showPayRetry(plan, '네트워크 오류가 발생했습니다. 고객센터로 문의해 주세요.');
   }
 }
+
+function showPayRetry(plan, msg){
+  var modal=document.getElementById('payRetryModalBg');
+  var msgEl=document.getElementById('payRetryMsg');
+  var retryBtn=document.getElementById('payRetryBtn');
+  if(msgEl) msgEl.textContent=msg||'결제에 실패했습니다.';
+  // 재시도 버튼을 해당 플랜 결제 함수와 연결
+  if(retryBtn) retryBtn.onclick=function(){ closePayRetry(); plan==='pro'?handleProPay():handleBasicPay(); };
+  if(modal){ modal.classList.add('show'); document.body.style.overflow='hidden'; }
+}
+
+function closePayRetry(){
+  var modal=document.getElementById('payRetryModalBg');
+  if(modal) modal.classList.remove('show');
+  restoreOverflowIfClear();
+}
+
+async function updateProStatus(impUid, merchantUid){ await verifyAndActivate('basic', impUid, merchantUid); } // 하위 호환
 
 function showPaySuccess(){
   isPro=true;
@@ -2303,19 +2407,51 @@ function showPaySuccess(){
   document.getElementById('payModalBg').classList.add('show');
 }
 
+function closePayModal(){
+  document.getElementById('payModalBg').classList.remove('show');
+  restoreOverflowIfClear();
+}
+
 function unlockAll(){
   isPro=true;
   document.getElementById('payModalBg').classList.remove('show');
-  renderList('notback',data.notback,'red','맞팔 안 함',false,null,true);
-  renderList('fans',data.fans,'green','팬',false,null,false);
+  // 플랫폼별로 모든 탭 재렌더링 (paywall 제거)
+  if(currentPlatform==='instagram'){
+    renderList('notback',data.notback,'red','맞팔 안 함',false,null,true);
+    renderList('fans',data.fans,'green','팬',false,null,false);
+    renderList('blocked',data.blocked,'orange','차단',false,store.blocked===null?'blocked':null,false);
+    renderList('pending',data.pending,'blue','대기 중',false,store.pending===null?'pending':null,false);
+    renderList('restricted',data.restricted,'yellow','제한',false,store.restricted===null?'restricted':null,false);
+    renderList('close_friends',data.close_friends,'pink','친한 친구',false,store.close_friends===null?'close_friends':null,false);
+  } else if(currentPlatform==='tiktok'){
+    renderList('notback',data.notback,'red','맞팔 안 함',false,null,false);
+    renderList('fans',data.fans,'green','팬',false,null,false);
+    renderList('blocked',data.blocked,'orange','차단',false,(store.tk_blocked&&store.tk_blocked.length===0)?'blocked':null,false);
+  } else if(currentPlatform==='threads'){
+    renderList('notback',data.notback,'red','맞팔 안 함',false,null,true);
+    renderList('fans',data.fans,'green','팬',false,null,false);
+  } else if(currentPlatform==='linkedin'){
+    renderList('notback',data.notback,'blue','연결',false,null,true);
+    renderList('fans',data.fans,'green','최근',false,null,true);
+  } else if(currentPlatform==='x'){
+    renderList('notback',data.notback,'red','맞팔 안 함',false,null,false);
+    renderList('fans',data.fans,'green','팬',false,null,false);
+    renderList('blocked',data.blocked,'orange','차단',false,(store.x_blocks&&store.x_blocks.length===0)?'blocked':null,false);
+    renderList('restricted',data.restricted,'yellow','뮤트',false,(store.x_mutes&&store.x_mutes.length===0)?'restricted':null,false);
+  } else {
+    renderList('notback',data.notback,'red','맞팔 안 함',false,null,true);
+    renderList('fans',data.fans,'green','팬',false,null,false);
+  }
   var btn=document.querySelector('.tab-btn[data-t="notback"]');
   if(btn) switchTab('notback',btn);
   document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 function copyResult(){
-  var lines=data.notback.slice(0,FREE_LIMIT).map(function(u){return '@'+u.username}).join('\n');
-  var text='[Realations 분석 결과]\n맞팔 안 한 사람 '+data.notback.length+'명\n\n'+lines+(data.notback.length>FREE_LIMIT?'\n...외 '+(data.notback.length-FREE_LIMIT)+'명':'')+'\n\n나만 팔로하는 팬 '+data.fans.length+'명\n차단 '+data.blocked.length+' · 대기 '+data.pending.length+' · 제한 '+data.restricted.length;
+  var notbackList=isPro?data.notback:data.notback.slice(0,FREE_LIMIT);
+  var lines=notbackList.map(function(u){return '@'+u.username}).join('\n');
+  var truncNote=(!isPro&&data.notback.length>FREE_LIMIT)?'\n...외 '+(data.notback.length-FREE_LIMIT)+'명 (Pro에서 전체 확인)':'';
+  var text='[Realations 분석 결과]\n맞팔 안 한 사람 '+data.notback.length+'명\n\n'+lines+truncNote+'\n\n나만 팔로하는 팬 '+data.fans.length+'명\n차단 '+data.blocked.length+' · 대기 '+data.pending.length+' · 제한 '+data.restricted.length;
   navigator.clipboard.writeText(text).then(function(){alert('복사 완료! 📋')}).catch(function(){alert('직접 선택해서 복사해주세요.')});
 }
 
@@ -2326,6 +2462,7 @@ let authMode='login';
 let currentPlatform='instagram';
 
 function selectPlatform(plt){
+  if(!canSelectPlatform(plt)) return;
   currentPlatform=plt;
   document.querySelectorAll('.platform-card').forEach(function(c){c.classList.remove('active')});
   var card=document.getElementById('plt-'+plt);
@@ -2374,7 +2511,7 @@ function completeTkStep(n){
   document.getElementById('progFillTk').style.width=pct+'%';
   document.getElementById('progLabelTk').textContent=tkStepDone+' / 2';
   var dot=document.getElementById('progDotTk');if(dot) dot.style.left='calc('+pct+'% - 7px)';
-  if(pct>=100){var hr=document.getElementById('progDotTkHandR');if(hr)hr.classList.add('active');}
+  if(pct>=100){var hr=document.getElementById('progDotTkHR');if(hr)hr.classList.add('active');}
   var next=document.getElementById('tk'+(n+1));if(next) next.classList.add('active');
 }
 
@@ -2388,7 +2525,7 @@ function completeThStep(n){
   document.getElementById('progFillTh').style.width=pct+'%';
   document.getElementById('progLabelTh').textContent=thStepDone+' / 2';
   var dot=document.getElementById('progDotTh');if(dot) dot.style.left='calc('+pct+'% - 7px)';
-  if(pct>=100){var hr=document.getElementById('progDotThHandR');if(hr)hr.classList.add('active');}
+  if(pct>=100){var hr=document.getElementById('progDotThHR');if(hr)hr.classList.add('active');}
   var next=document.getElementById('th'+(n+1));if(next) next.classList.add('active');
 }
 
@@ -2402,7 +2539,7 @@ function completeLiStep(n){
   document.getElementById('progFillLi').style.width=pct+'%';
   document.getElementById('progLabelLi').textContent=liStepDone+' / 2';
   var dot=document.getElementById('progDotLi');if(dot) dot.style.left='calc('+pct+'% - 7px)';
-  if(pct>=100){var hr=document.getElementById('progDotLiHandR');if(hr)hr.classList.add('active');}
+  if(pct>=100){var hr=document.getElementById('progDotLiHR');if(hr)hr.classList.add('active');}
   var next=document.getElementById('li'+(n+1));if(next) next.classList.add('active');
 }
 
@@ -2416,20 +2553,37 @@ function completeXStep(n){
   document.getElementById('progFillX').style.width=pct+'%';
   document.getElementById('progLabelX').textContent=xStepDone+' / 2';
   var dot=document.getElementById('progDotX');if(dot) dot.style.left='calc('+pct+'% - 7px)';
-  if(pct>=100){var hr=document.getElementById('progDotXHandR');if(hr)hr.classList.add('active');}
+  if(pct>=100){var hr=document.getElementById('progDotXHR');if(hr)hr.classList.add('active');}
   var next=document.getElementById('xg'+(n+1));if(next) next.classList.add('active');
 } // login | signup
 
 // 앱 시작 시 세션 확인
 (async function initAuth(){
   // ── 소셜 로그인 후 URL 해시에서 토큰 처리 ──
-  // 카카오/구글 로그인 후 #access_token=... 형태로 돌아오는 경우 처리
   if(window.location.hash && window.location.hash.includes('access_token')){
-    // Supabase가 자동으로 해시를 파싱해서 세션을 설정함
-    // 해시 제거 (URL 노출 방지)
-    setTimeout(function(){
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }, 1000);
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
+  // ── 모바일 결제 리다이렉트 파라미터 처리 ──
+  // iamport가 m_redirect_url로 리다이렉트할 때 쿼리파라미터 추가:
+  // ?imp_uid=xxx&merchant_uid=xxx&imp_success=true/false&error_msg=xxx
+  var urlParams=new URLSearchParams(window.location.search);
+  var mImpUid=urlParams.get('imp_uid');
+  var mMerchantUid=urlParams.get('merchant_uid');
+  var mImpSuccess=urlParams.get('imp_success');
+  var mErrorMsg=urlParams.get('error_msg');
+  var mPlan=urlParams.get('plan')||'basic'; // m_redirect_url에 ?plan=basic/pro 포함
+  if(mImpUid && mMerchantUid){
+    // URL 즉시 정리 (파라미터 노출 방지)
+    window.history.replaceState({}, document.title, window.location.pathname);
+    if(mImpSuccess==='true'){
+      // 세션 로드 후 verifyAndActivate를 실행하기 위해 보류
+      window._pendingPayment={imp_uid:mImpUid,merchant_uid:mMerchantUid,plan:mPlan};
+    } else {
+      // 결제 실패 — 세션 로드 후 모달 표시
+      window._pendingPayFail=mErrorMsg||'모바일 결제가 취소되었습니다.';
+      window._pendingPayFailPlan=mPlan;
+    }
   }
 
   const {data:{session}}=await sb.auth.getSession();
@@ -2451,7 +2605,6 @@ async function onSignedIn(user){
   // DB에서 plan + is_pro 확인
   const {data:userData}=await sb.from('users').select('is_pro,plan').eq('id',user.id).maybeSingle();
   if(userData){
-    // plan 컬럼 우선, 없으면 is_pro로 하위 호환
     if(userData.plan && userData.plan !== 'free'){
       userPlan=userData.plan;
       isPro=(userData.plan==='basic'||userData.plan==='pro');
@@ -2459,7 +2612,6 @@ async function onSignedIn(user){
       userPlan='basic';
       isPro=true;
     }
-    // 이미 분석 결과가 있으면 자동 잠금해제
     if(isPro && data.notback&&data.notback.length>0){
       renderList('notback',data.notback,'red','맞팔 안 함',false,null,true);
       renderList('fans',data.fans,'green','팬',false,null,false);
@@ -2470,6 +2622,41 @@ async function onSignedIn(user){
   if(!existing){
     await sb.from('users').insert({id:user.id,email:user.email,is_pro:false,created_at:new Date().toISOString()});
   }
+
+  // ── 유예기간 만료 체크 (결제 실패 후 3일 경과 시 다운그레이드) ──
+  if(isPro){
+    try{
+      var {data:graceSub}=await sb.from('subscriptions')
+        .select('id,grace_until')
+        .eq('user_id',user.id)
+        .eq('status','grace')
+        .order('grace_until',{ascending:false})
+        .limit(1)
+        .maybeSingle();
+      if(graceSub && graceSub.grace_until && new Date(graceSub.grace_until) < new Date()){
+        // 유예기간 만료 → 플랜 다운그레이드
+        await sb.from('users').update({is_pro:false,plan:'free'}).eq('id',user.id);
+        await sb.from('subscriptions').update({status:'expired'}).eq('id',graceSub.id);
+        userPlan='free'; isPro=false;
+        alert('결제 실패로 인해 유예기간이 만료되었습니다. 서비스가 무료 플랜으로 전환되었습니다.\n계속 이용을 원하시면 다시 구독해 주세요.');
+      }
+    }catch(e){ console.warn('유예기간 체크 오류:', e); }
+  }
+
+  // ── 모바일 결제 리다이렉트 후 처리 ──
+  if(window._pendingPayment){
+    var p=window._pendingPayment;
+    delete window._pendingPayment;
+    await verifyAndActivate(p.plan,p.imp_uid,p.merchant_uid);
+  }
+  if(window._pendingPayFail){
+    var failMsg=window._pendingPayFail;
+    var failPlan=window._pendingPayFailPlan||'basic';
+    delete window._pendingPayFail;
+    delete window._pendingPayFailPlan;
+    setTimeout(function(){ showPayRetry(failPlan, failMsg); }, 300);
+  }
+
   updateAuthUI();
   closeAuthModal();
 }
@@ -2611,15 +2798,50 @@ async function checkProStatus(){
   return isPro;
 }
 
-// 구독 해지 (관리자 또는 향후 마이페이지용)
+function confirmCancelPro(){
+  if(!currentUser||!isPro) return;
+  if(!confirm('유료 서비스를 해지하시겠습니까?\n현재 구독 기간 만료까지는 계속 이용 가능합니다.')) return;
+  cancelPro();
+}
+
+async function confirmDeleteAccount(){
+  if(!currentUser) return;
+  if(!confirm('정말로 탈퇴하시겠습니까?\n계정 정보와 결제 내역이 모두 삭제되며 복구할 수 없습니다.')) return;
+  try {
+    await sb.from('subscriptions').delete().eq('user_id', currentUser.id);
+    await sb.from('users').delete().eq('id', currentUser.id);
+    await sb.auth.signOut();
+    closeMypage();
+    alert('탈퇴가 완료되었습니다. 이용해 주셔서 감사합니다.');
+  } catch(e) {
+    alert('탈퇴 처리 중 오류가 발생했습니다.\n고객센터로 문의해 주세요.\n' + e.message);
+  }
+}
+
+// 구독 해지: 포트원 빌링키 삭제 + 예약결제 취소 + DB 업데이트
 async function cancelPro(){
   if(!currentUser||!isPro) return;
-  if(!confirm('Pro 구독을 해지하시겠습니까?\n현재 구독 기간 만료까지 서비스는 계속 이용 가능합니다.')) return;
-  const {error}=await sb.from('users').update({is_pro:false}).eq('id',currentUser.id);
-  if(!error){
-    isPro=false;
+  try{
+    var res=await fetch(SUPABASE_URL+'/functions/v1/cancel-subscription',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},
+      body:JSON.stringify({user_id:currentUser.id,plan:userPlan})
+    });
+    var result=await res.json();
+    if(res.ok && result.success){
+      // 해지 후에도 만료일까지 서비스 유지 (is_pro는 Edge Function이 유지)
+      alert('구독 해지가 완료되었습니다.\n현재 구독 기간 만료일까지 서비스를 계속 이용하실 수 있습니다.');
+      closeMypage();
+    } else {
+      throw new Error(result.error||'해지 처리 실패');
+    }
+  } catch(e){
+    console.error('cancelPro 오류:', e);
+    // Edge Function 실패 시 DB 직접 업데이트 폴백
+    await sb.from('users').update({is_pro:false,plan:'free'}).eq('id',currentUser.id);
+    isPro=false; userPlan='free';
     updateAuthUI();
-    alert('구독이 해지되었습니다.');
+    alert('구독이 해지되었습니다. (포트원 빌링키 삭제는 고객센터에 문의해 주세요.)');
   }
 }
 
