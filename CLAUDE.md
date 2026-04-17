@@ -61,20 +61,34 @@ ALTER TABLE users ADD COLUMN IF NOT EXISTS free_month TEXT;
 15. 모달 닫기 시 body overflow 복원 완전화 (`isAnyModalOpen` / `restoreOverflowIfClear` 헬퍼)
 16. `unlockAll()` 플랫폼별 모든 탭 재렌더링
 
-## 결제 시스템 고도화 — 완료
+## ✅ 결제 시스템 고도화 — 코드 완료 (2026-04-17)
+
+### 구현 내용
+| 항목 | 방식 | 상태 |
+|------|------|------|
+| 서버사이드 결제 검증 | Edge Function `verify-payment` — imp_uid 3중 검증 | ✅ 코드 완료 |
+| 모바일 결제 리다이렉트 | `initAuth()`에서 쿼리파라미터 감지 후 `verifyAndActivate` 실행 | ✅ 코드 완료 |
+| 자동갱신 웹훅 | Edge Function `payment-webhook` — paid/failed/cancelled 처리 | ✅ 코드 완료 |
+| 갱신 실패 유예기간 | 실패 시 3일 유예, 로그인 시 만료 체크 후 다운그레이드 | ✅ 코드 완료 |
+| 해지 시 빌링키 삭제 | Edge Function `cancel-subscription` — 빌링키 + 예약결제 취소 | ✅ 코드 완료 |
+| 결제 실패 재시도 UI | `payRetryModalBg` — 플랜별 재시도 버튼, 문의 링크 | ✅ 코드 완료 |
+| 결제 완료 후 UI 갱신 | `showPaySuccess()`에 `updateAuthUI()` + `overflow:hidden` 추가 | ✅ 코드 완료 |
+| 전체결과보기 스크롤 | `unlockAll()`에 `restoreOverflowIfClear()` 추가 | ✅ 코드 완료 |
+| 결제 내역 상태 텍스트 | grace→유예기간, cancelled→해지, expired→만료 | ✅ 코드 완료 |
 
 ### Edge Functions (supabase/functions/)
 | 함수 | 경로 | 역할 |
 |------|------|------|
-| verify-payment | `/functions/v1/verify-payment` | 결제 후 imp_uid 서버 검증, 다음 달 예약 |
+| verify-payment | `/functions/v1/verify-payment` | imp_uid 서버 검증, 다음 달 자동갱신 예약 |
 | payment-webhook | `/functions/v1/payment-webhook` | 포트원 웹훅 수신, 갱신/실패/취소 처리 |
 | cancel-subscription | `/functions/v1/cancel-subscription` | 빌링키 삭제 + 예약결제 취소 |
+| _shared/iamport.ts | (공유) | 포트원 토큰 발급, 결제 조회, 예약, 빌링키 삭제 |
 
 ### 필요한 Supabase Secrets (대시보드 → Edge Functions → Secrets)
 ```
 PORTONE_API_KEY      포트원 콘솔 → REST API 키
 PORTONE_API_SECRET   포트원 콘솔 → REST API 시크릿
-SB_SERVICE_ROLE_KEY        Supabase 프로젝트 설정 → API
+SB_SERVICE_ROLE_KEY  Supabase 프로젝트 설정 → API
 ```
 
 ### 포트원 콘솔 웹훅 URL 설정
@@ -91,21 +105,21 @@ supabase functions deploy payment-webhook
 supabase functions deploy cancel-subscription
 ```
 
-### DB 마이그레이션 (Supabase SQL Editor에서 실행)
-파일: `supabase/migrations/001_payment_columns.sql`
+### DB 마이그레이션
+파일: `supabase/migrations/001_payment_columns.sql` → Supabase SQL Editor에서 실행
 추가 컬럼: `subscriptions.grace_until`, `subscriptions.failed_count`
 
-### 남은 작업
-- [ ] 포트원 콘솔에서 운영 채널키로 교체 (현재 테스트 채널키 추정)
-- [ ] Supabase Secrets 3개 등록
-- [ ] 포트원 웹훅 URL 등록
-- [ ] Edge Functions 배포
-- [ ] 001_payment_columns.sql 실행
+### ⚠️ 운영 전환 체크리스트 (미완료)
+- [ ] `supabase/migrations/001_payment_columns.sql` 실행
+- [ ] Supabase Secrets 3개 등록 (PORTONE_API_KEY, PORTONE_API_SECRET, SB_SERVICE_ROLE_KEY)
+- [ ] Edge Functions 3개 배포
+- [ ] 포트원 콘솔 웹훅 URL 등록
+- [ ] 포트원 콘솔에서 운영 채널키 확인 후 `index.html` `channelKey` 교체
 
 ## 다음 작업 순서
-1. **P4 미완성 기능**: 히스토리 비교, 멀티 계정 관리, 회원탈퇴 Auth 삭제
-2. **랜딩페이지 개선**: SEO, OG 이미지, 전환율 개선
-3. **포트원 실결제 전환**: 위 배포 체크리스트 완료
+1. **⚠️ 운영 전환 체크리스트** — 위 5개 항목 완료해야 결제 시스템 실제 동작
+2. **P4 미완성 기능**: 히스토리 비교, 멀티 계정 관리, 회원탈퇴 Auth 삭제
+3. **랜딩페이지 개선**: SEO, OG 이미지, 전환율 개선
 
 ## 주의사항
 - `index.html` 한 파일에 HTML/CSS/JS 전체 포함 (2,700줄+) — 수정 시 라인 범위 확인 필수
