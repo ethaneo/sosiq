@@ -1298,7 +1298,9 @@ async function renderMypage() {
         h += '<div><div style="font-size:13px;font-weight:600;color:var(--text)">'+planLabel+'</div>';
         h += '<div class="mp-pay-date">'+fd(d)+'</div></div>';
         h += '<div style="text-align:right"><div class="mp-pay-amount">'+planAmount+'</div>';
-        h += '<span class="mp-pay-status '+(p.status==='active'?'ok':'refund')+'">'+(p.status==='active'?'결제완료':'환불')+'</span></div>';
+        var statusClass=p.status==='active'?'ok':p.status==='grace'?'refund':'refund';
+        var statusText=p.status==='active'?'결제완료':p.status==='grace'?'유예기간':p.status==='cancelled'?'해지':p.status==='expired'?'만료':'환불';
+        h += '<span class="mp-pay-status '+statusClass+'">'+statusText+'</span></div>';
         h += '</div>';
       });
     } else {
@@ -2395,7 +2397,6 @@ async function updateProStatus(impUid, merchantUid){ await verifyAndActivate('ba
 
 function showPaySuccess(){
   isPro=true;
-  // 플랜에 맞게 텍스트 변경
   var modalP = document.querySelector('#payModalBg p');
   if(modalP){
     if(userPlan==='basic'){
@@ -2405,6 +2406,8 @@ function showPaySuccess(){
     }
   }
   document.getElementById('payModalBg').classList.add('show');
+  document.body.style.overflow='hidden';
+  updateAuthUI(); // 헤더 ✦ PRO 배지 즉시 반영
 }
 
 function closePayModal(){
@@ -2415,6 +2418,7 @@ function closePayModal(){
 function unlockAll(){
   isPro=true;
   document.getElementById('payModalBg').classList.remove('show');
+  restoreOverflowIfClear();
   // 플랫폼별로 모든 탭 재렌더링 (paywall 제거)
   if(currentPlatform==='instagram'){
     renderList('notback',data.notback,'red','맞팔 안 함',false,null,true);
