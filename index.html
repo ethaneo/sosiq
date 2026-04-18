@@ -392,6 +392,11 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 .btn-snap-compare{background:var(--s2);border:1px solid var(--border2);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:600;color:var(--text2);cursor:pointer;white-space:nowrap;transition:all .15s}
 .btn-snap-compare:hover{background:var(--s3)}
 .btn-snap-compare.active-platform{border-color:var(--accent);color:var(--accent)}
+.mp-acc-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);border-radius:0}
+.mp-acc-row:last-child{border-bottom:none}
+.mp-acc-row.active{background:var(--s2);border-radius:8px;padding:8px;margin:-0px;border-bottom:none}
+.btn-snap-del{background:none;border:1px solid var(--border2);border-radius:6px;padding:4px 8px;font-size:11px;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0}
+.btn-snap-del:hover{border-color:#e8001d;color:#e8001d}
 </style>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><path d='M100,100 C106,80 102,64 100,54' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C118,90 132,88 142,80' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C120,106 134,116 144,124' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C106,120 104,134 102,146' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C80,108 66,112 58,122' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C84,88 70,86 60,78' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><circle cx='100' cy='100' r='18' fill='%23C0392B' opacity='0.15'/><circle cx='100' cy='100' r='14' fill='%23C0392B'/><circle cx='100' cy='100' r='7' fill='white' opacity='0.95'/></svg>">
@@ -1369,31 +1374,61 @@ async function renderMypage() {
     h += '<div class="mp-row"><span class="mp-row-label">이메일 문의</span><span class="mp-row-value muted">gahee007@gmail.com</span></div>';
     h += '</div></div>';
 
-    // ── 히스토리 (Pro 전용) ──
+    // ── 내 계정 관리 & 히스토리 (Pro 전용) ──
     if(proStatus){
       var snaps=[];
       try{
         var snapRes=await sb.from('analysis_snapshots')
-          .select('id,platform,notback_count,fans_count,created_at')
+          .select('id,platform,notback_count,fans_count,created_at,account_label')
           .eq('user_id',currentUser.id)
           .order('created_at',{ascending:false})
-          .limit(20);
+          .limit(50);
         snaps=snapRes.data||[];
       }catch(e2){}
 
       var platformIcon={instagram:'📸',tiktok:'🎵',threads:'🧵',linkedin:'💼',x:'𝕏'};
       var platformLabel={instagram:'Instagram',tiktok:'TikTok',threads:'Threads',linkedin:'LinkedIn',x:'X·Twitter'};
+      var fdS=function(d){var dd=new Date(d);return dd.getFullYear()+'.'+String(dd.getMonth()+1).padStart(2,'0')+'.'+String(dd.getDate()).padStart(2,'0')+' '+String(dd.getHours()).padStart(2,'0')+':'+String(dd.getMinutes()).padStart(2,'0');};
+
+      // ── 내 계정 관리 ──
+      var distinctLabels=[];
+      var labelSet={};
+      snaps.forEach(function(s){var l=s.account_label||'기본 계정';if(!labelSet[l]){labelSet[l]=true;distinctLabels.push(l);}});
+
+      h+='<div class="mp-section"><div class="mp-section-title">✦ 내 계정 관리 <span style="font-size:10px;font-weight:400;color:var(--muted)">('+distinctLabels.length+'/10)</span></div>';
+      h+='<div class="mp-card">';
+      h+='<div class="mp-row"><span class="mp-row-label">현재 활성 계정</span><span class="mp-row-value accent" style="font-weight:700">'+currentAccountLabel+'</span></div>';
+      if(distinctLabels.length>0){
+        h+='<div style="margin-top:10px">';
+        distinctLabels.forEach(function(lbl){
+          var isActive=(currentAccountLabel===lbl);
+          var safeLbl=lbl.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+          h+='<div class="mp-acc-row'+(isActive?' active':'')+'">';
+          h+='<span style="font-size:13px;font-weight:600;flex:1;color:var(--text)">'+lbl+(isActive?' <span style="font-size:10px;color:var(--accent)">✓ 선택됨</span>':'')+'</span>';
+          if(!isActive) h+='<button class="btn-snap-compare" onclick="setCurrentAccount(\''+safeLbl+'\')" style="margin-right:4px">선택</button>';
+          h+='<button class="btn-snap-del" onclick="deleteAccountSnapshots(\''+safeLbl+'\')">삭제</button>';
+          h+='</div>';
+        });
+        h+='</div>';
+      }
+      if(distinctLabels.length<10){
+        h+='<button class="mp-btn outline" style="margin-top:10px" onclick="promptAddAccount()">+ 새 계정 추가</button>';
+      }
+      h+='</div></div>';
+
+      // ── 분석 히스토리 ──
       h+='<div class="mp-section"><div class="mp-section-title">✦ 분석 히스토리</div>';
       if(snaps.length>0){
         h+='<div class="mp-card">';
-        var fdS=function(d){var dd=new Date(d);return dd.getFullYear()+'.'+String(dd.getMonth()+1).padStart(2,'0')+'.'+String(dd.getDate()).padStart(2,'0')+' '+String(dd.getHours()).padStart(2,'0')+':'+String(dd.getMinutes()).padStart(2,'0');};
         snaps.forEach(function(s){
           var isCurrent=(currentPlatform===s.platform&&data.notback&&data.notback.length>0);
+          var accLbl=s.account_label||'기본 계정';
           h+='<div class="mp-snap-row">';
           h+='<div class="mp-snap-icon">'+(platformIcon[s.platform]||'📊')+'</div>';
           h+='<div class="mp-snap-info"><div class="mp-snap-date">'+platformLabel[s.platform]+' · '+fdS(s.created_at)+'</div>';
-          h+='<div class="mp-snap-counts">맞팔 안 함 '+s.notback_count+'명 · 팬 '+s.fans_count+'명</div></div>';
-          h+='<button class="btn-snap-compare'+(isCurrent?' active-platform':'')+'" onclick="closeMypage();compareWithSnapshot(\''+s.id+'\',\''+fdS(s.created_at)+'\',\''+s.platform+'\')">'+(isCurrent?'현재와 비교':'비교')+'</button>';
+          h+='<div class="mp-snap-counts">맞팔 안 함 '+s.notback_count+'명 · 팬 '+s.fans_count+'명 · <span style="color:var(--accent);font-weight:600">'+accLbl+'</span></div></div>';
+          h+='<button class="btn-snap-compare'+(isCurrent?' active-platform':'')+'" onclick="closeMypage();compareWithSnapshot(\''+s.id+'\',\''+fdS(s.created_at)+'\',\''+s.platform+'\')" style="margin-right:4px">'+(isCurrent?'현재와 비교':'비교')+'</button>';
+          h+='<button class="btn-snap-del" onclick="deleteSnapshot(\''+s.id+'\')">✕</button>';
           h+='</div>';
         });
         h+='</div>';
@@ -1559,6 +1594,7 @@ let stepDone=0;
 let isPro=false;
 let userPlan='free'; // 'free'|'basic'|'pro'
 let currentUser=null;
+let currentAccountLabel='기본 계정'; // 멀티 계정: 현재 활성 계정 레이블
 
 function toggleStep(n){
   const el=document.getElementById('s'+n);
@@ -2496,7 +2532,8 @@ async function saveSnapshot(platform, notback, fans){
       notback: notbackNames,
       fans: fansNames,
       notback_count: notback.length,
-      fans_count: fans.length
+      fans_count: fans.length,
+      account_label: currentAccountLabel
     });
     // 플랫폼당 최대 20개 유지 — 초과 시 오래된 것 삭제
     var {data:old}=await sb.from('analysis_snapshots')
@@ -2510,6 +2547,41 @@ async function saveSnapshot(platform, notback, fans){
       await sb.from('analysis_snapshots').delete().in('id',ids);
     }
   } catch(e){ console.warn('스냅샷 저장 실패:', e.message); }
+}
+
+// ── 멀티 계정 관리 함수 ──
+async function deleteSnapshot(id){
+  if(!confirm('이 분석 기록을 삭제하시겠습니까?')) return;
+  try{
+    await sb.from('analysis_snapshots').delete().eq('id',id).eq('user_id',currentUser.id);
+    await renderMypage();
+  }catch(e){ alert('삭제 중 오류: '+e.message); }
+}
+
+function setCurrentAccount(label){
+  currentAccountLabel=label;
+  renderMypage();
+}
+
+async function deleteAccountSnapshots(label){
+  if(!confirm('"'+label+'" 계정의 모든 분석 기록을 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) return;
+  try{
+    await sb.from('analysis_snapshots')
+      .delete()
+      .eq('user_id',currentUser.id)
+      .eq('account_label',label);
+    if(currentAccountLabel===label) currentAccountLabel='기본 계정';
+    await renderMypage();
+  }catch(e){ alert('삭제 중 오류: '+e.message); }
+}
+
+function promptAddAccount(){
+  var label=prompt('새 계정 이름을 입력하세요\n예: 개인 인스타, 비즈니스 틱톡, 서브 계정','');
+  if(!label||!label.trim()) return;
+  label=label.trim();
+  if(label.length>30){ alert('계정 이름은 30자 이내로 입력해주세요.'); return; }
+  currentAccountLabel=label;
+  renderMypage();
 }
 
 // ── 히스토리 비교 모달 ──
@@ -2583,11 +2655,12 @@ async function compareWithSnapshot(snapshotId, dateLabel, platform){
       h+='<div class="hm-diff-section">';
       h+='<div class="hm-diff-title">💚 다시 맞팔 된 계정 ('+recovered.length+')</div>';
       recovered.slice(0,50).forEach(function(name){
-        h+='<div class="hm-diff-item">';
+        var url=getUserProfileUrl({username:name});
+        h+='<a class="hm-diff-item" href="'+url+'" target="_blank" rel="noopener" style="text-decoration:none">';
         h+='<div class="hm-diff-avatar" style="background:linear-gradient(135deg,#10b981,#34d399)">'+name.charAt(0).toUpperCase()+'</div>';
         h+='<div><div class="hm-diff-name">@'+name+'</div></div>';
         h+='<span class="hm-diff-badge recovered">복구</span>';
-        h+='</div>';
+        h+='</a>';
       });
       if(recovered.length>50) h+='<div style="text-align:center;padding:8px;font-size:11px;color:var(--muted)">...외 '+(recovered.length-50)+'명</div>';
       h+='</div>';
