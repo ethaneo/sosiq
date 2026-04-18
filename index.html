@@ -359,6 +359,39 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);box-shadow:0 0 0 0 rgba(232,0,29,.4)}50%{opacity:.7;transform:scale(.85);box-shadow:0 0 0 6px rgba(232,0,29,0)}}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+/* ── 히스토리 모달 ── */
+.history-modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100000;display:none;align-items:flex-start;justify-content:center;overflow-y:auto}
+.history-modal-bg.show{display:flex;animation:fadeUp .2s ease}
+.history-modal{background:var(--s1);border-radius:20px;width:100%;max-width:520px;margin:24px auto;position:relative;overflow:hidden}
+.hm-head{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 0}
+.hm-head h3{font-size:16px;font-weight:700;color:var(--text);margin:0}
+.hm-head .hm-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.btn-hm-close{background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer;padding:4px;line-height:1}
+.hm-body{padding:16px 20px 28px;max-height:70vh;overflow-y:auto}
+.hm-diff-section{margin-bottom:16px}
+.hm-diff-title{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--muted);margin-bottom:8px;text-transform:uppercase}
+.hm-diff-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.hm-diff-item:last-child{border-bottom:none}
+.hm-diff-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.hm-diff-name{font-size:13px;font-weight:600;color:var(--text)}
+.hm-diff-handle{font-size:11px;color:var(--muted)}
+.hm-diff-badge{margin-left:auto;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap}
+.hm-diff-badge.new{background:rgba(232,0,29,.1);color:var(--accent)}
+.hm-diff-badge.recovered{background:rgba(16,185,129,.1);color:#10b981}
+.hm-summary-box{background:var(--s2);border-radius:12px;padding:14px 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;margin-bottom:16px}
+.hm-sum-num{font-size:20px;font-weight:800;color:var(--text)}
+.hm-sum-num.red{color:var(--accent)}
+.hm-sum-num.green{color:#10b981}
+.hm-sum-lbl{font-size:10px;color:var(--muted);margin-top:2px}
+.mp-snap-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.mp-snap-row:last-child{border-bottom:none}
+.mp-snap-icon{font-size:18px;width:32px;text-align:center;flex-shrink:0}
+.mp-snap-info{flex:1;min-width:0}
+.mp-snap-date{font-size:12px;font-weight:600;color:var(--text)}
+.mp-snap-counts{font-size:11px;color:var(--muted);margin-top:1px}
+.btn-snap-compare{background:var(--s2);border:1px solid var(--border2);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:600;color:var(--text2);cursor:pointer;white-space:nowrap;transition:all .15s}
+.btn-snap-compare:hover{background:var(--s3)}
+.btn-snap-compare.active-platform{border-color:var(--accent);color:var(--accent)}
 </style>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><path d='M100,100 C106,80 102,64 100,54' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C118,90 132,88 142,80' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C120,106 134,116 144,124' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C106,120 104,134 102,146' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C80,108 66,112 58,122' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C84,88 70,86 60,78' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><circle cx='100' cy='100' r='18' fill='%23C0392B' opacity='0.15'/><circle cx='100' cy='100' r='14' fill='%23C0392B'/><circle cx='100' cy='100' r='7' fill='white' opacity='0.95'/></svg>">
@@ -889,6 +922,20 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
   </div>
 </div>
 
+<!-- 히스토리 비교 모달 -->
+<div class="history-modal-bg" id="historyModalBg" onclick="if(event.target===this)closeHistoryModal()">
+  <div class="history-modal">
+    <div class="hm-head">
+      <div>
+        <h3>히스토리 비교</h3>
+        <div class="hm-sub" id="historyModalSub"></div>
+      </div>
+      <button class="btn-hm-close" onclick="closeHistoryModal()">✕</button>
+    </div>
+    <div class="hm-body" id="historyModalBody"></div>
+  </div>
+</div>
+
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1160,18 +1207,20 @@ function openLegal(type) {
 }
 
 function isAnyModalOpen(){
-  var mypage = document.getElementById('mypageBg');
-  var auth   = document.getElementById('authModalBg');
-  var pay    = document.getElementById('payModalBg');
-  var retry  = document.getElementById('payRetryModalBg');
-  var upgrade= document.getElementById('upgradeBg');
-  var pricing= document.getElementById('pricingBg');
-  return (mypage  && mypage.classList.contains('show'))  ||
-         (auth    && auth.classList.contains('show'))    ||
-         (pay     && pay.classList.contains('show'))     ||
-         (retry   && retry.classList.contains('show'))   ||
+  var mypage   = document.getElementById('mypageBg');
+  var auth     = document.getElementById('authModalBg');
+  var pay      = document.getElementById('payModalBg');
+  var retry    = document.getElementById('payRetryModalBg');
+  var history  = document.getElementById('historyModalBg');
+  var upgrade  = document.getElementById('upgradeBg');
+  var pricing  = document.getElementById('pricingBg');
+  return (mypage   && mypage.classList.contains('show'))   ||
+         (auth     && auth.classList.contains('show'))     ||
+         (pay      && pay.classList.contains('show'))      ||
+         (retry    && retry.classList.contains('show'))    ||
+         (history  && history.classList.contains('show'))  ||
          (!!upgrade) ||
-         (pricing && pricing.style.display !== 'none');
+         (pricing  && pricing.style.display !== 'none');
 }
 
 function restoreOverflowIfClear(){
@@ -1320,6 +1369,40 @@ async function renderMypage() {
     h += '<div class="mp-row"><span class="mp-row-label">이메일 문의</span><span class="mp-row-value muted">gahee007@gmail.com</span></div>';
     h += '</div></div>';
 
+    // ── 히스토리 (Pro 전용) ──
+    if(proStatus){
+      var snaps=[];
+      try{
+        var snapRes=await sb.from('analysis_snapshots')
+          .select('id,platform,notback_count,fans_count,created_at')
+          .eq('user_id',currentUser.id)
+          .order('created_at',{ascending:false})
+          .limit(20);
+        snaps=snapRes.data||[];
+      }catch(e2){}
+
+      var platformIcon={instagram:'📸',tiktok:'🎵',threads:'🧵',linkedin:'💼',x:'𝕏'};
+      var platformLabel={instagram:'Instagram',tiktok:'TikTok',threads:'Threads',linkedin:'LinkedIn',x:'X·Twitter'};
+      h+='<div class="mp-section"><div class="mp-section-title">✦ 분석 히스토리</div>';
+      if(snaps.length>0){
+        h+='<div class="mp-card">';
+        var fdS=function(d){var dd=new Date(d);return dd.getFullYear()+'.'+String(dd.getMonth()+1).padStart(2,'0')+'.'+String(dd.getDate()).padStart(2,'0')+' '+String(dd.getHours()).padStart(2,'0')+':'+String(dd.getMinutes()).padStart(2,'0');};
+        snaps.forEach(function(s){
+          var isCurrent=(currentPlatform===s.platform&&data.notback&&data.notback.length>0);
+          h+='<div class="mp-snap-row">';
+          h+='<div class="mp-snap-icon">'+(platformIcon[s.platform]||'📊')+'</div>';
+          h+='<div class="mp-snap-info"><div class="mp-snap-date">'+platformLabel[s.platform]+' · '+fdS(s.created_at)+'</div>';
+          h+='<div class="mp-snap-counts">맞팔 안 함 '+s.notback_count+'명 · 팬 '+s.fans_count+'명</div></div>';
+          h+='<button class="btn-snap-compare'+(isCurrent?' active-platform':'')+'" onclick="closeMypage();compareWithSnapshot(\''+s.id+'\',\''+fdS(s.created_at)+'\',\''+s.platform+'\')">'+(isCurrent?'현재와 비교':'비교')+'</button>';
+          h+='</div>';
+        });
+        h+='</div>';
+      } else {
+        h+='<div class="mp-card"><div class="mp-empty">아직 저장된 분석 기록이 없습니다.<br>분석을 실행하면 자동으로 저장돼요.</div></div>';
+      }
+      h+='</div>';
+    }
+
     body.innerHTML = h;
 
   } catch(e) {
@@ -1456,6 +1539,7 @@ document.addEventListener('keydown',function(e){
     closeUpgradeModal();
     closePayModal();
     closePayRetry();
+    closeHistoryModal();
   }
 });
 
@@ -1812,6 +1896,7 @@ async function runXAnalysis(){
     renderList('close_friends',[],'pink','친한 친구',false,'close_friends',false);
 
     bar.style.display='none';btn.textContent='✓ 분석 완료';
+    saveSnapshot('x',data.notback,data.fans);
     document.getElementById('results').style.display='block';
     document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
   },800);
@@ -1859,6 +1944,7 @@ async function runThreadsAnalysis(){
     renderList('restricted',[],'yellow','제한',false,'restricted',false);
     renderList('close_friends',[],'pink','친한 친구',false,'close_friends',false);
     bar.style.display='none';btn.textContent='✓ 분석 완료';
+    saveSnapshot('threads',data.notback,data.fans);
     document.getElementById('results').style.display='block';
     document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
   },800);
@@ -1925,6 +2011,7 @@ async function runLinkedInAnalysis(){
     renderList('restricted',[],'yellow','제한',false,'restricted',false);
     renderList('close_friends',[],'pink','친한 친구',false,'close_friends',false);
     bar.style.display='none';btn.textContent='✓ 분석 완료';
+    saveSnapshot('linkedin',data.notback,data.fans);
     document.getElementById('results').style.display='block';
     document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
   },800);
@@ -2049,6 +2136,7 @@ async function runInstagramAnalysis(){
     renderList('close_friends',data.close_friends,'pink','친한 친구',false,store.close_friends===null?'close_friends':null,false);
     bar.style.display='none';
     btn.textContent='✓ 분석 완료';
+    saveSnapshot('instagram',data.notback,data.fans);
     document.getElementById('results').style.display='block';
     document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
   },800);
@@ -2126,6 +2214,7 @@ async function runTikTokAnalysis(){
 
     bar.style.display='none';
     btn.textContent='✓ 분석 완료';
+    saveSnapshot('tiktok',toUserObj(tkNotback),toUserObj(tkFans));
     document.getElementById('results').style.display='block';
     document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
   },800);
@@ -2394,6 +2483,127 @@ function closePayRetry(){
 }
 
 async function updateProStatus(impUid, merchantUid){ await verifyAndActivate('basic', impUid, merchantUid); } // 하위 호환
+
+// ── 히스토리 스냅샷 저장 (Pro 전용) ──
+async function saveSnapshot(platform, notback, fans){
+  if(!isPro || !currentUser) return;
+  try{
+    var notbackNames=notback.map(function(u){return u.username;});
+    var fansNames=fans.map(function(u){return u.username;});
+    await sb.from('analysis_snapshots').insert({
+      user_id: currentUser.id,
+      platform: platform,
+      notback: notbackNames,
+      fans: fansNames,
+      notback_count: notback.length,
+      fans_count: fans.length
+    });
+    // 플랫폼당 최대 20개 유지 — 초과 시 오래된 것 삭제
+    var {data:old}=await sb.from('analysis_snapshots')
+      .select('id,created_at')
+      .eq('user_id',currentUser.id)
+      .eq('platform',platform)
+      .order('created_at',{ascending:false})
+      .range(20,100);
+    if(old&&old.length>0){
+      var ids=old.map(function(r){return r.id;});
+      await sb.from('analysis_snapshots').delete().in('id',ids);
+    }
+  } catch(e){ console.warn('스냅샷 저장 실패:', e.message); }
+}
+
+// ── 히스토리 비교 모달 ──
+function closeHistoryModal(){
+  var modal=document.getElementById('historyModalBg');
+  if(modal) modal.classList.remove('show');
+  restoreOverflowIfClear();
+}
+
+async function compareWithSnapshot(snapshotId, dateLabel, platform){
+  // 현재 분석 결과가 없으면 안내
+  if(!data.notback||data.notback.length===0){
+    alert('현재 분석 결과가 없습니다.\n먼저 분석을 실행한 후 비교해주세요.');
+    return;
+  }
+  if(currentPlatform!==platform){
+    alert('현재 선택된 플랫폼('+currentPlatform+')과 스냅샷 플랫폼('+platform+')이 다릅니다.\n같은 플랫폼의 분석 결과와만 비교할 수 있습니다.');
+    return;
+  }
+  try{
+    var {data:snap}=await sb.from('analysis_snapshots')
+      .select('notback,fans,notback_count,fans_count,created_at')
+      .eq('id',snapshotId)
+      .single();
+    if(!snap){ alert('스냅샷을 불러올 수 없습니다.'); return; }
+
+    var prevNotback=new Set(snap.notback||[]);
+    var prevFans=new Set(snap.fans||[]);
+    var currNotback=new Set(data.notback.map(function(u){return u.username;}));
+    var currFans=new Set(data.fans.map(function(u){return u.username;}));
+
+    // 맞팔 안 함 변화
+    var newLost=data.notback.filter(function(u){return !prevNotback.has(u.username);}); // 새로 끊긴
+    var recovered=Array.from(prevNotback).filter(function(n){return !currNotback.has(n);}); // 다시 맞팔 됨
+    var unchanged=data.notback.filter(function(u){return prevNotback.has(u.username);}).length;
+
+    var modal=document.getElementById('historyModalBg');
+    var subEl=document.getElementById('historyModalSub');
+    var bodyEl=document.getElementById('historyModalBody');
+
+    var snapDate=new Date(snap.created_at);
+    var fd=function(d){return d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0');};
+    subEl.textContent=fd(snapDate)+' 분석 vs 지금';
+
+    var h='';
+    // 요약 박스
+    h+='<div class="hm-summary-box">';
+    h+='<div><div class="hm-sum-num red">'+newLost.length+'</div><div class="hm-sum-lbl">새로 끊긴 맞팔</div></div>';
+    h+='<div><div class="hm-sum-num green">'+recovered.length+'</div><div class="hm-sum-lbl">다시 맞팔 됨</div></div>';
+    h+='<div><div class="hm-sum-num">'+unchanged+'</div><div class="hm-sum-lbl">변화 없음</div></div>';
+    h+='</div>';
+
+    // 새로 끊긴 맞팔
+    if(newLost.length>0){
+      h+='<div class="hm-diff-section">';
+      h+='<div class="hm-diff-title">😤 새로 맞팔 끊긴 계정 ('+newLost.length+')</div>';
+      newLost.slice(0,50).forEach(function(u){
+        var url=getUserProfileUrl(u);
+        h+='<a class="hm-diff-item" href="'+url+'" target="_blank" rel="noopener" style="text-decoration:none">';
+        h+='<div class="hm-diff-avatar" style="background:linear-gradient('+gc(u.username)+')">'+u.username.charAt(0).toUpperCase()+'</div>';
+        h+='<div><div class="hm-diff-name">@'+u.username+'</div></div>';
+        h+='<span class="hm-diff-badge new">신규</span>';
+        h+='</a>';
+      });
+      if(newLost.length>50) h+='<div style="text-align:center;padding:8px;font-size:11px;color:var(--muted)">...외 '+(newLost.length-50)+'명</div>';
+      h+='</div>';
+    }
+
+    // 다시 맞팔 됨
+    if(recovered.length>0){
+      h+='<div class="hm-diff-section">';
+      h+='<div class="hm-diff-title">💚 다시 맞팔 된 계정 ('+recovered.length+')</div>';
+      recovered.slice(0,50).forEach(function(name){
+        h+='<div class="hm-diff-item">';
+        h+='<div class="hm-diff-avatar" style="background:linear-gradient(135deg,#10b981,#34d399)">'+name.charAt(0).toUpperCase()+'</div>';
+        h+='<div><div class="hm-diff-name">@'+name+'</div></div>';
+        h+='<span class="hm-diff-badge recovered">복구</span>';
+        h+='</div>';
+      });
+      if(recovered.length>50) h+='<div style="text-align:center;padding:8px;font-size:11px;color:var(--muted)">...외 '+(recovered.length-50)+'명</div>';
+      h+='</div>';
+    }
+
+    if(newLost.length===0&&recovered.length===0){
+      h+='<div class="mp-empty" style="padding:32px">변화가 없습니다.<br>맞팔 안 함 목록이 동일해요.</div>';
+    }
+
+    bodyEl.innerHTML=h;
+    modal.classList.add('show');
+    document.body.style.overflow='hidden';
+  } catch(e){
+    alert('비교 중 오류가 발생했습니다: '+e.message);
+  }
+}
 
 function showPaySuccess(){
   isPro=true;
@@ -2812,13 +3022,22 @@ async function confirmDeleteAccount(){
   if(!currentUser) return;
   if(!confirm('정말로 탈퇴하시겠습니까?\n계정 정보와 결제 내역이 모두 삭제되며 복구할 수 없습니다.')) return;
   try {
-    await sb.from('subscriptions').delete().eq('user_id', currentUser.id);
-    await sb.from('users').delete().eq('id', currentUser.id);
+    const {data:{session}}=await sb.auth.getSession();
+    const res=await fetch(SUPABASE_URL+'/functions/v1/delete-account',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':'Bearer '+(session?.access_token||SUPABASE_ANON_KEY)
+      },
+      body:JSON.stringify({user_id:currentUser.id})
+    });
+    const result=await res.json();
+    if(!res.ok) throw new Error(result.error||'탈퇴 처리 실패');
     await sb.auth.signOut();
     closeMypage();
     alert('탈퇴가 완료되었습니다. 이용해 주셔서 감사합니다.');
-  } catch(e) {
-    alert('탈퇴 처리 중 오류가 발생했습니다.\n고객센터로 문의해 주세요.\n' + e.message);
+  } catch(e){
+    alert('탈퇴 처리 중 오류가 발생했습니다.\n고객센터로 문의해 주세요.\n'+e.message);
   }
 }
 
