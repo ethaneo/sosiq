@@ -34,7 +34,9 @@ Deno.serve(async (req) => {
     )
 
     // ── 1. 포트원 빌링키 삭제 ──
-    const customerUid = `realations_${plan}_${user_id}`
+    const uid8 = user_id.replace(/-/g, '').substring(0, 8)
+    const prefix = plan === 'pro' ? 'rp' : 'rb'
+    const customerUid = `${prefix}_${uid8}`
     let billingKeyDeleted = false
 
     try {

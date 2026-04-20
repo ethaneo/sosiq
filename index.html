@@ -2439,8 +2439,9 @@ function handleTossPay(){ handleBasicPay(); } // 하위 호환
 function handleBasicPay(){
   if(!currentUser){ alert('결제를 위해 먼저 로그인해주세요.'); openAuthModal(); return; }
   var IMP_CODE='imp45411646';
-  var CUSTOMER_UID='realations_basic_'+currentUser.id;
-  var MERCHANT_UID='realations_basic_'+currentUser.id+'_'+Date.now();
+  var uid8=currentUser.id.replace(/-/g,'').substring(0,8);
+  var CUSTOMER_UID='rb_'+uid8;                          // 최대 11자
+  var MERCHANT_UID='rb_'+uid8+'_'+Date.now();           // 최대 25자 (KCP 40자 제한 이내)
   IMP.init(IMP_CODE);
   IMP.request_pay({
     channelKey:'channel-key-350fcf6a-b7fa-4ed7-9724-e42a06c05d0c',
@@ -2462,8 +2463,9 @@ function handleBasicPay(){
 function handleProPay(){
   if(!currentUser){ alert('결제를 위해 먼저 로그인해주세요.'); openAuthModal(); return; }
   var IMP_CODE='imp45411646';
-  var CUSTOMER_UID='realations_pro_'+currentUser.id;
-  var MERCHANT_UID='realations_pro_'+currentUser.id+'_'+Date.now();
+  var uid8=currentUser.id.replace(/-/g,'').substring(0,8);
+  var CUSTOMER_UID='rp_'+uid8;                          // 최대 11자
+  var MERCHANT_UID='rp_'+uid8+'_'+Date.now();           // 최대 25자
   IMP.init(IMP_CODE);
   IMP.request_pay({
     channelKey:'channel-key-350fcf6a-b7fa-4ed7-9724-e42a06c05d0c',
