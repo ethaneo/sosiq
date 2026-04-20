@@ -2970,7 +2970,8 @@ function updateAuthUI(){
   const btnEl=document.getElementById('btnAuthAction');
   const mypageBtn=document.getElementById('btnMypage');
   if(currentUser){
-    emailEl.textContent=currentUser.email+(isPro?' ✦ PRO':'');
+    var planBadge=userPlan==='pro'?' ✦ PRO':userPlan==='basic'?' ✦ BASIC':'';
+    emailEl.textContent=currentUser.email+planBadge;
     btnEl.textContent='로그아웃';
     btnEl.className='btn-auth';
     if(mypageBtn) mypageBtn.style.display='inline-flex';
