@@ -10,9 +10,23 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { headers: CORS })
 
   try {
-    const { user_id, plan } = await req.json()
+    // ── C1 FIX: JWT 인증 — 본인 확인 ──
+    const authHeader = req.headers.get('Authorization')
+    if (!authHeader) return json({ error: '인증 필요' }, 401)
 
+    const sbUser = createClient(
+      Deno.env.get('SUPABASE_URL')!,
+      Deno.env.get('SUPABASE_ANON_KEY')!,
+      { global: { headers: { Authorization: authHeader } } },
+    )
+    const { data: { user }, error: authErr } = await sbUser.auth.getUser()
+    if (authErr || !user) return json({ error: '유효하지 않은 세션' }, 401)
+
+    const { user_id, plan } = await req.json()
     if (!user_id || !plan) return json({ error: '필수 파라미터 누락' }, 400)
+
+    // 요청 user_id와 인증된 사용자 일치 확인 (타인 구독 해지 방지)
+    if (user_id !== user.id) return json({ error: '본인 구독만 해지 가능합니다' }, 403)
 
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL')!,
@@ -20,7 +34,6 @@ Deno.serve(async (req) => {
     )
 
     // ── 1. 포트원 빌링키 삭제 ──
-    // customer_uid 형식: realations_{plan}_{user_id}
     const customerUid = `realations_${plan}_${user_id}`
     let billingKeyDeleted = false
 
@@ -29,12 +42,10 @@ Deno.serve(async (req) => {
       const deleteResult = await deleteBillingKey(token, customerUid)
       billingKeyDeleted = deleteResult.code === 0
       if (!billingKeyDeleted) {
-        // 빌링키가 없거나 이미 삭제된 경우도 정상 처리
-        console.warn('[cancel-subscription] 빌링키 삭제 응답:', deleteResult.message)
+        console.warn('[cancel-subscription] 빌링키 삭제 응답 코드:', deleteResult.code)
       }
-    } catch (e) {
-      // 포트원 API 실패해도 DB 해지는 진행
-      console.error('[cancel-subscription] 빌링키 삭제 오류 (계속 진행):', e.message)
+    } catch (_e) {
+      console.error('[cancel-subscription] 빌링키 삭제 오류 (계속 진행)')
     }
 
     // ── 2. 예약된 결제 취소 ──
@@ -45,27 +56,24 @@ Deno.serve(async (req) => {
         headers: { Authorization: token, 'Content-Type': 'application/json' },
         body: JSON.stringify({ customer_uid: customerUid }),
       })
-    } catch (e) {
-      console.error('[cancel-subscription] 예약결제 취소 오류 (계속 진행):', e.message)
+    } catch (_e) {
+      console.error('[cancel-subscription] 예약결제 취소 오류 (계속 진행)')
     }
 
-    // ── 3. DB 업데이트: 구독 상태 해지로 변경 ──
+    // ── 3. DB 업데이트 ──
     await supabase.from('subscriptions')
       .update({ status: 'cancelled' })
       .eq('user_id', user_id)
       .in('status', ['active', 'grace'])
 
-    // ── 4. users 테이블: plan은 free로 변경하지 않음 ──
-    // 해지 후에도 현재 구독 기간 만료까지 서비스 유지 (pro_since 기준)
-    // 실제 만료 처리는 로그인 시 pro_since + 30일 체크로 처리
     await supabase.from('users').update({
-      merchant_uid: null, // 예약결제 참조 제거
+      merchant_uid: null,
     }).eq('id', user_id)
 
     return json({ success: true, billingKeyDeleted })
-  } catch (e) {
-    console.error('[cancel-subscription]', e)
-    return json({ error: e.message }, 500)
+  } catch (_e) {
+    console.error('[cancel-subscription] 처리 오류')
+    return json({ error: '해지 처리 중 오류가 발생했습니다' }, 500)
   }
 })
 

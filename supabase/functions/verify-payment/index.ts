@@ -16,6 +16,18 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { headers: CORS })
 
   try {
+    // ── C2 FIX: JWT 인증 — 타인 결제로 내 계정 업그레이드 방지 ──
+    const authHeader = req.headers.get('Authorization')
+    if (!authHeader) return json({ error: '인증 필요' }, 401)
+
+    const sbUser = createClient(
+      Deno.env.get('SUPABASE_URL')!,
+      Deno.env.get('SUPABASE_ANON_KEY')!,
+      { global: { headers: { Authorization: authHeader } } },
+    )
+    const { data: { user }, error: authErr } = await sbUser.auth.getUser()
+    if (authErr || !user) return json({ error: '유효하지 않은 세션' }, 401)
+
     const { imp_uid, merchant_uid, plan, user_id } = await req.json()
 
     if (!imp_uid || !merchant_uid || !plan || !user_id) {
@@ -24,6 +36,8 @@ Deno.serve(async (req) => {
     if (!PLAN_AMOUNT[plan]) {
       return json({ error: '유효하지 않은 플랜' }, 400)
     }
+    // 요청 user_id와 인증된 사용자 일치 확인 (타인 결제로 본인 플랜 업그레이드 방지)
+    if (user_id !== user.id) return json({ error: '본인 결제만 처리 가능합니다' }, 403)
 
     // ── 1. iamport 결제 정보 서버 조회 ──
     const token = await getIamportToken()
@@ -34,13 +48,13 @@ Deno.serve(async (req) => {
       return json({ error: '거래번호 불일치 — 결제 위변조 의심' }, 400)
     }
     if (payment.amount !== PLAN_AMOUNT[plan]) {
-      return json({ error: `결제 금액 불일치 (기대: ${PLAN_AMOUNT[plan]}, 실제: ${payment.amount})` }, 400)
+      return json({ error: '결제 금액 불일치' }, 400)
     }
     if (payment.status !== 'paid') {
       return json({ error: `결제 미완료 상태: ${payment.status}` }, 400)
     }
 
-    // ── 3. 중복 처리 방지: imp_uid 이미 DB에 있으면 성공으로 응답 ──
+    // ── 3. 중복 처리 방지 ──
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL')!,
       Deno.env.get('SB_SERVICE_ROLE_KEY')!,
@@ -97,9 +111,9 @@ Deno.serve(async (req) => {
     )
 
     return json({ success: true })
-  } catch (e) {
-    console.error('[verify-payment]', e)
-    return json({ error: e.message }, 500)
+  } catch (_e) {
+    console.error('[verify-payment] 처리 오류')
+    return json({ error: '결제 검증 중 오류가 발생했습니다' }, 500)
   }
 })
 
