@@ -2485,9 +2485,12 @@ function handleProPay(){
 // 서버사이드 결제 검증 후 플랜 활성화
 async function verifyAndActivate(plan, impUid, merchantUid){
   try{
+    var sessionData=await sb.auth.getSession();
+    var accessToken=sessionData&&sessionData.data&&sessionData.data.session&&sessionData.data.session.access_token;
+    if(!accessToken){ showPayRetry(plan,'세션이 만료되었습니다. 다시 로그인 후 시도해주세요.'); return; }
     var res=await fetch(SUPABASE_URL+'/functions/v1/verify-payment',{
       method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+accessToken,'apikey':SUPABASE_ANON_KEY},
       body:JSON.stringify({imp_uid:impUid,merchant_uid:merchantUid,plan:plan,user_id:currentUser.id})
     });
     var result=await res.json();
