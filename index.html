@@ -2870,26 +2870,32 @@ function completeXStep(n){
     }
   }
 
-  // ── 세션 변경 리스너 ──
-  // INITIAL_SESSION: 페이지 로드 시 초기 세션 (소셜 로그인 리다이렉트 포함)
-  // SIGNED_IN: 로그인 이벤트
-  var _signedInCalled = false;
+  // ── 소셜 로그인 OAuth 콜백 hash 정리 ──
+  if(window.location.hash && window.location.hash.includes('access_token')){
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
+  // ── 1. 페이지 로드 시 즉시 세션 확인 (새로고침/탭 복원 신뢰성 보장) ──
+  var _loadedUserId = null;
+  var {data:{session:initSession}} = await sb.auth.getSession();
+  if(initSession && initSession.user){
+    _loadedUserId = initSession.user.id;
+    await onSignedIn(initSession.user);
+  } else {
+    updateAuthUI();
+  }
+
+  // ── 2. 이후 상태 변화 리스너 (로그인·로그아웃·토큰갱신) ──
   sb.auth.onAuthStateChange(async function(event, session){
-    if((event === 'INITIAL_SESSION' || event === 'SIGNED_IN') && session && session.user){
-      // 소셜 로그인 후 URL hash 정리 (SDK 처리 완료 후)
-      if(window.location.hash && window.location.hash.includes('access_token')){
-        window.history.replaceState({}, document.title, window.location.pathname);
-      }
-      // INITIAL_SESSION + SIGNED_IN 이중 호출 방지
-      if(event === 'SIGNED_IN' && _signedInCalled){ return; }
-      _signedInCalled = true;
+    if(event === 'SIGNED_IN' && session && session.user){
+      // getSession에서 이미 처리한 유저면 스킵 (이중 호출 방지)
+      if(_loadedUserId === session.user.id){ _loadedUserId = null; return; }
       await onSignedIn(session.user);
-    } else if(event === 'INITIAL_SESSION' && !session){
-      // 비로그인 초기 상태 — UI만 갱신
-      updateAuthUI();
     } else if(event === 'SIGNED_OUT'){
-      _signedInCalled = false;
+      _loadedUserId = null;
       onSignedOut();
+    } else if(event === 'TOKEN_REFRESHED' && session && session.user){
+      currentUser = session.user;
     }
   });
 })();
