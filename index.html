@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<!-- build:20260421 -->
+<!-- build:20260421b -->
 <title>Realations — 소셜 관계 분석</title>
 <meta name="description" content="인스타그램, 틱톡, X, 쓰레드, 링크드인 팔로워 관계 분석 툴. 비밀번호 없이 ZIP 파일만으로 맞팔 안 한 사람, 나만 팔로하는 팬을 5초 만에 확인하세요.">
 <meta property="og:title" content="Realations — 소셜 관계의 진실">
@@ -2487,8 +2487,13 @@ function handleProPay(){
 // 서버사이드 결제 검증 후 플랜 활성화
 async function verifyAndActivate(plan, impUid, merchantUid){
   try{
-    var sessionData=await sb.auth.getSession();
-    var accessToken=sessionData&&sessionData.data&&sessionData.data.session&&sessionData.data.session.access_token;
+    // 토큰 강제 갱신 (만료된 JWT로 인한 게이트웨이 오류 방지)
+    var refreshed=await sb.auth.refreshSession();
+    var accessToken=refreshed&&refreshed.data&&refreshed.data.session&&refreshed.data.session.access_token;
+    if(!accessToken){
+      var sessionData=await sb.auth.getSession();
+      accessToken=sessionData&&sessionData.data&&sessionData.data.session&&sessionData.data.session.access_token;
+    }
     if(!accessToken){ showPayRetry(plan,'세션이 만료되었습니다. 다시 로그인 후 시도해주세요.'); return; }
     var res=await fetch(SUPABASE_URL+'/functions/v1/verify-payment',{
       method:'POST',
@@ -2501,8 +2506,8 @@ async function verifyAndActivate(plan, impUid, merchantUid){
       isPro=true;
       showPaySuccess();
     } else {
-      // Edge Function 실패 시 재시도 모달
-      showPayRetry(plan, result.error||'결제 검증에 실패했습니다. 잠시 후 다시 시도해주세요.');
+      // Supabase 게이트웨이 오류(result.message) 또는 Edge Function 오류(result.error) 모두 처리
+      showPayRetry(plan, result.error||result.message||'결제 검증에 실패했습니다. 잠시 후 다시 시도해주세요.');
     }
   } catch(e){
     showPayRetry(plan, '네트워크 오류가 발생했습니다. 고객센터로 문의해 주세요.');
