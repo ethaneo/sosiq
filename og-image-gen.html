@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 1200px; height: 630px; overflow: hidden; background: #f8f7f5; font-family: 'Poppins', -apple-system, sans-serif; }
+.container {
+  width: 1200px; height: 630px;
+  background: linear-gradient(135deg, #f8f7f5 0%, #f0efec 100%);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 60px 80px; position: relative; overflow: hidden;
+}
+.bg-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(0,0,0,.03) 1px,transparent 1px), linear-gradient(90deg,rgba(0,0,0,.03) 1px,transparent 1px);
+  background-size: 60px 60px;
+}
+.bg-glow {
+  position: absolute; width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,0,29,.12) 0%, transparent 65%);
+  top: -100px; right: -80px;
+}
+.bg-glow2 {
+  position: absolute; width: 300px; height: 300px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,107,53,.08) 0%, transparent 65%);
+  bottom: -80px; left: 60px;
+}
+.left { position: relative; z-index: 1; flex: 1; }
+.logo-row { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+.logo-symbol {
+  width: 56px; height: 56px;
+  background: linear-gradient(135deg, #e8001d, #ff4040);
+  border-radius: 14px; display: flex; align-items: center; justify-content: center;
+  font-size: 28px; color: white; font-weight: 900; font-family: 'Poppins', sans-serif;
+  box-shadow: 0 8px 24px rgba(232,0,29,.35);
+}
+.logo-text { font-size: 28px; font-weight: 700; color: #1a1714; letter-spacing: -0.01em; }
+.logo-text span { color: #e8001d; }
+.headline {
+  font-size: 52px; font-weight: 800; color: #1a1714; line-height: 1.1;
+  margin-bottom: 24px; letter-spacing: -0.02em;
+}
+.headline em { color: #e8001d; font-style: normal; }
+.sub {
+  font-size: 22px; color: #6b6761; font-weight: 400; line-height: 1.5;
+  margin-bottom: 36px;
+}
+.badges { display: flex; gap: 10px; flex-wrap: wrap; }
+.badge {
+  background: white; border: 1.5px solid #e4e1dd; border-radius: 100px;
+  padding: 8px 18px; font-size: 14px; font-weight: 600; color: #3d3a36;
+  display: flex; align-items: center; gap: 6px;
+}
+.badge .dot { width: 8px; height: 8px; border-radius: 50%; background: #e8001d; }
+.right { position: relative; z-index: 1; width: 340px; }
+.card {
+  background: white; border-radius: 20px; padding: 28px 28px 24px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.1); border: 1px solid #e8e5e1;
+}
+.card-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; color: #aaa8a4; text-transform: uppercase; margin-bottom: 16px; }
+.stat-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0efec; }
+.stat-row:last-child { border-bottom: none; }
+.stat-left { display: flex; align-items: center; gap: 10px; }
+.stat-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.stat-label { font-size: 14px; font-weight: 600; color: #3d3a36; }
+.stat-count { font-size: 14px; font-weight: 700; color: #e8001d; }
+.url-badge {
+  position: absolute; bottom: 40px; right: 80px; z-index: 1;
+  background: rgba(255,255,255,.9); border: 1px solid #e4e1dd; border-radius: 100px;
+  padding: 8px 20px; font-size: 14px; color: #8a8580; font-weight: 500;
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+  <div class="bg-glow2"></div>
+
+  <div class="left">
+    <div class="logo-row">
+      <div class="logo-symbol">R</div>
+      <div class="logo-text"><span>R</span>ealations</div>
+    </div>
+    <div class="headline">
+      맞팔 안 한 사람,<br>
+      <em>5초</em>면 확인
+    </div>
+    <div class="sub">비밀번호 없이 ZIP 파일만으로<br>팔로워 관계를 분석하세요</div>
+    <div class="badges">
+      <div class="badge"><div class="dot"></div>Instagram</div>
+      <div class="badge"><div class="dot"></div>TikTok</div>
+      <div class="badge"><div class="dot"></div>X · Threads</div>
+      <div class="badge"><div class="dot"></div>LinkedIn</div>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="card">
+      <div class="card-label">분석 결과 예시</div>
+      <div class="stat-row">
+        <div class="stat-left">
+          <div class="stat-icon" style="background:#fff0f0">💔</div>
+          <div class="stat-label">맞팔 안 한 사람</div>
+        </div>
+        <div class="stat-count">47명</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-left">
+          <div class="stat-icon" style="background:#f0fff8">⭐</div>
+          <div class="stat-label">나만 팔로하는 팬</div>
+        </div>
+        <div class="stat-count">23명</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-left">
+          <div class="stat-icon" style="background:#fff8f0">🚫</div>
+          <div class="stat-label">차단한 계정</div>
+        </div>
+        <div class="stat-count">3명</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-left">
+          <div class="stat-icon" style="background:#f5f0ff">⏳</div>
+          <div class="stat-label">팔로 대기 중</div>
+        </div>
+        <div class="stat-count">8명</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="url-badge">realation.world</div>
+</div>
+</body>
+</html>
