@@ -2846,11 +2846,6 @@ function completeXStep(n){
 
 // 앱 시작 시 세션 확인
 (async function initAuth(){
-  // ── 소셜 로그인 후 URL 해시에서 토큰 처리 ──
-  if(window.location.hash && window.location.hash.includes('access_token')){
-    window.history.replaceState({}, document.title, window.location.pathname);
-  }
-
   // ── 모바일 결제 리다이렉트 파라미터 처리 ──
   // iamport가 m_redirect_url로 리다이렉트할 때 쿼리파라미터 추가:
   // ?imp_uid=xxx&merchant_uid=xxx&imp_success=true/false&error_msg=xxx
