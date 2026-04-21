@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<!-- build:20260421b -->
+<!-- build:20260325170215 -->
 <title>Realations — 소셜 관계 분석</title>
 <meta name="description" content="인스타그램, 틱톡, X, 쓰레드, 링크드인 팔로워 관계 분석 툴. 비밀번호 없이 ZIP 파일만으로 맞팔 안 한 사람, 나만 팔로하는 팬을 5초 만에 확인하세요.">
 <meta property="og:title" content="Realations — 소셜 관계의 진실">
@@ -14,8 +14,6 @@
 <meta property="og:url" content="https://realation.world">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://realation.world/og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Realations — 소셜 관계 분석">
 <meta name="twitter:description" content="맞팔 안 한 사람, 나만 팔로하는 팬을 5초 만에 확인. 비밀번호 불필요.">
@@ -2439,9 +2437,8 @@ function handleTossPay(){ handleBasicPay(); } // 하위 호환
 function handleBasicPay(){
   if(!currentUser){ alert('결제를 위해 먼저 로그인해주세요.'); openAuthModal(); return; }
   var IMP_CODE='imp45411646';
-  var uid8=currentUser.id.replace(/-/g,'').substring(0,8);
-  var CUSTOMER_UID='rb_'+uid8;                          // 최대 11자
-  var MERCHANT_UID='rb_'+uid8+'_'+Date.now();           // 최대 25자 (KCP 40자 제한 이내)
+  var CUSTOMER_UID='realations_basic_'+currentUser.id;
+  var MERCHANT_UID='realations_basic_'+currentUser.id+'_'+Date.now();
   IMP.init(IMP_CODE);
   IMP.request_pay({
     channelKey:'channel-key-350fcf6a-b7fa-4ed7-9724-e42a06c05d0c',
@@ -2463,9 +2460,8 @@ function handleBasicPay(){
 function handleProPay(){
   if(!currentUser){ alert('결제를 위해 먼저 로그인해주세요.'); openAuthModal(); return; }
   var IMP_CODE='imp45411646';
-  var uid8=currentUser.id.replace(/-/g,'').substring(0,8);
-  var CUSTOMER_UID='rp_'+uid8;                          // 최대 11자
-  var MERCHANT_UID='rp_'+uid8+'_'+Date.now();           // 최대 25자
+  var CUSTOMER_UID='realations_pro_'+currentUser.id;
+  var MERCHANT_UID='realations_pro_'+currentUser.id+'_'+Date.now();
   IMP.init(IMP_CODE);
   IMP.request_pay({
     channelKey:'channel-key-350fcf6a-b7fa-4ed7-9724-e42a06c05d0c',
@@ -2487,12 +2483,9 @@ function handleProPay(){
 // 서버사이드 결제 검증 후 플랜 활성화
 async function verifyAndActivate(plan, impUid, merchantUid){
   try{
-    var sessionData=await sb.auth.getSession();
-    var accessToken=sessionData&&sessionData.data&&sessionData.data.session&&sessionData.data.session.access_token;
-    if(!accessToken){ showPayRetry(plan,'세션이 만료되었습니다. 다시 로그인 후 시도해주세요.'); return; }
     var res=await fetch(SUPABASE_URL+'/functions/v1/verify-payment',{
       method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+accessToken,'apikey':SUPABASE_ANON_KEY},
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},
       body:JSON.stringify({imp_uid:impUid,merchant_uid:merchantUid,plan:plan,user_id:currentUser.id})
     });
     var result=await res.json();
@@ -2501,12 +2494,11 @@ async function verifyAndActivate(plan, impUid, merchantUid){
       isPro=true;
       showPaySuccess();
     } else {
-      showPayRetry(plan, result.error||result.message||'결제 검증에 실패했습니다. 잠시 후 다시 시도해주세요.');
+      // Edge Function 실패 시 재시도 모달
+      showPayRetry(plan, result.error||'결제 검증에 실패했습니다. 잠시 후 다시 시도해주세요.');
     }
   } catch(e){
-    var errMsg=e&&e.message?e.message:String(e);
-    console.error('[verifyAndActivate] catch:', errMsg);
-    showPayRetry(plan, '오류: '+errMsg);
+    showPayRetry(plan, '네트워크 오류가 발생했습니다. 고객센터로 문의해 주세요.');
   }
 }
 
@@ -2854,49 +2846,43 @@ function completeXStep(n){
 
 // 앱 시작 시 세션 확인
 (async function initAuth(){
+  // ── 소셜 로그인 후 URL 해시에서 토큰 처리 ──
+  if(window.location.hash && window.location.hash.includes('access_token')){
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
   // ── 모바일 결제 리다이렉트 파라미터 처리 ──
+  // iamport가 m_redirect_url로 리다이렉트할 때 쿼리파라미터 추가:
+  // ?imp_uid=xxx&merchant_uid=xxx&imp_success=true/false&error_msg=xxx
   var urlParams=new URLSearchParams(window.location.search);
   var mImpUid=urlParams.get('imp_uid');
   var mMerchantUid=urlParams.get('merchant_uid');
   var mImpSuccess=urlParams.get('imp_success');
   var mErrorMsg=urlParams.get('error_msg');
-  var mPlan=urlParams.get('plan')||'basic';
+  var mPlan=urlParams.get('plan')||'basic'; // m_redirect_url에 ?plan=basic/pro 포함
   if(mImpUid && mMerchantUid){
+    // URL 즉시 정리 (파라미터 노출 방지)
     window.history.replaceState({}, document.title, window.location.pathname);
     if(mImpSuccess==='true'){
+      // 세션 로드 후 verifyAndActivate를 실행하기 위해 보류
       window._pendingPayment={imp_uid:mImpUid,merchant_uid:mMerchantUid,plan:mPlan};
     } else {
+      // 결제 실패 — 세션 로드 후 모달 표시
       window._pendingPayFail=mErrorMsg||'모바일 결제가 취소되었습니다.';
       window._pendingPayFailPlan=mPlan;
     }
   }
 
-  // ── 소셜 로그인 OAuth 콜백 hash 정리 ──
-  if(window.location.hash && window.location.hash.includes('access_token')){
-    window.history.replaceState({}, document.title, window.location.pathname);
-  }
-
-  // ── 1. 페이지 로드 시 즉시 세션 확인 (새로고침/탭 복원 신뢰성 보장) ──
-  var _loadedUserId = null;
-  var {data:{session:initSession}} = await sb.auth.getSession();
-  if(initSession && initSession.user){
-    _loadedUserId = initSession.user.id;
-    await onSignedIn(initSession.user);
-  } else {
-    updateAuthUI();
-  }
-
-  // ── 2. 이후 상태 변화 리스너 (로그인·로그아웃·토큰갱신) ──
+  // 세션 변경 리스너 - INITIAL_SESSION(모바일 OAuth 리다이렉트 포함) + SIGNED_IN 모두 처리
   sb.auth.onAuthStateChange(async function(event, session){
-    if(event === 'SIGNED_IN' && session && session.user){
-      // getSession에서 이미 처리한 유저면 스킵 (이중 호출 방지)
-      if(_loadedUserId === session.user.id){ _loadedUserId = null; return; }
-      await onSignedIn(session.user);
+    if((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && session&&session.user){
+      if(!currentUser || currentUser.id !== session.user.id){
+        await onSignedIn(session.user);
+      }
     } else if(event === 'SIGNED_OUT'){
-      _loadedUserId = null;
       onSignedOut();
-    } else if(event === 'TOKEN_REFRESHED' && session && session.user){
-      currentUser = session.user;
+    } else if(event === 'TOKEN_REFRESHED' && session&&session.user){
+      currentUser=session.user;
     }
   });
 })();
@@ -2977,8 +2963,7 @@ function updateAuthUI(){
   const btnEl=document.getElementById('btnAuthAction');
   const mypageBtn=document.getElementById('btnMypage');
   if(currentUser){
-    var planBadge=userPlan==='pro'?' ✦ PRO':userPlan==='basic'?' ✦ BASIC':'';
-    emailEl.textContent=currentUser.email+planBadge;
+    emailEl.textContent=currentUser.email+(isPro?' ✦ PRO':'');
     btnEl.textContent='로그아웃';
     btnEl.className='btn-auth';
     if(mypageBtn) mypageBtn.style.display='inline-flex';
@@ -3001,9 +2986,7 @@ function openAuthModal(){
   authMode='login';
   document.getElementById('authModalTitle').textContent='로그인';
   document.getElementById('authModalDesc').textContent='이메일로 간편하게 시작하세요';
-  var submitBtn=document.getElementById('btnAuthSubmit');
-  submitBtn.textContent='로그인';
-  submitBtn.disabled=false;
+  document.getElementById('btnAuthSubmit').textContent='로그인';
   document.getElementById('authSwitch').innerHTML='계정이 없으신가요? <a onclick="toggleAuthMode()">회원가입</a>';
   document.getElementById('authMsg').style.display='none';
   document.getElementById('authEmail').value='';
@@ -3020,20 +3003,18 @@ function closeAuthModal(){
 }
 
 function toggleAuthMode(){
-  var submitBtn=document.getElementById('btnAuthSubmit');
-  submitBtn.disabled=false;
   if(authMode==='login'){
     authMode='signup';
     document.getElementById('authModalTitle').textContent='회원가입';
     document.getElementById('authModalDesc').textContent='무료로 시작하고 Pro로 업그레이드하세요';
-    submitBtn.textContent='회원가입';
+    document.getElementById('btnAuthSubmit').textContent='회원가입';
     document.getElementById('authSwitch').innerHTML='이미 계정이 있으신가요? <a onclick="toggleAuthMode()">로그인</a>';
     document.getElementById('agreeWrap').style.display='flex';
   } else {
     authMode='login';
     document.getElementById('authModalTitle').textContent='로그인';
     document.getElementById('authModalDesc').textContent='이메일로 간편하게 시작하세요';
-    submitBtn.textContent='로그인';
+    document.getElementById('btnAuthSubmit').textContent='로그인';
     document.getElementById('authSwitch').innerHTML='계정이 없으신가요? <a onclick="toggleAuthMode()">회원가입</a>';
     document.getElementById('agreeWrap').style.display='none';
   }
