@@ -68,63 +68,73 @@ https://jyiohkrbdjuwdjjatkgb.supabase.co/functions/v1/payment-webhook
 
 ---
 
-## ✅ 완료된 작업 전체
+## ✅ 오픈 전 완료된 작업
 
-### 핵심 버그 수정
-- 모든 플랫폼 결과 링크 instagram.com 하드코딩 수정
-- `onSignedIn()`에서 미정의 변수 `data.notback` 참조 오류 제거 → 로그인 후 UI 미반영 원인
-- 모바일 OAuth 로그인 세션 미반영 → INITIAL_SESSION 이벤트 처리 + flowType implicit + 해시 조기 제거 삭제
-- 카카오 로그인 실패 → 카카오 개발자 콘솔 클라이언트 시크릿 비활성화(OFF)로 해결
+### 핵심 기능
+- [x] Instagram / TikTok / X / Threads / LinkedIn 5개 플랫폼 파일 파싱 및 분석
+- [x] 맞팔 안 한 계정 / 나만 팔로하는 팬 / 차단·제한·대기·친한친구 탭 분리
+- [x] 무료 플랜 제한 (월 3회, 결과 5명) + 페이월 UI
+- [x] 히스토리 비교 기능 (Pro)
+- [x] 멀티 계정 관리 (Pro)
+- [x] 정렬 / 검색 / 복사 기능
+
+### 인증
+- [x] 이메일/비밀번호 로그인·회원가입
+- [x] Google OAuth (PC + 모바일)
+- [x] Kakao OAuth (PC + 모바일) — 카카오 콘솔 클라이언트 시크릿 OFF로 해결
+- [x] 모바일 OAuth 세션 미반영 버그 수정 (flowType implicit + INITIAL_SESSION 처리)
+- [x] 회원탈퇴 (Edge Function delete-account — Auth 완전 삭제)
 
 ### 결제 시스템
-- 서버사이드 결제 검증 (Edge Function verify-payment, 3중 검증)
-- 모바일 결제 리다이렉트 처리
-- 자동갱신 웹훅 (payment-webhook)
-- 갱신 실패 3일 유예기간
-- 해지 시 빌링키 삭제 (cancel-subscription)
-- Edge Function BOOT_ERROR → 재배포로 해결
-- ES256 JWT 오류 → --no-verify-jwt로 해결
-- ⚠️ KCP 실연동 심사 중 (F0004 오류 — NHN KCP 문의 완료, 심사 대기)
-
-### P4 기능
-- 히스토리 비교 기능
-- 멀티 계정 관리
-- 회원탈퇴 Auth 삭제 (Edge Function delete-account)
+- [x] 서버사이드 결제 검증 (verify-payment, 3중 검증)
+- [x] 모바일 결제 리다이렉트 처리
+- [x] 자동갱신 웹훅 (payment-webhook)
+- [x] 갱신 실패 3일 유예기간
+- [x] 해지 시 빌링키 삭제 (cancel-subscription)
+- [x] Edge Function ES256 JWT 오류 → --no-verify-jwt로 해결
 
 ### SEO
-- robots.txt, sitemap.xml 생성
-- keywords 메타태그 추가
-- og:image 정상 서빙 확인
+- [x] robots.txt, sitemap.xml 생성
+- [x] keywords 메타태그 추가
+- [x] og:image 정상 서빙 확인 (200 OK)
 
 ### 반응형
-- @media(max-width:768px) 태블릿
-- @media(max-width:480px) 모바일 전체
+- [x] 태블릿 @media(max-width:768px)
+- [x] 모바일 @media(max-width:480px)
 
 ### UX
-- 로고 클릭 → 메인페이지 이동
-- 마이페이지 업그레이드 버튼 → '모든 기능 다 써보기' + 서비스 가격 모달
-- 회원탈퇴 → 최하단 왼쪽 작은 글씨
+- [x] 로고 클릭 → 메인페이지 이동
+- [x] 마이페이지 업그레이드 버튼 → '모든 기능 다 써보기' + 서비스 가격 모달
+- [x] 회원탈퇴 → 최하단 왼쪽 작은 글씨로 이동
 
 ### 보안
-- RLS 실제 테스트: anon key로 users/subscriptions/analysis_snapshots 조회 차단 확인 ✅
-- Git 히스토리 secrets 미포함 확인 ✅
-- Edge Function 내부 JWT 검증 + user_id 일치 확인 구현 ✅
-- 개인정보처리방침 국외 이전 고지 추가 (Supabase/AWS)
+- [x] RLS 실 테스트: anon key로 users/subscriptions/analysis_snapshots 조회 차단 확인
+- [x] Git 히스토리 secrets 미포함 확인
+- [x] Edge Function 내부 JWT 검증 + user_id 일치 확인
+- [x] 개인정보처리방침 국외 이전 고지 추가 (Supabase/AWS)
+- [x] XSS 방어: escapeHtml() + safeHref() 적용 (파일 파싱 데이터 innerHTML 삽입 전 이스케이핑)
+
+### 버그 수정
+- [x] 모든 플랫폼 결과 링크 instagram.com 하드코딩 수정
+- [x] `onSignedIn()`의 `data.notback` 미정의 참조 오류 제거 → 로그인 후 UI 미반영 원인
+- [x] Edge Function BOOT_ERROR → 재배포로 해결
 
 ---
 
-## ⏳ 남은 작업
+## ⏳ 오픈 전 남은 작업
 
-### 필수 (KCP 심사 완료 후)
-- [ ] NHN KCP 실연동 심사 완료 대기
-- [ ] 심사 완료 후 실결제 최종 테스트
+### 🔴 필수 (오픈 블로커)
+- [ ] **NHN KCP 실연동 심사 완료 대기** (F0004 오류 — KCP 문의 완료, 심사 중)
+- [ ] **KCP 심사 완료 후 실결제 최종 테스트** (실 카드로 결제→자동갱신→해지 플로우 확인)
 
-### 대시보드 직접 설정 (권장)
-- [ ] Supabase 대시보드 → 월별 비용 알림 설정
-- [ ] 포트원 콘솔 → 비용 알림 설정
+### 🟡 권장 (오픈 전 완료 권장)
+- [ ] **Supabase 대시보드 → 월별 비용 알림 설정** (Settings → Billing → Usage alerts)
+- [ ] **포트원 콘솔 → 비용 알림 설정**
+- [ ] **GitHub → Settings → Security → Secret scanning 활성화**
 
-### 나중에 (Supabase Pro 업그레이드 시)
+### 🟢 나중에 (오픈 후 / Supabase Pro 업그레이드 시)
 - [ ] Supabase 커스텀 도메인 → 구글 로그인 시 "realation.world(으)로 이동" 표시
+- [ ] Supabase Pro 업그레이드 시 커스텀 도메인 연결
 
 ---
 
@@ -134,6 +144,7 @@ https://jyiohkrbdjuwdjjatkgb.supabase.co/functions/v1/payment-webhook
 |------|------|
 | RLS (anon key 차단) | ✅ 실 테스트 확인 |
 | IDOR 방지 | ✅ RLS + Edge Function user_id 검증 |
+| XSS 방어 | ✅ escapeHtml / safeHref 적용 |
 | secrets Git 노출 | ✅ 미포함 확인 |
 | service_role key | ✅ Supabase secrets에만 |
 | 백엔드 인증 | ✅ Edge Function 내부 JWT 검증 |
