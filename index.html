@@ -1581,7 +1581,7 @@ document.addEventListener('keydown',function(e){
 // ── SUPABASE 설정 ──
 const SUPABASE_URL='https://jyiohkrbdjuwdjjatkgb.supabase.co';
 const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5aW9oa3JiZGp1d2RqamF0a2diIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MzcwODIsImV4cCI6MjA4OTQxMzA4Mn0.oFP4fzJz2YvTsg3Qm3RjINew7vu8nqJuNSrxaw82FfU';
-const sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{flowType:'implicit'}});
 
 const FREE_LIMIT=5;
 const store={followers:null,following:null,blocked:null,pending:null,restricted:null,close_friends:null,
