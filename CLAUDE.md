@@ -7,11 +7,11 @@
 - **핵심 기능**: 맞팔 안 한 계정, 나만 팔로하는 팬, 차단·제한·뮤트 계정 분석
 
 ## 기술 스택
-- **Frontend**: Vanilla JS, HTML5, CSS3 (단일 파일 SPA — `index.html`, 3,240줄)
+- **Frontend**: Vanilla JS, HTML5, CSS3 (단일 파일 SPA — `index.html`)
 - **Backend**: Supabase (PostgreSQL + Auth)
-- **결제**: 포트원(iamPort) + Toss Payments / KCP
+- **결제**: 포트원(iamPort) + NHN KCP
 - **인증**: 이메일/비밀번호, Google OAuth, Kakao OAuth
-- **배포**: Vercel
+- **배포**: Vercel (GitHub push → 자동 배포)
 
 ## 인프라
 - **GitHub**: ethaneo/sosiq
@@ -23,20 +23,16 @@
 | 플랜 | 가격 | 주요 기능 |
 |------|------|----------|
 | FREE | 무료 | 월 3회 분석, 결과 5명, 1개 플랫폼 |
-| Basic | ₩5,900/월 | 무제한 분석, 전체 결과, 5개 플랫폼, 1개 계정 |
-| Pro | ₩9,900/월 | Basic + 히스토리 비교, 멀티 계정(최대 10개) |
+| Basic | ₩5,900/월 | 무제한 분석, 전체 결과, 5개 플랫폼 |
+| Pro | ₩9,900/월 | Basic + 히스토리 비교, 10개 계정 |
 
-## 주의사항
-- `index.html` 한 파일에 HTML/CSS/JS 전체 포함 (3,240줄) — 수정 시 라인 범위 확인 필수
-- Supabase anon key가 소스에 노출되어 있음 — RLS 정책으로 보호 중
-- 파일 분석은 클라이언트 사이드(브라우저)에서만 처리, 서버 전송 없음
-- 포트원 IMP 코드: `imp45411646`, 채널키: `channel-key-350fcf6a-b7fa-4ed7-9724-e42a06c05d0c`
+## 주요 설정값 (코드 내)
+- 포트원 IMP 코드: `imp45411646`
+- 채널키: `channel-key-350fcf6a-b7fa-4ed7-9724-e42a06c05d0c` (실연동, KCP billing)
+- 정기자동결제 그룹아이디: `IP7191056682`
+- Supabase anon key: 소스에 노출 — RLS 정책으로 보호 중 (의도적)
 
----
-
-## DB 스키마
-
-### users 테이블 추가 컬럼
+## Supabase 스키마 메모
 ```sql
 ALTER TABLE users ADD COLUMN IF NOT EXISTS pro_since TIMESTAMPTZ;
 ALTER TABLE users ADD COLUMN IF NOT EXISTS imp_uid TEXT;
@@ -46,94 +42,111 @@ ALTER TABLE users ADD COLUMN IF NOT EXISTS free_count INT DEFAULT 0;
 ALTER TABLE users ADD COLUMN IF NOT EXISTS free_month TEXT;
 ```
 
-### 마이그레이션 파일 목록
-| 파일 | 내용 | 실행 여부 |
-|------|------|----------|
-| `001_payment_columns.sql` | `subscriptions.grace_until`, `subscriptions.failed_count` | ⚠️ 미실행 |
-| `002_snapshots.sql` | `analysis_snapshots` 테이블 + RLS | ⚠️ 미실행 |
-| `003_users_rls.sql` | `users` RLS + `subscriptions` UPDATE 정책 | ⚠️ 미실행 |
-| `004_multi_account.sql` | `analysis_snapshots.account_label` (멀티 계정) | ⚠️ 미실행 |
-
----
-
-## 완료된 기능 이력
-
-### ✅ P1 Critical
-1. 모든 플랫폼 결과 링크 instagram.com 하드코딩 수정 (`getUserProfileUrl` 헬퍼)
-2. `confirmCancelPro()`, `confirmDeleteAccount()` 함수 구현
-3. Instagram 분석에 `checkFreeMonthlyLimit()` 누락 추가
-4. `updatePlanStatus()`에서 `subscriptions` 테이블 INSERT 추가
-5. 업그레이드 모달 이중 onclick 논리 오류 수정
-
-### ✅ P2 High
-6. 프로그레스 바 손 ID 불일치 수정 (`progDotHandR` → `progDotHR` 등 5개)
-7. `canSelectPlatform()` → `selectPlatform()` 호출 연결 + 조건 버그 수정
-8. `copyResult()` Pro 전체 복사 / 무료 5명 + 안내 문구
-9. 결제 내역 금액 하드코딩 → plan/amount 동적 표시
-10. 결제 성공 모달 배경 클릭 + ESC 닫기
-
-### ✅ P3 Medium
-11. 무료 횟수 카운터: 로그인 유저 Supabase 저장, 비로그인 localStorage
-12. 소셜 로그인 후 URL access_token 즉시 제거
-13. X 플랫폼 숫자 ID 표시 시 안내 문구 추가
-14. 언어 변경 시 분석 버튼 텍스트 조건 버그 수정
-15. 모달 닫기 시 body overflow 복원 (`restoreOverflowIfClear` 헬퍼)
-16. `unlockAll()` 플랫폼별 모든 탭 재렌더링
-
-### ✅ 결제 시스템 고도화 (2026-04-17)
-| 항목 | 방식 |
-|------|------|
-| 서버사이드 결제 검증 | Edge Function `verify-payment` — imp_uid 3중 검증 |
-| 모바일 결제 리다이렉트 | `initAuth()`에서 쿼리파라미터 감지 후 `verifyAndActivate` 실행 |
-| 자동갱신 웹훅 | Edge Function `payment-webhook` — paid/failed/cancelled 처리 |
-| 갱신 실패 유예기간 | 실패 시 3일 유예, 로그인 시 만료 체크 후 다운그레이드 |
-| 해지 시 빌링키 삭제 | Edge Function `cancel-subscription` — 빌링키 + 예약결제 취소 |
-| 결제 실패 재시도 UI | `payRetryModalBg` — 플랜별 재시도 버튼 |
-| 결제 완료 후 UI 갱신 | `showPaySuccess()`에 `updateAuthUI()` 추가 |
-| 결제 내역 상태 텍스트 | grace→유예기간, cancelled→해지, expired→만료 |
-
-### ✅ P4 기능 완성 (2026-04-19)
-| 항목 | 내용 |
-|------|------|
-| 히스토리 비교 | 복구 계정(`recovered`)에 플랫폼별 프로필 링크 추가 |
-| 히스토리 비교 | 각 스냅샷 행에 `✕` 삭제 버튼 (`deleteSnapshot`) |
-| 멀티 계정 관리 | `analysis_snapshots.account_label` 컬럼 + `currentAccountLabel` 전역 변수 |
-| 멀티 계정 관리 | 마이페이지 "내 계정 관리" 섹션 (Pro 전용): 현재 계정 표시, 선택/삭제, 새 계정 추가 |
-| 멀티 계정 관리 | 계정 레이블별 히스토리 표시, 최대 10개 제한 |
-| 회원탈퇴 Auth 삭제 | Edge Function `delete-account` — 빌링키 삭제 + DB + Auth 순서로 완전 삭제 |
-
----
-
 ## Edge Functions (supabase/functions/)
-| 함수 | 경로 | 역할 |
-|------|------|------|
-| verify-payment | `/functions/v1/verify-payment` | imp_uid 서버 검증, 다음 달 자동갱신 예약 |
-| payment-webhook | `/functions/v1/payment-webhook` | 포트원 웹훅 수신, 갱신/실패/취소 처리 |
-| cancel-subscription | `/functions/v1/cancel-subscription` | 빌링키 삭제 + 예약결제 취소 |
-| delete-account | `/functions/v1/delete-account` | 빌링키 → DB → Auth 순 완전 탈퇴 |
-| _shared/iamport.ts | (공유) | 포트원 토큰 발급, 결제 조회, 예약, 빌링키 삭제 |
+| 함수 | 역할 | 배포 옵션 |
+|------|------|----------|
+| verify-payment | imp_uid 서버 검증, 다음 달 자동갱신 예약 | --no-verify-jwt |
+| payment-webhook | 포트원 웹훅 수신, 갱신/실패/취소 처리 | --no-verify-jwt |
+| cancel-subscription | 빌링키 삭제 + 예약결제 취소 | --no-verify-jwt |
+| delete-account | 계정 삭제 + Auth 삭제 | --no-verify-jwt |
 
----
-
-## ⚠️ 운영 전환 체크리스트 (미완료)
-- [ ] SQL Editor에서 마이그레이션 4개 파일 순서대로 실행
-- [ ] Supabase Secrets 3개 등록 (PORTONE_API_KEY, PORTONE_API_SECRET, SB_SERVICE_ROLE_KEY)
-- [ ] Edge Functions 4개 배포 (`verify-payment`, `payment-webhook`, `cancel-subscription`, `delete-account`)
-- [ ] 포트원 콘솔 웹훅 URL 등록: `https://jyiohkrbdjuwdjjatkgb.supabase.co/functions/v1/payment-webhook`
-- [ ] 포트원 콘솔에서 운영 채널키 확인 후 `index.html` `channelKey` 교체
+> **--no-verify-jwt 이유**: Supabase ES256 JWT를 게이트웨이가 미지원.
+> cancel-subscription, delete-account는 내부에서 `sbUser.auth.getUser()` + user_id 일치 확인으로 직접 검증.
 
 ### Edge Function 배포 명령어
 ```bash
-supabase login
-supabase link --project-ref jyiohkrbdjuwdjjatkgb
-supabase functions deploy verify-payment
-supabase functions deploy payment-webhook
-supabase functions deploy cancel-subscription
-supabase functions deploy delete-account
+supabase functions deploy verify-payment --no-verify-jwt
+supabase functions deploy payment-webhook --no-verify-jwt
+supabase functions deploy cancel-subscription --no-verify-jwt
+supabase functions deploy delete-account --no-verify-jwt
+```
+
+### 포트원 콘솔 웹훅 URL
+```
+https://jyiohkrbdjuwdjjatkgb.supabase.co/functions/v1/payment-webhook
 ```
 
 ---
 
-## 다음 작업
-1. **⚠️ 운영 전환 체크리스트** — 위 항목 완료 후 결제 시스템 실제 동작
-2. **랜딩페이지 개선**: SEO 최적화, OG 이미지, 전환율 개선
+## ✅ 완료된 작업 전체
+
+### 핵심 버그 수정
+- 모든 플랫폼 결과 링크 instagram.com 하드코딩 수정
+- `onSignedIn()`에서 미정의 변수 `data.notback` 참조 오류 제거 → 로그인 후 UI 미반영 원인
+- 모바일 OAuth 로그인 세션 미반영 → INITIAL_SESSION 이벤트 처리 + flowType implicit + 해시 조기 제거 삭제
+- 카카오 로그인 실패 → 카카오 개발자 콘솔 클라이언트 시크릿 비활성화(OFF)로 해결
+
+### 결제 시스템
+- 서버사이드 결제 검증 (Edge Function verify-payment, 3중 검증)
+- 모바일 결제 리다이렉트 처리
+- 자동갱신 웹훅 (payment-webhook)
+- 갱신 실패 3일 유예기간
+- 해지 시 빌링키 삭제 (cancel-subscription)
+- Edge Function BOOT_ERROR → 재배포로 해결
+- ES256 JWT 오류 → --no-verify-jwt로 해결
+- ⚠️ KCP 실연동 심사 중 (F0004 오류 — NHN KCP 문의 완료, 심사 대기)
+
+### P4 기능
+- 히스토리 비교 기능
+- 멀티 계정 관리
+- 회원탈퇴 Auth 삭제 (Edge Function delete-account)
+
+### SEO
+- robots.txt, sitemap.xml 생성
+- keywords 메타태그 추가
+- og:image 정상 서빙 확인
+
+### 반응형
+- @media(max-width:768px) 태블릿
+- @media(max-width:480px) 모바일 전체
+
+### UX
+- 로고 클릭 → 메인페이지 이동
+- 마이페이지 업그레이드 버튼 → '모든 기능 다 써보기' + 서비스 가격 모달
+- 회원탈퇴 → 최하단 왼쪽 작은 글씨
+
+### 보안
+- RLS 실제 테스트: anon key로 users/subscriptions/analysis_snapshots 조회 차단 확인 ✅
+- Git 히스토리 secrets 미포함 확인 ✅
+- Edge Function 내부 JWT 검증 + user_id 일치 확인 구현 ✅
+- 개인정보처리방침 국외 이전 고지 추가 (Supabase/AWS)
+
+---
+
+## ⏳ 남은 작업
+
+### 필수 (KCP 심사 완료 후)
+- [ ] NHN KCP 실연동 심사 완료 대기
+- [ ] 심사 완료 후 실결제 최종 테스트
+
+### 대시보드 직접 설정 (권장)
+- [ ] Supabase 대시보드 → 월별 비용 알림 설정
+- [ ] 포트원 콘솔 → 비용 알림 설정
+
+### 나중에 (Supabase Pro 업그레이드 시)
+- [ ] Supabase 커스텀 도메인 → 구글 로그인 시 "realation.world(으)로 이동" 표시
+
+---
+
+## 보안 현황 요약
+
+| 항목 | 상태 |
+|------|------|
+| RLS (anon key 차단) | ✅ 실 테스트 확인 |
+| IDOR 방지 | ✅ RLS + Edge Function user_id 검증 |
+| secrets Git 노출 | ✅ 미포함 확인 |
+| service_role key | ✅ Supabase secrets에만 |
+| 백엔드 인증 | ✅ Edge Function 내부 JWT 검증 |
+| OAuth | ✅ Supabase 처리 |
+| HTTPS / WAF | ✅ Vercel/Cloudflare 기본 |
+| Brute Force | ✅ Supabase Auth 기본 제한 |
+| 파일 분석 보안 | ✅ 클라이언트 전용, 서버 전송 없음 |
+| 개인정보처리방침 | ✅ 국외 이전 고지 포함 |
+
+---
+
+## 주의사항
+- `index.html` 한 파일에 HTML/CSS/JS 전체 포함 (3,200줄+) — 수정 시 라인 범위 확인 필수
+- **코드 수정 후 반드시 Grep/Read로 검증 후 커밋**
+- Supabase anon key 소스 노출 — RLS로 보호 중 (의도적 설계)
+- 파일 분석은 클라이언트 사이드에서만 처리, 서버 전송 없음
