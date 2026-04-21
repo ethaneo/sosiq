@@ -427,7 +427,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
     <button class="btn-auth" id="btnAuthAction" onclick="handleAuthBtn()">로그인</button>
   </div>
   <div class="top-bar">
-    <div class="logo">
+    <div class="logo" onclick="closeMypage();closeAuthModal();closePricingModal();closeUpgradeModal();window.scrollTo({top:0,behavior:'smooth'});" style="cursor:pointer">
       <div class="logo-symbol">
         <svg xmlns="http://www.w3.org/2000/svg" width="94" height="94" viewBox="0 0 200 200">
           <circle cx="100" cy="100" r="44" fill="none" stroke="#C0392B" stroke-width="0.8" opacity="0.13"/>
@@ -1338,7 +1338,7 @@ async function renderMypage() {
 
     // Pro 아닐 때 업그레이드
     if (!proStatus) {
-      h += '<div class="mp-section"><button class="mp-btn primary" onclick="closeMypage()">✦ Pro로 업그레이드 — ₩5,900/월</button></div>';
+      h += '<div class="mp-section"><button class="mp-btn primary" onclick="closeMypage();openPricingModal()">✦ 모든 기능 다 써보기</button></div>';
     }
 
     // 결제 내역
@@ -1367,7 +1367,7 @@ async function renderMypage() {
     if (proStatus) {
       h += '<button class="mp-btn danger" onclick="confirmCancelPro()">유료 서비스 해지 신청</button>';
     }
-    h += '<button class="mp-btn outline" onclick="confirmDeleteAccount()">회원 탈퇴</button></div>';
+    h += '</div>';
 
     // 고객센터
     h += '<div class="mp-section"><div class="mp-section-title">고객센터</div><div class="mp-card">';
@@ -1438,6 +1438,7 @@ async function renderMypage() {
       h+='</div>';
     }
 
+    h += '<div style="padding:16px 0 4px;text-align:left"><button onclick="confirmDeleteAccount()" style="background:none;border:none;font-size:11px;color:#bbb;cursor:pointer;padding:0;text-decoration:underline">회원탈퇴</button></div>';
     body.innerHTML = h;
 
   } catch(e) {
