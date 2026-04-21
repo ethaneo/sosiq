@@ -2487,13 +2487,8 @@ function handleProPay(){
 // 서버사이드 결제 검증 후 플랜 활성화
 async function verifyAndActivate(plan, impUid, merchantUid){
   try{
-    // 토큰 강제 갱신 (만료된 JWT로 인한 게이트웨이 오류 방지)
-    var refreshed=await sb.auth.refreshSession();
-    var accessToken=refreshed&&refreshed.data&&refreshed.data.session&&refreshed.data.session.access_token;
-    if(!accessToken){
-      var sessionData=await sb.auth.getSession();
-      accessToken=sessionData&&sessionData.data&&sessionData.data.session&&sessionData.data.session.access_token;
-    }
+    var sessionData=await sb.auth.getSession();
+    var accessToken=sessionData&&sessionData.data&&sessionData.data.session&&sessionData.data.session.access_token;
     if(!accessToken){ showPayRetry(plan,'세션이 만료되었습니다. 다시 로그인 후 시도해주세요.'); return; }
     var res=await fetch(SUPABASE_URL+'/functions/v1/verify-payment',{
       method:'POST',
@@ -2506,7 +2501,6 @@ async function verifyAndActivate(plan, impUid, merchantUid){
       isPro=true;
       showPaySuccess();
     } else {
-      // Supabase 게이트웨이 오류(result.message) 또는 Edge Function 오류(result.error) 모두 처리
       showPayRetry(plan, result.error||result.message||'결제 검증에 실패했습니다. 잠시 후 다시 시도해주세요.');
     }
   } catch(e){
