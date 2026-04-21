@@ -9,6 +9,7 @@
 <!-- build:20260325170215 -->
 <title>Realations — 소셜 관계 분석</title>
 <meta name="description" content="인스타그램, 틱톡, X, 쓰레드, 링크드인 팔로워 관계 분석 툴. 비밀번호 없이 ZIP 파일만으로 맞팔 안 한 사람, 나만 팔로하는 팬을 5초 만에 확인하세요.">
+<meta name="keywords" content="팔로워 분석, 맞팔 확인, 언팔 확인, 인스타그램 팔로워, 틱톡 팔로워, 소셜미디어 분석, 팔로우 관계, 맞팔 안 한 사람, 팬 분석, Realations">
 <meta property="og:title" content="Realations — 소셜 관계의 진실">
 <meta property="og:description" content="맞팔 안 한 사람이 몇 명인지 알고 싶으세요? 비밀번호 없이 안전하게 분석하세요.">
 <meta property="og:url" content="https://realation.world">
@@ -235,7 +236,34 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 /* ── 플랫폼 선택 ── */
 .platform-grid-row1{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:10px}
 .platform-grid-row2{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-@media(max-width:480px){.platform-grid-row1,.platform-grid-row2{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){
+  .wrap{padding:32px 16px 80px}
+  .stats-grid,.stats-grid-2{grid-template-columns:repeat(2,1fr)}
+  .path-grid{grid-template-columns:1fr}
+  .mypage-modal{max-width:100%;border-radius:16px}
+  .history-modal{margin:16px auto}
+}
+@media(max-width:480px){
+  .platform-grid-row1,.platform-grid-row2{grid-template-columns:repeat(2,1fr)}
+  .wrap{padding:20px 14px 60px}
+  .auth-bar{gap:6px;flex-wrap:wrap;justify-content:flex-end}
+  .btn-auth{font-size:12px;padding:7px 12px}
+  .section-label-text{font-size:14px}
+  .btn-analyze{padding:14px 24px;font-size:14px;width:100%}
+  .results-title{font-size:20px}
+  .score-num,.stat-num{font-size:22px}
+  .stats-grid,.stats-grid-2{grid-template-columns:repeat(2,1fr)}
+  .path-grid{grid-template-columns:1fr}
+  .upload-zone{padding:28px 16px}
+  .upload-title{font-size:13px}
+  .mypage-modal{max-height:94vh;border-radius:14px}
+  .mypage-body{padding:16px}
+  .price-main{font-size:28px}
+  .paywall-box{padding:20px 14px}
+  .score-card{padding:18px 16px}
+  .logo-text{font-size:18px}
+  .logo-symbol{width:72px;height:72px}
+}
 .platform-card{background:var(--s1);border:1.5px solid var(--border);border-radius:14px;padding:16px 10px;text-align:center;cursor:pointer;transition:all .2s;box-shadow:0 1px 4px rgba(0,0,0,.04)}
 .platform-card:hover:not(.soon){border-color:var(--accent);transform:translateY(-1px)}
 .platform-card.active{border-color:var(--accent);background:rgba(232,0,29,.04);box-shadow:0 0 0 3px rgba(232,0,29,.08)}
