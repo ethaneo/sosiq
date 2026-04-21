@@ -2894,10 +2894,6 @@ async function onSignedIn(user){
       userPlan='basic';
       isPro=true;
     }
-    if(isPro && data.notback&&data.notback.length>0){
-      renderList('notback',data.notback,'red','맞팔 안 함',false,null,true);
-      renderList('fans',data.fans,'green','팬',false,null,false);
-    }
   }
   // users 테이블에 없으면 insert
   const {data:existing}=await sb.from('users').select('id').eq('id',user.id).maybeSingle();
