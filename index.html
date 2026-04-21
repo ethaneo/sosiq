@@ -2322,6 +2322,8 @@ function renderScoreCard(score,mutualScore,fanScore,mutual,total){
 
 const GRAD=['135deg,#7c3aed,#a78bfa','135deg,#0ea5e9,#38bdf8','135deg,#f59e0b,#fcd34d','135deg,#10b981,#34d399','135deg,#f43f5e,#fb7185','135deg,#06b6d4,#67e8f9','135deg,#8b5cf6,#c4b5fd'];
 function gc(n){return GRAD[n.charCodeAt(0)%GRAD.length]}
+function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function safeHref(url){if(!url)return '#';var u=String(url).trim();return /^https?:\/\//i.test(u)?u:'#';}
 
 function tsLabel(ts){
   if(!ts) return '';
@@ -2371,11 +2373,12 @@ function renderList(key,users,badgeClass,badgeText,hasWall,unavailKey,showTs){
   }
   var display=hasWall?users.slice(0,FREE_LIMIT):users;
   container.innerHTML=display.map(function(u){
-    var profileUrl=getUserProfileUrl(u);
-    var handleText=getUserHandleText(u);
+    var profileUrl=safeHref(getUserProfileUrl(u));
+    var handleText=escapeHtml(getUserHandleText(u));
+    var name=escapeHtml(u.username);
     return '<a class="user-card" href="'+profileUrl+'" target="_blank" rel="noopener">'+
-      '<div class="avatar" style="background:linear-gradient('+gc(u.username)+')">'+u.username.charAt(0).toUpperCase()+'</div>'+
-      '<div class="user-details"><div class="user-name">@'+u.username+'</div><div class="user-handle">'+handleText+'</div></div>'+
+      '<div class="avatar" style="background:linear-gradient('+gc(u.username)+')">'+name.charAt(0).toUpperCase()+'</div>'+
+      '<div class="user-details"><div class="user-name">@'+name+'</div><div class="user-handle">'+handleText+'</div></div>'+
       '<div class="user-meta">'+(u.ts&&showTs?'<span class="ts-label">'+tsLabel(u.ts)+'</span>':'')+
       '<span class="badge '+badgeClass+'">'+badgeText+'</span></div></a>';
   }).join('');
@@ -2409,11 +2412,12 @@ function filterList(key,q){
   var container=document.getElementById('list-'+key);
   if(!filtered.length){container.innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-text">검색 결과 없음</div></div>';return;}
   container.innerHTML=filtered.map(function(u){
-    var profileUrl=getUserProfileUrl(u);
-    var handleText=getUserHandleText(u);
+    var profileUrl=safeHref(getUserProfileUrl(u));
+    var handleText=escapeHtml(getUserHandleText(u));
+    var name=escapeHtml(u.username);
     return '<a class="user-card" href="'+profileUrl+'" target="_blank" rel="noopener">'+
-      '<div class="avatar" style="background:linear-gradient('+gc(u.username)+')">'+u.username.charAt(0).toUpperCase()+'</div>'+
-      '<div class="user-details"><div class="user-name">@'+u.username+'</div><div class="user-handle">'+handleText+'</div></div>'+
+      '<div class="avatar" style="background:linear-gradient('+gc(u.username)+')">'+name.charAt(0).toUpperCase()+'</div>'+
+      '<div class="user-details"><div class="user-name">@'+name+'</div><div class="user-handle">'+handleText+'</div></div>'+
       '<div class="user-meta"><span class="badge '+bc+'">'+bt+'</span></div></a>';
   }).join('');
 }
@@ -2432,11 +2436,12 @@ function sortList(key,val){
   var display=hasWall?sorted.slice(0,FREE_LIMIT):sorted;
   var showTs=key==='notback';
   container.innerHTML=display.map(function(u){
-    var profileUrl=getUserProfileUrl(u);
-    var handleText=getUserHandleText(u);
+    var profileUrl=safeHref(getUserProfileUrl(u));
+    var handleText=escapeHtml(getUserHandleText(u));
+    var name=escapeHtml(u.username);
     return '<a class="user-card" href="'+profileUrl+'" target="_blank" rel="noopener">'+
-      '<div class="avatar" style="background:linear-gradient('+gc(u.username)+')">'+u.username.charAt(0).toUpperCase()+'</div>'+
-      '<div class="user-details"><div class="user-name">@'+u.username+'</div><div class="user-handle">'+handleText+'</div></div>'+
+      '<div class="avatar" style="background:linear-gradient('+gc(u.username)+')">'+name.charAt(0).toUpperCase()+'</div>'+
+      '<div class="user-details"><div class="user-name">@'+name+'</div><div class="user-handle">'+handleText+'</div></div>'+
       '<div class="user-meta">'+(u.ts&&showTs?'<span class="ts-label">'+tsLabel(u.ts)+'</span>':'')+
       '<span class="badge '+bc+'">'+bt+'</span></div></a>';
   }).join('');
@@ -2677,10 +2682,11 @@ async function compareWithSnapshot(snapshotId, dateLabel, platform){
       h+='<div class="hm-diff-section">';
       h+='<div class="hm-diff-title">😤 새로 맞팔 끊긴 계정 ('+newLost.length+')</div>';
       newLost.slice(0,50).forEach(function(u){
-        var url=getUserProfileUrl(u);
+        var url=safeHref(getUserProfileUrl(u));
+        var name=escapeHtml(u.username);
         h+='<a class="hm-diff-item" href="'+url+'" target="_blank" rel="noopener" style="text-decoration:none">';
-        h+='<div class="hm-diff-avatar" style="background:linear-gradient('+gc(u.username)+')">'+u.username.charAt(0).toUpperCase()+'</div>';
-        h+='<div><div class="hm-diff-name">@'+u.username+'</div></div>';
+        h+='<div class="hm-diff-avatar" style="background:linear-gradient('+gc(u.username)+')">'+name.charAt(0).toUpperCase()+'</div>';
+        h+='<div><div class="hm-diff-name">@'+name+'</div></div>';
         h+='<span class="hm-diff-badge new">신규</span>';
         h+='</a>';
       });
@@ -2692,8 +2698,9 @@ async function compareWithSnapshot(snapshotId, dateLabel, platform){
     if(recovered.length>0){
       h+='<div class="hm-diff-section">';
       h+='<div class="hm-diff-title">💚 다시 맞팔 된 계정 ('+recovered.length+')</div>';
-      recovered.slice(0,50).forEach(function(name){
-        var url=getUserProfileUrl({username:name});
+      recovered.slice(0,50).forEach(function(rawName){
+        var url=safeHref(getUserProfileUrl({username:rawName}));
+        var name=escapeHtml(rawName);
         h+='<a class="hm-diff-item" href="'+url+'" target="_blank" rel="noopener" style="text-decoration:none">';
         h+='<div class="hm-diff-avatar" style="background:linear-gradient(135deg,#10b981,#34d399)">'+name.charAt(0).toUpperCase()+'</div>';
         h+='<div><div class="hm-diff-name">@'+name+'</div></div>';
