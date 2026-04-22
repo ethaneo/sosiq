@@ -95,7 +95,9 @@ Deno.serve(async (req) => {
       // 다음 달 예약
       const nextDate = new Date(now)
       nextDate.setMonth(nextDate.getMonth() + 1)
-      const nextMerchantUid = `realations_${planFromUid}_${userIdFromUid}_${nextDate.getTime()}`
+      const uid8w = userIdFromUid.replace(/-/g, '').substring(0, 8)
+      const prefixW = planFromUid === 'pro' ? 'rp' : 'rb'
+      const nextMerchantUid = `${prefixW}_${uid8w}_${nextDate.getTime()}` // KCP 주문번호 40자 제한 (25자)
 
       await scheduleNextPayment(
         token,

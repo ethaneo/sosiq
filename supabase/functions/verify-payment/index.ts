@@ -96,10 +96,10 @@ Deno.serve(async (req) => {
     // ── 5. 다음 달 자동갱신 예약 ──
     const nextDate = new Date()
     nextDate.setMonth(nextDate.getMonth() + 1)
+    const customerUid = `realations_${plan}_${user_id}`                      // 프론트와 동일 (portone 내부 식별자)
     const uid8 = user_id.replace(/-/g, '').substring(0, 8)
     const prefix = plan === 'pro' ? 'rp' : 'rb'
-    const customerUid = `${prefix}_${uid8}`                          // 프론트와 동일 (최대 11자)
-    const nextMerchantUid = `${prefix}_${uid8}_${nextDate.getTime()}` // 최대 25자
+    const nextMerchantUid = `${prefix}_${uid8}_${nextDate.getTime()}`        // KCP 주문번호 40자 제한 (25자)
 
     await scheduleNextPayment(
       token,
