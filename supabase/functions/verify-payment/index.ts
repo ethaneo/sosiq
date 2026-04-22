@@ -44,6 +44,7 @@ Deno.serve(async (req) => {
     const payment = await getPayment(token, imp_uid)
 
     // ── 2. 3중 검증 ──
+    console.log('[verify-payment] status:', payment.status, '| amount:', payment.amount, '| merchant_uid(portone):', payment.merchant_uid, '| merchant_uid(req):', merchant_uid)
     if (payment.merchant_uid !== merchant_uid) {
       return json({ error: '거래번호 불일치 — 결제 위변조 의심' }, 400)
     }
@@ -113,8 +114,8 @@ Deno.serve(async (req) => {
     )
 
     return json({ success: true })
-  } catch (_e) {
-    console.error('[verify-payment] 처리 오류')
+  } catch (e) {
+    console.error('[verify-payment] 처리 오류:', e instanceof Error ? e.message : String(e))
     return json({ error: '결제 검증 중 오류가 발생했습니다' }, 500)
   }
 })
