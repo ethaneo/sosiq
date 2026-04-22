@@ -2953,22 +2953,24 @@ function completeXStep(n){
 
 async function onSignedIn(user){
   currentUser=user;
-  // DB에서 plan + is_pro 확인
-  const {data:userData}=await sb.from('users').select('is_pro,plan').eq('id',user.id).maybeSingle();
-  if(userData){
-    if(userData.plan && userData.plan !== 'free'){
-      userPlan=userData.plan;
-      isPro=(userData.plan==='basic'||userData.plan==='pro');
-    } else if(userData.is_pro){
-      userPlan='basic';
-      isPro=true;
+  try{
+    // DB에서 plan + is_pro 확인
+    const {data:userData}=await sb.from('users').select('is_pro,plan').eq('id',user.id).maybeSingle();
+    if(userData){
+      if(userData.plan && userData.plan !== 'free'){
+        userPlan=userData.plan;
+        isPro=(userData.plan==='basic'||userData.plan==='pro');
+      } else if(userData.is_pro){
+        userPlan='basic';
+        isPro=true;
+      }
     }
-  }
-  // users 테이블에 없으면 insert
-  const {data:existing}=await sb.from('users').select('id').eq('id',user.id).maybeSingle();
-  if(!existing){
-    await sb.from('users').insert({id:user.id,email:user.email,is_pro:false,created_at:new Date().toISOString()});
-  }
+    // users 테이블에 없으면 insert
+    const {data:existing}=await sb.from('users').select('id').eq('id',user.id).maybeSingle();
+    if(!existing){
+      await sb.from('users').insert({id:user.id,email:user.email,is_pro:false,created_at:new Date().toISOString()});
+    }
+  }catch(e){ console.warn('[onSignedIn] DB 오류:', e); }
 
   // ── 유예기간 만료 체크 (결제 실패 후 3일 경과 시 다운그레이드) ──
   if(isPro){
