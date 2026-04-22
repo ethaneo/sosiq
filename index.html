@@ -2496,6 +2496,7 @@ function handleBasicPay(){
     m_redirect_url:'https://realation.world?plan=basic',
     bypass: { kcp_group_id: 'IP7191056682' }
   }, async function(rsp){
+    cleanupIamportOverlay();
     if(rsp.success){ await verifyAndActivate('basic', rsp.imp_uid, rsp.merchant_uid); }
     else { showPayRetry('basic', rsp.error_msg||'결제가 취소되었습니다.'); }
   });
@@ -2520,9 +2521,22 @@ function handleProPay(){
     m_redirect_url:'https://realation.world?plan=pro',
     bypass: { kcp_group_id: 'IP7191056682' }
   }, async function(rsp){
+    cleanupIamportOverlay();
     if(rsp.success){ await verifyAndActivate('pro', rsp.imp_uid, rsp.merchant_uid); }
     else { showPayRetry('pro', rsp.error_msg||'결제가 취소되었습니다.'); }
   });
+}
+
+// iamport.js SDK가 결제 후 DOM에 남긴 오버레이/iframe 강제 제거 (클릭 차단 방지)
+function cleanupIamportOverlay(){
+  document.querySelectorAll('body > iframe, body > div[style*="z-index: 2147483647"], body > div[style*="z-index:2147483647"]').forEach(function(el){
+    if(el.src && el.src.indexOf('iamport') !== -1){ el.remove(); return; }
+    if(el.id && (el.id.indexOf('iamport') !== -1 || el.id.indexOf('imp_') !== -1)){ el.remove(); return; }
+    // 포트원이 삽입한 투명 전체화면 오버레이 (fixed + full cover + 최고 z-index)
+    var s = el.style;
+    if(s.position==='fixed' && s.top==='0px' && s.left==='0px' && s.width==='100%' && s.height==='100%'){ el.remove(); }
+  });
+  document.body.style.overflow = '';
 }
 
 // 서버사이드 결제 검증 후 플랜 활성화
@@ -2924,7 +2938,13 @@ function completeXStep(n){
         await onSignedIn(session.user);
       }
     } else if(event === 'SIGNED_OUT'){
-      onSignedOut();
+      // iamport.js가 localStorage를 건드려 세션이 날아가는 경우 복구 시도
+      var recovered = await sb.auth.getSession();
+      if(recovered.data&&recovered.data.session&&recovered.data.session.user){
+        await onSignedIn(recovered.data.session.user);
+      } else {
+        onSignedOut();
+      }
     } else if(event === 'TOKEN_REFRESHED' && session&&session.user){
       currentUser=session.user;
     }
