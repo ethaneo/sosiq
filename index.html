@@ -2528,9 +2528,11 @@ function handleProPay(){
 // 서버사이드 결제 검증 후 플랜 활성화
 async function verifyAndActivate(plan, impUid, merchantUid){
   try{
+    var {data:{session}}=await sb.auth.getSession();
+    var token=session?.access_token||SUPABASE_ANON_KEY;
     var res=await fetch(SUPABASE_URL+'/functions/v1/verify-payment',{
       method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
       body:JSON.stringify({imp_uid:impUid,merchant_uid:merchantUid,plan:plan,user_id:currentUser.id})
     });
     var result=await res.json();
@@ -3156,9 +3158,11 @@ async function confirmDeleteAccount(){
 async function cancelPro(){
   if(!currentUser||!isPro) return;
   try{
+    var {data:{session:cSession}}=await sb.auth.getSession();
+    var cToken=cSession?.access_token||SUPABASE_ANON_KEY;
     var res=await fetch(SUPABASE_URL+'/functions/v1/cancel-subscription',{
       method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+cToken},
       body:JSON.stringify({user_id:currentUser.id,plan:userPlan})
     });
     var result=await res.json();
