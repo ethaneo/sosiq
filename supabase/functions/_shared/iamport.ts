@@ -23,6 +23,16 @@ export async function getPayment(token: string, impUid: string) {
   return json.response
 }
 
+function assertIamportSuccess(json: any, fallbackMessage: string) {
+  if (!json || typeof json.code !== 'number') {
+    throw new Error(fallbackMessage)
+  }
+  if (json.code !== 0) {
+    throw new Error(json.message || fallbackMessage)
+  }
+  return json.response ?? json
+}
+
 export async function scheduleNextPayment(
   token: string,
   customerUid: string,
@@ -48,7 +58,33 @@ export async function scheduleNextPayment(
       }],
     }),
   })
-  return res.json()
+  const json = await res.json()
+  return assertIamportSuccess(json, '다음 결제 예약 실패')
+}
+
+export async function requestBillingPayment(
+  token: string,
+  customerUid: string,
+  merchantUid: string,
+  amount: number,
+  name: string,
+  buyerEmail: string,
+  buyerName: string,
+) {
+  const res = await fetch(`${IAMPORT_BASE}/subscribe/payments/again`, {
+    method: 'POST',
+    headers: { Authorization: token, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      customer_uid: customerUid,
+      merchant_uid: merchantUid,
+      amount,
+      name,
+      buyer_email: buyerEmail,
+      buyer_name: buyerName,
+    }),
+  })
+  const json = await res.json()
+  return assertIamportSuccess(json, '초기 결제 승인 실패')
 }
 
 export async function deleteBillingKey(token: string, customerUid: string) {
@@ -56,5 +92,16 @@ export async function deleteBillingKey(token: string, customerUid: string) {
     method: 'DELETE',
     headers: { Authorization: token },
   })
-  return res.json()
+  const json = await res.json()
+  return assertIamportSuccess(json, '빌링키 삭제 실패')
+}
+
+export async function unscheduleCustomerPayments(token: string, customerUid: string) {
+  const res = await fetch(`${IAMPORT_BASE}/subscribe/payments/unschedule`, {
+    method: 'POST',
+    headers: { Authorization: token, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ customer_uid: customerUid }),
+  })
+  const json = await res.json()
+  return assertIamportSuccess(json, '예약 결제 취소 실패')
 }

@@ -2479,12 +2479,17 @@ function handleTossPay(){ handleBasicPay(); } // 하위 호환
 
 function handleBasicPay(){
   if(!currentUser){ alert('결제를 위해 먼저 로그인해주세요.'); openAuthModal(); return; }
+  if(typeof IMP==='undefined' || !IMP || typeof IMP.request_pay!=='function'){
+    showPayRetry('basic','결제 모듈을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
+    return;
+  }
   var IMP_CODE='imp45411646';
   var CUSTOMER_UID='realations_basic_'+currentUser.id;
   var uid8=currentUser.id.replace(/-/g,'').substring(0,8);
   var MERCHANT_UID='rb_'+uid8+'_'+Date.now(); // KCP 주문번호 40자 제한
   IMP.init(IMP_CODE);
   IMP.request_pay({
+    pg:'kcp_billing',
     channelKey:'channel-key-350fcf6a-b7fa-4ed7-9724-e42a06c05d0c',
     pay_method:'card',
     merchant_uid: MERCHANT_UID,
@@ -2497,19 +2502,24 @@ function handleBasicPay(){
     bypass: { kcp_group_id: 'IP7191056682' }
   }, async function(rsp){
     cleanupIamportOverlay();
-    if(rsp.success){ await verifyAndActivate('basic', rsp.imp_uid, rsp.merchant_uid); }
+    if(rsp.success){ await verifyAndActivate('basic', rsp.imp_uid||null, rsp.merchant_uid, CUSTOMER_UID); }
     else { showPayRetry('basic', rsp.error_msg||'결제가 취소되었습니다.'); }
   });
 }
 
 function handleProPay(){
   if(!currentUser){ alert('결제를 위해 먼저 로그인해주세요.'); openAuthModal(); return; }
+  if(typeof IMP==='undefined' || !IMP || typeof IMP.request_pay!=='function'){
+    showPayRetry('pro','결제 모듈을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
+    return;
+  }
   var IMP_CODE='imp45411646';
   var CUSTOMER_UID='realations_pro_'+currentUser.id;
   var uid8=currentUser.id.replace(/-/g,'').substring(0,8);
   var MERCHANT_UID='rp_'+uid8+'_'+Date.now(); // KCP 주문번호 40자 제한
   IMP.init(IMP_CODE);
   IMP.request_pay({
+    pg:'kcp_billing',
     channelKey:'channel-key-350fcf6a-b7fa-4ed7-9724-e42a06c05d0c',
     pay_method:'card',
     merchant_uid: MERCHANT_UID,
@@ -2522,7 +2532,7 @@ function handleProPay(){
     bypass: { kcp_group_id: 'IP7191056682' }
   }, async function(rsp){
     cleanupIamportOverlay();
-    if(rsp.success){ await verifyAndActivate('pro', rsp.imp_uid, rsp.merchant_uid); }
+    if(rsp.success){ await verifyAndActivate('pro', rsp.imp_uid||null, rsp.merchant_uid, CUSTOMER_UID); }
     else { showPayRetry('pro', rsp.error_msg||'결제가 취소되었습니다.'); }
   });
 }
@@ -2540,20 +2550,20 @@ function cleanupIamportOverlay(){
 }
 
 // 서버사이드 결제 검증 후 플랜 활성화
-async function verifyAndActivate(plan, impUid, merchantUid){
+async function verifyAndActivate(plan, impUid, merchantUid, customerUid){
   try{
     var {data:{session}}=await sb.auth.getSession();
     var token=session?.access_token||SUPABASE_ANON_KEY;
     var res=await fetch(SUPABASE_URL+'/functions/v1/verify-payment',{
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
-      body:JSON.stringify({imp_uid:impUid,merchant_uid:merchantUid,plan:plan,user_id:currentUser.id})
+      body:JSON.stringify({imp_uid:impUid,merchant_uid:merchantUid,customer_uid:customerUid,plan:plan,user_id:currentUser.id})
     });
     var result=await res.json();
     if(res.ok && result.success){
       userPlan=plan;
       isPro=true;
-      showPaySuccess();
+      showPaySuccess(result.warning||'');
     } else {
       // Edge Function 실패 시 재시도 모달
       showPayRetry(plan, result.error||'결제 검증에 실패했습니다. 잠시 후 다시 시도해주세요.');
@@ -2579,7 +2589,7 @@ function closePayRetry(){
   restoreOverflowIfClear();
 }
 
-async function updateProStatus(impUid, merchantUid){ await verifyAndActivate('basic', impUid, merchantUid); } // 하위 호환
+async function updateProStatus(impUid, merchantUid){ await verifyAndActivate('basic', impUid, merchantUid, currentUser ? 'realations_basic_'+currentUser.id : null); } // 하위 호환
 
 // ── 히스토리 스냅샷 저장 (Pro 전용) ──
 async function saveSnapshot(platform, notback, fans){
@@ -2741,14 +2751,15 @@ async function compareWithSnapshot(snapshotId, dateLabel, platform){
   }
 }
 
-function showPaySuccess(){
+function showPaySuccess(warning){
   isPro=true;
   var modalP = document.querySelector('#payModalBg p');
+  var warningHtml = warning ? '<br><br><small style="color:#b54708;line-height:1.6">자동갱신 예약 확인이 지연되었습니다: '+escapeHtml(warning)+'</small>' : '';
   if(modalP){
     if(userPlan==='basic'){
-      modalP.innerHTML='Realations Basic이 활성화됐어요.<br>전체 결과를 모두 확인해보세요.';
+      modalP.innerHTML='Realations Basic이 활성화됐어요.<br>전체 결과를 모두 확인해보세요.'+warningHtml;
     } else {
-      modalP.innerHTML='Realations Pro가 활성화됐어요.<br>전체 결과를 모두 확인해보세요.';
+      modalP.innerHTML='Realations Pro가 활성화됐어요.<br>전체 결과를 모두 확인해보세요.'+warningHtml;
     }
   }
   document.getElementById('payModalBg').classList.add('show');
@@ -2918,12 +2929,12 @@ function completeXStep(n){
   var mImpSuccess=urlParams.get('imp_success');
   var mErrorMsg=urlParams.get('error_msg');
   var mPlan=urlParams.get('plan')||'basic'; // m_redirect_url에 ?plan=basic/pro 포함
-  if(mImpUid && mMerchantUid){
+  if(mMerchantUid && (mImpUid || mImpSuccess==='true' || mImpSuccess==='false')){
     // URL 즉시 정리 (파라미터 노출 방지)
     window.history.replaceState({}, document.title, window.location.pathname);
     if(mImpSuccess==='true'){
       // 세션 로드 후 verifyAndActivate를 실행하기 위해 보류
-      window._pendingPayment={imp_uid:mImpUid,merchant_uid:mMerchantUid,plan:mPlan};
+      window._pendingPayment={imp_uid:mImpUid||null,merchant_uid:mMerchantUid,plan:mPlan,customer_uid:'realations_'+mPlan+'_'+(currentUser&&currentUser.id?currentUser.id:'')};
     } else {
       // 결제 실패 — 세션 로드 후 모달 표시
       window._pendingPayFail=mErrorMsg||'모바일 결제가 취소되었습니다.';
@@ -2996,7 +3007,7 @@ async function onSignedIn(user){
   if(window._pendingPayment){
     var p=window._pendingPayment;
     delete window._pendingPayment;
-    await verifyAndActivate(p.plan,p.imp_uid,p.merchant_uid);
+    await verifyAndActivate(p.plan,p.imp_uid,p.merchant_uid,p.customer_uid||('realations_'+p.plan+'_'+currentUser.id));
   }
   if(window._pendingPayFail){
     var failMsg=window._pendingPayFail;
@@ -3190,18 +3201,18 @@ async function cancelPro(){
     var result=await res.json();
     if(res.ok && result.success){
       // 해지 후에도 만료일까지 서비스 유지 (is_pro는 Edge Function이 유지)
-      alert('구독 해지가 완료되었습니다.\n현재 구독 기간 만료일까지 서비스를 계속 이용하실 수 있습니다.');
+      var detail='';
+      if(result.billingKeyDeleted===false || result.unscheduleSucceeded===false){
+        detail='\n일부 자동결제 해제 작업이 즉시 확인되지 않았습니다. 중복 청구가 보이면 고객센터로 문의해 주세요.';
+      }
+      alert('구독 해지가 완료되었습니다.\n현재 구독 기간 만료일까지 서비스를 계속 이용하실 수 있습니다.'+detail);
       closeMypage();
     } else {
       throw new Error(result.error||'해지 처리 실패');
     }
   } catch(e){
     console.error('cancelPro 오류:', e);
-    // Edge Function 실패 시 DB 직접 업데이트 폴백
-    await sb.from('users').update({is_pro:false,plan:'free'}).eq('id',currentUser.id);
-    isPro=false; userPlan='free';
-    updateAuthUI();
-    alert('구독이 해지되었습니다. (포트원 빌링키 삭제는 고객센터에 문의해 주세요.)');
+    alert('구독 해지 처리 중 오류가 발생했습니다.\n자동결제 상태를 확인해야 하므로 고객센터로 문의해 주세요.');
   }
 }
 

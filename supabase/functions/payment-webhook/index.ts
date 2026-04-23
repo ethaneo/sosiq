@@ -65,17 +65,19 @@ Deno.serve(async (req) => {
         .eq('imp_uid', imp_uid)
         .maybeSingle()
 
-      if (!dup) {
-        await supabase.from('subscriptions').insert({
-          user_id: userIdFromUid,
-          plan: planFromUid,
-          imp_uid,
-          merchant_uid,
-          amount: payment.amount,
-          started_at: now.toISOString(),
-          status: 'active',
-        })
+      if (dup) {
+        return new Response('OK', { status: 200 })
       }
+
+      await supabase.from('subscriptions').insert({
+        user_id: userIdFromUid,
+        plan: planFromUid,
+        imp_uid,
+        merchant_uid,
+        amount: payment.amount,
+        started_at: now.toISOString(),
+        status: 'active',
+      })
 
       // users 테이블 pro_since 갱신
       await supabase.from('users').update({

@@ -1,5 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-import { getIamportToken, deleteBillingKey } from '../_shared/iamport.ts'
+import { getIamportToken, deleteBillingKey, unscheduleCustomerPayments } from '../_shared/iamport.ts'
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -39,23 +39,18 @@ Deno.serve(async (req) => {
 
     try {
       const token = await getIamportToken()
-      const deleteResult = await deleteBillingKey(token, customerUid)
-      billingKeyDeleted = deleteResult.code === 0
-      if (!billingKeyDeleted) {
-        console.warn('[cancel-subscription] 빌링키 삭제 응답 코드:', deleteResult.code)
-      }
+      await deleteBillingKey(token, customerUid)
+      billingKeyDeleted = true
     } catch (_e) {
       console.error('[cancel-subscription] 빌링키 삭제 오류 (계속 진행)')
     }
 
     // ── 2. 예약된 결제 취소 ──
+    let unscheduleSucceeded = false
     try {
       const token = await getIamportToken()
-      await fetch('https://api.iamport.kr/subscribe/payments/unschedule', {
-        method: 'POST',
-        headers: { Authorization: token, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ customer_uid: customerUid }),
-      })
+      await unscheduleCustomerPayments(token, customerUid)
+      unscheduleSucceeded = true
     } catch (_e) {
       console.error('[cancel-subscription] 예약결제 취소 오류 (계속 진행)')
     }
@@ -70,7 +65,7 @@ Deno.serve(async (req) => {
       merchant_uid: null,
     }).eq('id', user_id)
 
-    return json({ success: true, billingKeyDeleted })
+    return json({ success: true, billingKeyDeleted, unscheduleSucceeded })
   } catch (_e) {
     console.error('[cancel-subscription] 처리 오류')
     return json({ error: '해지 처리 중 오류가 발생했습니다' }, 500)

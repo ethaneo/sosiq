@@ -1,5 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-import { getIamportToken, getPayment, scheduleNextPayment } from '../_shared/iamport.ts'
+import { getIamportToken, getPayment, requestBillingPayment, scheduleNextPayment } from '../_shared/iamport.ts'
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -28,9 +28,9 @@ Deno.serve(async (req) => {
     const { data: { user }, error: authErr } = await sbUser.auth.getUser()
     if (authErr || !user) return json({ error: '유효하지 않은 세션' }, 401)
 
-    const { imp_uid, merchant_uid, plan, user_id } = await req.json()
+    const { imp_uid, merchant_uid, customer_uid, plan, user_id } = await req.json()
 
-    if (!imp_uid || !merchant_uid || !plan || !user_id) {
+    if (!merchant_uid || !plan || !user_id) {
       return json({ error: '필수 파라미터 누락' }, 400)
     }
     if (!PLAN_AMOUNT[plan]) {
@@ -39,9 +39,28 @@ Deno.serve(async (req) => {
     // 요청 user_id와 인증된 사용자 일치 확인 (타인 결제로 본인 플랜 업그레이드 방지)
     if (user_id !== user.id) return json({ error: '본인 결제만 처리 가능합니다' }, 403)
 
-    // ── 1. iamport 결제 정보 서버 조회 ──
     const token = await getIamportToken()
-    const payment = await getPayment(token, imp_uid)
+    const customerUid = customer_uid || `realations_${plan}_${user_id}`
+
+    // ── 1. 최초 결제면 실제 청구 수행, 기존 imp_uid가 있으면 그대로 검증 ──
+    let finalImpUid = imp_uid
+    if (!finalImpUid) {
+      const paid = await requestBillingPayment(
+        token,
+        customerUid,
+        merchant_uid,
+        PLAN_AMOUNT[plan],
+        PLAN_NAME[plan],
+        user.email ?? '',
+        user.email ?? '',
+      )
+      finalImpUid = paid.imp_uid
+      if (!finalImpUid) {
+        return json({ error: '결제 승인 결과에 imp_uid가 없습니다' }, 400)
+      }
+    }
+
+    const payment = await getPayment(token, finalImpUid)
 
     // ── 2. 3중 검증 ──
     console.log('[verify-payment] status:', payment.status, '| amount:', payment.amount, '| merchant_uid(portone):', payment.merchant_uid, '| merchant_uid(req):', merchant_uid)
@@ -64,7 +83,7 @@ Deno.serve(async (req) => {
     const { data: dup } = await supabase
       .from('subscriptions')
       .select('id')
-      .eq('imp_uid', imp_uid)
+      .eq('imp_uid', finalImpUid)
       .maybeSingle()
 
     if (dup) {
@@ -78,7 +97,7 @@ Deno.serve(async (req) => {
       is_pro: true,
       plan,
       pro_since: now,
-      imp_uid,
+      imp_uid: finalImpUid,
       merchant_uid,
     }).eq('id', user_id)
 
@@ -87,7 +106,7 @@ Deno.serve(async (req) => {
     await supabase.from('subscriptions').insert({
       user_id,
       plan,
-      imp_uid,
+      imp_uid: finalImpUid,
       merchant_uid,
       amount: PLAN_AMOUNT[plan],
       started_at: now,
@@ -97,23 +116,28 @@ Deno.serve(async (req) => {
     // ── 5. 다음 달 자동갱신 예약 ──
     const nextDate = new Date()
     nextDate.setMonth(nextDate.getMonth() + 1)
-    const customerUid = `realations_${plan}_${user_id}`                      // 프론트와 동일 (portone 내부 식별자)
     const uid8 = user_id.replace(/-/g, '').substring(0, 8)
     const prefix = plan === 'pro' ? 'rp' : 'rb'
     const nextMerchantUid = `${prefix}_${uid8}_${nextDate.getTime()}`        // KCP 주문번호 40자 제한 (25자)
 
-    await scheduleNextPayment(
-      token,
-      customerUid,
-      nextMerchantUid,
-      nextDate,
-      PLAN_AMOUNT[plan],
-      PLAN_NAME[plan],
-      payment.buyer_email ?? '',
-      payment.buyer_name ?? '',
-    )
+    let warning: string | null = null
+    try {
+      await scheduleNextPayment(
+        token,
+        customerUid,
+        nextMerchantUid,
+        nextDate,
+        PLAN_AMOUNT[plan],
+        PLAN_NAME[plan],
+        payment.buyer_email ?? '',
+        payment.buyer_name ?? '',
+      )
+    } catch (scheduleErr) {
+      warning = scheduleErr instanceof Error ? scheduleErr.message : '다음 결제 예약 실패'
+      console.error('[verify-payment] 자동갱신 예약 오류:', warning)
+    }
 
-    return json({ success: true })
+    return json({ success: true, warning })
   } catch (e) {
     console.error('[verify-payment] 처리 오류:', e instanceof Error ? e.message : String(e))
     return json({ error: '결제 검증 중 오류가 발생했습니다' }, 500)
