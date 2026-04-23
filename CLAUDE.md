@@ -45,7 +45,7 @@ ALTER TABLE users ADD COLUMN IF NOT EXISTS free_month TEXT;
 ## Edge Functions (supabase/functions/)
 | 함수 | 역할 | 배포 옵션 |
 |------|------|----------|
-| verify-payment | imp_uid 서버 검증, 다음 달 자동갱신 예약 | --no-verify-jwt |
+| verify-payment | 초기 실청구 + 서버 검증 + 다음 달 자동갱신 예약 | --no-verify-jwt |
 | payment-webhook | 포트원 웹훅 수신, 갱신/실패/취소 처리 | --no-verify-jwt |
 | cancel-subscription | 빌링키 삭제 + 예약결제 취소 | --no-verify-jwt |
 | delete-account | 계정 삭제 + Auth 삭제 | --no-verify-jwt |
@@ -87,11 +87,14 @@ https://jyiohkrbdjuwdjjatkgb.supabase.co/functions/v1/payment-webhook
 
 ### 결제 시스템
 - [x] 서버사이드 결제 검증 (verify-payment, 3중 검증)
+- [x] **KCP 빌링키 발급 성공 후 실제 첫 결제 승인 로직 추가**
 - [x] 모바일 결제 리다이렉트 처리
 - [x] 자동갱신 웹훅 (payment-webhook)
 - [x] 갱신 실패 3일 유예기간
 - [x] 해지 시 빌링키 삭제 (cancel-subscription)
 - [x] Edge Function ES256 JWT 오류 → --no-verify-jwt로 해결
+- [x] 포트원 API 실패(code != 0) 은닉 제거
+- [x] paid 웹훅 중복 처리 시 다음 달 예약 중복 생성 방지
 
 ### SEO
 - [x] robots.txt, sitemap.xml 생성
@@ -118,14 +121,20 @@ https://jyiohkrbdjuwdjjatkgb.supabase.co/functions/v1/payment-webhook
 - [x] 모든 플랫폼 결과 링크 instagram.com 하드코딩 수정
 - [x] `onSignedIn()`의 `data.notback` 미정의 참조 오류 제거 → 로그인 후 UI 미반영 원인
 - [x] Edge Function BOOT_ERROR → 재배포로 해결
+- [x] **결제창은 완료인데 실제 청구가 안 되던 구조 수정**
+- [x] 해지 API 실패 시 프론트가 사용자를 즉시 free로 내리던 잘못된 폴백 제거
+- [x] 결제 SDK 미로드 시 프론트 런타임 에러 방지
 
 ---
 
 ## ⏳ 오픈 전 남은 작업
 
 ### 🔴 필수 (오픈 블로커)
-- [ ] **NHN KCP 실연동 심사 완료 대기** (F0004 오류 — KCP 문의 완료, 심사 중)
-- [ ] **KCP 심사 완료 후 실결제 최종 테스트** (실 카드로 결제→자동갱신→해지 플로우 확인)
+- [ ] **NHN KCP 실연동/상점 설정 최종 확인** (코드상 초기 실청구 로직은 반영 완료, 이제 포트원/KCP 실승인 여부 확인 필요)
+- [ ] **Basic 실결제 테스트** (실 카드 승인 → 포트원 결제내역 → subscriptions active 생성 확인)
+- [ ] **Pro 실결제 테스트** (실 카드 승인 → 포트원 결제내역 → subscriptions active 생성 확인)
+- [ ] **예약결제 생성 확인** (포트원 예약결제 목록에서 다음 달 청구 생성 확인)
+- [ ] **구독 해지 테스트** (cancel-subscription 실행 후 예약결제 취소 및 빌링키 삭제 확인)
 
 ### 🟡 권장 (오픈 전 완료 권장)
 - [ ] **Supabase 대시보드 → 월별 비용 알림 설정** (Settings → Billing → Usage alerts)
@@ -135,6 +144,35 @@ https://jyiohkrbdjuwdjjatkgb.supabase.co/functions/v1/payment-webhook
 ### 🟢 나중에 (오픈 후 / Supabase Pro 업그레이드 시)
 - [ ] Supabase 커스텀 도메인 → 구글 로그인 시 "realation.world(으)로 이동" 표시
 - [ ] Supabase Pro 업그레이드 시 커스텀 도메인 연결
+
+---
+
+## 최근 변경사항 (2026-04-23)
+
+### 결제 흐름 구조 수정
+- 기존 문제: `IMP.request_pay(... customer_uid ...)` 성공이 실제 결제가 아니라 **KCP 빌링키 발급 성공**이었음
+- 결과적으로 UI는 "완료"처럼 보였지만 실제 카드 승인/포트원 결제내역/KCP 결제내역이 생성되지 않았음
+- 수정 후 흐름:
+  1. 프론트에서 `kcp_billing` 결제창 호출
+  2. 성공 시 `verify-payment` 호출
+  3. `verify-payment`가 `subscribe/payments/again`으로 **실제 첫 결제 승인**
+  4. 승인 성공 후 DB 반영 + 다음 달 예약결제 생성
+
+### 배포 상태
+- GitHub 최신 커밋: `c30e3d1` (`Fix KCP initial charge flow`)
+- Supabase Functions 재배포 완료:
+  - `verify-payment`
+  - `payment-webhook`
+  - `cancel-subscription`
+- 프론트는 GitHub push 완료 기준 Vercel 자동 배포 트리거 상태
+
+### 지금 테스트해야 할 것
+- Basic 결제 1회
+- Pro 결제 1회
+- 포트원 콘솔 결제내역 확인
+- Supabase `subscriptions` 확인
+- 포트원 예약결제 생성 확인
+- 해지 후 예약결제 취소 확인
 
 ---
 
@@ -161,3 +199,4 @@ https://jyiohkrbdjuwdjjatkgb.supabase.co/functions/v1/payment-webhook
 - **코드 수정 후 반드시 Grep/Read로 검증 후 커밋**
 - Supabase anon key 소스 노출 — RLS로 보호 중 (의도적 설계)
 - 파일 분석은 클라이언트 사이드에서만 처리, 서버 전송 없음
+- 새 터미널에서 바로 이어받을 때는 `SESSION_START.md` 먼저 읽고, 세부 운영 맥락은 `CLAUDE.md` 참고
