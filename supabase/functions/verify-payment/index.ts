@@ -28,7 +28,7 @@ Deno.serve(async (req) => {
     const { data: { user }, error: authErr } = await sbUser.auth.getUser()
     if (authErr || !user) return json({ error: '유효하지 않은 세션' }, 401)
 
-    const { imp_uid, merchant_uid, customer_uid, plan, user_id } = await req.json()
+    const { imp_uid, merchant_uid, customer_uid, plan, user_id, force_initial_charge } = await req.json()
 
     if (!merchant_uid || !plan || !user_id) {
       return json({ error: '필수 파라미터 누락' }, 400)
@@ -44,7 +44,8 @@ Deno.serve(async (req) => {
 
     // ── 1. 최초 결제면 실제 청구 수행, 기존 imp_uid가 있으면 그대로 검증 ──
     let finalImpUid = imp_uid
-    if (!finalImpUid) {
+    const shouldRequestInitialCharge = force_initial_charge === true || !finalImpUid
+    if (shouldRequestInitialCharge) {
       const paid = await requestBillingPayment(
         token,
         customerUid,
@@ -139,8 +140,9 @@ Deno.serve(async (req) => {
 
     return json({ success: true, warning })
   } catch (e) {
-    console.error('[verify-payment] 처리 오류:', e instanceof Error ? e.message : String(e))
-    return json({ error: '결제 검증 중 오류가 발생했습니다' }, 500)
+    const message = e instanceof Error ? e.message : '결제 검증 중 오류가 발생했습니다'
+    console.error('[verify-payment] 처리 오류:', message)
+    return json({ error: message }, 500)
   }
 })
 

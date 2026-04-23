@@ -2502,7 +2502,7 @@ function handleBasicPay(){
     bypass: { kcp_group_id: 'IP7191056682' }
   }, async function(rsp){
     cleanupIamportOverlay();
-    if(rsp.success){ await verifyAndActivate('basic', rsp.imp_uid||null, rsp.merchant_uid, CUSTOMER_UID); }
+    if(rsp.success){ await verifyAndActivate('basic', null, rsp.merchant_uid, CUSTOMER_UID); }
     else { showPayRetry('basic', rsp.error_msg||'결제가 취소되었습니다.'); }
   });
 }
@@ -2532,7 +2532,7 @@ function handleProPay(){
     bypass: { kcp_group_id: 'IP7191056682' }
   }, async function(rsp){
     cleanupIamportOverlay();
-    if(rsp.success){ await verifyAndActivate('pro', rsp.imp_uid||null, rsp.merchant_uid, CUSTOMER_UID); }
+    if(rsp.success){ await verifyAndActivate('pro', null, rsp.merchant_uid, CUSTOMER_UID); }
     else { showPayRetry('pro', rsp.error_msg||'결제가 취소되었습니다.'); }
   });
 }
@@ -2557,7 +2557,7 @@ async function verifyAndActivate(plan, impUid, merchantUid, customerUid){
     var res=await fetch(SUPABASE_URL+'/functions/v1/verify-payment',{
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
-      body:JSON.stringify({imp_uid:impUid,merchant_uid:merchantUid,customer_uid:customerUid,plan:plan,user_id:currentUser.id})
+      body:JSON.stringify({imp_uid:impUid,merchant_uid:merchantUid,customer_uid:customerUid,plan:plan,user_id:currentUser.id,force_initial_charge:true})
     });
     var result=await res.json();
     if(res.ok && result.success){
@@ -2934,7 +2934,7 @@ function completeXStep(n){
     window.history.replaceState({}, document.title, window.location.pathname);
     if(mImpSuccess==='true'){
       // 세션 로드 후 verifyAndActivate를 실행하기 위해 보류
-      window._pendingPayment={imp_uid:mImpUid||null,merchant_uid:mMerchantUid,plan:mPlan,customer_uid:'realations_'+mPlan+'_'+(currentUser&&currentUser.id?currentUser.id:'')};
+      window._pendingPayment={imp_uid:null,merchant_uid:mMerchantUid,plan:mPlan,customer_uid:'realations_'+mPlan+'_'+(currentUser&&currentUser.id?currentUser.id:'')};
     } else {
       // 결제 실패 — 세션 로드 후 모달 표시
       window._pendingPayFail=mErrorMsg||'모바일 결제가 취소되었습니다.';
