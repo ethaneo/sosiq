@@ -9,28 +9,21 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { headers: CORS })
 
   try {
-    // 요청 유저 인증 확인 (anon key + JWT)
+    // JWT 인증 — admin client로 서버 검증 (ES256 알고리즘 대응)
     const authHeader = req.headers.get('Authorization')
     if (!authHeader) return json({ error: '인증 필요' }, 401)
 
-    // 유저 JWT로 본인 확인
-    const sbUser = createClient(
+    const sbAdmin = createClient(
       Deno.env.get('SUPABASE_URL')!,
-      Deno.env.get('SUPABASE_ANON_KEY')!,
-      { global: { headers: { Authorization: authHeader } } },
+      Deno.env.get('SB_SERVICE_ROLE_KEY')!,
     )
-    const { data: { user }, error: authErr } = await sbUser.auth.getUser()
+    const token = authHeader.replace('Bearer ', '')
+    const { data: { user }, error: authErr } = await sbAdmin.auth.getUser(token)
     if (authErr || !user) return json({ error: '유효하지 않은 세션' }, 401)
 
     // 요청 body의 user_id와 세션 user.id 일치 확인 (타인 계정 삭제 방지)
     const { user_id } = await req.json()
     if (user_id !== user.id) return json({ error: '본인 계정만 탈퇴 가능합니다' }, 403)
-
-    // service_role로 관리자 작업 수행
-    const sbAdmin = createClient(
-      Deno.env.get('SUPABASE_URL')!,
-      Deno.env.get('SB_SERVICE_ROLE_KEY')!,
-    )
 
     // 1. 구독 중이면 포트원 빌링키 삭제 시도 (실패해도 탈퇴 진행)
     const { data: userData } = await sbAdmin

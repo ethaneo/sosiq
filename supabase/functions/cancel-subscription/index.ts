@@ -10,16 +10,16 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { headers: CORS })
 
   try {
-    // ── C1 FIX: JWT 인증 — 본인 확인 ──
+    // ── JWT 인증 — admin client로 서버 검증 (ES256 알고리즘 대응) ──
     const authHeader = req.headers.get('Authorization')
     if (!authHeader) return json({ error: '인증 필요' }, 401)
 
-    const sbUser = createClient(
+    const supabase = createClient(
       Deno.env.get('SUPABASE_URL')!,
-      Deno.env.get('SUPABASE_ANON_KEY')!,
-      { global: { headers: { Authorization: authHeader } } },
+      Deno.env.get('SB_SERVICE_ROLE_KEY')!,
     )
-    const { data: { user }, error: authErr } = await sbUser.auth.getUser()
+    const token = authHeader.replace('Bearer ', '')
+    const { data: { user }, error: authErr } = await supabase.auth.getUser(token)
     if (authErr || !user) return json({ error: '유효하지 않은 세션' }, 401)
 
     const { user_id, plan } = await req.json()
@@ -27,11 +27,6 @@ Deno.serve(async (req) => {
 
     // 요청 user_id와 인증된 사용자 일치 확인 (타인 구독 해지 방지)
     if (user_id !== user.id) return json({ error: '본인 구독만 해지 가능합니다' }, 403)
-
-    const supabase = createClient(
-      Deno.env.get('SUPABASE_URL')!,
-      Deno.env.get('SB_SERVICE_ROLE_KEY')!,
-    )
 
     // ── 1. 포트원 빌링키 삭제 ──
     const customerUid = `realations_${plan}_${user_id}` // 프론트와 동일
