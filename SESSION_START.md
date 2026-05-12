@@ -1,43 +1,33 @@
-# Realations Session Start
+# Realations — Session Start
 
-Read this file first in a new session. For detailed history see `CLAUDE.md`.
+새 세션 시작 시 이 파일 먼저 읽고, 세부 내용은 `CLAUDE.md` 참고.
 
-## Current State
-- **Project**: Realations
-- **Path**: `/Users/mac/Desktop/리얼레이션스`
-- **Domain**: `https://realation.world`
-- **GitHub**: `ethaneo/sosiq`
-- **Deploy**: Vercel (auto-deploy on push to main)
-- **Backend**: Supabase (`jyiohkrbdjuwdjjatkgb`)
-- **Payment**: Paddle Billing v2 (client token + webhooks)
-- **Auth**: Email/password + Google OAuth (Kakao removed)
-- **Language**: English-only (i18n system removed)
-- **Latest commit**: `7ced3a2` — complete English conversion + Paddle migration
+## 현재 상태 요약
+- **경로**: `/Users/mac/Desktop/리얼레이션스`
+- **GitHub**: `ethaneo/sosiq` / **배포**: Vercel 자동배포
+- **최신 커밋**: `52447eb`
+- **결제**: Paddle Billing v2 (PortOne/KCP 완전 제거)
+- **인증**: 이메일 + Google OAuth (Kakao 제거)
+- **언어**: 영어 단일 서비스 (i18n 제거)
 
-## What Was Done
-- Replaced PortOne/KCP with Paddle Billing v2 throughout
-- Removed Kakao login and language switcher
-- Converted all UI to English (guides, modals, alerts, stat cards, pricing)
-- Created `supabase/functions/_shared/paddle.ts` (webhook verify, cancel API)
-- Rewrote `payment-webhook`, `cancel-subscription`, `delete-account` edge functions
-- Added `supabase/migrations/005_paddle.sql` (paddle columns + index)
-- Pricing: $4.99/mo Basic, $7.99/mo Pro (USD)
+## 이번까지 완료된 것
+- `index.html` 전체 UI 영어 전환 완료 (가이드, 모달, 통계 카드, 알림, 가격 안내 등)
+- Paddle Billing v2 클라이언트 결제 흐름 구현 (`Paddle.Checkout.open` + 폴링 방식 활성화)
+- `_shared/paddle.ts` 생성 (웹훅 서명 검증 HMAC-SHA256, 구독 취소 API)
+- `payment-webhook` Edge Function 재작성 (subscription.created/canceled, transaction.completed/payment_failed)
+- `cancel-subscription`, `delete-account` Edge Function Paddle로 교체
+- `005_paddle.sql` 마이그레이션 파일 생성 (paddle 컬럼 + 인덱스)
+- Kakao 로그인 제거, 언어 전환기 제거
 
-## Pending Before Going Live
-1. **Run migration**: execute `005_paddle.sql` in Supabase SQL Editor
-2. **Add Supabase secrets**: `PADDLE_API_KEY`, `PADDLE_WEBHOOK_SECRET`, `PADDLE_BASIC_PRICE_ID`, `PADDLE_PRO_PRICE_ID`
-3. **Fill in index.html vars**: `PADDLE_CLIENT_TOKEN`, `PADDLE_BASIC_PRICE_ID`, `PADDLE_PRO_PRICE_ID` (around line 1450)
-4. **Deploy edge functions**: `supabase functions deploy payment-webhook cancel-subscription delete-account`
-5. **Register webhook URL** in Paddle Dashboard → Notifications
-6. **E2E payment test** (Basic + Pro checkout flow)
-7. **Cancel subscription test**
+## 지금 당장 해야 할 것 (라이브 전)
+1. **Supabase SQL Editor** → `005_paddle.sql` 실행
+2. **Supabase Secrets** 등록: `PADDLE_API_KEY`, `PADDLE_WEBHOOK_SECRET`, `PADDLE_BASIC_PRICE_ID`, `PADDLE_PRO_PRICE_ID`
+3. **`index.html` ~1450번 줄** → `PADDLE_CLIENT_TOKEN`, `PADDLE_BASIC_PRICE_ID`, `PADDLE_PRO_PRICE_ID` 값 입력
+4. **Edge Function 배포**: `supabase functions deploy payment-webhook cancel-subscription delete-account`
+5. **Paddle 대시보드** → Notifications → 웹훅 URL 등록
+6. 결제 E2E 테스트, 구독 해지 테스트
 
-## Rules
-- Check this file + `CLAUDE.md` at the start of each session.
-- Overwrite, don't append — keep entries current not cumulative.
-- After code changes: verify syntax, confirm deploy state.
-
-## Quick Check Commands
+## 빠른 확인 명령어
 ```
 git log --oneline -3
 git status --short
