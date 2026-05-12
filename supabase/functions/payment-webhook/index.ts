@@ -1,178 +1,165 @@
 /**
- * payment-webhook
+ * payment-webhook (Paddle Billing v2)
  *
- * 포트원(iamport)에서 발송하는 결제 웹훅을 수신합니다.
- * 포트원 콘솔 → 웹훅 URL 설정: https://<project>.supabase.co/functions/v1/payment-webhook
+ * Paddle Dashboard -> Notifications -> Webhook URL:
+ *   https://<project>.supabase.co/functions/v1/payment-webhook
  *
- * 처리 케이스:
- *   paid      → 구독 활성화 + 다음 달 예약
- *   failed    → 유예기간(3일) 설정, 3일 후 플랜 다운그레이드
- *   cancelled → 플랜 비활성화
+ * Events handled:
+ *   subscription.created       -> activate user plan
+ *   transaction.completed      -> renewal success, keep active
+ *   subscription.canceled      -> downgrade to free
+ *   subscription.past_due      -> set grace period (3 days)
+ *   transaction.payment_failed -> set grace period (3 days)
  */
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-import { getIamportToken, getPayment, scheduleNextPayment } from '../_shared/iamport.ts'
+import { verifyPaddleWebhook, getPlanFromPriceId } from '../_shared/paddle.ts'
 
-const PLAN_AMOUNT: Record<string, number> = { basic: 5900, pro: 9900 }
-const PLAN_NAME: Record<string, string> = {
-  basic: 'Realations Basic 월 정기구독',
-  pro: 'Realations Pro 월 정기구독',
-}
 const GRACE_DAYS = 3
 
 Deno.serve(async (req) => {
-  // 포트원은 GET으로 웹훅 유효성 확인을 하기도 함
-  if (req.method === 'GET') return new Response('OK', { status: 200 })
   if (req.method !== 'POST') return new Response('Method Not Allowed', { status: 405 })
 
+  const rawBody = await req.text()
+  const signature = req.headers.get('Paddle-Signature')
+
+  const isValid = await verifyPaddleWebhook(rawBody, signature)
+  if (!isValid) {
+    console.error('[paddle-webhook] Invalid signature')
+    return new Response('Invalid signature', { status: 401 })
+  }
+
+  let event: any
   try {
-    const body = await req.json()
-    const { imp_uid, merchant_uid } = body
+    event = JSON.parse(rawBody)
+  } catch {
+    return new Response('Invalid JSON', { status: 400 })
+  }
 
-    if (!imp_uid || !merchant_uid) {
-      return new Response('imp_uid / merchant_uid 누락', { status: 400 })
-    }
+  const eventType: string = event.event_type
+  const eventData = event.data
 
-    const supabase = createClient(
-      Deno.env.get('SUPABASE_URL')!,
-      Deno.env.get('SB_SERVICE_ROLE_KEY')!,
-    )
+  const supabase = createClient(
+    Deno.env.get('SUPABASE_URL')!,
+    Deno.env.get('SB_SERVICE_ROLE_KEY')!,
+  )
 
-    // ── iamport에서 실제 결제 정보 조회 ──
-    const token = await getIamportToken()
-    const payment = await getPayment(token, imp_uid)
-    const status = payment.status // paid | failed | cancelled
-    const customerUid: string = payment.customer_uid ?? ''
+  try {
+    // ── subscription.created: new subscription ──
+    if (eventType === 'subscription.created') {
+      const subscriptionId: string = eventData.id
+      const customerId: string = eventData.customer_id
+      const customData = eventData.custom_data ?? {}
+      const userId: string = customData.userId
+      const priceId: string = eventData.items?.[0]?.price?.id
+      const plan = getPlanFromPriceId(priceId)
+      const amountCents: number = eventData.items?.[0]?.price?.unit_price?.amount ?? 0
 
-    // customer_uid 형식: realations_{plan}_{user_id}
-    const parts = customerUid.split('_')
-    // parts[0]='realations', parts[1]=plan, parts[2..]=user_id (uuid has hyphens, split differently)
-    const planFromUid = parts[1] // 'basic' | 'pro'
-    const userIdFromUid = parts.slice(2).join('_')
-
-    if (!planFromUid || !userIdFromUid) {
-      console.error('[webhook] customer_uid 파싱 실패:', customerUid)
-      return new Response('customer_uid 파싱 오류', { status: 400 })
-    }
-
-    const now = new Date()
-
-    // ── paid: 갱신 성공 ──
-    if (status === 'paid') {
-      // 중복 처리 방지
-      const { data: dup } = await supabase
-        .from('subscriptions')
-        .select('id')
-        .eq('imp_uid', imp_uid)
-        .maybeSingle()
-
-      if (dup) {
+      if (!userId || !plan) {
+        console.error('[paddle-webhook] subscription.created: missing userId or plan', customData, priceId)
         return new Response('OK', { status: 200 })
       }
 
-      await supabase.from('subscriptions').insert({
-        user_id: userIdFromUid,
-        plan: planFromUid,
-        imp_uid,
-        merchant_uid,
-        amount: payment.amount,
-        started_at: now.toISOString(),
-        status: 'active',
-      })
+      const { data: dup } = await supabase
+        .from('subscriptions')
+        .select('id')
+        .eq('paddle_subscription_id', subscriptionId)
+        .maybeSingle()
 
-      // users 테이블 pro_since 갱신
-      await supabase.from('users').update({
-        is_pro: true,
-        plan: planFromUid,
-        pro_since: now.toISOString(),
-        imp_uid,
-        merchant_uid,
-      }).eq('id', userIdFromUid)
-
-      // 이전 grace 구독 있으면 active로 복구
-      await supabase.from('subscriptions')
-        .update({ status: 'active', grace_until: null, failed_count: 0 })
-        .eq('user_id', userIdFromUid)
-        .eq('status', 'grace')
-
-      // 다음 달 예약
-      const nextDate = new Date(now)
-      nextDate.setMonth(nextDate.getMonth() + 1)
-      const uid8w = userIdFromUid.replace(/-/g, '').substring(0, 8)
-      const prefixW = planFromUid === 'pro' ? 'rp' : 'rb'
-      const nextMerchantUid = `${prefixW}_${uid8w}_${nextDate.getTime()}` // KCP 주문번호 40자 제한 (25자)
-
-      await scheduleNextPayment(
-        token,
-        customerUid,
-        nextMerchantUid,
-        nextDate,
-        PLAN_AMOUNT[planFromUid] ?? payment.amount,
-        PLAN_NAME[planFromUid] ?? 'Realations 월 정기구독',
-        payment.buyer_email ?? '',
-        payment.buyer_name ?? '',
-      )
+      if (!dup) {
+        const now = new Date().toISOString()
+        await supabase.from('subscriptions').insert({
+          user_id: userId,
+          plan,
+          paddle_subscription_id: subscriptionId,
+          amount: amountCents / 100,
+          started_at: now,
+          status: 'active',
+        })
+        await supabase.from('users').update({
+          is_pro: true,
+          plan,
+          pro_since: now,
+          paddle_customer_id: customerId,
+        }).eq('id', userId)
+      }
     }
 
-    // ── failed: 갱신 실패 → 유예기간 설정 ──
-    else if (status === 'failed') {
-      const graceUntil = new Date(now)
-      graceUntil.setDate(graceUntil.getDate() + GRACE_DAYS)
+    // ── transaction.completed: successful renewal ──
+    else if (eventType === 'transaction.completed') {
+      const subscriptionId: string = eventData.subscription_id
+      if (!subscriptionId) return new Response('OK', { status: 200 })
 
-      // 기존 active 구독을 grace 상태로 변경
-      const { data: activeSub } = await supabase
+      const { data: sub } = await supabase
         .from('subscriptions')
-        .select('id, failed_count')
-        .eq('user_id', userIdFromUid)
-        .eq('status', 'active')
+        .select('id, user_id, plan')
+        .eq('paddle_subscription_id', subscriptionId)
         .order('started_at', { ascending: false })
         .limit(1)
         .maybeSingle()
 
-      if (activeSub) {
-        const newFailCount = (activeSub.failed_count ?? 0) + 1
+      if (sub) {
         await supabase.from('subscriptions').update({
-          status: 'grace',
-          grace_until: graceUntil.toISOString(),
-          failed_count: newFailCount,
-        }).eq('id', activeSub.id)
-      } else {
-        // 활성 구독 없으면 새 grace 레코드 생성
-        await supabase.from('subscriptions').insert({
-          user_id: userIdFromUid,
-          plan: planFromUid,
-          imp_uid,
-          merchant_uid,
-          amount: payment.amount,
-          started_at: now.toISOString(),
-          status: 'grace',
-          grace_until: graceUntil.toISOString(),
-          failed_count: 1,
-        })
-      }
+          status: 'active',
+          grace_until: null,
+          failed_count: 0,
+        }).eq('id', sub.id)
 
-      // 유예기간 3일 후 자동 다운그레이드 예약
-      // (로그인 시 체크 방식을 주로 사용, 여기서는 로그 남김)
-      console.log(
-        `[webhook] 결제 실패 — user: ${userIdFromUid}, 유예기간: ${graceUntil.toISOString()}`,
-      )
+        await supabase.from('users').update({
+          is_pro: true,
+          plan: sub.plan,
+          pro_since: new Date().toISOString(),
+        }).eq('id', sub.user_id)
+      }
     }
 
-    // ── cancelled: 구독 취소 ──
-    else if (status === 'cancelled') {
-      await supabase.from('users').update({
-        is_pro: false,
-        plan: 'free',
-      }).eq('id', userIdFromUid)
+    // ── subscription.canceled: downgrade to free ──
+    else if (eventType === 'subscription.canceled') {
+      const subscriptionId: string = eventData.id
+
+      const { data: sub } = await supabase
+        .from('subscriptions')
+        .select('user_id')
+        .eq('paddle_subscription_id', subscriptionId)
+        .maybeSingle()
 
       await supabase.from('subscriptions')
         .update({ status: 'cancelled' })
-        .eq('user_id', userIdFromUid)
+        .eq('paddle_subscription_id', subscriptionId)
         .in('status', ['active', 'grace'])
+
+      if (sub?.user_id) {
+        await supabase.from('users').update({ is_pro: false, plan: 'free' }).eq('id', sub.user_id)
+      }
     }
 
-    return new Response('OK', { status: 200 })
+    // ── subscription.past_due / transaction.payment_failed: grace period ──
+    else if (eventType === 'subscription.past_due' || eventType === 'transaction.payment_failed') {
+      const subscriptionId: string = eventData.id ?? eventData.subscription_id
+      const graceUntil = new Date()
+      graceUntil.setDate(graceUntil.getDate() + GRACE_DAYS)
+
+      const { data: activeSub } = await supabase
+        .from('subscriptions')
+        .select('id, failed_count')
+        .eq('paddle_subscription_id', subscriptionId)
+        .eq('status', 'active')
+        .maybeSingle()
+
+      if (activeSub) {
+        await supabase.from('subscriptions').update({
+          status: 'grace',
+          grace_until: graceUntil.toISOString(),
+          failed_count: (activeSub.failed_count ?? 0) + 1,
+        }).eq('id', activeSub.id)
+      }
+
+      console.log(`[paddle-webhook] Payment failed — subscription: ${subscriptionId}, grace until: ${graceUntil.toISOString()}`)
+    }
+
   } catch (e) {
-    console.error('[payment-webhook]', e)
+    console.error('[paddle-webhook] Error:', e)
     return new Response('Internal Server Error', { status: 500 })
   }
+
+  return new Response('OK', { status: 200 })
 })

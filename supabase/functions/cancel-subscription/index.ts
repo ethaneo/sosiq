@@ -1,5 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-import { getIamportToken, deleteBillingKey, unscheduleCustomerPayments } from '../_shared/iamport.ts'
+import { cancelPaddleSubscription } from '../_shared/paddle.ts'
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -10,9 +10,8 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { headers: CORS })
 
   try {
-    // ── JWT 인증 — admin client로 서버 검증 (ES256 알고리즘 대응) ──
     const authHeader = req.headers.get('Authorization')
-    if (!authHeader) return json({ error: '인증 필요' }, 401)
+    if (!authHeader) return json({ error: 'Authentication required' }, 401)
 
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL')!,
@@ -20,50 +19,47 @@ Deno.serve(async (req) => {
     )
     const token = authHeader.replace('Bearer ', '')
     const { data: { user }, error: authErr } = await supabase.auth.getUser(token)
-    if (authErr || !user) return json({ error: '유효하지 않은 세션' }, 401)
+    if (authErr || !user) return json({ error: 'Invalid session' }, 401)
 
-    const { user_id, plan } = await req.json()
-    if (!user_id || !plan) return json({ error: '필수 파라미터 누락' }, 400)
+    const { user_id } = await req.json()
+    if (!user_id) return json({ error: 'Missing user_id' }, 400)
+    if (user_id !== user.id) return json({ error: 'Can only cancel your own subscription' }, 403)
 
-    // 요청 user_id와 인증된 사용자 일치 확인 (타인 구독 해지 방지)
-    if (user_id !== user.id) return json({ error: '본인 구독만 해지 가능합니다' }, 403)
+    // ── 1. Get active Paddle subscription ──
+    const { data: sub } = await supabase
+      .from('subscriptions')
+      .select('paddle_subscription_id')
+      .eq('user_id', user_id)
+      .eq('status', 'active')
+      .order('started_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
 
-    // ── 1. 포트원 빌링키 삭제 ──
-    const customerUid = `realations_${plan}_${user_id}` // 프론트와 동일
-    let billingKeyDeleted = false
-
-    try {
-      const token = await getIamportToken()
-      await deleteBillingKey(token, customerUid)
-      billingKeyDeleted = true
-    } catch (_e) {
-      console.error('[cancel-subscription] 빌링키 삭제 오류 (계속 진행)')
+    let paddleCancelled = false
+    if (sub?.paddle_subscription_id) {
+      try {
+        await cancelPaddleSubscription(sub.paddle_subscription_id)
+        paddleCancelled = true
+      } catch (_e) {
+        console.error('[cancel-subscription] Paddle cancel failed (continuing)')
+      }
     }
 
-    // ── 2. 예약된 결제 취소 ──
-    let unscheduleSucceeded = false
-    try {
-      const token = await getIamportToken()
-      await unscheduleCustomerPayments(token, customerUid)
-      unscheduleSucceeded = true
-    } catch (_e) {
-      console.error('[cancel-subscription] 예약결제 취소 오류 (계속 진행)')
-    }
-
-    // ── 3. DB 업데이트 ──
+    // ── 2. Update DB ──
     await supabase.from('subscriptions')
       .update({ status: 'cancelled' })
       .eq('user_id', user_id)
       .in('status', ['active', 'grace'])
 
     await supabase.from('users').update({
-      merchant_uid: null,
+      is_pro: false,
+      plan: 'free',
     }).eq('id', user_id)
 
-    return json({ success: true, billingKeyDeleted, unscheduleSucceeded })
+    return json({ success: true, paddleCancelled })
   } catch (_e) {
-    console.error('[cancel-subscription] 처리 오류')
-    return json({ error: '해지 처리 중 오류가 발생했습니다' }, 500)
+    console.error('[cancel-subscription] Error')
+    return json({ error: 'Failed to cancel subscription' }, 500)
   }
 })
 

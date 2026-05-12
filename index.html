@@ -1,26 +1,25 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<!-- build:20260325170215 -->
-<title>Realations — 소셜 관계 분석</title>
-<meta name="description" content="인스타그램, 틱톡, X, 쓰레드, 링크드인 팔로워 관계 분석 툴. 비밀번호 없이 ZIP 파일만으로 맞팔 안 한 사람, 나만 팔로하는 팬을 5초 만에 확인하세요.">
-<meta name="keywords" content="팔로워 분석, 맞팔 확인, 언팔 확인, 인스타그램 팔로워, 틱톡 팔로워, 소셜미디어 분석, 팔로우 관계, 맞팔 안 한 사람, 팬 분석, Realations">
-<meta property="og:title" content="Realations — 소셜 관계의 진실">
-<meta property="og:description" content="맞팔 안 한 사람이 몇 명인지 알고 싶으세요? 비밀번호 없이 안전하게 분석하세요.">
+<!-- build:20260512000000 -->
+<title>Realations — Know Who Really Follows You Back</title>
+<meta name="description" content="Analyze your Instagram, TikTok, X, Threads, and LinkedIn followers. See who doesn't follow you back, your true fans, and blocked accounts — no password needed.">
+<meta name="keywords" content="unfollow tracker, instagram follower analyzer, who unfollowed me, follower checker, mutual followers, ghost followers, Realations">
+<meta property="og:title" content="Realations — Know Who Really Follows You Back">
+<meta property="og:description" content="Find out who doesn't follow you back, who your true fans are — safely, in 5 seconds. No password required.">
 <meta property="og:url" content="https://realation.world">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://realation.world/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Realations — 소셜 관계 분석">
-<meta name="twitter:description" content="맞팔 안 한 사람, 나만 팔로하는 팬을 5초 만에 확인. 비밀번호 불필요.">
+<meta name="twitter:title" content="Realations — Know Who Really Follows You Back">
+<meta name="twitter:description" content="See who doesn't follow you back & your true fans in 5 sec. No password needed.")
 <link rel="canonical" href="https://realation.world">
-<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -30,7 +29,7 @@
   --grad-soft:linear-gradient(135deg,rgba(232,0,29,.08) 0%,rgba(255,107,53,.06) 100%);
   --red:#e8001d;--blue:#2563eb;--orange:#ea580c;--yellow:#d97706;--purple:#7c3aed;--green:#059669;--pink:#db2777;
   --text:#1a1714;--text2:#3d3a36;--muted:#8a8580;--muted2:#b8b4ae;
-  --font:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
+  --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   --font-display:'Poppins',sans-serif;--font-mono:'DM Mono',monospace;
 }
 html{scroll-behavior:smooth}
@@ -426,7 +425,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 .btn-snap-del{background:none;border:1px solid var(--border2);border-radius:6px;padding:4px 8px;font-size:11px;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0}
 .btn-snap-del:hover{border-color:#e8001d;color:#e8001d}
 </style>
-<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><path d='M100,100 C106,80 102,64 100,54' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C118,90 132,88 142,80' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C120,106 134,116 144,124' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C106,120 104,134 102,146' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C80,108 66,112 58,122' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><path d='M100,100 C84,88 70,86 60,78' fill='none' stroke='%23C0392B' stroke-width='10' opacity='0.72'/><circle cx='100' cy='100' r='18' fill='%23C0392B' opacity='0.15'/><circle cx='100' cy='100' r='14' fill='%23C0392B'/><circle cx='100' cy='100' r='7' fill='white' opacity='0.95'/></svg>">
 </head>
 <body>
@@ -439,20 +438,9 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
   <!-- 로그인 상태 바 -->
   <div class="auth-bar" id="authBar">
     <span class="auth-user" id="authUserEmail"></span>
-    <button class="btn-auth" onclick="openPricingModal()" style="margin-right:4px;background:var(--grad);color:#fff;border:none">서비스 가격</button>
-    <div class="lang-wrap" id="langWrap">
-      <button class="btn-lang" id="btnLang" onclick="toggleLang()">
-        <span id="langFlag">🇰🇷</span>
-        <span id="langLabel">KO</span>
-        <svg viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg>
-      </button>
-      <div class="lang-dropdown" id="langDropdown">
-        <div class="lang-opt active" id="langOptKo" onclick="setLang('ko')"><span class="lang-flag">🇰🇷</span>한국어</div>
-        <div class="lang-opt" id="langOptEn" onclick="setLang('en')"><span class="lang-flag">🇺🇸</span>English</div>
-      </div>
-    </div>
-    <button class="btn-mypage-trigger" id="btnMypage" onclick="openMypage()" style="display:none;background:var(--s1);border:1px solid var(--border2);border-radius:8px;padding:7px 12px;font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;margin-right:6px;transition:all .15s">👤 마이페이지</button>
-    <button class="btn-auth" id="btnAuthAction" onclick="handleAuthBtn()">로그인</button>
+    <button class="btn-auth" onclick="openPricingModal()" style="margin-right:4px;background:var(--grad);color:#fff;border:none">Pricing</button>
+    <button class="btn-mypage-trigger" id="btnMypage" onclick="openMypage()" style="display:none;background:var(--s1);border:1px solid var(--border2);border-radius:8px;padding:7px 12px;font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;margin-right:6px;transition:all .15s">👤 My Account</button>
+    <button class="btn-auth" id="btnAuthAction" onclick="handleAuthBtn()">Sign In</button>
   </div>
   <div class="top-bar">
     <div class="logo" onclick="closeMypage();closeAuthModal();closePricingModal();closeUpgradeModal();window.scrollTo({top:0,behavior:'smooth'});" style="cursor:pointer">
@@ -481,35 +469,34 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
     <div class="beta-chip">BETA · v5.4</div>
   </div>
 
-  <h1>아무도 알려주지 않는<br><span class="line2">관계의 진실</span></h1>
-  <p class="hero-sub">너만아는 지구최강 인스타그램 팔로워 분석 툴</p>
+  <h1>The Truth About<br><span class="line2">Your Relationships</span></h1>
+  <p class="hero-sub">The ultimate social follower analyzer — safe, instant, no password needed</p>
   <div class="trust-pills">
-    <div class="trust-pill"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>계정 문제없고</div>
-    <div class="trust-pill"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>해킹 문제없이</div>
-    <div class="trust-pill"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>5초 만에 분석</div>
+    <div class="trust-pill"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>No account risk</div>
+    <div class="trust-pill"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>No hacking risk</div>
+    <div class="trust-pill"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Analysis in 5 sec</div>
   </div>
 </header>
 
-<!-- 서비스 상세 설명 (KG이니시스/카카오페이 검수용) -->
 <div class="section" style="animation-delay:.1s">
   <div style="background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:8px">
-    <div style="font-size:13px;font-weight:700;color:#1a1a1a;margin-bottom:12px">🔍 Realations는 어떤 서비스인가요?</div>
+    <div style="font-size:13px;font-weight:700;color:#1a1a1a;margin-bottom:12px">🔍 What is Realations?</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
       <div style="background:#f8f7f5;border-radius:10px;padding:12px">
-        <div style="font-size:11px;font-weight:700;color:#e8001d;margin-bottom:4px">📊 소셜미디어 팔로워 관계 분석</div>
-        <div style="font-size:11px;color:#666;line-height:1.7">인스타그램·틱톡·X·쓰레드·링크드인의 팔로워 데이터를 분석하여 맞팔 여부, 팬, 차단 계정 등을 한눈에 확인할 수 있는 서비스입니다.</div>
+        <div style="font-size:11px;font-weight:700;color:#e8001d;margin-bottom:4px">📊 Follower Relationship Analysis</div>
+        <div style="font-size:11px;color:#666;line-height:1.7">Analyze your Instagram, TikTok, X, Threads, and LinkedIn data to see who doesn't follow you back, your true fans, and blocked accounts — all in one place.</div>
       </div>
       <div style="background:#f8f7f5;border-radius:10px;padding:12px">
-        <div style="font-size:11px;font-weight:700;color:#e8001d;margin-bottom:4px">🔒 안전한 파일 업로드 방식</div>
-        <div style="font-size:11px;color:#666;line-height:1.7">각 플랫폼의 공식 데이터 내보내기 ZIP/CSV 파일을 업로드하는 방식으로, 비밀번호 입력이 불필요하고 파일이 서버로 전송되지 않아 안전합니다.</div>
+        <div style="font-size:11px;font-weight:700;color:#e8001d;margin-bottom:4px">🔒 Safe File-Based Method</div>
+        <div style="font-size:11px;color:#666;line-height:1.7">Upload your official platform data export (ZIP/CSV). No password required. Your files are processed entirely in your browser — never sent to any server.</div>
       </div>
       <div style="background:#f8f7f5;border-radius:10px;padding:12px">
-        <div style="font-size:11px;font-weight:700;color:#e8001d;margin-bottom:4px">📋 주요 분석 항목</div>
-        <div style="font-size:11px;color:#666;line-height:1.7">• 맞팔 안 한 계정 목록<br>• 나만 팔로우하는 팬 목록<br>• 차단·제한·뮤트 계정<br>• 팔로우 요청 대기 목록</div>
+        <div style="font-size:11px;font-weight:700;color:#e8001d;margin-bottom:4px">📋 What You Get</div>
+        <div style="font-size:11px;color:#666;line-height:1.7">• Accounts that don't follow you back<br>• Your true fans (one-sided followers)<br>• Blocked, restricted & muted accounts<br>• Pending follow requests</div>
       </div>
       <div style="background:#f8f7f5;border-radius:10px;padding:12px">
-        <div style="font-size:11px;font-weight:700;color:#e8001d;margin-bottom:4px">💳 구독 서비스 안내</div>
-        <div style="font-size:11px;color:#666;line-height:1.7">• FREE: 무료, 월 3회 분석, 결과 5명<br>• BASIC ₩5,900/월: 무제한 분석<br>• PRO ₩9,900/월: 히스토리+10계정<br>• 결제일로부터 30일, 자동 갱신</div>
+        <div style="font-size:11px;font-weight:700;color:#e8001d;margin-bottom:4px">💳 Subscription Plans</div>
+        <div style="font-size:11px;color:#666;line-height:1.7">• FREE: 3 analyses/mo, top 5 results<br>• BASIC $4.99/mo: unlimited analyses<br>• PRO $7.99/mo: history + 10 accounts<br>• Monthly, auto-renews, cancel anytime</div>
       </div>
     </div>
   </div>
@@ -517,7 +504,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 
 <div class="section" style="animation-delay:.15s">
   <div class="section-label">
-    <div class="section-label-text">분석 대상을 선택</div>
+    <div class="section-label-text">Select a platform to analyze</div>
     <div class="section-label-line"></div>
   </div>
   <div class="platform-grid-row1">
@@ -553,7 +540,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 
 <!-- 인스타 가이드 -->
 <div class="section" id="guide-instagram" style="animation-delay:.1s">
-  <div class="section-label"><div class="section-label-text">아래방법을 따라 파일을 추출해주세요.</div><div class="section-label-line"></div></div>
+  <div class="section-label"><div class="section-label-text">Follow these steps to export your data.</div><div class="section-label-line"></div></div>
   <div class="progress-track">
     <div class="prog-creation">
       <div class="prog-hand-l"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sglig"><stop offset="0%" style="stop-color:#F4C89A"/><stop offset="100%" style="stop-color:#E8A870"/></linearGradient><linearGradient id="sgdig"><stop offset="0%" style="stop-color:#D4946A"/><stop offset="100%" style="stop-color:#C07850"/></linearGradient></defs><path d="M8,52 C6,44 6,36 8,30 C10,24 14,22 18,24 C20,20 24,18 28,21 C30,17 34,16 37,19 C38,15 42,14 44,18 L46,42 C48,44 48,50 44,54 C40,58 36,60 30,60 C20,60 10,60 8,52Z" fill="url(#sglig)"/><path d="M44,18 C44,10 46,6 50,5 C54,4 58,7 58,14 L58,38 C58,42 56,44 52,44 L46,42Z" fill="url(#sglig)"/><ellipse cx="52" cy="7" rx="4" ry="3" fill="#F0E0D0" opacity="0.9"/></svg></div>
@@ -564,57 +551,57 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
   </div>
   <div class="steps">
     <div class="step active" id="s1">
-      <div class="step-head" onclick="toggleStep(1)"><div class="step-num" id="sn1">01</div><div class="step-info"><div class="step-title">인스타그램 데이터 내보내기</div><div class="step-desc">버튼 클릭 → 인스타 계정 센터로 이동</div></div></div>
+      <div class="step-head" onclick="toggleStep(1)"><div class="step-num" id="sn1">01</div><div class="step-info"><div class="step-title">Export your Instagram data</div><div class="step-desc">Click the button → opens Instagram Accounts Center</div></div></div>
       <div class="step-body"><div class="step-body-inner">
-        <a class="btn-go" href="https://accountscenter.facebook.com/info_and_permissions/dyi/" target="_blank" onclick="completeStep(1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>내보내기 페이지로 이동</a>
-        <div style="margin-top:12px;font-size:11px;color:var(--muted);line-height:1.9">앱에서: 프로필 → ☰ → <span class="tag">계정 센터</span> → <span class="tag">내 정보 및 권한</span></div>
+        <a class="btn-go" href="https://accountscenter.facebook.com/info_and_permissions/dyi/" target="_blank" onclick="completeStep(1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Open Export Page</a>
+        <div style="margin-top:12px;font-size:11px;color:var(--muted);line-height:1.9">In the app: Profile → ☰ → <span class="tag">Accounts Center</span> → <span class="tag">Your information and permissions</span></div>
       </div></div>
     </div>
     <div class="step" id="s2">
-      <div class="step-head" onclick="toggleStep(2)"><div class="step-num" id="sn2">02</div><div class="step-info"><div class="step-title">내 화면에 맞는 경로 선택</div><div class="step-desc">인스타 UI 버전에 따라 다릅니다</div></div></div>
+      <div class="step-head" onclick="toggleStep(2)"><div class="step-num" id="sn2">02</div><div class="step-info"><div class="step-title">Choose your export path</div><div class="step-desc">Depends on your Instagram UI version</div></div></div>
       <div class="step-body"><div class="step-body-inner">
-        <div style="font-size:11px;color:var(--muted);margin-bottom:12px">지금 인스타 화면에 어떤 버튼이 보이나요?</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:12px">Which button do you see in Instagram?</div>
         <div class="path-grid">
-          <div class="path-card" id="pa-btn" onclick="pickPath('A')"><div class="path-card-label">PATH A</div><div class="path-card-desc">"내 정보 내보내기"<br>Export your information</div></div>
-          <div class="path-card" id="pb-btn" onclick="pickPath('B')"><div class="path-card-label">PATH B</div><div class="path-card-desc">"내 정보 다운로드"<br>Download your information</div></div>
+          <div class="path-card" id="pa-btn" onclick="pickPath('A')"><div class="path-card-label">PATH A</div><div class="path-card-desc">Export your information</div></div>
+          <div class="path-card" id="pb-btn" onclick="pickPath('B')"><div class="path-card-label">PATH B</div><div class="path-card-desc">Download your information</div></div>
         </div>
         <div class="path-detail" id="pa-detail">
           <div class="path-steps-list">
-            <div class="psl"><div class="psl-n">1</div><div><b>내 정보 내보내기</b> 탭</div></div>
-            <div class="psl"><div class="psl-n">2</div><div><b>내보내기 만들기</b> 탭</div></div>
-            <div class="psl"><div class="psl-n">3</div><div>계정 선택 → <b>기기로 내보내기</b> → 다음</div></div>
-            <div class="psl"><div class="psl-n">4</div><div><b>정보 맞춤설정</b> → 모두 해제 후 <span class="tag green">팔로워 및 팔로잉</span>만 체크</div></div>
-            <div class="psl"><div class="psl-n">5</div><div>기간: <span class="tag">전체 기간</span> · 형식: <span class="tag warn">JSON</span></div></div>
-            <div class="psl"><div class="psl-n">6</div><div><b>내보내기 시작</b></div></div>
+            <div class="psl"><div class="psl-n">1</div><div><b>Export your information</b> tab</div></div>
+            <div class="psl"><div class="psl-n">2</div><div><b>Create export</b> tab</div></div>
+            <div class="psl"><div class="psl-n">3</div><div>Select account → <b>Export to device</b> → Next</div></div>
+            <div class="psl"><div class="psl-n">4</div><div><b>Customize information</b> → uncheck all, check only <span class="tag green">Followers and following</span></div></div>
+            <div class="psl"><div class="psl-n">5</div><div>Date range: <span class="tag">All time</span> · Format: <span class="tag warn">JSON</span></div></div>
+            <div class="psl"><div class="psl-n">6</div><div><b>Start export</b></div></div>
           </div>
-          <button class="btn-confirm" onclick="completeStep(2)">✓ 요청 완료</button>
-          <div class="wait-note">⏱ 이메일 파일 수령까지 수 분 ~ 최대 1시간</div>
+          <button class="btn-confirm" onclick="completeStep(2)">✓ Request Sent</button>
+          <div class="wait-note">⏱ You'll receive the file by email within a few minutes to 1 hour</div>
         </div>
         <div class="path-detail" id="pb-detail">
           <div class="path-steps-list">
-            <div class="psl"><div class="psl-n">1</div><div><b>내 정보 다운로드</b> 탭</div></div>
-            <div class="psl"><div class="psl-n">2</div><div><b>정보 다운로드 또는 전송</b> 탭</div></div>
-            <div class="psl"><div class="psl-n">3</div><div>계정 선택 → <b>일부 정보</b> 선택</div></div>
-            <div class="psl"><div class="psl-n">4</div><div><span class="tag green">팔로워 및 팔로잉</span> 체크 → 다음</div></div>
-            <div class="psl"><div class="psl-n">5</div><div><b>기기에 다운로드</b> 선택</div></div>
-            <div class="psl"><div class="psl-n">6</div><div>기간: <span class="tag">전체 기간</span> · 형식: <span class="tag warn">JSON</span></div></div>
-            <div class="psl"><div class="psl-n">7</div><div><b>파일 만들기</b></div></div>
+            <div class="psl"><div class="psl-n">1</div><div><b>Download your information</b> tab</div></div>
+            <div class="psl"><div class="psl-n">2</div><div><b>Download or transfer information</b> tab</div></div>
+            <div class="psl"><div class="psl-n">3</div><div>Select account → <b>Some of your information</b></div></div>
+            <div class="psl"><div class="psl-n">4</div><div>Check <span class="tag green">Followers and following</span> → Next</div></div>
+            <div class="psl"><div class="psl-n">5</div><div>Select <b>Download to device</b></div></div>
+            <div class="psl"><div class="psl-n">6</div><div>Date range: <span class="tag">All time</span> · Format: <span class="tag warn">JSON</span></div></div>
+            <div class="psl"><div class="psl-n">7</div><div><b>Create files</b></div></div>
           </div>
-          <button class="btn-confirm" onclick="completeStep(2)">✓ 요청 완료</button>
-          <div class="wait-note">⏱ 이메일 파일 수령까지 수 분 ~ 최대 1시간</div>
+          <button class="btn-confirm" onclick="completeStep(2)">✓ Request Sent</button>
+          <div class="wait-note">⏱ You'll receive the file by email within a few minutes to 1 hour</div>
         </div>
       </div></div>
     </div>
     <div class="step" id="s3">
-      <div class="step-head" onclick="toggleStep(3)"><div class="step-num" id="sn3">03</div><div class="step-info"><div class="step-title">ZIP 파일 업로드</div><div class="step-desc">압축 풀지 말고 그대로 올려주세요</div></div></div>
-      <div class="step-body"><div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">이메일에서 받은 <span class="tag">instagram-XXXXXX.zip</span> 파일을<br><b style="color:var(--text)">압축 해제하지 말고</b> 아래 업로드 영역에 올려주세요.</div></div>
+      <div class="step-head" onclick="toggleStep(3)"><div class="step-num" id="sn3">03</div><div class="step-info"><div class="step-title">Upload the ZIP file</div><div class="step-desc">Upload as-is — do not unzip</div></div></div>
+      <div class="step-body"><div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">Upload the <span class="tag">instagram-XXXXXX.zip</span> file you received by email.<br><b style="color:var(--text)">Do not unzip it</b> — upload the ZIP directly.</div></div>
     </div>
   </div>
 </div>
 
 <!-- 틱톡 가이드 -->
 <div class="section" id="guide-tiktok" style="display:none;animation-delay:.1s">
-  <div class="section-label"><div class="section-label-text">아래방법을 따라 파일을 추출해주세요. · TIKTOK</div><div class="section-label-line"></div></div>
+  <div class="section-label"><div class="section-label-text">Follow these steps to export your data · TIKTOK</div><div class="section-label-line"></div></div>
   <div class="progress-track">
     <div class="prog-creation">
       <div class="prog-hand-l"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sgltk"><stop offset="0%" style="stop-color:#F4C89A"/><stop offset="100%" style="stop-color:#E8A870"/></linearGradient><linearGradient id="sgdtk"><stop offset="0%" style="stop-color:#D4946A"/><stop offset="100%" style="stop-color:#C07850"/></linearGradient></defs><path d="M8,52 C6,44 6,36 8,30 C10,24 14,22 18,24 C20,20 24,18 28,21 C30,17 34,16 37,19 C38,15 42,14 44,18 L46,42 C48,44 48,50 44,54 C40,58 36,60 30,60 C20,60 10,60 8,52Z" fill="url(#sgltk)"/><path d="M44,18 C44,10 46,6 50,5 C54,4 58,7 58,14 L58,38 C58,42 56,44 52,44 L46,42Z" fill="url(#sgltk)"/><ellipse cx="52" cy="7" rx="4" ry="3" fill="#F0E0D0" opacity="0.9"/></svg></div>
@@ -625,29 +612,29 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
   </div>
   <div class="steps">
     <div class="step active" id="tk1">
-      <div class="step-head"><div class="step-num" id="tkn1">01</div><div class="step-info"><div class="step-title">틱톡 데이터 내보내기</div><div class="step-desc">앱에서 직접 요청 → 이메일로 수령</div></div></div>
+      <div class="step-head"><div class="step-num" id="tkn1">01</div><div class="step-info"><div class="step-title">Export your TikTok data</div><div class="step-desc">Request in the app → receive via email</div></div></div>
       <div class="step-body" style="display:block"><div class="step-body-inner">
         <div class="path-steps-list">
-          <div class="psl"><div class="psl-n">1</div><div>틱톡 앱 → 프로필 → 우측 상단 <b>☰</b></div></div>
-          <div class="psl"><div class="psl-n">2</div><div><b>설정 및 개인정보</b> → <b>계정</b></div></div>
-          <div class="psl"><div class="psl-n">3</div><div><b>내 데이터 다운로드</b> 탭</div></div>
-          <div class="psl"><div class="psl-n">4</div><div>형식: <span class="tag warn">JSON</span> 선택 → <b>데이터 요청</b></div></div>
-          <div class="psl"><div class="psl-n">5</div><div>이메일로 <span class="tag">TikTok_Data.zip</span> 수령</div></div>
+          <div class="psl"><div class="psl-n">1</div><div>TikTok app → Profile → <b>☰</b> top right</div></div>
+          <div class="psl"><div class="psl-n">2</div><div><b>Settings and privacy</b> → <b>Account</b></div></div>
+          <div class="psl"><div class="psl-n">3</div><div><b>Download your data</b> tab</div></div>
+          <div class="psl"><div class="psl-n">4</div><div>Format: <span class="tag warn">JSON</span> → <b>Request data</b></div></div>
+          <div class="psl"><div class="psl-n">5</div><div>Receive <span class="tag">TikTok_Data.zip</span> by email</div></div>
         </div>
-        <button class="btn-confirm" onclick="completeTkStep(1)">✓ 요청 완료</button>
-        <div class="wait-note">⏱ 이메일 파일 수령까지 수 분 ~ 최대 48시간</div>
+        <button class="btn-confirm" onclick="completeTkStep(1)">✓ Request Sent</button>
+        <div class="wait-note">⏱ File arrives by email within a few minutes to 48 hours</div>
       </div></div>
     </div>
     <div class="step" id="tk2">
-      <div class="step-head"><div class="step-num" id="tkn2">02</div><div class="step-info"><div class="step-title">ZIP 파일 업로드</div><div class="step-desc">압축 풀지 말고 그대로 올려주세요</div></div></div>
-      <div class="step-body"><div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">이메일에서 받은 <span class="tag">TikTok_Data.zip</span> 파일을<br><b style="color:var(--text)">압축 해제하지 말고</b> 아래 업로드 영역에 올려주세요.</div></div>
+      <div class="step-head"><div class="step-num" id="tkn2">02</div><div class="step-info"><div class="step-title">Upload the ZIP file</div><div class="step-desc">Upload as-is — do not unzip</div></div></div>
+      <div class="step-body"><div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">Upload the <span class="tag">TikTok_Data.zip</span> file you received by email.<br><b style="color:var(--text)">Do not unzip it</b> — upload the ZIP directly.</div></div>
     </div>
   </div>
 </div>
 
 <!-- 쓰레드 가이드 -->
 <div class="section" id="guide-threads" style="display:none;animation-delay:.1s">
-  <div class="section-label"><div class="section-label-text">아래방법을 따라 파일을 추출해주세요. · THREADS</div><div class="section-label-line"></div></div>
+  <div class="section-label"><div class="section-label-text">Follow these steps to export your data · THREADS</div><div class="section-label-line"></div></div>
   <div class="progress-track">
     <div class="prog-creation">
       <div class="prog-hand-l"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sglth"><stop offset="0%" style="stop-color:#F4C89A"/><stop offset="100%" style="stop-color:#E8A870"/></linearGradient><linearGradient id="sgdth"><stop offset="0%" style="stop-color:#D4946A"/><stop offset="100%" style="stop-color:#C07850"/></linearGradient></defs><path d="M8,52 C6,44 6,36 8,30 C10,24 14,22 18,24 C20,20 24,18 28,21 C30,17 34,16 37,19 C38,15 42,14 44,18 L46,42 C48,44 48,50 44,54 C40,58 36,60 30,60 C20,60 10,60 8,52Z" fill="url(#sglth)"/><path d="M44,18 C44,10 46,6 50,5 C54,4 58,7 58,14 L58,38 C58,42 56,44 52,44 L46,42Z" fill="url(#sglth)"/><ellipse cx="52" cy="7" rx="4" ry="3" fill="#F0E0D0" opacity="0.9"/></svg></div>
@@ -658,28 +645,28 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
   </div>
   <div class="steps">
     <div class="step active" id="th1">
-      <div class="step-head"><div class="step-num" id="thn1">01</div><div class="step-info"><div class="step-title">Meta 계정센터에서 데이터 내보내기</div><div class="step-desc">인스타그램과 동일한 경로 — Threads 포함</div></div></div>
+      <div class="step-head"><div class="step-num" id="thn1">01</div><div class="step-info"><div class="step-title">Export data from Meta Accounts Center</div><div class="step-desc">Same path as Instagram — Threads is included</div></div></div>
       <div class="step-body" style="display:block"><div class="step-body-inner">
-        <a class="btn-go" href="https://accountscenter.facebook.com/info_and_permissions/dyi/" target="_blank" onclick="completeThStep(1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>내보내기 페이지로 이동</a>
+        <a class="btn-go" href="https://accountscenter.facebook.com/info_and_permissions/dyi/" target="_blank" onclick="completeThStep(1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Open Export Page</a>
         <div class="path-steps-list" style="margin-top:12px">
-          <div class="psl"><div class="psl-n">1</div><div>계정 선택 → <b>기기로 내보내기</b></div></div>
-          <div class="psl"><div class="psl-n">2</div><div><b>정보 맞춤설정</b> → <span class="tag green">팔로워 및 팔로잉</span> 체크</div></div>
-          <div class="psl"><div class="psl-n">3</div><div>형식: <span class="tag warn">JSON</span> → <b>내보내기 시작</b></div></div>
+          <div class="psl"><div class="psl-n">1</div><div>Select account → <b>Export to device</b></div></div>
+          <div class="psl"><div class="psl-n">2</div><div><b>Customize information</b> → check <span class="tag green">Followers and following</span></div></div>
+          <div class="psl"><div class="psl-n">3</div><div>Format: <span class="tag warn">JSON</span> → <b>Start export</b></div></div>
         </div>
-        <button class="btn-confirm" onclick="completeThStep(1)">✓ 요청 완료</button>
-        <div class="wait-note">⏱ Threads 데이터는 인스타 ZIP 안에 함께 포함됩니다</div>
+        <button class="btn-confirm" onclick="completeThStep(1)">✓ Request Sent</button>
+        <div class="wait-note">⏱ Threads data is bundled inside the Instagram ZIP</div>
       </div></div>
     </div>
     <div class="step" id="th2">
-      <div class="step-head"><div class="step-num" id="thn2">02</div><div class="step-info"><div class="step-title">ZIP 파일 업로드</div><div class="step-desc">인스타 ZIP 그대로 올리면 Threads 자동 인식</div></div></div>
-      <div class="step-body"><div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">이메일에서 받은 <span class="tag">instagram-XXXXXX.zip</span> 파일을<br><b style="color:var(--text)">압축 해제하지 말고</b> 아래 업로드 영역에 올려주세요.</div></div>
+      <div class="step-head"><div class="step-num" id="thn2">02</div><div class="step-info"><div class="step-title">Upload the ZIP file</div><div class="step-desc">Upload the Instagram ZIP — Threads is detected automatically</div></div></div>
+      <div class="step-body"><div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">Upload the <span class="tag">instagram-XXXXXX.zip</span> file you received by email.<br><b style="color:var(--text)">Do not unzip it</b> — upload the ZIP directly.</div></div>
     </div>
   </div>
 </div>
 
 <!-- 링크드인 가이드 -->
 <div class="section" id="guide-linkedin" style="display:none;animation-delay:.1s">
-  <div class="section-label"><div class="section-label-text">아래방법을 따라 파일을 추출해주세요. · LINKEDIN</div><div class="section-label-line"></div></div>
+  <div class="section-label"><div class="section-label-text">Follow these steps to export your data · LINKEDIN</div><div class="section-label-line"></div></div>
   <div class="progress-track">
     <div class="prog-creation">
       <div class="prog-hand-l"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sglli"><stop offset="0%" style="stop-color:#F4C89A"/><stop offset="100%" style="stop-color:#E8A870"/></linearGradient><linearGradient id="sgdli"><stop offset="0%" style="stop-color:#D4946A"/><stop offset="100%" style="stop-color:#C07850"/></linearGradient></defs><path d="M8,52 C6,44 6,36 8,30 C10,24 14,22 18,24 C20,20 24,18 28,21 C30,17 34,16 37,19 C38,15 42,14 44,18 L46,42 C48,44 48,50 44,54 C40,58 36,60 30,60 C20,60 10,60 8,52Z" fill="url(#sglli)"/><path d="M44,18 C44,10 46,6 50,5 C54,4 58,7 58,14 L58,38 C58,42 56,44 52,44 L46,42Z" fill="url(#sglli)"/><ellipse cx="52" cy="7" rx="4" ry="3" fill="#F0E0D0" opacity="0.9"/></svg></div>
@@ -690,28 +677,28 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
   </div>
   <div class="steps">
     <div class="step active" id="li1">
-      <div class="step-head"><div class="step-num" id="lin1">01</div><div class="step-info"><div class="step-title">LinkedIn 데이터 내보내기</div><div class="step-desc">설정에서 연결 CSV 다운로드</div></div></div>
+      <div class="step-head"><div class="step-num" id="lin1">01</div><div class="step-info"><div class="step-title">Export your LinkedIn data</div><div class="step-desc">Download the Connections CSV from settings</div></div></div>
       <div class="step-body" style="display:block"><div class="step-body-inner">
-        <a class="btn-go" href="https://www.linkedin.com/mypreferences/d/download-my-data" target="_blank" onclick="completeLiStep(1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>데이터 내보내기 페이지로 이동</a>
+        <a class="btn-go" href="https://www.linkedin.com/mypreferences/d/download-my-data" target="_blank" onclick="completeLiStep(1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Open Export Page</a>
         <div class="path-steps-list" style="margin-top:12px">
-          <div class="psl"><div class="psl-n">1</div><div><b>Connections</b> 선택 → <b>Request archive</b></div></div>
-          <div class="psl"><div class="psl-n">2</div><div>이메일로 ZIP 수령 → 압축 해제</div></div>
-          <div class="psl"><div class="psl-n">3</div><div>ZIP 안의 <span class="tag">Connections.csv</span> 파일 업로드</div></div>
+          <div class="psl"><div class="psl-n">1</div><div>Select <b>Connections</b> → <b>Request archive</b></div></div>
+          <div class="psl"><div class="psl-n">2</div><div>Receive ZIP by email → unzip it</div></div>
+          <div class="psl"><div class="psl-n">3</div><div>Upload <span class="tag">Connections.csv</span> from inside the ZIP</div></div>
         </div>
-        <button class="btn-confirm" onclick="completeLiStep(1)">✓ 요청 완료</button>
-        <div class="wait-note">⏱ 이메일 수령까지 10분 ~ 24시간 · CSV 파일만 업로드</div>
+        <button class="btn-confirm" onclick="completeLiStep(1)">✓ Request Sent</button>
+        <div class="wait-note">⏱ Email arrives within 10 min to 24 hours · Upload the CSV file only</div>
       </div></div>
     </div>
     <div class="step" id="li2">
-      <div class="step-head"><div class="step-num" id="lin2">02</div><div class="step-info"><div class="step-title">Connections.csv 업로드</div><div class="step-desc">ZIP에서 꺼낸 CSV 파일을 올려주세요</div></div></div>
-      <div class="step-body"><div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">ZIP 압축 해제 후 <span class="tag">Connections.csv</span> 파일을<br>아래 업로드 영역에 올려주세요.</div></div>
+      <div class="step-head"><div class="step-num" id="lin2">02</div><div class="step-info"><div class="step-title">Upload Connections.csv</div><div class="step-desc">Unzip the archive and upload the CSV file</div></div></div>
+      <div class="step-body"><div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">Unzip the downloaded archive, then upload the <span class="tag">Connections.csv</span> file<br>to the upload area below.</div></div>
     </div>
   </div>
 </div>
 
 <!-- X 가이드 -->
 <div class="section" id="guide-x" style="display:none;animation-delay:.1s">
-  <div class="section-label"><div class="section-label-text">아래방법을 따라 파일을 추출해주세요. · X</div><div class="section-label-line"></div></div>
+  <div class="section-label"><div class="section-label-text">Follow these steps to export your data · X</div><div class="section-label-line"></div></div>
   <div class="progress-track">
     <div class="prog-creation">
       <div class="prog-hand-l"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sglx"><stop offset="0%" style="stop-color:#F4C89A"/><stop offset="100%" style="stop-color:#E8A870"/></linearGradient><linearGradient id="sgdx"><stop offset="0%" style="stop-color:#D4946A"/><stop offset="100%" style="stop-color:#C07850"/></linearGradient></defs><path d="M8,52 C6,44 6,36 8,30 C10,24 14,22 18,24 C20,20 24,18 28,21 C30,17 34,16 37,19 C38,15 42,14 44,18 L46,42 C48,44 48,50 44,54 C40,58 36,60 30,60 C20,60 10,60 8,52Z" fill="url(#sglx)"/><path d="M44,18 C44,10 46,6 50,5 C54,4 58,7 58,14 L58,38 C58,42 56,44 52,44 L46,42Z" fill="url(#sglx)"/><ellipse cx="52" cy="7" rx="4" ry="3" fill="#F0E0D0" opacity="0.9"/></svg></div>
@@ -722,28 +709,28 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
   </div>
   <div class="steps">
     <div class="step active" id="xg1">
-      <div class="step-head"><div class="step-num" id="xn1">01</div><div class="step-info"><div class="step-title">X 데이터 아카이브 내보내기</div><div class="step-desc">설정에서 내 데이터 ZIP 다운로드</div></div></div>
+      <div class="step-head"><div class="step-num" id="xn1">01</div><div class="step-info"><div class="step-title">Export your X data archive</div><div class="step-desc">Download your data ZIP from settings</div></div></div>
       <div class="step-body" style="display:block"><div class="step-body-inner">
-        <a class="btn-go" href="https://x.com/settings/download_your_data" target="_blank" onclick="completeXStep(1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>X 데이터 내보내기 페이지로 이동</a>
+        <a class="btn-go" href="https://x.com/settings/download_your_data" target="_blank" onclick="completeXStep(1)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Open X Export Page</a>
         <div class="path-steps-list" style="margin-top:12px">
-          <div class="psl"><div class="psl-n">1</div><div>X 앱 또는 웹 → <b>설정</b> → <b>계정</b></div></div>
-          <div class="psl"><div class="psl-n">2</div><div><b>내 데이터 아카이브</b> → <b>아카이브 요청</b></div></div>
-          <div class="psl"><div class="psl-n">3</div><div>이메일로 <span class="tag">twitter-XXXXXX.zip</span> 수령</div></div>
+          <div class="psl"><div class="psl-n">1</div><div>X app or web → <b>Settings</b> → <b>Account</b></div></div>
+          <div class="psl"><div class="psl-n">2</div><div><b>Your X data</b> → <b>Request archive</b></div></div>
+          <div class="psl"><div class="psl-n">3</div><div>Receive <span class="tag">twitter-XXXXXX.zip</span> by email</div></div>
         </div>
-        <button class="btn-confirm" onclick="completeXStep(1)">✓ 요청 완료</button>
-        <div class="wait-note">⏱ 이메일 수령까지 수 분 ~ 최대 24시간</div>
+        <button class="btn-confirm" onclick="completeXStep(1)">✓ Request Sent</button>
+        <div class="wait-note">⏱ Email arrives within a few minutes to 24 hours</div>
       </div></div>
     </div>
     <div class="step" id="xg2">
-      <div class="step-head"><div class="step-num" id="xn2">02</div><div class="step-info"><div class="step-title">ZIP 파일 업로드</div><div class="step-desc">압축 풀지 말고 그대로 올려주세요</div></div></div>
-      <div class="step-body"><div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">이메일에서 받은 <span class="tag">twitter-XXXXXX.zip</span> 파일을<br><b style="color:var(--text)">압축 해제하지 말고</b> 아래 업로드 영역에 올려주세요.</div></div>
+      <div class="step-head"><div class="step-num" id="xn2">02</div><div class="step-info"><div class="step-title">Upload the ZIP file</div><div class="step-desc">Upload as-is — do not unzip</div></div></div>
+      <div class="step-body"><div class="step-body-inner" style="font-size:11px;color:var(--muted);line-height:1.9">Upload the <span class="tag">twitter-XXXXXX.zip</span> file you received by email.<br><b style="color:var(--text)">Do not unzip it</b> — upload the ZIP directly.</div></div>
     </div>
   </div>
 </div>
 
 <div class="section" style="animation-delay:.2s" id="uploadArea">
   <div class="section-label">
-    <div class="section-label-text">추출한 파일을 아래에 업로드해주세요.</div>
+    <div class="section-label-text">Upload your exported file below.</div>
     <div class="section-label-line"></div>
   </div>
   <!-- ★ 핵심 수정: input display:none, onclick으로 triggerFileInput 호출 -->
@@ -753,11 +740,11 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
     <input type="file" accept=".zip,.json,.csv" id="fileInput" onchange="handleFile(event)" style="display:none">
     <div class="upload-default">
       <span class="upload-icon">📦</span>
-      <div class="upload-title">ZIP, JSON 파일을 드래그하거나 클릭 하세요.</div>
+      <div class="upload-title">Drag &amp; drop or click to upload your ZIP or JSON file</div>
       <div class="upload-sub"></div>
     </div>
     <div class="upload-loaded">
-      <div style="font-size:14px;font-weight:500;color:var(--accent);margin-bottom:10px">✓ 파일 로드 완료</div>
+      <div style="font-size:14px;font-weight:500;color:var(--accent);margin-bottom:10px">✓ File loaded</div>
       <div class="found-files" id="foundFiles"></div>
     </div>
   </div>
@@ -765,7 +752,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 
 <div class="cta-area">
   <div class="loading-bar" id="loadingBar"></div>
-  <button class="btn-analyze" id="btnAnalyze" onclick="runAnalysis()" disabled>분석 시작 →</button>
+  <button class="btn-analyze" id="btnAnalyze" onclick="runAnalysis()" disabled>Start Analysis →</button>
 
 </div>
 
@@ -775,7 +762,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
     <div class="section-label-line"></div>
   </div>
   <div class="results-header">
-    <div class="results-title">분석 결과</div>
+    <div class="results-title">Analysis Results</div>
     <div class="results-meta" id="resultsMeta"></div>
     <div id="mutualSummary" style="display:none;margin-top:8px;font-size:12px;color:var(--accent);background:rgba(232,0,29,.05);border:1px solid rgba(232,0,29,.15);border-radius:8px;padding:8px 14px;font-family:var(--font-mono)"></div>
   </div>
@@ -792,7 +779,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
         <div class="score-label">SCORE</div>
       </div>
       <div class="score-info">
-        <div class="score-title" id="scoreTitle">팔로워 품질 분석</div>
+        <div class="score-title" id="scoreTitle">Follower Quality Score</div>
         <div class="score-bars" id="scoreBars"></div>
       </div>
     </div>
@@ -800,19 +787,19 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
   <div class="stats-grid" id="statsRow1"></div>
   <div class="stats-grid-2" id="statsRow2"></div>
   <div class="tabs-wrap">
-    <button class="tab-btn active" data-t="notback" onclick="switchTab('notback',this)">😤 맞팔 안 함 <span id="tc1"></span></button>
-    <button class="tab-btn" data-t="fans" onclick="switchTab('fans',this)">🩷 나만 팔로 <span id="tc2"></span></button>
-    <button class="tab-btn" data-t="blocked" onclick="switchTab('blocked',this)">🚫 차단 <span id="tc4"></span></button>
-    <button class="tab-btn" data-t="pending" onclick="switchTab('pending',this)">⏳ 요청 대기 <span id="tc5"></span></button>
-    <button class="tab-btn" data-t="restricted" onclick="switchTab('restricted',this)">🔇 제한 <span id="tc6"></span></button>
-    <button class="tab-btn" data-t="close_friends" onclick="switchTab('close_friends',this)">💚 친한 친구 <span id="tc7"></span></button>
+    <button class="tab-btn active" data-t="notback" onclick="switchTab('notback',this)">😤 Not Following Back <span id="tc1"></span></button>
+    <button class="tab-btn" data-t="fans" onclick="switchTab('fans',this)">🩷 True Fans <span id="tc2"></span></button>
+    <button class="tab-btn" data-t="blocked" onclick="switchTab('blocked',this)">🚫 Blocked <span id="tc4"></span></button>
+    <button class="tab-btn" data-t="pending" onclick="switchTab('pending',this)">⏳ Pending <span id="tc5"></span></button>
+    <button class="tab-btn" data-t="restricted" onclick="switchTab('restricted',this)">🔇 Restricted <span id="tc6"></span></button>
+    <button class="tab-btn" data-t="close_friends" onclick="switchTab('close_friends',this)">💚 Close Friends <span id="tc7"></span></button>
   </div>
   <div class="tab-pane active" id="tab-notback">
     <div class="list-toolbar">
-      <div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('notback',this.value)"></div>
+      <div class="search-box"><input type="text" placeholder="Search accounts..." oninput="filterList('notback',this.value)"></div>
       <select class="sort-select" onchange="sortList('notback',this.value)">
-        <option value="default">기본순</option><option value="newest">최근 팔로우</option>
-        <option value="oldest">오래된 순</option><option value="az">이름순</option>
+        <option value="default">Default</option><option value="newest">Newest</option>
+        <option value="oldest">Oldest</option><option value="az">A–Z</option>
       </select>
     </div>
     <div class="user-list" id="list-notback"></div>
@@ -820,93 +807,87 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
   </div>
   <div class="tab-pane" id="tab-fans">
     <div class="list-toolbar">
-      <div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('fans',this.value)"></div>
+      <div class="search-box"><input type="text" placeholder="Search accounts..." oninput="filterList('fans',this.value)"></div>
       <select class="sort-select" onchange="sortList('fans',this.value)">
-        <option value="default">기본순</option><option value="newest">최근 팔로우</option>
-        <option value="oldest">오래된 순</option><option value="az">이름순</option>
+        <option value="default">Default</option><option value="newest">Newest</option>
+        <option value="oldest">Oldest</option><option value="az">A–Z</option>
       </select>
     </div>
     <div class="user-list" id="list-fans"></div>
   </div>
   <div class="tab-pane" id="tab-blocked">
-    <div class="list-toolbar"><div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('blocked',this.value)"></div></div>
+    <div class="list-toolbar"><div class="search-box"><input type="text" placeholder="Search accounts..." oninput="filterList('blocked',this.value)"></div></div>
     <div class="user-list" id="list-blocked"></div>
     <div id="wall-blocked"></div>
   </div>
   <div class="tab-pane" id="tab-pending">
-    <div class="list-toolbar"><div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('pending',this.value)"></div></div>
+    <div class="list-toolbar"><div class="search-box"><input type="text" placeholder="Search accounts..." oninput="filterList('pending',this.value)"></div></div>
     <div class="user-list" id="list-pending"></div>
   </div>
   <div class="tab-pane" id="tab-restricted">
-    <div class="list-toolbar"><div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('restricted',this.value)"></div></div>
+    <div class="list-toolbar"><div class="search-box"><input type="text" placeholder="Search accounts..." oninput="filterList('restricted',this.value)"></div></div>
     <div class="user-list" id="list-restricted"></div>
   </div>
   <div class="tab-pane" id="tab-close_friends">
-    <div class="list-toolbar"><div class="search-box"><input type="text" placeholder="계정명 검색..." oninput="filterList('close_friends',this.value)"></div></div>
+    <div class="list-toolbar"><div class="search-box"><input type="text" placeholder="Search accounts..." oninput="filterList('close_friends',this.value)"></div></div>
     <div class="user-list" id="list-close_friends"></div>
   </div>
   <div class="share-row">
-    <button class="btn-share" onclick="copyResult()">📋 결과 복사</button>
+    <button class="btn-share" onclick="copyResult()">📋 Copy Results</button>
   </div>
 </div>
 
 <div class="footer-note">
-  <b>Realations는 비밀번호 불필요, 파일이 서버로 전송되지않아 안전합니다.</b><br>
+  <b>Realations never asks for your password. Your files are processed locally and never uploaded to any server.</b><br>
   <div class="biz-info">
-    상호: 디어스컴퍼니 &nbsp;|&nbsp; 대표: 어광효 &nbsp;|&nbsp; 사업자등록번호: 215-27-09838<br>
-    주소: 경상남도 창원시 성산구 용지로169번길 11-31, 3층<br>
-    이메일: gahee007@gmail.com<br>
-    <a onclick="openLegal('terms')">이용약관</a> &nbsp;·&nbsp;
-    <a onclick="openLegal('privacy')">개인정보처리방침</a> &nbsp;·&nbsp;
-    <a onclick="openLegal('refund')">환불정책</a><br>
-    © 2026 디어스컴퍼니. All rights reserved.
+    <a onclick="openLegal('terms')" style="color:#888;text-decoration:underline;cursor:pointer">Terms of Service</a> &nbsp;·&nbsp;
+    <a onclick="openLegal('privacy')" style="color:#888;text-decoration:underline;cursor:pointer">Privacy Policy</a> &nbsp;·&nbsp;
+    <a onclick="openLegal('refund')" style="color:#888;text-decoration:underline;cursor:pointer">Refund Policy</a><br>
+    Contact: <a href="mailto:gahee007@gmail.com" style="color:#888">gahee007@gmail.com</a><br>
+    © 2026 Dears Company. All rights reserved.
   </div>
 </div>
 
 <!-- 로그인/회원가입 모달 -->
 <div class="auth-modal-bg" id="authModalBg">
   <div class="auth-modal">
-    <h3 id="authModalTitle">로그인</h3>
-    <p id="authModalDesc">이메일로 간편하게 시작하세요</p>
+    <h3 id="authModalTitle">Sign In</h3>
+    <p id="authModalDesc">Sign in to get started</p>
 
-    <!-- 소셜 로그인 -->
+    <!-- Social login -->
     <button class="btn-social" onclick="signInWithGoogle()">
       <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/><path d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>
-      Google로 계속하기
-    </button>
-    <button class="btn-social" onclick="signInWithKakao()">
-      <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="18" rx="4" fill="#FEE500"/><path d="M9 3.5C5.91 3.5 3.5 5.4 3.5 7.75c0 1.45.95 2.73 2.38 3.46l-.6 2.24c-.05.18.15.33.3.22L8.2 11.9c.26.03.53.05.8.05 3.09 0 5.5-1.9 5.5-4.25S12.09 3.5 9 3.5z" fill="#1A1A1A"/></svg>
-      카카오로 계속하기
+      Continue with Google
     </button>
 
-    <div class="social-divider">또는 이메일로</div>
+    <div class="social-divider">or with email</div>
 
-    <input class="auth-input" type="email" id="authEmail" placeholder="이메일 주소">
-    <input class="auth-input" type="password" id="authPassword" placeholder="비밀번호 (6자 이상)">
+    <input class="auth-input" type="email" id="authEmail" placeholder="Email address">
+    <input class="auth-input" type="password" id="authPassword" placeholder="Password (min. 6 characters)">
     <div class="auth-msg" id="authMsg"></div>
 
     <!-- 회원가입 시 약관 동의 (회원가입 모드에서만 표시) -->
     <div class="agree-wrap" id="agreeWrap" style="display:none">
       <div class="agree-row">
         <input type="checkbox" id="agreeTerms">
-        <label for="agreeTerms"><a onclick="openLegal('terms')">이용약관</a> 동의 (필수)</label>
+        <label for="agreeTerms">I agree to the <a onclick="openLegal('terms')">Terms of Service</a> (required)</label>
       </div>
       <div class="agree-row">
         <input type="checkbox" id="agreePrivacy">
-        <label for="agreePrivacy"><a onclick="openLegal('privacy')">개인정보처리방침</a> 동의 (필수)</label>
+        <label for="agreePrivacy">I agree to the <a onclick="openLegal('privacy')">Privacy Policy</a> (required)</label>
       </div>
       <div class="agree-row">
         <input type="checkbox" id="agreeMarketing">
-        <label for="agreeMarketing">마케팅 정보 수신 동의 (선택)</label>
+        <label for="agreeMarketing">Receive marketing emails (optional)</label>
       </div>
     </div>
 
-    <button class="btn-auth-submit" id="btnAuthSubmit" onclick="submitAuth()" style="margin-top:12px">로그인</button>
+    <button class="btn-auth-submit" id="btnAuthSubmit" onclick="submitAuth()" style="margin-top:12px">Sign In</button>
     <div class="auth-switch" id="authSwitch">
-      계정이 없으신가요? <a onclick="toggleAuthMode()">회원가입</a>
+      Don't have an account? <a onclick="toggleAuthMode()">Sign Up</a>
     </div>
     <div style="margin-top:12px;text-align:center">
-      <a onclick="closeAuthModal()" style="font-size:12px;color:var(--muted);cursor:pointer">닫기</a>
+      <a onclick="closeAuthModal()" style="font-size:12px;color:var(--muted);cursor:pointer">Close</a>
     </div>
   </div>
 </div>
@@ -914,20 +895,20 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 <div class="pay-modal-bg" id="payModalBg">
   <div class="pay-modal">
     <span class="pm-icon">🎉</span>
-    <h3>결제 완료!</h3>
-    <p>Realations Pro가 활성화됐어요.<br>전체 결과를 모두 확인해보세요.</p>
-    <button class="btn-pm-confirm" onclick="unlockAll()">전체 결과 보기 →</button>
+    <h3>Payment Complete!</h3>
+    <p>Your plan is now active.<br>Enjoy full access to all results.</p>
+    <button class="btn-pm-confirm" onclick="unlockAll()">See Full Results →</button>
   </div>
 </div>
 
 <div class="pay-modal-bg" id="payRetryModalBg">
   <div class="pay-modal">
     <span class="pm-icon">😢</span>
-    <h3>결제 실패</h3>
-    <p id="payRetryMsg">결제에 실패했습니다.</p>
-    <button class="btn-pm-confirm" id="payRetryBtn" onclick="closePayRetry();handleBasicPay()" style="margin-bottom:10px">다시 시도하기</button>
-    <button onclick="closePayRetry()" style="width:100%;background:none;border:1px solid var(--border);border-radius:12px;padding:14px;font-family:var(--font);font-size:14px;color:var(--muted);cursor:pointer">닫기</button>
-    <p style="font-size:11px;color:var(--muted);margin-top:12px;line-height:1.6">계속 문제가 발생하면 <a href="mailto:gahee007@gmail.com" style="color:var(--primary)">gahee007@gmail.com</a>으로 문의해 주세요.</p>
+    <h3>Payment Failed</h3>
+    <p id="payRetryMsg">Something went wrong with your payment.</p>
+    <button class="btn-pm-confirm" id="payRetryBtn" onclick="closePayRetry();handleBasicPay()" style="margin-bottom:10px">Try Again</button>
+    <button onclick="closePayRetry()" style="width:100%;background:none;border:1px solid var(--border);border-radius:12px;padding:14px;font-family:var(--font);font-size:14px;color:var(--muted);cursor:pointer">Close</button>
+    <p style="font-size:11px;color:var(--muted);margin-top:12px;line-height:1.6">Still having issues? Email <a href="mailto:gahee007@gmail.com" style="color:var(--primary)">gahee007@gmail.com</a></p>
   </div>
 </div>
 
@@ -935,11 +916,11 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 <div class="mypage-bg" id="mypageBg">
   <div class="mypage-modal">
     <div class="mypage-head">
-      <h3>마이페이지</h3>
+      <h3>My Account</h3>
       <button class="btn-mypage-close" onclick="closeMypage()">✕</button>
     </div>
     <div class="mypage-body" id="mypageBody">
-      <div class="mp-empty">로딩 중...</div>
+      <div class="mp-empty">Loading...</div>
     </div>
   </div>
 </div>
@@ -948,7 +929,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 <div class="legal-modal-bg" id="legalModalBg">
   <div class="legal-modal">
     <div class="legal-modal-head">
-      <h3 id="legalModalTitle">이용약관</h3>
+      <h3 id="legalModalTitle">Terms of Service</h3>
       <button class="btn-legal-close" onclick="closeLegal()">✕</button>
     </div>
     <div class="legal-modal-body" id="legalModalBody"></div>
@@ -960,7 +941,7 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
   <div class="history-modal">
     <div class="hm-head">
       <div>
-        <h3>히스토리 비교</h3>
+        <h3>History Comparison</h3>
         <div class="hm-sub" id="historyModalSub"></div>
       </div>
       <button class="btn-hm-close" onclick="closeHistoryModal()">✕</button>
@@ -974,245 +955,92 @@ h1 .line2{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 
-// ── 언어 설정 ──
-var currentLang = 'ko';
-
-var i18n = {
-  ko: {
-    loginBtn: '로그인',
-    logoutBtn: '로그아웃',
-    h1: '아무도 알려주지 않는<br><span class="line2">관계의 진실</span>',
-    heroSub: '너만아는 지구최강 인스타그램 팔로워 분석 툴',
-    pill1: '계정 문제없고',
-    pill2: '해킹 문제없이',
-    pill3: '5초 만에 분석',
-    analyzeBtn: '분석 시작 →',
-    analyzingBtn: '분석 중...',
-    analyzeDoneBtn: '✓ 분석 완료',
-    footerText: '<div style="font-size:11px;color:#666;line-height:2;text-align:center">상호: 디어스컴퍼니 &nbsp;|&nbsp; 대표: 어광효 &nbsp;|&nbsp; 사업자등록번호: 215-27-09838 &nbsp;|&nbsp; 통신판매업신고: 2024-창원성산-0413 &nbsp;|&nbsp; 경상남도 창원시 성산구 용지로169번길 11-31, 3층<br><a onclick="openLegal(\'terms\')" style="color:#888;text-decoration:underline;cursor:pointer">이용약관</a> &nbsp;·&nbsp; <a onclick="openLegal(\'privacy\')" style="color:#888;text-decoration:underline;cursor:pointer">개인정보처리방침</a> &nbsp;·&nbsp; <a onclick="openLegal(\'refund\')" style="color:#888;text-decoration:underline;cursor:pointer">환불정책</a> &nbsp;|&nbsp; 문의: 010-8249-0102<br>© 2026 디어스컴퍼니. All rights reserved.</div>',
-    uploadTitle: 'ZIP, JSON 파일을 드래그하거나 클릭 하세요.',
-    uploadDone: '✓ 파일 로드 완료',
-  },
-  en: {
-    loginBtn: 'Sign In',
-    logoutBtn: 'Sign Out',
-    h1: 'The Truth About<br><span class="line2">Your Relationships</span>',
-    heroSub: 'The ultimate Instagram follower analyzer only you know about',
-    pill1: 'No account risk',
-    pill2: 'No hacking risk',
-    pill3: 'Analysis in 5 sec',
-    analyzeBtn: 'Analyze →',
-    analyzingBtn: 'Analyzing...',
-    analyzeDoneBtn: '✓ Done',
-    footerText: '<div style="font-size:11px;color:#666;line-height:2;text-align:center">Dears Company &nbsp;|&nbsp; CEO: Gwanghyo Eo &nbsp;|&nbsp; Reg No: 215-27-09838 &nbsp;|&nbsp; 3F, 11-31, Yongji-ro 169beon-gil, Seongsan-gu, Changwon-si, Korea<br><a onclick="openLegal(\'terms\')" style="color:#888;text-decoration:underline;cursor:pointer">Terms</a> &nbsp;·&nbsp; <a onclick="openLegal(\'privacy\')" style="color:#888;text-decoration:underline;cursor:pointer">Privacy</a> &nbsp;·&nbsp; <a onclick="openLegal(\'refund\')" style="color:#888;text-decoration:underline;cursor:pointer">Refund Policy</a> &nbsp;|&nbsp; Contact: 010-8249-0102<br>© 2026 Dears Company. All rights reserved.</div>',
-    uploadTitle: 'Drag & drop or click to upload ZIP / JSON file.',
-    uploadDone: '✓ File loaded',
-  }
-};
-
-function applyLang(lang) {
-  var t = i18n[lang];
-  if (!t) return;
-  currentLang = lang;
-
-  // 버튼 텍스트
-  var authBtn = document.getElementById('btnAuthAction');
-  if (authBtn) {
-    var isLoggedIn = currentUser != null;
-    authBtn.textContent = isLoggedIn ? t.logoutBtn : t.loginBtn;
-  }
-
-  // 헤로 영역
-  var h1 = document.querySelector('h1');
-  if (h1) h1.innerHTML = t.h1;
-  var sub = document.querySelector('.hero-sub');
-  if (sub) sub.textContent = t.heroSub;
-
-  // 트러스트 필
-  var pills = document.querySelectorAll('.trust-pill');
-  var pillTexts = [t.pill1, t.pill2, t.pill3];
-  pills.forEach(function(p, i) {
-    if (!pillTexts[i]) return;
-    var svg = p.querySelector('svg');
-    p.textContent = pillTexts[i];
-    if (svg) p.insertBefore(svg, p.firstChild);
-  });
-
-  // 분석 버튼 — 분석 중/완료 상태가 아닐 때만 텍스트 교체
-  var analyzeBtn = document.getElementById('btnAnalyze');
-  if (analyzeBtn) {
-    var activeTexts = [i18n.ko.analyzingBtn, i18n.en.analyzingBtn, i18n.ko.analyzeDoneBtn, i18n.en.analyzeDoneBtn];
-    if (activeTexts.indexOf(analyzeBtn.textContent) === -1) {
-      analyzeBtn.textContent = t.analyzeBtn;
-    }
-  }
-
-  // 업로드 타이틀
-  var upTitle = document.querySelector('.upload-title');
-  if (upTitle && !document.getElementById('uploadZone').classList.contains('loaded')) {
-    upTitle.textContent = t.uploadTitle;
-  }
-
-  // 푸터
-  var footer = document.querySelector('.footer-note');
-  if (footer) footer.innerHTML = t.footerText;
-
-  // 드롭다운 UI 업데이트
-  document.getElementById('langFlag').textContent = lang === 'ko' ? '🇰🇷' : '🇺🇸';
-  document.getElementById('langLabel').textContent = lang === 'ko' ? 'KO' : 'EN';
-  document.getElementById('langOptKo').classList.toggle('active', lang === 'ko');
-  document.getElementById('langOptEn').classList.toggle('active', lang === 'en');
-
-  // localStorage 저장
-  try { localStorage.setItem('realations_lang', lang); } catch(e){}
-}
-
-function toggleLang() {
-  var dd = document.getElementById('langDropdown');
-  var btn = document.getElementById('btnLang');
-  dd.classList.toggle('show');
-  btn.classList.toggle('open');
-  // 외부 클릭 시 닫기
-  if (dd.classList.contains('show')) {
-    setTimeout(function() {
-      document.addEventListener('click', closeLangOnOutside, {once: true});
-    }, 0);
-  }
-}
-
-function closeLangOnOutside(e) {
-  var wrap = document.getElementById('langWrap');
-  if (wrap && !wrap.contains(e.target)) {
-    document.getElementById('langDropdown').classList.remove('show');
-    document.getElementById('btnLang').classList.remove('open');
-  }
-}
-
-function setLang(lang) {
-  document.getElementById('langDropdown').classList.remove('show');
-  document.getElementById('btnLang').classList.remove('open');
-  applyLang(lang);
-}
-
-// 초기 언어 설정: localStorage → 브라우저 언어 → 기본 ko
-(function initLang() {
-  var saved;
-  try { saved = localStorage.getItem('realations_lang'); } catch(e){}
-  if (saved === 'ko' || saved === 'en') {
-    currentLang = saved;
-  } else {
-    // 브라우저 언어로 감지 (IP 없이 클라이언트만으로)
-    var nav = (navigator.language || navigator.userLanguage || 'ko').toLowerCase();
-    currentLang = nav.startsWith('ko') ? 'ko' : 'en';
-  }
-  // DOM 로드 후 적용
-  document.addEventListener('DOMContentLoaded', function() {
-    // 혹시 overflow 막힌 경우 초기화
-    document.body.style.overflow = '';
-    applyLang(currentLang);
-  });
-})();
+// ── Language: English only ──
+var currentLang = 'en';
 
 
-// ── 약관/정책 내용 ──
+// ── Legal content (English) ──
 const legalContent = {
   terms: {
-    title: '이용약관',
+    title: 'Terms of Service',
     body: `
-<h4>제1조 (목적)</h4>
-<p>이 약관은 디어스컴퍼니(이하 "회사")가 운영하는 Realations 서비스(이하 "서비스")의 이용조건 및 절차, 회사와 이용자의 권리·의무 및 책임사항을 규정함을 목적으로 합니다.</p>
-<h4>제2조 (정의)</h4>
+<h4>1. Acceptance of Terms</h4>
+<p>By using Realations ("the Service"), operated by Dears Company ("we", "us"), you agree to these Terms of Service. If you do not agree, please do not use the Service.</p>
+<h4>2. Description of Service</h4>
+<p>Realations allows you to analyze your social media follower relationships by uploading official data export files (ZIP/CSV) from platforms such as Instagram, TikTok, X, Threads, and LinkedIn. All file processing occurs entirely in your browser — no files are sent to our servers.</p>
+<h4>3. Paid Plans</h4>
 <ul>
-<li>"서비스"란 회사가 제공하는 소셜미디어 팔로워 관계 분석 서비스를 말합니다.</li>
-<li>"이용자"란 본 약관에 따라 서비스를 이용하는 회원 및 비회원을 말합니다.</li>
-<li>"회원"이란 회사에 개인정보를 제공하여 회원가입을 한 자를 말합니다.</li>
+<li>Free users can view up to 5 results per analysis (3 analyses per month).</li>
+<li>Basic subscribers ($4.99/mo) get unlimited analyses and full results for 1 account.</li>
+<li>Pro subscribers ($7.99/mo) additionally get history comparison and up to 10 accounts.</li>
+<li>Subscriptions renew monthly and can be cancelled at any time.</li>
 </ul>
-<h4>제3조 (서비스 내용)</h4>
-<p>회사는 이용자가 소셜미디어 플랫폼의 공식 데이터 내보내기 파일(ZIP/CSV)을 업로드하면, 팔로워 관계를 분석하여 결과를 제공하는 서비스를 제공합니다. 업로드된 파일은 이용자의 브라우저에서만 처리되며 서버로 전송되지 않습니다.</p>
-<h4>제4조 (유료 서비스)</h4>
-<ul>
-<li>무료 이용자는 분석 결과 일부(최대 5명)를 확인할 수 있습니다.</li>
-<li>Pro 구독자(월 ₩9,900)는 전체 분석 결과를 이용할 수 있습니다.</li>
-<li>구독은 월 단위로 자동 갱신되며, 언제든지 해지 가능합니다.</li>
-</ul>
-<h4>제5조 (회원의 의무)</h4>
-<p>이용자는 서비스 이용 시 타인의 계정 정보를 무단으로 사용하거나, 서비스를 이용하여 타인의 개인정보를 수집하는 행위를 해서는 안 됩니다.</p>
-<h4>제6조 (서비스 이용 제한)</h4>
-<p>회사는 이용자가 약관을 위반하거나 서비스의 정상적인 운영을 방해할 경우 서비스 이용을 제한할 수 있습니다.</p>
-<h4>제7조 (면책조항)</h4>
-<p>회사는 천재지변, 서비스 장애 등 불가항력적인 사유로 서비스를 제공하지 못한 경우 책임을 지지 않습니다. 분석 결과는 소셜미디어 플랫폼이 제공한 데이터를 기반으로 하며, 플랫폼 정책 변경에 따라 데이터 정확성이 달라질 수 있습니다.</p>
-<h4>제8조 (약관 변경)</h4>
-<p>회사는 필요한 경우 약관을 변경할 수 있으며, 변경 시 서비스 내 공지사항을 통해 고지합니다.</p>
-<p style="margin-top:16px;color:var(--muted);font-size:11px">시행일: 2026년 04월 01일 &nbsp;|&nbsp; 디어스컴퍼니</p>`
+<h4>4. User Obligations</h4>
+<p>You agree not to use the Service to collect personal data of others without authorization, or to misuse, reverse-engineer, or disrupt the Service.</p>
+<h4>5. Disclaimer</h4>
+<p>Analysis results are based on data provided by social media platforms. Accuracy may vary due to platform policy changes. We are not liable for service interruptions caused by force majeure or platform changes.</p>
+<h4>6. Changes to Terms</h4>
+<p>We may update these Terms at any time. Continued use of the Service after changes constitutes acceptance.</p>
+<p style="margin-top:16px;color:var(--muted);font-size:11px">Effective: May 12, 2026 &nbsp;|&nbsp; Dears Company</p>`
   },
   privacy: {
-    title: '개인정보처리방침',
+    title: 'Privacy Policy',
     body: `
-<h4>1. 수집하는 개인정보 항목</h4>
+<h4>1. Information We Collect</h4>
 <ul>
-<li>회원가입 시: 이메일 주소, 비밀번호(암호화 저장)</li>
-<li>소셜 로그인 시: 이메일 주소, 프로필 이름 (OAuth 제공 정보)</li>
-<li>서비스 이용 시: 서비스 이용 기록, 결제 정보(카드번호 미저장)</li>
+<li>When signing up: email address, encrypted password</li>
+<li>When using social login: email address, profile name (from OAuth provider)</li>
+<li>When using the Service: usage records, subscription/payment info (no card numbers stored)</li>
 </ul>
-<h4>2. 개인정보 수집 목적</h4>
+<h4>2. How We Use Your Information</h4>
 <ul>
-<li>회원 식별 및 서비스 제공</li>
-<li>유료 구독 관리 및 결제 처리</li>
-<li>고객 문의 응대</li>
+<li>To identify you and provide the Service</li>
+<li>To manage your subscription and process payments via Paddle</li>
+<li>To respond to support inquiries</li>
 </ul>
-<h4>3. 개인정보 보유 및 이용기간</h4>
-<p>회원 탈퇴 시까지 보유합니다. 단, 관련 법령에 따라 일정 기간 보유가 필요한 경우 해당 기간 동안 보관합니다.</p>
+<h4>3. Data Retention</h4>
+<p>We retain your data until you delete your account. You may request deletion at any time by contacting us.</p>
+<h4>4. File Processing</h4>
+<p>Any ZIP/CSV files you upload are processed entirely in your browser. These files are never transmitted to or stored on our servers.</p>
+<h4>5. Third-Party Services</h4>
+<p>We share minimal necessary data with the following third parties to operate the Service:</p>
 <ul>
-<li>전자상거래 계약·청약철회 기록: 5년</li>
-<li>소비자 불만·분쟁처리 기록: 3년</li>
+<li><b>Supabase Inc.</b> (USA) — database, authentication</li>
+<li><b>Paddle.com</b> — payment processing and subscription management (Merchant of Record)</li>
 </ul>
-<h4>4. 업로드 파일 처리</h4>
-<p>이용자가 업로드하는 ZIP/CSV 파일은 이용자의 브라우저(기기)에서만 처리됩니다. 해당 파일은 회사 서버로 전송되거나 저장되지 않습니다.</p>
-<h4>5. 개인정보 제3자 제공</h4>
-<p>회사는 이용자의 동의 없이 개인정보를 제3자에게 제공하지 않습니다. 단, 결제 처리를 위해 PG사(포트원, NHN KCP)에 필요한 최소한의 정보가 전달될 수 있습니다.</p>
-<h4>5-1. 개인정보 국외 이전</h4>
-<p>회사는 서비스 운영을 위해 아래와 같이 개인정보를 국외로 이전합니다.</p>
-<ul>
-<li>이전받는 자: Supabase Inc. (미국)</li>
-<li>이전 항목: 이메일, 서비스 이용 기록, 결제 정보</li>
-<li>이전 목적: 데이터베이스 및 인증 서비스 운영</li>
-<li>이전 방법: 네트워크를 통한 암호화 전송(TLS)</li>
-<li>보유 기간: 회원 탈퇴 시까지</li>
-</ul>
-<h4>6. 개인정보 보호 조치</h4>
-<p>비밀번호는 암호화하여 저장하며, Supabase의 보안 인프라를 통해 개인정보를 보호합니다.</p>
-<h4>7. 이용자의 권리</h4>
-<p>이용자는 언제든지 자신의 개인정보를 조회, 수정, 삭제할 수 있으며 회원 탈퇴를 통해 개인정보 처리를 중단할 수 있습니다.</p>
-<h4>8. 문의</h4>
-<p>개인정보 관련 문의: gahee007@gmail.com</p>
-<p style="margin-top:16px;color:var(--muted);font-size:11px">시행일: 2026년 04월 01일 &nbsp;|&nbsp; 디어스컴퍼니</p>`
+<h4>6. California Residents (CCPA)</h4>
+<p>California residents have the right to know, delete, and opt out of the sale of personal information. We do not sell personal data. To exercise your rights, contact gahee007@gmail.com.</p>
+<h4>7. Your Rights</h4>
+<p>You may access, modify, or delete your personal data at any time. Deleting your account removes all associated data from our systems.</p>
+<h4>8. Contact</h4>
+<p>Privacy inquiries: gahee007@gmail.com</p>
+<p style="margin-top:16px;color:var(--muted);font-size:11px">Effective: May 12, 2026 &nbsp;|&nbsp; Dears Company</p>`
   },
   refund: {
-    title: '환불정책',
+    title: 'Refund Policy',
     body: `
-<h4>환불 원칙</h4>
-<p>Realations Pro 구독 서비스의 환불은 아래 정책에 따라 처리됩니다.</p>
-<h4>환불 가능 기간</h4>
+<h4>Our Policy</h4>
+<p>Subscriptions are billed monthly through Paddle. As Merchant of Record, Paddle handles all payment processing and may have their own refund policies.</p>
+<h4>Refund Eligibility</h4>
 <ul>
-<li>최초 결제일로부터 7일 이내에 서비스를 이용하지 않은 경우 전액 환불이 가능합니다.</li>
-<li>7일 이후 또는 서비스 이용 후에는 환불이 제한될 수 있습니다.</li>
+<li>Full refund available within 7 days of initial purchase if you have not used the paid features.</li>
+<li>After 7 days or after using paid features, refunds are issued at our discretion.</li>
 </ul>
-<h4>자동 갱신 구독 해지</h4>
+<h4>Cancellation</h4>
 <ul>
-<li>구독은 언제든지 해지할 수 있습니다.</li>
-<li>해지 신청 시 다음 결제일부터 청구되지 않으며, 현재 구독 기간 만료 시까지 서비스를 계속 이용할 수 있습니다.</li>
-<li>이미 결제된 구독 기간에 대한 중도 해지 환불은 제공되지 않습니다.</li>
+<li>You may cancel your subscription at any time from My Account.</li>
+<li>Cancellation takes effect at the end of your current billing period — you retain access until then.</li>
+<li>No prorated refunds are issued for partial billing periods.</li>
 </ul>
-<h4>환불 신청 방법</h4>
-<p>환불을 원하시는 경우 아래 이메일로 문의해 주세요.</p>
+<h4>How to Request a Refund</h4>
 <ul>
-<li>이메일: gahee007@gmail.com</li>
-<li>제목: [환불요청] 이메일 주소 + 결제일</li>
-<li>처리 기간: 영업일 기준 3~5일</li>
+<li>Email: gahee007@gmail.com</li>
+<li>Subject: [Refund Request] your email + purchase date</li>
+<li>Processing time: 3–5 business days</li>
 </ul>
-<h4>서비스 장애에 의한 환불</h4>
-<p>회사의 귀책사유로 서비스를 정상적으로 이용하지 못한 경우, 해당 기간에 대한 환불 또는 이용 기간 연장으로 보상합니다.</p>
-<p style="margin-top:16px;color:var(--muted);font-size:11px">시행일: 2026년 04월 01일 &nbsp;|&nbsp; 디어스컴퍼니</p>`
+<h4>Service Outages</h4>
+<p>If the Service is unavailable due to our fault for an extended period, we will offer a refund or account credit for the affected time.</p>
+<p style="margin-top:16px;color:var(--muted);font-size:11px">Effective: May 12, 2026 &nbsp;|&nbsp; Dears Company</p>`
   }
 };
 
@@ -1287,18 +1115,10 @@ async function signInWithGoogle() {
     provider: 'google',
     options: { redirectTo: 'https://realation.world' }
   });
-  if (error) showAuthMsg('Google 로그인 실패: ' + error.message, 'err');
+  if (error) showAuthMsg('Google sign-in failed: ' + error.message, 'err');
 }
 
-async function signInWithKakao() {
-  const {error} = await sb.auth.signInWithOAuth({
-    provider: 'kakao',
-    options: { redirectTo: 'https://realation.world' }
-  });
-  if (error) showAuthMsg('카카오 로그인 실패: ' + error.message, 'err');
-}
-
-// ── toggleAuthMode에 약관 동의 show/hide 추가 ──
+// ── toggleAuthMode ──
 
 
 // ── 마이페이지 ──
@@ -1321,7 +1141,7 @@ function closeMypage() {
 
 async function renderMypage() {
   var body = document.getElementById('mypageBody');
-  body.innerHTML = '<div class="mp-empty">정보를 불러오는 중...</div>';
+  body.innerHTML = '<div class="mp-empty">Loading...</div>';
 
   try {
     // maybeSingle() 사용 - 결과 없어도 에러 안 남
@@ -1356,59 +1176,59 @@ async function renderMypage() {
     h += '<div class="mp-profile">';
     h += '<div class="mp-avatar">'+initial+'</div>';
     h += '<div><div class="mp-email">'+currentUser.email+'</div>';
-    h += '<span class="mp-badge '+(proStatus?'pro':'free')+'">'+(userPlan==='pro'?'✦ Pro 구독 중':userPlan==='basic'?'✦ Basic 구독 중':'무료 이용 중')+'</span></div></div>';
+    h += '<span class="mp-badge '+(proStatus?'pro':'free')+'">'+(userPlan==='pro'?'✦ Pro Active':userPlan==='basic'?'✦ Basic Active':'Free Plan')+'</span></div></div>';
 
-    // 구독 정보
-    h += '<div class="mp-section"><div class="mp-section-title">구독 정보</div><div class="mp-card">';
-    var planName = userPlan==='pro' ? 'Realations Pro' : userPlan==='basic' ? 'Realations Basic' : '무료 플랜';
-    h += '<div class="mp-row"><span class="mp-row-label">현재 플랜</span><span class="mp-row-value '+(proStatus?'accent':'')+'">'+planName+'</span></div>';
-    var planFee = userPlan==='pro' ? '₩9,900/월' : userPlan==='basic' ? '₩5,900/월' : '무료';
-    h += '<div class="mp-row"><span class="mp-row-label">월 요금</span><span class="mp-row-value">'+planFee+'</span></div>';
+    // Subscription info
+    h += '<div class="mp-section"><div class="mp-section-title">Subscription</div><div class="mp-card">';
+    var planName = userPlan==='pro' ? 'Realations Pro' : userPlan==='basic' ? 'Realations Basic' : 'Free Plan';
+    h += '<div class="mp-row"><span class="mp-row-label">Current Plan</span><span class="mp-row-value '+(proStatus?'accent':'')+'">'+planName+'</span></div>';
+    var planFee = userPlan==='pro' ? '$7.99/mo' : userPlan==='basic' ? '$4.99/mo' : 'Free';
+    h += '<div class="mp-row"><span class="mp-row-label">Monthly Fee</span><span class="mp-row-value">'+planFee+'</span></div>';
     if (proStatus && proSince) {
-      h += '<div class="mp-row"><span class="mp-row-label">구독 시작일</span><span class="mp-row-value">'+fd(proSince)+'</span></div>';
+      h += '<div class="mp-row"><span class="mp-row-label">Subscribed Since</span><span class="mp-row-value">'+fd(proSince)+'</span></div>';
     }
     if (proStatus && nextBilling) {
-      h += '<div class="mp-row"><span class="mp-row-label">다음 결제일</span><span class="mp-row-value accent">'+fd(nextBilling)+'</span></div>';
+      h += '<div class="mp-row"><span class="mp-row-label">Next Billing</span><span class="mp-row-value accent">'+fd(nextBilling)+'</span></div>';
     }
-    h += '<div class="mp-row"><span class="mp-row-label">가입일</span><span class="mp-row-value muted">'+fd(joinedAt)+'</span></div>';
+    h += '<div class="mp-row"><span class="mp-row-label">Member Since</span><span class="mp-row-value muted">'+fd(joinedAt)+'</span></div>';
     h += '</div></div>';
 
-    // Pro 아닐 때 업그레이드
+    // Upgrade prompt
     if (!proStatus) {
-      h += '<div class="mp-section"><button class="mp-btn primary" onclick="closeMypage();openPricingModal()">✦ 모든 기능 다 써보기</button></div>';
+      h += '<div class="mp-section"><button class="mp-btn primary" onclick="closeMypage();openPricingModal()">✦ Unlock All Features</button></div>';
     }
 
-    // 결제 내역
-    h += '<div class="mp-section"><div class="mp-section-title">결제 내역</div><div class="mp-card">';
+    // Payment history
+    h += '<div class="mp-section"><div class="mp-section-title">Payment History</div><div class="mp-card">';
     if (payments.length > 0) {
       payments.forEach(function(p) {
         var d = new Date(p.started_at);
         var planLabel=p.plan==='pro'?'Realations Pro':p.plan==='basic'?'Realations Basic':'Realations';
-        var planAmount=p.amount?'₩'+p.amount.toLocaleString():(p.plan==='pro'?'₩9,900':'₩5,900');
+        var planAmount=p.amount?'$'+Number(p.amount).toFixed(2):(p.plan==='pro'?'$7.99':'$4.99');
         h += '<div class="mp-pay-item">';
         h += '<div><div style="font-size:13px;font-weight:600;color:var(--text)">'+planLabel+'</div>';
         h += '<div class="mp-pay-date">'+fd(d)+'</div></div>';
         h += '<div style="text-align:right"><div class="mp-pay-amount">'+planAmount+'</div>';
         var statusClass=p.status==='active'?'ok':p.status==='grace'?'refund':'refund';
-        var statusText=p.status==='active'?'결제완료':p.status==='grace'?'유예기간':p.status==='cancelled'?'해지':p.status==='expired'?'만료':'환불';
+        var statusText=p.status==='active'?'Active':p.status==='grace'?'Grace Period':p.status==='cancelled'?'Cancelled':p.status==='expired'?'Expired':'Refunded';
         h += '<span class="mp-pay-status '+statusClass+'">'+statusText+'</span></div>';
         h += '</div>';
       });
     } else {
-      h += '<div class="mp-empty">결제 내역이 없습니다.</div>';
+      h += '<div class="mp-empty">No payment history.</div>';
     }
     h += '</div></div>';
 
-    // 계정 관리
-    h += '<div class="mp-section"><div class="mp-section-title">계정 관리</div>';
+    // Account management
+    h += '<div class="mp-section"><div class="mp-section-title">Account</div>';
     if (proStatus) {
-      h += '<button class="mp-btn danger" onclick="confirmCancelPro()">유료 서비스 해지 신청</button>';
+      h += '<button class="mp-btn danger" onclick="confirmCancelPro()">Cancel Subscription</button>';
     }
     h += '</div>';
 
-    // 고객센터
-    h += '<div class="mp-section"><div class="mp-section-title">고객센터</div><div class="mp-card">';
-    h += '<div class="mp-row"><span class="mp-row-label">이메일 문의</span><span class="mp-row-value muted">gahee007@gmail.com</span></div>';
+    // Support
+    h += '<div class="mp-section"><div class="mp-section-title">Support</div><div class="mp-card">';
+    h += '<div class="mp-row"><span class="mp-row-label">Email</span><span class="mp-row-value muted">gahee007@gmail.com</span></div>';
     h += '</div></div>';
 
     // ── 내 계정 관리 & 히스토리 (Pro 전용) ──
@@ -1430,57 +1250,57 @@ async function renderMypage() {
       // ── 내 계정 관리 ──
       var distinctLabels=[];
       var labelSet={};
-      snaps.forEach(function(s){var l=s.account_label||'기본 계정';if(!labelSet[l]){labelSet[l]=true;distinctLabels.push(l);}});
+      snaps.forEach(function(s){var l=s.account_label||'Default Account';if(!labelSet[l]){labelSet[l]=true;distinctLabels.push(l);}});
 
-      h+='<div class="mp-section"><div class="mp-section-title">✦ 내 계정 관리 <span style="font-size:10px;font-weight:400;color:var(--muted)">('+distinctLabels.length+'/10)</span></div>';
+      h+='<div class="mp-section"><div class="mp-section-title">✦ My Accounts <span style="font-size:10px;font-weight:400;color:var(--muted)">('+distinctLabels.length+'/10)</span></div>';
       h+='<div class="mp-card">';
-      h+='<div class="mp-row"><span class="mp-row-label">현재 활성 계정</span><span class="mp-row-value accent" style="font-weight:700">'+currentAccountLabel+'</span></div>';
+      h+='<div class="mp-row"><span class="mp-row-label">Active Account</span><span class="mp-row-value accent" style="font-weight:700">'+currentAccountLabel+'</span></div>';
       if(distinctLabels.length>0){
         h+='<div style="margin-top:10px">';
         distinctLabels.forEach(function(lbl){
           var isActive=(currentAccountLabel===lbl);
           var safeLbl=lbl.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
           h+='<div class="mp-acc-row'+(isActive?' active':'')+'">';
-          h+='<span style="font-size:13px;font-weight:600;flex:1;color:var(--text)">'+lbl+(isActive?' <span style="font-size:10px;color:var(--accent)">✓ 선택됨</span>':'')+'</span>';
-          if(!isActive) h+='<button class="btn-snap-compare" onclick="setCurrentAccount(\''+safeLbl+'\')" style="margin-right:4px">선택</button>';
-          h+='<button class="btn-snap-del" onclick="deleteAccountSnapshots(\''+safeLbl+'\')">삭제</button>';
+          h+='<span style="font-size:13px;font-weight:600;flex:1;color:var(--text)">'+lbl+(isActive?' <span style="font-size:10px;color:var(--accent)">✓ Active</span>':'')+'</span>';
+          if(!isActive) h+='<button class="btn-snap-compare" onclick="setCurrentAccount(\''+safeLbl+'\')" style="margin-right:4px">Select</button>';
+          h+='<button class="btn-snap-del" onclick="deleteAccountSnapshots(\''+safeLbl+'\')">Delete</button>';
           h+='</div>';
         });
         h+='</div>';
       }
       if(distinctLabels.length<10){
-        h+='<button class="mp-btn outline" style="margin-top:10px" onclick="promptAddAccount()">+ 새 계정 추가</button>';
+        h+='<button class="mp-btn outline" style="margin-top:10px" onclick="promptAddAccount()">+ Add Account</button>';
       }
       h+='</div></div>';
 
       // ── 분석 히스토리 ──
-      h+='<div class="mp-section"><div class="mp-section-title">✦ 분석 히스토리</div>';
+      h+='<div class="mp-section"><div class="mp-section-title">✦ Analysis History</div>';
       if(snaps.length>0){
         h+='<div class="mp-card">';
         snaps.forEach(function(s){
           var isCurrent=(currentPlatform===s.platform&&data.notback&&data.notback.length>0);
-          var accLbl=s.account_label||'기본 계정';
+          var accLbl=s.account_label||'Default Account';
           h+='<div class="mp-snap-row">';
           h+='<div class="mp-snap-icon">'+(platformIcon[s.platform]||'📊')+'</div>';
           h+='<div class="mp-snap-info"><div class="mp-snap-date">'+platformLabel[s.platform]+' · '+fdS(s.created_at)+'</div>';
-          h+='<div class="mp-snap-counts">맞팔 안 함 '+s.notback_count+'명 · 팬 '+s.fans_count+'명 · <span style="color:var(--accent);font-weight:600">'+accLbl+'</span></div></div>';
-          h+='<button class="btn-snap-compare'+(isCurrent?' active-platform':'')+'" onclick="closeMypage();compareWithSnapshot(\''+s.id+'\',\''+fdS(s.created_at)+'\',\''+s.platform+'\')" style="margin-right:4px">'+(isCurrent?'현재와 비교':'비교')+'</button>';
+          h+='<div class="mp-snap-counts">Not following: '+s.notback_count+' · Fans: '+s.fans_count+' · <span style="color:var(--accent);font-weight:600">'+accLbl+'</span></div></div>';
+          h+='<button class="btn-snap-compare'+(isCurrent?' active-platform':'')+'" onclick="closeMypage();compareWithSnapshot(\''+s.id+'\',\''+fdS(s.created_at)+'\',\''+s.platform+'\')" style="margin-right:4px">'+(isCurrent?'Compare with now':'Compare')+'</button>';
           h+='<button class="btn-snap-del" onclick="deleteSnapshot(\''+s.id+'\')">✕</button>';
           h+='</div>';
         });
         h+='</div>';
       } else {
-        h+='<div class="mp-card"><div class="mp-empty">아직 저장된 분석 기록이 없습니다.<br>분석을 실행하면 자동으로 저장돼요.</div></div>';
+        h+='<div class="mp-card"><div class="mp-empty">No analysis history yet.<br>Run an analysis to save your first snapshot.</div></div>';
       }
       h+='</div>';
     }
 
-    h += '<div style="padding:16px 0 4px;text-align:left"><button onclick="confirmDeleteAccount()" style="background:none;border:none;font-size:11px;color:#bbb;cursor:pointer;padding:0;text-decoration:underline">회원탈퇴</button></div>';
+    h += '<div style="padding:16px 0 4px;text-align:left"><button onclick="confirmDeleteAccount()" style="background:none;border:none;font-size:11px;color:#bbb;cursor:pointer;padding:0;text-decoration:underline">Delete Account</button></div>';
     body.innerHTML = h;
 
   } catch(e) {
-    body.innerHTML = '<div class="mp-empty">정보를 불러오지 못했습니다.<br>잠시 후 다시 시도해주세요.</div>';
-    console.error('마이페이지 오류:', e);
+    body.innerHTML = '<div class="mp-empty">Could not load your account info.<br>Please try again in a moment.</div>';
+    console.error('[mypage] error:', e);
   }
 }
 
@@ -1510,7 +1330,7 @@ async function checkFreeMonthlyLimit(){
     var d=res.data;
     var count=(d&&d.free_month===month)?parseInt(d.free_count||0):0;
     if(count>=3){
-      showUpgradeModal('이번 달 무료 분석 3회를 모두 사용했습니다.','monthly');
+      showUpgradeModal('You have used all 3 free analyses this month.','monthly');
       return false;
     }
     await sb.from('users').update({free_count:count+1,free_month:month}).eq('id',currentUser.id);
@@ -1519,7 +1339,7 @@ async function checkFreeMonthlyLimit(){
     var key='realation_free_count_'+month;
     var count=parseInt(localStorage.getItem(key)||'0');
     if(count>=3){
-      showUpgradeModal('이번 달 무료 분석 3회를 모두 사용했습니다.','monthly');
+      showUpgradeModal('You have used all 3 free analyses this month.','monthly');
       return false;
     }
     localStorage.setItem(key,count+1);
@@ -1532,7 +1352,7 @@ function canSelectPlatform(plt){
   if(userPlan==='free'){
     var analyzed=data.notback.length>0||data.fans.length>0;
     if(analyzed && plt!==currentPlatform){
-      showUpgradeModal('멀티 플랫폼 분석은 Basic부터 가능합니다.','platform');
+      showUpgradeModal('Multi-platform analysis requires a Basic plan or higher.','platform');
       return false;
     }
   }
@@ -1545,9 +1365,9 @@ function showUpgradeModal(msg, reason){
   bg.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px';
   
   var plans={
-    free:{name:'무료',price:'₩0',features:['1개 플랫폼','월 3회 분석','결과 5명 공개']},
-    basic:{name:'Basic',price:'₩5,900/월',features:['5개 플랫폼 전체','무제한 분석','전체 결과 공개','1개 계정']},
-    pro:{name:'Pro',price:'₩9,900/월',features:['5개 플랫폼 전체','무제한 분석','전체 결과 공개','히스토리 비교','10개 계정']}
+    free:{name:'Free',price:'$0',features:['1 platform','3 analyses/mo','Top 5 results']},
+    basic:{name:'Basic',price:'$4.99/mo',features:['All 5 platforms','Unlimited analyses','Full results','1 account']},
+    pro:{name:'Pro',price:'$7.99/mo',features:['All 5 platforms','Unlimited analyses','Full results','History comparison','10 accounts']}
   };
 
   var isHistory=(reason==='history'||reason==='account');
@@ -1558,24 +1378,24 @@ function showUpgradeModal(msg, reason){
     '<div style="padding:24px 24px 0;text-align:center">'+
     '<div style="font-size:28px;margin-bottom:8px">🔒</div>'+
     '<div style="font-size:16px;font-weight:700;color:#1a1a1a;margin-bottom:6px">'+msg+'</div>'+
-    '<div style="font-size:12px;color:#888;margin-bottom:20px">플랜을 업그레이드하면 더 많은 기능을 이용할 수 있습니다.</div>'+
+    '<div style="font-size:12px;color:#888;margin-bottom:20px">Upgrade to unlock more features.</div>'+
     '</div>'+
     '<div style="padding:0 20px 20px;display:grid;grid-template-columns:1fr 1fr;gap:10px">'+
     '<div style="border:2px solid '+(highlightBasic?'#e8001d':'#e4e1dd')+';border-radius:14px;padding:16px;text-align:center">'+
-    '<div style="font-size:11px;font-weight:700;color:'+(highlightBasic?'#e8001d':'#888')+';letter-spacing:.06em;margin-bottom:4px">BASIC'+(highlightBasic?' ✦ 추천':'')+' </div>'+
-    '<div style="font-size:20px;font-weight:800;color:#1a1a1a;margin-bottom:10px">₩5,900<span style="font-size:11px;font-weight:400;color:#888">/월</span></div>'+
-    '<div style="font-size:11px;color:#555;line-height:1.8;margin-bottom:14px">5개 플랫폼<br>무제한 분석<br>전체 결과 공개<br>1개 계정</div>'+
-    '<button onclick="closeUpgradeModal();handleBasicPay()" style="width:100%;padding:10px;background:'+(highlightBasic?'linear-gradient(135deg,#e8001d,#ff6b35)':'#f2f1ef')+';color:'+(highlightBasic?'#fff':'#1a1a1a')+';border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">시작하기</button>'+
+    '<div style="font-size:11px;font-weight:700;color:'+(highlightBasic?'#e8001d':'#888')+';letter-spacing:.06em;margin-bottom:4px">BASIC'+(highlightBasic?' ✦ Recommended':'')+' </div>'+
+    '<div style="font-size:20px;font-weight:800;color:#1a1a1a;margin-bottom:10px">$4.99<span style="font-size:11px;font-weight:400;color:#888">/mo</span></div>'+
+    '<div style="font-size:11px;color:#555;line-height:1.8;margin-bottom:14px">All 5 platforms<br>Unlimited analyses<br>Full results<br>1 account</div>'+
+    '<button onclick="closeUpgradeModal();handleBasicPay()" style="width:100%;padding:10px;background:'+(highlightBasic?'linear-gradient(135deg,#e8001d,#ff6b35)':'#f2f1ef')+';color:'+(highlightBasic?'#fff':'#1a1a1a')+';border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">Get Started</button>'+
     '</div>'+
     '<div style="border:2px solid '+(!highlightBasic?'#e8001d':'#e4e1dd')+';border-radius:14px;padding:16px;text-align:center">'+
-    '<div style="font-size:11px;font-weight:700;color:'+(!highlightBasic?'#e8001d':'#888')+';letter-spacing:.06em;margin-bottom:4px">PRO'+(!highlightBasic?' ✦ 추천':'')+' </div>'+
-    '<div style="font-size:20px;font-weight:800;color:#1a1a1a;margin-bottom:10px">₩9,900<span style="font-size:11px;font-weight:400;color:#888">/월</span></div>'+
-    '<div style="font-size:11px;color:#555;line-height:1.8;margin-bottom:14px">5개 플랫폼<br>무제한 분석<br>전체 결과 공개<br>히스토리 비교<br>10개 계정</div>'+
-    '<button onclick="closeUpgradeModal();handleProPay()" style="width:100%;padding:10px;background:'+(!highlightBasic?'linear-gradient(135deg,#e8001d,#ff6b35)':'#f2f1ef')+';color:'+(!highlightBasic?'#fff':'#1a1a1a')+';border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">시작하기</button>'+
+    '<div style="font-size:11px;font-weight:700;color:'+(!highlightBasic?'#e8001d':'#888')+';letter-spacing:.06em;margin-bottom:4px">PRO'+(!highlightBasic?' ✦ Recommended':'')+' </div>'+
+    '<div style="font-size:20px;font-weight:800;color:#1a1a1a;margin-bottom:10px">$7.99<span style="font-size:11px;font-weight:400;color:#888">/mo</span></div>'+
+    '<div style="font-size:11px;color:#555;line-height:1.8;margin-bottom:14px">All 5 platforms<br>Unlimited analyses<br>Full results<br>History comparison<br>10 accounts</div>'+
+    '<button onclick="closeUpgradeModal();handleProPay()" style="width:100%;padding:10px;background:'+(!highlightBasic?'linear-gradient(135deg,#e8001d,#ff6b35)':'#f2f1ef')+';color:'+(!highlightBasic?'#fff':'#1a1a1a')+';border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">Get Started</button>'+
     '</div>'+
     '</div>'+
     '<div style="padding:0 20px 20px;text-align:center">'+
-    '<button onclick="closeUpgradeModal()" style="background:none;border:none;font-size:12px;color:#aaa;cursor:pointer">닫기</button>'+
+    '<button onclick="closeUpgradeModal()" style="background:none;border:none;font-size:12px;color:#aaa;cursor:pointer">Close</button>'+
     '</div>'+
     '</div>';
 
@@ -1632,7 +1452,7 @@ let stepDone=0;
 let isPro=false;
 let userPlan='free'; // 'free'|'basic'|'pro'
 let currentUser=null;
-let currentAccountLabel='기본 계정'; // 멀티 계정: 현재 활성 계정 레이블
+let currentAccountLabel='Default Account'; // multi-account: current active label
 
 function toggleStep(n){
   const el=document.getElementById('s'+n);
@@ -1708,34 +1528,34 @@ async function processFile(file){
       var d=JSON.parse(await file.text());
       var users=extractUsers(d);
       if(users.length>0){
-        if(file.name.includes('following')){store.following=d;found.innerHTML='<span class="file-chip ok">✓ following '+users.length+'명</span>';}
-        else{store.followers=d;found.innerHTML='<span class="file-chip ok">✓ followers '+users.length+'명</span>';}
+        if(file.name.includes('following')){store.following=d;found.innerHTML='<span class="file-chip ok">✓ Following: '+users.length+'</span>';}
+        else{store.followers=d;found.innerHTML='<span class="file-chip ok">✓ Followers: '+users.length+'</span>';}
         zone.classList.add('loaded');
         if(stepDone<3) completeStep(3);
       }
     }
     checkReady();
   } catch(err){
-    alert('파일을 읽을 수 없습니다.\nZIP/CSV 파일인지 확인해주세요.\n\n오류: '+err.message);
+    alert('Could not read the file.\nMake sure it is a ZIP or CSV file.\n\nError: '+err.message);
   }
 }
 
 async function processInstagramZip(zip,files,zone,found){
   var chips='';
   var fwrFile=files.find(function(f){var n=f.split('/').pop();return n==='followers_1.json'||n==='followers.json';});
-  if(fwrFile){store.followers=JSON.parse(await zip.files[fwrFile].async('text'));chips+='<span class="file-chip ok">✓ 팔로워 '+extractUsers(store.followers).length.toLocaleString()+'명</span>';}
-  else chips+='<span class="file-chip miss">✗ followers 없음</span>';
+  if(fwrFile){store.followers=JSON.parse(await zip.files[fwrFile].async('text'));chips+='<span class="file-chip ok">✓ Followers: '+extractUsers(store.followers).length.toLocaleString()+'</span>';}
+  else chips+='<span class="file-chip miss">✗ followers not found</span>';
   var fwgFile=files.find(function(f){var n=f.split('/').pop();return n==='following.json';});
-  if(fwgFile){store.following=JSON.parse(await zip.files[fwgFile].async('text'));chips+='<span class="file-chip ok">✓ 팔로잉 '+extractUsers(store.following).length.toLocaleString()+'명</span>';}
-  else chips+='<span class="file-chip miss">✗ following 없음</span>';
+  if(fwgFile){store.following=JSON.parse(await zip.files[fwgFile].async('text'));chips+='<span class="file-chip ok">✓ Following: '+extractUsers(store.following).length.toLocaleString()+'</span>';}
+  else chips+='<span class="file-chip miss">✗ following not found</span>';
   var blkFile=files.find(function(f){var n=f.split('/').pop();return n==='blocked_accounts.json'||n==='blocked_profiles.json';});
-  if(blkFile){try{store.blocked=JSON.parse(await zip.files[blkFile].async('text'));chips+='<span class="file-chip opt">✓ 차단 목록</span>'}catch(e){}}
+  if(blkFile){try{store.blocked=JSON.parse(await zip.files[blkFile].async('text'));chips+='<span class="file-chip opt">✓ Blocked list</span>'}catch(e){}}
   var pndFile=files.find(function(f){var n=f.split('/').pop();return n==='pending_follow_requests.json'||n==='follow_requests_sent.json';});
-  if(pndFile){try{store.pending=JSON.parse(await zip.files[pndFile].async('text'));chips+='<span class="file-chip opt">✓ 요청 대기</span>'}catch(e){}}
+  if(pndFile){try{store.pending=JSON.parse(await zip.files[pndFile].async('text'));chips+='<span class="file-chip opt">✓ Pending requests</span>'}catch(e){}}
   var rstFile=files.find(function(f){var n=f.split('/').pop();return n==='restricted_accounts.json'||n==='restricted_profiles.json';});
-  if(rstFile){try{store.restricted=JSON.parse(await zip.files[rstFile].async('text'));chips+='<span class="file-chip opt">✓ 제한 계정</span>'}catch(e){}}
+  if(rstFile){try{store.restricted=JSON.parse(await zip.files[rstFile].async('text'));chips+='<span class="file-chip opt">✓ Restricted accounts</span>'}catch(e){}}
   var cfFile=files.find(function(f){var n=f.split('/').pop();return n==='close_friends.json';});
-  if(cfFile){try{store.close_friends=JSON.parse(await zip.files[cfFile].async('text'));chips+='<span class="file-chip opt">✓ 친한 친구</span>'}catch(e){}}
+  if(cfFile){try{store.close_friends=JSON.parse(await zip.files[cfFile].async('text'));chips+='<span class="file-chip opt">✓ Close friends</span>'}catch(e){}}
   found.innerHTML=chips;
   zone.classList.add('loaded');
   if(stepDone<3) completeStep(3);
@@ -1745,7 +1565,7 @@ async function processTikTokZip(zip,files,zone,found){
   var chips='';
   var udFile=files.find(function(f){var n=f.split('/').pop();return n==='user_data.json'||n==='user_data_tiktok.json';});
   if(!udFile){
-    found.innerHTML='<span class="file-chip miss">✗ user_data.json 없음 — JSON 형식으로 요청했는지 확인</span>';
+    found.innerHTML='<span class="file-chip miss">✗ user_data.json not found — make sure you requested JSON format</span>';
     zone.classList.add('loaded');
     return;
   }
@@ -1753,16 +1573,16 @@ async function processTikTokZip(zip,files,zone,found){
   var act=raw['Activity']||raw['activity']||{};
   var fansList=(act['Follower List']||{})['FansList']||(act['Follower List']||{})['Followers List']||[];
   store.tk_fans=fansList;
-  chips+='<span class="file-chip ok">✓ 팔로워 '+fansList.length.toLocaleString()+'명</span>';
+  chips+='<span class="file-chip ok">✓ Followers: '+fansList.length.toLocaleString()+'</span>';
   var followingList=(act['Following List']||{})['Following']||[];
   store.tk_following=followingList;
-  chips+='<span class="file-chip ok">✓ 팔로잉 '+followingList.length.toLocaleString()+'명</span>';
+  chips+='<span class="file-chip ok">✓ Following: '+followingList.length.toLocaleString()+'</span>';
   var blockList=(act['Block List']||{})['BlockList']||[];
   store.tk_blocked=blockList;
-  if(blockList.length>0) chips+='<span class="file-chip opt">✓ 차단 '+blockList.length+'명</span>';
+  if(blockList.length>0) chips+='<span class="file-chip opt">✓ Blocked: '+blockList.length+'</span>';
   var likedList=(act['Like List']||{})['ItemFavoriteList']||[];
   store.tk_liked=likedList;
-  if(likedList.length>0) chips+='<span class="file-chip opt">✓ 좋아요 '+likedList.length+'개</span>';
+  if(likedList.length>0) chips+='<span class="file-chip opt">✓ Liked: '+likedList.length+'</span>';
   found.innerHTML=chips;
   zone.classList.add('loaded');
   if(tkStepDone<2) completeTkStep(2);
@@ -1783,12 +1603,12 @@ async function processThreadsZip(zip,files,zone,found){
   });
   if(thFwrFile){
     store.th_followers=JSON.parse(await zip.files[thFwrFile].async('text'));
-    chips+='<span class="file-chip ok">✓ 팔로워 '+extractUsers(store.th_followers).length.toLocaleString()+'명</span>';
-  } else chips+='<span class="file-chip miss">✗ Threads 팔로워 없음</span>';
+    chips+='<span class="file-chip ok">✓ Followers: '+extractUsers(store.th_followers).length.toLocaleString()+'</span>';
+  } else chips+='<span class="file-chip miss">✗ Threads followers not found</span>';
   if(thFwgFile){
     store.th_following=JSON.parse(await zip.files[thFwgFile].async('text'));
-    chips+='<span class="file-chip ok">✓ 팔로잉 '+extractUsers(store.th_following).length.toLocaleString()+'명</span>';
-  } else chips+='<span class="file-chip miss">✗ Threads 팔로잉 없음</span>';
+    chips+='<span class="file-chip ok">✓ Following: '+extractUsers(store.th_following).length.toLocaleString()+'</span>';
+  } else chips+='<span class="file-chip miss">✗ Threads following not found</span>';
   found.innerHTML=chips;
   zone.classList.add('loaded');
   if(thStepDone<2) completeThStep(2);
@@ -1804,7 +1624,7 @@ async function processLinkedInCSV(file,zone,found){
   // 헤더 찾기 (First Name 포함 줄)
   var headerIdx=lines.findIndex(function(l){return l.includes('First Name')||l.includes('FirstName');});
   if(headerIdx===-1){
-    found.innerHTML='<span class="file-chip miss">✗ Connections.csv 형식이 맞지 않습니다</span>';
+    found.innerHTML='<span class="file-chip miss">✗ Connections.csv format not recognized</span>';
     zone.classList.add('loaded');
     return;
   }
@@ -1822,7 +1642,7 @@ async function processLinkedInCSV(file,zone,found){
     return obj;
   }).filter(function(r){return r['First Name']||r['FirstName'];});
   store.li_connections=rows;
-  found.innerHTML='<span class="file-chip ok">✓ 연결 '+rows.length.toLocaleString()+'명</span>';
+  found.innerHTML='<span class="file-chip ok">✓ Connections: '+rows.length.toLocaleString()+'</span>';
   zone.classList.add('loaded');
   if(liStepDone<2) completeLiStep(2);
 }
@@ -1846,23 +1666,23 @@ async function processXZip(zip,files,zone,found){
   if(fwgFile){
     var raw=await zip.files[fwgFile].async('text');
     store.x_following=parseXjsFile(raw);
-    chips+='<span class="file-chip ok">✓ 팔로잉 '+store.x_following.length.toLocaleString()+'명</span>';
-  } else chips+='<span class="file-chip miss">✗ following.js 없음</span>';
+    chips+='<span class="file-chip ok">✓ Following: '+store.x_following.length.toLocaleString()+'</span>';
+  } else chips+='<span class="file-chip miss">✗ following.js not found</span>';
 
   // follower.js
   var fwrFile=files.find(function(f){return f.split('/').pop()==='follower.js';});
   if(fwrFile){
     var raw=await zip.files[fwrFile].async('text');
     store.x_followers=parseXjsFile(raw);
-    chips+='<span class="file-chip ok">✓ 팔로워 '+store.x_followers.length.toLocaleString()+'명</span>';
-  } else chips+='<span class="file-chip miss">✗ follower.js 없음</span>';
+    chips+='<span class="file-chip ok">✓ Followers: '+store.x_followers.length.toLocaleString()+'</span>';
+  } else chips+='<span class="file-chip miss">✗ follower.js not found</span>';
 
   // mute.js
   var muteFile=files.find(function(f){return f.split('/').pop()==='mute.js';});
   if(muteFile){
     var raw=await zip.files[muteFile].async('text');
     store.x_mutes=parseXjsFile(raw);
-    if(store.x_mutes.length>0) chips+='<span class="file-chip opt">✓ 뮤트 '+store.x_mutes.length+'명</span>';
+    if(store.x_mutes.length>0) chips+='<span class="file-chip opt">✓ Muted: '+store.x_mutes.length+'</span>';
   }
 
   // block.js
@@ -1870,7 +1690,7 @@ async function processXZip(zip,files,zone,found){
   if(blockFile){
     var raw=await zip.files[blockFile].async('text');
     store.x_blocks=parseXjsFile(raw);
-    if(store.x_blocks.length>0) chips+='<span class="file-chip opt">✓ 차단 '+store.x_blocks.length+'명</span>';
+    if(store.x_blocks.length>0) chips+='<span class="file-chip opt">✓ Blocked: '+store.x_blocks.length+'</span>';
   }
 
   found.innerHTML=chips;
@@ -1884,7 +1704,7 @@ async function runXAnalysis(){
   var bar=document.getElementById('loadingBar');
   // Free 플랜 월 3회 제한
   if(!await checkFreeMonthlyLimit()){return;}
-  btn.disabled=true;btn.textContent='분석 중...';bar.style.display='block';
+  btn.disabled=true;btn.textContent='Analyzing...';bar.style.display='block';
   setTimeout(function(){
     var following=store.x_following||[];
     var followers=store.x_followers||[];
@@ -1933,13 +1753,13 @@ async function runXAnalysis(){
     renderScoreCard(qualityScore,mutualScore,fanScore,mutualCount,total);
 
     document.getElementById('statsRow1').innerHTML=
-      '<div class="stat-card"><div class="stat-num c-red">'+notback.length.toLocaleString()+'</div><div class="stat-lbl">😤 맞팔 안 함</div></div>'+
-      '<div class="stat-card"><div class="stat-num c-green">'+fans.length.toLocaleString()+'</div><div class="stat-lbl">🩷 나만 팔로</div></div>'+
-      '<div class="stat-card"><div class="stat-num c-purple">'+total.toLocaleString()+'</div><div class="stat-lbl">👥 전체 팔로워</div></div>';
+      '<div class="stat-card"><div class="stat-num c-red">'+notback.length.toLocaleString()+'</div><div class="stat-lbl">😤 Not Following</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-green">'+fans.length.toLocaleString()+'</div><div class="stat-lbl">🩷 True Fans</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-purple">'+total.toLocaleString()+'</div><div class="stat-lbl">👥 Total Followers</div></div>';
     document.getElementById('statsRow2').innerHTML=
-      '<div class="stat-card"><div class="stat-num c-green">'+mutualCount.toLocaleString()+'</div><div class="stat-lbl">🤝 서로 맞팔</div></div>'+
-      '<div class="stat-card"><div class="stat-num c-orange">'+blocks.length.toLocaleString()+'</div><div class="stat-lbl">🚫 차단</div></div>'+
-      '<div class="stat-card"><div class="stat-num c-yellow">'+mutes.length.toLocaleString()+'</div><div class="stat-lbl">🔇 뮤트</div></div>';
+      '<div class="stat-card"><div class="stat-num c-green">'+mutualCount.toLocaleString()+'</div><div class="stat-lbl">🤝 Mutual</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-orange">'+blocks.length.toLocaleString()+'</div><div class="stat-lbl">🚫 Blocked</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-yellow">'+mutes.length.toLocaleString()+'</div><div class="stat-lbl">🔇 Muted</div></div>';
 
     document.getElementById('tc1').textContent='('+data.notback.length+')';
     document.getElementById('tc2').textContent=fans.length>0?'('+fans.length+')':'';
@@ -1949,27 +1769,27 @@ async function runXAnalysis(){
     document.getElementById('tc7').textContent='';
 
     document.getElementById('resultsMeta').textContent=
-      '𝕏 X·Twitter · 팔로워 '+total.toLocaleString()+'명 · 팔로잉 '+following.length.toLocaleString()+'명 분석 완료';
+      '𝕏 X·Twitter · '+total.toLocaleString()+' followers · '+following.length.toLocaleString()+' following analyzed';
 
     // X 아카이브 ID 표시 안내
     var summaryEl=document.getElementById('mutualSummary');
     if(summaryEl){
-      summaryEl.textContent='ℹ️ X 아카이브에는 @username이 포함되지 않아 계정 ID로 표시됩니다. 각 항목의 링크를 통해 실제 프로필을 확인하세요.';
+      summaryEl.textContent='ℹ️ X archives do not include @usernames — accounts are shown by ID. Click each link to view the actual profile.';
       summaryEl.style.display='block';
     }
 
     // 탭 이름 X용으로 변경
     var t6=document.querySelector('.tab-btn[data-t="restricted"]');
-    if(t6) t6.innerHTML='🔇 뮤트 <span id="tc6">'+(mutes.length>0?'('+mutes.length+')':'')+'</span>';
+    if(t6) t6.innerHTML='🔇 Muted <span id="tc6">'+(mutes.length>0?'('+mutes.length+')':'')+'</span>';
 
-    renderList('notback',data.notback,'red','맞팔 안 함',true,null,false);
-    renderList('fans',data.fans,'green','팬',false,null,false);
-    renderList('blocked',data.blocked,'orange','차단',false,blocks.length===0?'blocked':null,false);
-    renderList('pending',[],'blue','대기',false,'pending',false);
-    renderList('restricted',data.restricted,'yellow','뮤트',false,mutes.length===0?'restricted':null,false);
-    renderList('close_friends',[],'pink','친한 친구',false,'close_friends',false);
+    renderList('notback',data.notback,'red','Not Following',true,null,false);
+    renderList('fans',data.fans,'green','Fan',false,null,false);
+    renderList('blocked',data.blocked,'orange','Blocked',false,blocks.length===0?'blocked':null,false);
+    renderList('pending',[],'blue','Pending',false,'pending',false);
+    renderList('restricted',data.restricted,'yellow','Muted',false,mutes.length===0?'restricted':null,false);
+    renderList('close_friends',[],'pink','Close Friend',false,'close_friends',false);
 
-    bar.style.display='none';btn.textContent='✓ 분석 완료';
+    bar.style.display='none';btn.textContent='✓ Done';
     saveSnapshot('x',data.notback,data.fans);
     document.getElementById('results').style.display='block';
     document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
@@ -1983,7 +1803,7 @@ async function runThreadsAnalysis(){
   var bar=document.getElementById('loadingBar');
   // Free 플랜 월 3회 제한
   if(!await checkFreeMonthlyLimit()){return;}
-  btn.disabled=true;btn.textContent='분석 중...';bar.style.display='block';
+  btn.disabled=true;btn.textContent='Analyzing...';bar.style.display='block';
   setTimeout(function(){
     var followers=extractUsers(store.th_followers);
     var following=extractUsers(store.th_following);
@@ -1999,25 +1819,25 @@ async function runThreadsAnalysis(){
     var qualityScore=Math.round(mutualScore*0.7+Math.min(fanScore*2,100)*0.3);
     renderScoreCard(qualityScore,mutualScore,fanScore,mutualCount,totalFollowers);
     document.getElementById('statsRow1').innerHTML=
-      '<div class="stat-card"><div class="stat-num c-red">'+data.notback.length.toLocaleString()+'</div><div class="stat-lbl">😤 맞팔 안 함</div></div>'+
-      '<div class="stat-card"><div class="stat-num c-green">'+data.fans.length.toLocaleString()+'</div><div class="stat-lbl">🩷 나만 팔로</div></div>'+
-      '<div class="stat-card"><div class="stat-num c-purple">'+totalFollowers.toLocaleString()+'</div><div class="stat-lbl">👥 전체 팔로워</div></div>';
+      '<div class="stat-card"><div class="stat-num c-red">'+data.notback.length.toLocaleString()+'</div><div class="stat-lbl">😤 Not Following</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-green">'+data.fans.length.toLocaleString()+'</div><div class="stat-lbl">🩷 True Fans</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-purple">'+totalFollowers.toLocaleString()+'</div><div class="stat-lbl">👥 Total Followers</div></div>';
     document.getElementById('statsRow2').innerHTML=
-      '<div class="stat-card"><div class="stat-num c-green">'+mutualCount.toLocaleString()+'</div><div class="stat-lbl">🤝 서로 맞팔</div></div>'+
-      '<div class="stat-card"><div class="stat-num c-blue">'+following.length.toLocaleString()+'</div><div class="stat-lbl">➡️ 내 팔로잉</div></div>'+
-      '<div class="stat-card"><div class="stat-num c-purple">'+totalFollowers.toLocaleString()+'</div><div class="stat-lbl">📊 팔로워 총계</div></div>';
+      '<div class="stat-card"><div class="stat-num c-green">'+mutualCount.toLocaleString()+'</div><div class="stat-lbl">🤝 Mutual</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-blue">'+following.length.toLocaleString()+'</div><div class="stat-lbl">➡️ Following</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-purple">'+totalFollowers.toLocaleString()+'</div><div class="stat-lbl">📊 Total</div></div>';
     document.getElementById('tc1').textContent='('+data.notback.length+')';
     document.getElementById('tc2').textContent='('+data.fans.length+')';
     document.getElementById('tc4').textContent='';document.getElementById('tc5').textContent='';
     document.getElementById('tc6').textContent='';document.getElementById('tc7').textContent='';
-    document.getElementById('resultsMeta').textContent='🧵 Threads · 팔로워 '+totalFollowers.toLocaleString()+'명 · 팔로잉 '+following.length.toLocaleString()+'명 분석 완료';
-    renderList('notback',data.notback,'red','맞팔 안 함',!isPro,null,true);
-    renderList('fans',data.fans,'green','팬',false,null,false);
-    renderList('blocked',[],'orange','차단',false,'blocked',false);
-    renderList('pending',[],'blue','대기 중',false,'pending',false);
-    renderList('restricted',[],'yellow','제한',false,'restricted',false);
-    renderList('close_friends',[],'pink','친한 친구',false,'close_friends',false);
-    bar.style.display='none';btn.textContent='✓ 분석 완료';
+    document.getElementById('resultsMeta').textContent='🧵 Threads · '+totalFollowers.toLocaleString()+' followers · '+following.length.toLocaleString()+' following analyzed';
+    renderList('notback',data.notback,'red','Not Following',!isPro,null,true);
+    renderList('fans',data.fans,'green','Fan',false,null,false);
+    renderList('blocked',[],'orange','Blocked',false,'blocked',false);
+    renderList('pending',[],'blue','Pending',false,'pending',false);
+    renderList('restricted',[],'yellow','Restricted',false,'restricted',false);
+    renderList('close_friends',[],'pink','Close Friend',false,'close_friends',false);
+    bar.style.display='none';btn.textContent='✓ Done';
     saveSnapshot('threads',data.notback,data.fans);
     document.getElementById('results').style.display='block';
     document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
@@ -2030,7 +1850,7 @@ async function runLinkedInAnalysis(){
   var bar=document.getElementById('loadingBar');
   // Free 플랜 월 3회 제한
   if(!await checkFreeMonthlyLimit()){return;}
-  btn.disabled=true;btn.textContent='분석 중...';bar.style.display='block';
+  btn.disabled=true;btn.textContent='Analyzing...';bar.style.display='block';
   setTimeout(function(){
     var conns=store.li_connections||[];
     // LinkedIn은 팔로워/팔로잉 개념 없음 → 연결 목록 + 날짜 분석
@@ -2060,31 +1880,30 @@ async function runLinkedInAnalysis(){
     renderScoreCard(Math.min(100,Math.round(recent.length/Math.max(total,1)*100*3)),
       Math.round(recent.length/Math.max(total,1)*100),0,recent.length,total);
     document.getElementById('statsRow1').innerHTML=
-      '<div class="stat-card"><div class="stat-num c-purple">'+total.toLocaleString()+'</div><div class="stat-lbl">🤝 전체 연결</div></div>'+
-      '<div class="stat-card"><div class="stat-num c-green">'+recent.length.toLocaleString()+'</div><div class="stat-lbl">🆕 최근 30일</div></div>'+
-      '<div class="stat-card"><div class="stat-num c-blue">'+old.length.toLocaleString()+'</div><div class="stat-lbl">📅 오래된 연결</div></div>';
+      '<div class="stat-card"><div class="stat-num c-purple">'+total.toLocaleString()+'</div><div class="stat-lbl">🤝 Total Connections</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-green">'+recent.length.toLocaleString()+'</div><div class="stat-lbl">🆕 Last 30 Days</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-blue">'+old.length.toLocaleString()+'</div><div class="stat-lbl">📅 Older</div></div>';
     document.getElementById('statsRow2').innerHTML=
-      '<div class="stat-card"><div class="stat-num c-orange">'+conns.filter(function(c){return c['Company']||c['company'];}).length.toLocaleString()+'</div><div class="stat-lbl">🏢 회사 있음</div></div>'+
-      '<div class="stat-card"><div class="stat-num c-yellow">'+conns.filter(function(c){return c['Email Address']||c['email'];}).length.toLocaleString()+'</div><div class="stat-lbl">📧 이메일 있음</div></div>'+
-      '<div class="stat-card"><div class="stat-num c-purple">'+total.toLocaleString()+'</div><div class="stat-lbl">👥 총 연결 수</div></div>';
+      '<div class="stat-card"><div class="stat-num c-orange">'+conns.filter(function(c){return c['Company']||c['company'];}).length.toLocaleString()+'</div><div class="stat-lbl">🏢 Has Company</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-yellow">'+conns.filter(function(c){return c['Email Address']||c['email'];}).length.toLocaleString()+'</div><div class="stat-lbl">📧 Has Email</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-purple">'+total.toLocaleString()+'</div><div class="stat-lbl">👥 Total</div></div>';
     // 탭 레이블 LinkedIn용으로 변경
     document.getElementById('tc1').textContent='('+data.notback.length+')';
     document.getElementById('tc2').textContent=recent.length>0?'('+recent.length+')':'';
     document.getElementById('tc4').textContent='';document.getElementById('tc5').textContent='';
     document.getElementById('tc6').textContent='';document.getElementById('tc7').textContent='';
-    document.getElementById('resultsMeta').textContent='💼 LinkedIn · 전체 연결 '+total.toLocaleString()+'명 분석 완료';
-    // 탭 이름 변경
+    document.getElementById('resultsMeta').textContent='💼 LinkedIn · '+total.toLocaleString()+' connections analyzed';
     var t1=document.querySelector('.tab-btn[data-t="notback"]');
     var t2=document.querySelector('.tab-btn[data-t="fans"]');
-    if(t1) t1.innerHTML='🤝 전체 연결 <span id="tc1">('+data.notback.length+')</span>';
-    if(t2) t2.innerHTML='🆕 최근 30일 <span id="tc2">'+(recent.length>0?'('+recent.length+')':'')+'</span>';
-    renderList('notback',data.notback,'blue','연결',true,null,true);
-    renderList('fans',recent,'green','최근',false,null,true);
-    renderList('blocked',[],'orange','차단',false,'blocked',false);
-    renderList('pending',[],'blue','대기',false,'pending',false);
-    renderList('restricted',[],'yellow','제한',false,'restricted',false);
-    renderList('close_friends',[],'pink','친한 친구',false,'close_friends',false);
-    bar.style.display='none';btn.textContent='✓ 분석 완료';
+    if(t1) t1.innerHTML='🤝 All Connections <span id="tc1">('+data.notback.length+')</span>';
+    if(t2) t2.innerHTML='🆕 Last 30 Days <span id="tc2">'+(recent.length>0?'('+recent.length+')':'')+'</span>';
+    renderList('notback',data.notback,'blue','Connection',true,null,true);
+    renderList('fans',recent,'green','Recent',false,null,true);
+    renderList('blocked',[],'orange','Blocked',false,'blocked',false);
+    renderList('pending',[],'blue','Pending',false,'pending',false);
+    renderList('restricted',[],'yellow','Restricted',false,'restricted',false);
+    renderList('close_friends',[],'pink','Close Friend',false,'close_friends',false);
+    bar.style.display='none';btn.textContent='✓ Done';
     saveSnapshot('linkedin',data.notback,data.fans);
     document.getElementById('results').style.display='block';
     document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
@@ -2151,7 +1970,7 @@ async function runInstagramAnalysis(){
   const bar=document.getElementById('loadingBar');
   if(!await checkFreeMonthlyLimit()){return;}
   btn.disabled=true;
-  btn.textContent='분석 중...';
+  btn.textContent='Analyzing...';
   bar.style.display='block';
   setTimeout(function(){
     const followers=extractUsers(store.followers);
@@ -2177,39 +1996,39 @@ async function runInstagramAnalysis(){
     const qualityScore=Math.round(mutualScore*0.7+Math.min(fanScore*2,100)*0.3);
     renderScoreCard(qualityScore,mutualScore,fanScore,mutualCount,totalFollowers);
     document.getElementById('statsRow1').innerHTML=
-      '<div class="stat-card"><div class="stat-num c-red">'+data.notback.length.toLocaleString()+'</div><div class="stat-lbl">😤 맞팔 안 함</div></div>'+
-      '<div class="stat-card"><div class="stat-num c-green">'+data.fans.length.toLocaleString()+'</div><div class="stat-lbl">🩷 나만 팔로</div></div>'+
-      '<div class="stat-card"><div class="stat-num c-purple">'+totalFollowers.toLocaleString()+'</div><div class="stat-lbl">👥 전체 팔로워</div></div>';
+      '<div class="stat-card"><div class="stat-num c-red">'+data.notback.length.toLocaleString()+'</div><div class="stat-lbl">😤 Not Following</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-green">'+data.fans.length.toLocaleString()+'</div><div class="stat-lbl">🩷 True Fans</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-purple">'+totalFollowers.toLocaleString()+'</div><div class="stat-lbl">👥 Total Followers</div></div>';
     document.getElementById('statsRow2').innerHTML=
-      '<div class="stat-card"><div class="stat-num c-green">'+mutualCount.toLocaleString()+'</div><div class="stat-lbl">🤝 서로 맞팔</div></div>'+
-      '<div class="stat-card"><div class="stat-num c-orange">'+data.blocked.length.toLocaleString()+'</div><div class="stat-lbl">🚫 차단 계정</div></div>'+
-      '<div class="stat-card"><div class="stat-num c-blue">'+data.pending.length.toLocaleString()+'</div><div class="stat-lbl">⏳ 요청 대기</div></div>';
+      '<div class="stat-card"><div class="stat-num c-green">'+mutualCount.toLocaleString()+'</div><div class="stat-lbl">🤝 Mutual</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-orange">'+data.blocked.length.toLocaleString()+'</div><div class="stat-lbl">🚫 Blocked</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-blue">'+data.pending.length.toLocaleString()+'</div><div class="stat-lbl">⏳ Pending</div></div>';
     document.getElementById('tc1').textContent='('+data.notback.length+')';
     document.getElementById('tc2').textContent='('+data.fans.length+')';
     document.getElementById('tc4').textContent=data.blocked.length>0?'('+data.blocked.length+')':'';
     document.getElementById('tc5').textContent=data.pending.length>0?'('+data.pending.length+')':'';
     document.getElementById('tc6').textContent=data.restricted.length>0?'('+data.restricted.length+')':'';
     document.getElementById('tc7').textContent=data.close_friends.length>0?'('+data.close_friends.length+')':'';
-    document.getElementById('resultsMeta').textContent='팔로워 '+totalFollowers.toLocaleString()+'명 · 팔로잉 '+following.length.toLocaleString()+'명 분석 완료';
+    document.getElementById('resultsMeta').textContent='Followers: '+totalFollowers.toLocaleString()+' · Following: '+following.length.toLocaleString()+' — analysis complete';
     const mutualPct=totalFollowers>0?Math.round(mutualCount/totalFollowers*100):0;
     const summaryEl=document.getElementById('mutualSummary');
     if(summaryEl){
       var grade='';
-      if(mutualPct>=70) grade='상위 10% 수준의 맞팔 비율이에요 🏆';
-      else if(mutualPct>=50) grade='평균 이상의 맞팔 비율이에요 👍';
-      else if(mutualPct>=30) grade='맞팔 비율을 높여볼 여지가 있어요 💡';
-      else grade='맞팔 비율이 낮아요 — 정리해볼 타이밍 ✂️';
-      summaryEl.textContent='맞팔 비율 '+mutualPct+'% · '+grade;
+      if(mutualPct>=70) grade='Top 10% mutual follow rate 🏆';
+      else if(mutualPct>=50) grade='Above average mutual follow rate 👍';
+      else if(mutualPct>=30) grade='Room to improve your mutual rate 💡';
+      else grade='Low mutual rate — time for a cleanup ✂️';
+      summaryEl.textContent='Mutual rate: '+mutualPct+'% · '+grade;
       summaryEl.style.display='block';
     }
-    renderList('notback',data.notback,'red','맞팔 안 함',!isPro,null,true);
-    renderList('fans',data.fans,'green','팬',false,null,false);
-    renderList('blocked',data.blocked,'orange','차단',false,store.blocked===null?'blocked':null,false);
-    renderList('pending',data.pending,'blue','대기 중',false,store.pending===null?'pending':null,false);
-    renderList('restricted',data.restricted,'yellow','제한',false,store.restricted===null?'restricted':null,false);
-    renderList('close_friends',data.close_friends,'pink','친한 친구',false,store.close_friends===null?'close_friends':null,false);
+    renderList('notback',data.notback,'red','Not Following',!isPro,null,true);
+    renderList('fans',data.fans,'green','Fan',false,null,false);
+    renderList('blocked',data.blocked,'orange','Blocked',false,store.blocked===null?'blocked':null,false);
+    renderList('pending',data.pending,'blue','Pending',false,store.pending===null?'pending':null,false);
+    renderList('restricted',data.restricted,'yellow','Restricted',false,store.restricted===null?'restricted':null,false);
+    renderList('close_friends',data.close_friends,'pink','Close Friend',false,store.close_friends===null?'close_friends':null,false);
     bar.style.display='none';
-    btn.textContent='✓ 분석 완료';
+    btn.textContent='✓ Done';
     saveSnapshot('instagram',data.notback,data.fans);
     document.getElementById('results').style.display='block';
     document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
@@ -2223,7 +2042,7 @@ async function runTikTokAnalysis(){
   // Free 플랜 월 3회 제한
   if(!await checkFreeMonthlyLimit()){return;}
   btn.disabled=true;
-  btn.textContent='분석 중...';
+  btn.textContent='Analyzing...';
   bar.style.display='block';
   setTimeout(function(){
     // 틱톡 데이터 파싱
@@ -2254,13 +2073,13 @@ async function runTikTokAnalysis(){
     renderScoreCard(qualityScore,mutualScore,fanScore,mutualCount,totalFans);
 
     document.getElementById('statsRow1').innerHTML=
-      '<div class="stat-card"><div class="stat-num c-red">'+tkNotback.length.toLocaleString()+'</div><div class="stat-lbl">😤 맞팔 안 함</div></div>'+
-      '<div class="stat-card"><div class="stat-num c-green">'+tkFans.length.toLocaleString()+'</div><div class="stat-lbl">🩷 나만 팔로</div></div>'+
-      '<div class="stat-card"><div class="stat-num c-purple">'+totalFans.toLocaleString()+'</div><div class="stat-lbl">👥 전체 팔로워</div></div>';
+      '<div class="stat-card"><div class="stat-num c-red">'+tkNotback.length.toLocaleString()+'</div><div class="stat-lbl">😤 Not Following</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-green">'+tkFans.length.toLocaleString()+'</div><div class="stat-lbl">🩷 True Fans</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-purple">'+totalFans.toLocaleString()+'</div><div class="stat-lbl">👥 Total Followers</div></div>';
     document.getElementById('statsRow2').innerHTML=
-      '<div class="stat-card"><div class="stat-num c-green">'+mutualCount.toLocaleString()+'</div><div class="stat-lbl">🤝 서로 맞팔</div></div>'+
-      '<div class="stat-card"><div class="stat-num c-orange">'+blocked.length.toLocaleString()+'</div><div class="stat-lbl">🚫 차단 계정</div></div>'+
-      '<div class="stat-card"><div class="stat-num c-blue">'+following.length.toLocaleString()+'</div><div class="stat-lbl">➡️ 내 팔로잉</div></div>';
+      '<div class="stat-card"><div class="stat-num c-green">'+mutualCount.toLocaleString()+'</div><div class="stat-lbl">🤝 Mutual</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-orange">'+blocked.length.toLocaleString()+'</div><div class="stat-lbl">🚫 Blocked</div></div>'+
+      '<div class="stat-card"><div class="stat-num c-blue">'+following.length.toLocaleString()+'</div><div class="stat-lbl">➡️ Following</div></div>';
 
     document.getElementById('tc1').textContent='('+tkNotback.length+')';
     document.getElementById('tc2').textContent='('+tkFans.length+')';
@@ -2270,7 +2089,7 @@ async function runTikTokAnalysis(){
     document.getElementById('tc7').textContent='';
 
     document.getElementById('resultsMeta').textContent=
-      '🎵 TikTok · 팔로워 '+totalFans.toLocaleString()+'명 · 팔로잉 '+following.length.toLocaleString()+'명 분석 완료';
+      '🎵 TikTok · '+totalFans.toLocaleString()+' followers · '+following.length.toLocaleString()+' following analyzed';
 
     // 틱톡용 유저 객체로 변환 (renderList 재사용)
     function toUserObj(arr){
@@ -2279,15 +2098,15 @@ async function runTikTokAnalysis(){
       });
     }
 
-    renderList('notback',toUserObj(tkNotback),'red','맞팔 안 함',true,null,false);
-    renderList('fans',toUserObj(tkFans),'green','팬',false,null,false);
-    renderList('blocked',toUserObj(blocked),'orange','차단',false,blocked.length===0?'blocked':null,false);
-    renderList('pending',[],'blue','대기 중',false,'pending',false);
-    renderList('restricted',[],'yellow','제한',false,'restricted',false);
-    renderList('close_friends',[],'pink','친한 친구',false,'close_friends',false);
+    renderList('notback',toUserObj(tkNotback),'red','Not Following',true,null,false);
+    renderList('fans',toUserObj(tkFans),'green','Fan',false,null,false);
+    renderList('blocked',toUserObj(blocked),'orange','Blocked',false,blocked.length===0?'blocked':null,false);
+    renderList('pending',[],'blue','Pending',false,'pending',false);
+    renderList('restricted',[],'yellow','Restricted',false,'restricted',false);
+    renderList('close_friends',[],'pink','Close Friend',false,'close_friends',false);
 
     bar.style.display='none';
-    btn.textContent='✓ 분석 완료';
+    btn.textContent='✓ Done';
     saveSnapshot('tiktok',toUserObj(tkNotback),toUserObj(tkFans));
     document.getElementById('results').style.display='block';
     document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
@@ -2306,16 +2125,16 @@ function renderScoreCard(score,mutualScore,fanScore,mutual,total){
   var color=score>=70?'var(--accent)':score>=40?'var(--yellow)':'var(--orange)';
   scoreArc.style.stroke=color;
   scoreNum.style.color=color;
-  var titles=['관계 정리가 필요해요','관계 구성이 보통이에요','관계 구성이 좋아요','팔로워 관계가 매우 좋아요!'];
+  var titles=['Time to clean up your follows','Average follower balance','Good follower balance','Excellent follower health!'];
   var ti=score<30?0:score<50?1:score<75?2:3;
   scoreTitle.textContent=titles[ti];
   var mutualRate=total>0?Math.round(mutual/total*100):0;
   var fanRate=total>0?Math.round(fanScore):0;
   scoreBars.innerHTML=
-    '<div class="score-bar-row"><div class="score-bar-label">맞팔 비율</div>'+
+    '<div class="score-bar-row"><div class="score-bar-label">Mutual Rate</div>'+
     '<div class="score-bar-track"><div class="score-bar-fill" style="width:'+mutualRate+'%;background:var(--accent)"></div></div>'+
     '<div class="score-bar-val">'+mutualRate+'%</div></div>'+
-    '<div class="score-bar-row"><div class="score-bar-label">팬 비율</div>'+
+    '<div class="score-bar-row"><div class="score-bar-label">Fan Rate</div>'+
     '<div class="score-bar-track"><div class="score-bar-fill" style="width:'+Math.min(fanRate*2,100)+'%;background:var(--blue)"></div></div>'+
     '<div class="score-bar-val">'+fanRate+'%</div></div>';
 }
@@ -2328,7 +2147,7 @@ function safeHref(url){if(!url)return '#';var u=String(url).trim();return /^http
 function tsLabel(ts){
   if(!ts) return '';
   var d=new Date(ts*1000);
-  return d.toLocaleDateString('ko-KR',{year:'2-digit',month:'short',day:'numeric'});
+  return d.toLocaleDateString('en-US',{year:'2-digit',month:'short',day:'numeric'});
 }
 
 function getUserProfileUrl(u){
@@ -2356,18 +2175,18 @@ function renderList(key,users,badgeClass,badgeText,hasWall,unavailKey,showTs){
   var wallEl=document.getElementById('wall-'+key);
   if(unavailKey){
     var msgs={
-      blocked:{icon:'🚫',title:'차단 목록이 ZIP에 없어요',desc:'데이터 내보내기 시 차단 계정이 포함되지 않은 경우가 있어요.'},
-      pending:{icon:'⏳',title:'요청 대기 파일이 없어요',desc:'비공개 계정에 팔로우 요청을 보낸 경우에만 포함됩니다.'},
-      restricted:{icon:'🔇',title:'제한 계정 파일이 없어요',desc:'제한 기능을 사용한 경우에만 ZIP에 포함됩니다.'},
-      close_friends:{icon:'💚',title:'친한 친구 목록이 없어요',desc:'친한 친구 기능을 사용한 경우에만 포함됩니다.'}
+      blocked:{icon:'🚫',title:'Blocked list not in ZIP',desc:'Block data may not be included depending on your export settings.'},
+      pending:{icon:'⏳',title:'Pending requests file not found',desc:'Only included if you have sent follow requests to private accounts.'},
+      restricted:{icon:'🔇',title:'Restricted accounts file not found',desc:'Only included if you have used the restrict feature.'},
+      close_friends:{icon:'💚',title:'Close friends list not found',desc:'Only included if you have used the close friends feature.'}
     };
-    var m=msgs[unavailKey]||{icon:'📂',title:'데이터 없음',desc:'ZIP에 해당 파일이 없습니다.'};
+    var m=msgs[unavailKey]||{icon:'📂',title:'No data',desc:'This file was not found in the ZIP.'};
     container.innerHTML='<div class="tab-unavail"><div class="ua-icon">'+m.icon+'</div><div class="ua-title">'+m.title+'</div><div class="ua-desc">'+m.desc+'</div></div>';
     if(wallEl) wallEl.innerHTML='';
     return;
   }
   if(!users.length){
-    container.innerHTML='<div class="empty-state"><div class="empty-icon">🎉</div><div class="empty-text">해당 목록이 없습니다!</div></div>';
+    container.innerHTML='<div class="empty-state"><div class="empty-icon">🎉</div><div class="empty-text">Nothing here — you\'re all good!</div></div>';
     if(wallEl) wallEl.innerHTML='';
     return;
   }
@@ -2387,19 +2206,19 @@ function renderList(key,users,badgeClass,badgeText,hasWall,unavailKey,showTs){
       var remain=users.length-FREE_LIMIT;
       wallEl.innerHTML=
         '<div class="paywall"><div class="paywall-box">'+
-        '<div class="paywall-badge">🔒 PRO 전용</div>'+
-        '<h3>나머지 '+remain.toLocaleString()+'명이 잠겨있어요</h3>'+
-        '<p class="pw-sub">무료로 '+FREE_LIMIT+'명까지 확인했어요.<br>전체 목록을 보려면 Pro로 업그레이드하세요.</p>'+
+        '<div class="paywall-badge">🔒 PRO</div>'+
+        '<h3>'+remain.toLocaleString()+' more results locked</h3>'+
+        '<p class="pw-sub">You\'ve seen the free '+FREE_LIMIT+'.<br>Upgrade to unlock the full list.</p>'+
         '<div class="paywall-features">'+
-        '<div class="pf-row"><div class="pf-icon">✓</div>맞팔 안 한 전체 목록 무제한 확인</div>'+
-        '<div class="pf-row"><div class="pf-icon">✓</div>나만 팔로하는 팬 전체 목록</div>'+
-        '<div class="pf-row"><div class="pf-icon">✓</div>차단·제한·대기 계정 전체 확인</div>'+
-        '<div class="pf-row"><div class="pf-icon">✓</div>인스타그램 프로필 바로가기</div>'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>Full list of accounts not following back</div>'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>Complete true fans list</div>'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>Blocked, restricted & pending accounts</div>'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>Direct profile links</div>'+
         '</div>'+
-        '<div class="paywall-price"><div class="price-original">월 ₩9,900</div><div class="price-main">₩5,900</div><div class="price-period">/ 월 · 언제든 해지 가능</div></div>'+
-        '<button class="btn-toss-pay" onclick="handleBasicPay()"><span class="toss-logo-badge">✦</span>Basic으로 업그레이드 — ₩5,900/월</button>'+
-        '<button onclick="closeUpgradeModal();openPricingModal()" style="width:100%;padding:10px;background:none;border:1px solid #e4e1dd;border-radius:10px;font-size:12px;color:#888;cursor:pointer;margin-top:6px">요금제 전체 보기</button>'+
-        '<div class="paywall-note">결제 후 즉시 잠금 해제 · 자동 갱신 · 구독 해지 언제든 가능</div>'+
+        '<div class="paywall-price"><div class="price-original">$7.99/mo</div><div class="price-main">$4.99</div><div class="price-period">/ mo · cancel anytime</div></div>'+
+        '<button class="btn-toss-pay" onclick="handleBasicPay()"><span class="toss-logo-badge">✦</span>Upgrade to Basic — $4.99/mo</button>'+
+        '<button onclick="closeUpgradeModal();openPricingModal()" style="width:100%;padding:10px;background:none;border:1px solid #e4e1dd;border-radius:10px;font-size:12px;color:#888;cursor:pointer;margin-top:6px">View all plans</button>'+
+        '<div class="paywall-note">Instant unlock · Auto-renews monthly · Cancel anytime</div>'+
         '</div></div>';
     } else wallEl.innerHTML='';
   }
@@ -2407,10 +2226,10 @@ function renderList(key,users,badgeClass,badgeText,hasWall,unavailKey,showTs){
 
 function filterList(key,q){
   var filtered=data[key].filter(function(u){return u.username.toLowerCase().includes(q.toLowerCase())});
-  var cfg={notback:['red','맞팔 안 함'],fans:['green','팬'],blocked:['orange','차단'],pending:['blue','대기 중'],restricted:['yellow','제한'],close_friends:['pink','친한 친구']};
+  var cfg={notback:['red','Not Following'],fans:['green','Fan'],blocked:['orange','Blocked'],pending:['blue','Pending'],restricted:['yellow','Restricted'],close_friends:['pink','Close Friend']};
   var bc=cfg[key][0],bt=cfg[key][1];
   var container=document.getElementById('list-'+key);
-  if(!filtered.length){container.innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-text">검색 결과 없음</div></div>';return;}
+  if(!filtered.length){container.innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-text">No results found</div></div>';return;}
   container.innerHTML=filtered.map(function(u){
     var profileUrl=safeHref(getUserProfileUrl(u));
     var handleText=escapeHtml(getUserHandleText(u));
@@ -2427,7 +2246,7 @@ function sortList(key,val){
   if(val==='newest') sorted.sort(function(a,b){return b.ts-a.ts});
   else if(val==='oldest') sorted.sort(function(a,b){return a.ts-b.ts});
   else if(val==='az') sorted.sort(function(a,b){return a.username.localeCompare(b.username)});
-  var cfg={notback:['red','맞팔 안 함'],fans:['green','팬']};
+  var cfg={notback:['red','Not Following'],fans:['green','Fan']};
   var pair=cfg[key]||['red',''];
   var bc=pair[0],bt=pair[1];
   var container=document.getElementById('list-'+key);
@@ -2450,19 +2269,19 @@ function sortList(key,val){
       var remain=data[key].length-FREE_LIMIT;
       wallEl.innerHTML=
         '<div class="paywall"><div class="paywall-box">'+
-        '<div class="paywall-badge">🔒 PRO 전용</div>'+
-        '<h3>나머지 '+remain.toLocaleString()+'명이 잠겨있어요</h3>'+
-        '<p class="pw-sub">무료로 '+FREE_LIMIT+'명까지 확인했어요.<br>전체 목록을 보려면 Pro로 업그레이드하세요.</p>'+
+        '<div class="paywall-badge">🔒 PRO</div>'+
+        '<h3>'+remain.toLocaleString()+' more results locked</h3>'+
+        '<p class="pw-sub">You\'ve seen the free '+FREE_LIMIT+'.<br>Upgrade to unlock the full list.</p>'+
         '<div class="paywall-features">'+
-        '<div class="pf-row"><div class="pf-icon">✓</div>맞팔 안 한 전체 목록 무제한 확인</div>'+
-        '<div class="pf-row"><div class="pf-icon">✓</div>나만 팔로하는 팬 전체 목록</div>'+
-        '<div class="pf-row"><div class="pf-icon">✓</div>차단·제한·대기 계정 전체 확인</div>'+
-        '<div class="pf-row"><div class="pf-icon">✓</div>인스타그램 프로필 바로가기</div>'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>Full list of accounts not following back</div>'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>Complete true fans list</div>'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>Blocked, restricted & pending accounts</div>'+
+        '<div class="pf-row"><div class="pf-icon">✓</div>Direct profile links</div>'+
         '</div>'+
-        '<div class="paywall-price"><div class="price-original">월 ₩9,900</div><div class="price-main">₩5,900</div><div class="price-period">/ 월 · 언제든 해지 가능</div></div>'+
-        '<button class="btn-toss-pay" onclick="handleBasicPay()"><span class="toss-logo-badge">✦</span>Basic으로 업그레이드 — ₩5,900/월</button>'+
-        '<button onclick="closeUpgradeModal();openPricingModal()" style="width:100%;padding:10px;background:none;border:1px solid #e4e1dd;border-radius:10px;font-size:12px;color:#888;cursor:pointer;margin-top:6px">요금제 전체 보기</button>'+
-        '<div class="paywall-note">결제 후 즉시 잠금 해제 · 자동 갱신 · 구독 해지 언제든 가능</div>'+
+        '<div class="paywall-price"><div class="price-original">$7.99/mo</div><div class="price-main">$4.99</div><div class="price-period">/ mo · cancel anytime</div></div>'+
+        '<button class="btn-toss-pay" onclick="handleBasicPay()"><span class="toss-logo-badge">✦</span>Upgrade to Basic — $4.99/mo</button>'+
+        '<button onclick="closeUpgradeModal();openPricingModal()" style="width:100%;padding:10px;background:none;border:1px solid #e4e1dd;border-radius:10px;font-size:12px;color:#888;cursor:pointer;margin-top:6px">View all plans</button>'+
+        '<div class="paywall-note">Instant unlock · Auto-renews monthly · Cancel anytime</div>'+
         '</div></div>';
     } else if(wallEl) wallEl.innerHTML='';
   }
@@ -2475,109 +2294,83 @@ function switchTab(name,btn){
   document.getElementById('tab-'+name).classList.add('active');
 }
 
-function handleTossPay(){ handleBasicPay(); } // 하위 호환
+// ── Paddle configuration (set your Client Token and Price IDs from Paddle dashboard) ──
+var PADDLE_CLIENT_TOKEN = '';      // e.g. 'live_...' from Paddle > Developer Tools > Authentication
+var PADDLE_BASIC_PRICE_ID = '';    // e.g. 'pri_01...' Basic plan price ID
+var PADDLE_PRO_PRICE_ID = '';      // e.g. 'pri_01...' Pro plan price ID
+
+// Initialize Paddle once
+(function initPaddle() {
+  if (typeof Paddle === 'undefined') return;
+  Paddle.Initialize({
+    token: PADDLE_CLIENT_TOKEN,
+    eventCallback: function(data) {
+      if (data.name === 'checkout.completed') {
+        var plan = data.data?.items?.[0]?.price_id === PADDLE_PRO_PRICE_ID ? 'pro' : 'basic';
+        startPollingForActivation(plan);
+      }
+    }
+  });
+})();
+
+function handleTossPay(){ handleBasicPay(); } // backward compat
 
 function handleBasicPay(){
-  if(!currentUser){ alert('결제를 위해 먼저 로그인해주세요.'); openAuthModal(); return; }
-  if(typeof IMP==='undefined' || !IMP || typeof IMP.request_pay!=='function'){
-    showPayRetry('basic','결제 모듈을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
+  if(!currentUser){ alert('Please sign in to subscribe.'); openAuthModal(); return; }
+  if(typeof Paddle==='undefined'){
+    showPayRetry('basic','Payment module failed to load. Please refresh and try again.');
     return;
   }
-  var IMP_CODE='imp45411646';
-  var CUSTOMER_UID='realations_basic_'+currentUser.id;
-  var uid8=currentUser.id.replace(/-/g,'').substring(0,8);
-  var MERCHANT_UID='rb_'+uid8+'_'+Date.now(); // KCP 주문번호 40자 제한
-  IMP.init(IMP_CODE);
-  IMP.request_pay({
-    pg:'kcp_billing',
-    channelKey:'channel-key-350fcf6a-b7fa-4ed7-9724-e42a06c05d0c',
-    pay_method:'card',
-    merchant_uid: MERCHANT_UID,
-    customer_uid: CUSTOMER_UID,
-    name:'Realations Basic (월 정기구독 ₩5,900)',
-    amount:5900,
-    buyer_email:currentUser.email,
-    buyer_name:currentUser.email,
-    m_redirect_url:'https://realation.world?plan=basic',
-    bypass: { kcp_group_id: 'IP7191056682' }
-  }, async function(rsp){
-    cleanupIamportOverlay();
-    if(rsp.success){ await verifyAndActivate('basic', null, rsp.merchant_uid, CUSTOMER_UID); }
-    else { showPayRetry('basic', rsp.error_msg||'결제가 취소되었습니다.'); }
+  Paddle.Checkout.open({
+    items: [{ priceId: PADDLE_BASIC_PRICE_ID, quantity: 1 }],
+    customer: { email: currentUser.email },
+    customData: { userId: currentUser.id }
   });
 }
 
 function handleProPay(){
-  if(!currentUser){ alert('결제를 위해 먼저 로그인해주세요.'); openAuthModal(); return; }
-  if(typeof IMP==='undefined' || !IMP || typeof IMP.request_pay!=='function'){
-    showPayRetry('pro','결제 모듈을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
+  if(!currentUser){ alert('Please sign in to subscribe.'); openAuthModal(); return; }
+  if(typeof Paddle==='undefined'){
+    showPayRetry('pro','Payment module failed to load. Please refresh and try again.');
     return;
   }
-  var IMP_CODE='imp45411646';
-  var CUSTOMER_UID='realations_pro_'+currentUser.id;
-  var uid8=currentUser.id.replace(/-/g,'').substring(0,8);
-  var MERCHANT_UID='rp_'+uid8+'_'+Date.now(); // KCP 주문번호 40자 제한
-  IMP.init(IMP_CODE);
-  IMP.request_pay({
-    pg:'kcp_billing',
-    channelKey:'channel-key-350fcf6a-b7fa-4ed7-9724-e42a06c05d0c',
-    pay_method:'card',
-    merchant_uid: MERCHANT_UID,
-    customer_uid: CUSTOMER_UID,
-    name:'Realations Pro (월 정기구독 ₩9,900)',
-    amount:9900,
-    buyer_email:currentUser.email,
-    buyer_name:currentUser.email,
-    m_redirect_url:'https://realation.world?plan=pro',
-    bypass: { kcp_group_id: 'IP7191056682' }
-  }, async function(rsp){
-    cleanupIamportOverlay();
-    if(rsp.success){ await verifyAndActivate('pro', null, rsp.merchant_uid, CUSTOMER_UID); }
-    else { showPayRetry('pro', rsp.error_msg||'결제가 취소되었습니다.'); }
+  Paddle.Checkout.open({
+    items: [{ priceId: PADDLE_PRO_PRICE_ID, quantity: 1 }],
+    customer: { email: currentUser.email },
+    customData: { userId: currentUser.id }
   });
 }
 
-// iamport.js SDK가 결제 후 DOM에 남긴 오버레이/iframe 강제 제거 (클릭 차단 방지)
-function cleanupIamportOverlay(){
-  document.querySelectorAll('body > iframe, body > div[style*="z-index: 2147483647"], body > div[style*="z-index:2147483647"]').forEach(function(el){
-    if(el.src && el.src.indexOf('iamport') !== -1){ el.remove(); return; }
-    if(el.id && (el.id.indexOf('iamport') !== -1 || el.id.indexOf('imp_') !== -1)){ el.remove(); return; }
-    // 포트원이 삽입한 투명 전체화면 오버레이 (fixed + full cover + 최고 z-index)
-    var s = el.style;
-    if(s.position==='fixed' && s.top==='0px' && s.left==='0px' && s.width==='100%' && s.height==='100%'){ el.remove(); }
-  });
-  document.body.style.overflow = '';
-}
-
-// 서버사이드 결제 검증 후 플랜 활성화
-async function verifyAndActivate(plan, impUid, merchantUid, customerUid){
-  try{
-    var {data:{session}}=await sb.auth.getSession();
-    var token=session?.access_token||SUPABASE_ANON_KEY;
-    var res=await fetch(SUPABASE_URL+'/functions/v1/verify-payment',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
-      body:JSON.stringify({imp_uid:impUid,merchant_uid:merchantUid,customer_uid:customerUid,plan:plan,user_id:currentUser.id,force_initial_charge:true})
-    });
-    var result=await res.json();
-    if(res.ok && result.success){
-      userPlan=plan;
-      isPro=true;
-      showPaySuccess(result.warning||'');
-    } else {
-      // Edge Function 실패 시 재시도 모달
-      showPayRetry(plan, result.error||'결제 검증에 실패했습니다. 잠시 후 다시 시도해주세요.');
+// Poll Supabase after Paddle checkout.completed until plan is activated (webhook may take a few seconds)
+function startPollingForActivation(plan) {
+  if (!currentUser) return;
+  var attempts = 0;
+  var interval = setInterval(async function() {
+    attempts++;
+    try {
+      var res = await sb.from('users').select('is_pro, plan').eq('id', currentUser.id).maybeSingle();
+      if (res.data && res.data.is_pro) {
+        clearInterval(interval);
+        userPlan = res.data.plan || plan;
+        isPro = true;
+        showPaySuccess('');
+        return;
+      }
+    } catch(e) { /* keep polling */ }
+    if (attempts >= 15) {
+      clearInterval(interval);
+      showPayRetry(plan, 'Activation is taking longer than expected. Please refresh the page or contact support.');
     }
-  } catch(e){
-    showPayRetry(plan, '네트워크 오류가 발생했습니다. 고객센터로 문의해 주세요.');
-  }
+  }, 2000);
 }
+
+async function updateProStatus(){ /* legacy stub — activation now via webhook polling */ }
 
 function showPayRetry(plan, msg){
   var modal=document.getElementById('payRetryModalBg');
   var msgEl=document.getElementById('payRetryMsg');
   var retryBtn=document.getElementById('payRetryBtn');
-  if(msgEl) msgEl.textContent=msg||'결제에 실패했습니다.';
+  if(msgEl) msgEl.textContent=msg||'Payment failed.';
   // 재시도 버튼을 해당 플랜 결제 함수와 연결
   if(retryBtn) retryBtn.onclick=function(){ closePayRetry(); plan==='pro'?handleProPay():handleBasicPay(); };
   if(modal){ modal.classList.add('show'); document.body.style.overflow='hidden'; }
@@ -2617,16 +2410,16 @@ async function saveSnapshot(platform, notback, fans){
       var ids=old.map(function(r){return r.id;});
       await sb.from('analysis_snapshots').delete().in('id',ids);
     }
-  } catch(e){ console.warn('스냅샷 저장 실패:', e.message); }
+  } catch(e){ console.warn('[saveSnapshot] failed:', e.message); }
 }
 
 // ── 멀티 계정 관리 함수 ──
 async function deleteSnapshot(id){
-  if(!confirm('이 분석 기록을 삭제하시겠습니까?')) return;
+  if(!confirm('Delete this analysis record?')) return;
   try{
     await sb.from('analysis_snapshots').delete().eq('id',id).eq('user_id',currentUser.id);
     await renderMypage();
-  }catch(e){ alert('삭제 중 오류: '+e.message); }
+  }catch(e){ alert('Error deleting: '+e.message); }
 }
 
 function setCurrentAccount(label){
@@ -2635,22 +2428,22 @@ function setCurrentAccount(label){
 }
 
 async function deleteAccountSnapshots(label){
-  if(!confirm('"'+label+'" 계정의 모든 분석 기록을 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) return;
+  if(!confirm('Delete all analysis records for "'+label+'"?\nThis cannot be undone.')) return;
   try{
     await sb.from('analysis_snapshots')
       .delete()
       .eq('user_id',currentUser.id)
       .eq('account_label',label);
-    if(currentAccountLabel===label) currentAccountLabel='기본 계정';
+    if(currentAccountLabel===label) currentAccountLabel='Default Account';
     await renderMypage();
-  }catch(e){ alert('삭제 중 오류: '+e.message); }
+  }catch(e){ alert('Error: '+e.message); }
 }
 
 function promptAddAccount(){
-  var label=prompt('새 계정 이름을 입력하세요\n예: 개인 인스타, 비즈니스 틱톡, 서브 계정','');
+  var label=prompt('Enter a name for this account\ne.g. Personal Instagram, Business TikTok','');
   if(!label||!label.trim()) return;
   label=label.trim();
-  if(label.length>30){ alert('계정 이름은 30자 이내로 입력해주세요.'); return; }
+  if(label.length>30){ alert('Account name must be 30 characters or less.'); return; }
   currentAccountLabel=label;
   renderMypage();
 }
@@ -2665,11 +2458,11 @@ function closeHistoryModal(){
 async function compareWithSnapshot(snapshotId, dateLabel, platform){
   // 현재 분석 결과가 없으면 안내
   if(!data.notback||data.notback.length===0){
-    alert('현재 분석 결과가 없습니다.\n먼저 분석을 실행한 후 비교해주세요.');
+    alert('No current analysis results.\nRun an analysis first, then compare.');
     return;
   }
   if(currentPlatform!==platform){
-    alert('현재 선택된 플랫폼('+currentPlatform+')과 스냅샷 플랫폼('+platform+')이 다릅니다.\n같은 플랫폼의 분석 결과와만 비교할 수 있습니다.');
+    alert('Platform mismatch: current platform is '+currentPlatform+' but snapshot is '+platform+'.\nYou can only compare snapshots from the same platform.');
     return;
   }
   try{
@@ -2677,7 +2470,7 @@ async function compareWithSnapshot(snapshotId, dateLabel, platform){
       .select('notback,fans,notback_count,fans_count,created_at')
       .eq('id',snapshotId)
       .single();
-    if(!snap){ alert('스냅샷을 불러올 수 없습니다.'); return; }
+    if(!snap){ alert('Could not load snapshot.'); return; }
 
     var prevNotback=new Set(snap.notback||[]);
     var prevFans=new Set(snap.fans||[]);
@@ -2695,71 +2488,71 @@ async function compareWithSnapshot(snapshotId, dateLabel, platform){
 
     var snapDate=new Date(snap.created_at);
     var fd=function(d){return d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0');};
-    subEl.textContent=fd(snapDate)+' 분석 vs 지금';
+    subEl.textContent=fd(snapDate)+' snapshot vs now';
 
     var h='';
     // 요약 박스
     h+='<div class="hm-summary-box">';
-    h+='<div><div class="hm-sum-num red">'+newLost.length+'</div><div class="hm-sum-lbl">새로 끊긴 맞팔</div></div>';
-    h+='<div><div class="hm-sum-num green">'+recovered.length+'</div><div class="hm-sum-lbl">다시 맞팔 됨</div></div>';
-    h+='<div><div class="hm-sum-num">'+unchanged+'</div><div class="hm-sum-lbl">변화 없음</div></div>';
+    h+='<div><div class="hm-sum-num red">'+newLost.length+'</div><div class="hm-sum-lbl">New Unfollows</div></div>';
+    h+='<div><div class="hm-sum-num green">'+recovered.length+'</div><div class="hm-sum-lbl">Refollowed</div></div>';
+    h+='<div><div class="hm-sum-num">'+unchanged+'</div><div class="hm-sum-lbl">No Change</div></div>';
     h+='</div>';
 
     // 새로 끊긴 맞팔
     if(newLost.length>0){
       h+='<div class="hm-diff-section">';
-      h+='<div class="hm-diff-title">😤 새로 맞팔 끊긴 계정 ('+newLost.length+')</div>';
+      h+='<div class="hm-diff-title">😤 New Unfollows ('+newLost.length+')</div>';
       newLost.slice(0,50).forEach(function(u){
         var url=safeHref(getUserProfileUrl(u));
         var name=escapeHtml(u.username);
         h+='<a class="hm-diff-item" href="'+url+'" target="_blank" rel="noopener" style="text-decoration:none">';
         h+='<div class="hm-diff-avatar" style="background:linear-gradient('+gc(u.username)+')">'+name.charAt(0).toUpperCase()+'</div>';
         h+='<div><div class="hm-diff-name">@'+name+'</div></div>';
-        h+='<span class="hm-diff-badge new">신규</span>';
+        h+='<span class="hm-diff-badge new">New</span>';
         h+='</a>';
       });
-      if(newLost.length>50) h+='<div style="text-align:center;padding:8px;font-size:11px;color:var(--muted)">...외 '+(newLost.length-50)+'명</div>';
+      if(newLost.length>50) h+='<div style="text-align:center;padding:8px;font-size:11px;color:var(--muted)">...and '+(newLost.length-50)+' more</div>';
       h+='</div>';
     }
 
     // 다시 맞팔 됨
     if(recovered.length>0){
       h+='<div class="hm-diff-section">';
-      h+='<div class="hm-diff-title">💚 다시 맞팔 된 계정 ('+recovered.length+')</div>';
+      h+='<div class="hm-diff-title">💚 Refollowed ('+recovered.length+')</div>';
       recovered.slice(0,50).forEach(function(rawName){
         var url=safeHref(getUserProfileUrl({username:rawName}));
         var name=escapeHtml(rawName);
         h+='<a class="hm-diff-item" href="'+url+'" target="_blank" rel="noopener" style="text-decoration:none">';
         h+='<div class="hm-diff-avatar" style="background:linear-gradient(135deg,#10b981,#34d399)">'+name.charAt(0).toUpperCase()+'</div>';
         h+='<div><div class="hm-diff-name">@'+name+'</div></div>';
-        h+='<span class="hm-diff-badge recovered">복구</span>';
+        h+='<span class="hm-diff-badge recovered">Back</span>';
         h+='</a>';
       });
-      if(recovered.length>50) h+='<div style="text-align:center;padding:8px;font-size:11px;color:var(--muted)">...외 '+(recovered.length-50)+'명</div>';
+      if(recovered.length>50) h+='<div style="text-align:center;padding:8px;font-size:11px;color:var(--muted)">...and '+(recovered.length-50)+' more</div>';
       h+='</div>';
     }
 
     if(newLost.length===0&&recovered.length===0){
-      h+='<div class="mp-empty" style="padding:32px">변화가 없습니다.<br>맞팔 안 함 목록이 동일해요.</div>';
+      h+='<div class="mp-empty" style="padding:32px">No changes detected.<br>Your list is identical to the snapshot.</div>';
     }
 
     bodyEl.innerHTML=h;
     modal.classList.add('show');
     document.body.style.overflow='hidden';
   } catch(e){
-    alert('비교 중 오류가 발생했습니다: '+e.message);
+    alert('Comparison failed: '+e.message);
   }
 }
 
 function showPaySuccess(warning){
   isPro=true;
   var modalP = document.querySelector('#payModalBg p');
-  var warningHtml = warning ? '<br><br><small style="color:#b54708;line-height:1.6">자동갱신 예약 확인이 지연되었습니다: '+escapeHtml(warning)+'</small>' : '';
+  var warningHtml = warning ? '<br><br><small style="color:#b54708;line-height:1.6">Note: '+escapeHtml(warning)+'</small>' : '';
   if(modalP){
     if(userPlan==='basic'){
-      modalP.innerHTML='Realations Basic이 활성화됐어요.<br>전체 결과를 모두 확인해보세요.'+warningHtml;
+      modalP.innerHTML='Realations Basic is now active.<br>Enjoy full access to all results.'+warningHtml;
     } else {
-      modalP.innerHTML='Realations Pro가 활성화됐어요.<br>전체 결과를 모두 확인해보세요.'+warningHtml;
+      modalP.innerHTML='Realations Pro is now active.<br>Enjoy full access to all results.'+warningHtml;
     }
   }
   document.getElementById('payModalBg').classList.add('show');
@@ -2778,30 +2571,30 @@ function unlockAll(){
   restoreOverflowIfClear();
   // 플랫폼별로 모든 탭 재렌더링 (paywall 제거)
   if(currentPlatform==='instagram'){
-    renderList('notback',data.notback,'red','맞팔 안 함',false,null,true);
-    renderList('fans',data.fans,'green','팬',false,null,false);
-    renderList('blocked',data.blocked,'orange','차단',false,store.blocked===null?'blocked':null,false);
-    renderList('pending',data.pending,'blue','대기 중',false,store.pending===null?'pending':null,false);
-    renderList('restricted',data.restricted,'yellow','제한',false,store.restricted===null?'restricted':null,false);
-    renderList('close_friends',data.close_friends,'pink','친한 친구',false,store.close_friends===null?'close_friends':null,false);
+    renderList('notback',data.notback,'red','Not Following',false,null,true);
+    renderList('fans',data.fans,'green','Fan',false,null,false);
+    renderList('blocked',data.blocked,'orange','Blocked',false,store.blocked===null?'blocked':null,false);
+    renderList('pending',data.pending,'blue','Pending',false,store.pending===null?'pending':null,false);
+    renderList('restricted',data.restricted,'yellow','Restricted',false,store.restricted===null?'restricted':null,false);
+    renderList('close_friends',data.close_friends,'pink','Close Friend',false,store.close_friends===null?'close_friends':null,false);
   } else if(currentPlatform==='tiktok'){
-    renderList('notback',data.notback,'red','맞팔 안 함',false,null,false);
-    renderList('fans',data.fans,'green','팬',false,null,false);
-    renderList('blocked',data.blocked,'orange','차단',false,(store.tk_blocked&&store.tk_blocked.length===0)?'blocked':null,false);
+    renderList('notback',data.notback,'red','Not Following',false,null,false);
+    renderList('fans',data.fans,'green','Fan',false,null,false);
+    renderList('blocked',data.blocked,'orange','Blocked',false,(store.tk_blocked&&store.tk_blocked.length===0)?'blocked':null,false);
   } else if(currentPlatform==='threads'){
-    renderList('notback',data.notback,'red','맞팔 안 함',false,null,true);
-    renderList('fans',data.fans,'green','팬',false,null,false);
+    renderList('notback',data.notback,'red','Not Following',false,null,true);
+    renderList('fans',data.fans,'green','Fan',false,null,false);
   } else if(currentPlatform==='linkedin'){
-    renderList('notback',data.notback,'blue','연결',false,null,true);
-    renderList('fans',data.fans,'green','최근',false,null,true);
+    renderList('notback',data.notback,'blue','Connection',false,null,true);
+    renderList('fans',data.fans,'green','Recent',false,null,true);
   } else if(currentPlatform==='x'){
-    renderList('notback',data.notback,'red','맞팔 안 함',false,null,false);
-    renderList('fans',data.fans,'green','팬',false,null,false);
-    renderList('blocked',data.blocked,'orange','차단',false,(store.x_blocks&&store.x_blocks.length===0)?'blocked':null,false);
-    renderList('restricted',data.restricted,'yellow','뮤트',false,(store.x_mutes&&store.x_mutes.length===0)?'restricted':null,false);
+    renderList('notback',data.notback,'red','Not Following',false,null,false);
+    renderList('fans',data.fans,'green','Fan',false,null,false);
+    renderList('blocked',data.blocked,'orange','Blocked',false,(store.x_blocks&&store.x_blocks.length===0)?'blocked':null,false);
+    renderList('restricted',data.restricted,'yellow','Muted',false,(store.x_mutes&&store.x_mutes.length===0)?'restricted':null,false);
   } else {
-    renderList('notback',data.notback,'red','맞팔 안 함',false,null,true);
-    renderList('fans',data.fans,'green','팬',false,null,false);
+    renderList('notback',data.notback,'red','Not Following',false,null,true);
+    renderList('fans',data.fans,'green','Fan',false,null,false);
   }
   var btn=document.querySelector('.tab-btn[data-t="notback"]');
   if(btn) switchTab('notback',btn);
@@ -2811,9 +2604,9 @@ function unlockAll(){
 function copyResult(){
   var notbackList=isPro?data.notback:data.notback.slice(0,FREE_LIMIT);
   var lines=notbackList.map(function(u){return '@'+u.username}).join('\n');
-  var truncNote=(!isPro&&data.notback.length>FREE_LIMIT)?'\n...외 '+(data.notback.length-FREE_LIMIT)+'명 (Pro에서 전체 확인)':'';
-  var text='[Realations 분석 결과]\n맞팔 안 한 사람 '+data.notback.length+'명\n\n'+lines+truncNote+'\n\n나만 팔로하는 팬 '+data.fans.length+'명\n차단 '+data.blocked.length+' · 대기 '+data.pending.length+' · 제한 '+data.restricted.length;
-  navigator.clipboard.writeText(text).then(function(){alert('복사 완료! 📋')}).catch(function(){alert('직접 선택해서 복사해주세요.')});
+  var truncNote=(!isPro&&data.notback.length>FREE_LIMIT)?'\n...'+(data.notback.length-FREE_LIMIT)+' more (unlock with Pro)':'';
+  var text='[Realations Analysis]\nNot following back: '+data.notback.length+'\n\n'+lines+truncNote+'\n\nTrue fans: '+data.fans.length+'\nBlocked: '+data.blocked.length+' · Pending: '+data.pending.length+' · Restricted: '+data.restricted.length;
+  navigator.clipboard.writeText(text).then(function(){alert('Copied! 📋')}).catch(function(){alert('Please select and copy manually.')});
 }
 
 // ── SUPABASE 인증 ──
@@ -2838,11 +2631,11 @@ function selectPlatform(plt){
   if(g) g.style.display='';
   var uploadTitle=document.querySelector('.upload-title');
   var hints={
-    instagram:'ZIP, JSON 파일을 드래그하거나 클릭하세요.',
-    threads:'ZIP 파일을 드래그하거나 클릭하세요.',
-    tiktok:'ZIP 파일을 드래그하거나 클릭하세요.',
-    linkedin:'Connections.csv 파일을 드래그하거나 클릭하세요.',
-    x:'ZIP 파일을 드래그하거나 클릭하세요.'
+    instagram:'Drag & drop or click to upload your ZIP or JSON file',
+    threads:'Drag & drop or click to upload your ZIP file',
+    tiktok:'Drag & drop or click to upload your ZIP file',
+    linkedin:'Drag & drop or click to upload your Connections.csv file',
+    x:'Drag & drop or click to upload your ZIP file'
   };
   if(uploadTitle) uploadTitle.textContent=hints[plt]||hints.instagram;
   resetUpload();
@@ -2937,7 +2730,7 @@ function completeXStep(n){
       window._pendingPayment={imp_uid:null,merchant_uid:mMerchantUid,plan:mPlan,customer_uid:'realations_'+mPlan+'_'+(currentUser&&currentUser.id?currentUser.id:'')};
     } else {
       // 결제 실패 — 세션 로드 후 모달 표시
-      window._pendingPayFail=mErrorMsg||'모바일 결제가 취소되었습니다.';
+      window._pendingPayFail=mErrorMsg||'Payment was cancelled.';
       window._pendingPayFailPlan=mPlan;
     }
   }
@@ -2998,7 +2791,7 @@ async function onSignedIn(user){
         await sb.from('users').update({is_pro:false,plan:'free'}).eq('id',user.id);
         await sb.from('subscriptions').update({status:'expired'}).eq('id',graceSub.id);
         userPlan='free'; isPro=false;
-        alert('결제 실패로 인해 유예기간이 만료되었습니다. 서비스가 무료 플랜으로 전환되었습니다.\n계속 이용을 원하시면 다시 구독해 주세요.');
+        alert('Your grace period has expired due to a failed payment. Your account has been downgraded to the free plan.\nPlease re-subscribe to continue using Pro.');
       }
     }catch(e){ console.warn('유예기간 체크 오류:', e); }
   }
@@ -3037,12 +2830,12 @@ function updateAuthUI(){
   const mypageBtn=document.getElementById('btnMypage');
   if(currentUser){
     emailEl.textContent=currentUser.email+(isPro?' ✦ PRO':'');
-    btnEl.textContent='로그아웃';
+    btnEl.textContent='Sign Out';
     btnEl.className='btn-auth';
     if(mypageBtn) mypageBtn.style.display='inline-flex';
   } else {
     emailEl.textContent='';
-    btnEl.textContent='로그인';
+    btnEl.textContent='Sign In';
     btnEl.className='btn-auth';
   }
 }
@@ -3057,10 +2850,10 @@ function handleAuthBtn(){
 
 function openAuthModal(){
   authMode='login';
-  document.getElementById('authModalTitle').textContent='로그인';
-  document.getElementById('authModalDesc').textContent='이메일로 간편하게 시작하세요';
-  document.getElementById('btnAuthSubmit').textContent='로그인';
-  document.getElementById('authSwitch').innerHTML='계정이 없으신가요? <a onclick="toggleAuthMode()">회원가입</a>';
+  document.getElementById('authModalTitle').textContent='Sign In';
+  document.getElementById('authModalDesc').textContent='Start for free with your email';
+  document.getElementById('btnAuthSubmit').textContent='Sign In';
+  document.getElementById('authSwitch').innerHTML='Don\'t have an account? <a onclick="toggleAuthMode()">Sign Up</a>';
   document.getElementById('authMsg').style.display='none';
   document.getElementById('authEmail').value='';
   document.getElementById('authPassword').value='';
@@ -3078,17 +2871,17 @@ function closeAuthModal(){
 function toggleAuthMode(){
   if(authMode==='login'){
     authMode='signup';
-    document.getElementById('authModalTitle').textContent='회원가입';
-    document.getElementById('authModalDesc').textContent='무료로 시작하고 Pro로 업그레이드하세요';
-    document.getElementById('btnAuthSubmit').textContent='회원가입';
-    document.getElementById('authSwitch').innerHTML='이미 계정이 있으신가요? <a onclick="toggleAuthMode()">로그인</a>';
+    document.getElementById('authModalTitle').textContent='Sign Up';
+    document.getElementById('authModalDesc').textContent='Start for free, upgrade to Pro anytime';
+    document.getElementById('btnAuthSubmit').textContent='Sign Up';
+    document.getElementById('authSwitch').innerHTML='Already have an account? <a onclick="toggleAuthMode()">Sign In</a>';
     document.getElementById('agreeWrap').style.display='flex';
   } else {
     authMode='login';
-    document.getElementById('authModalTitle').textContent='로그인';
-    document.getElementById('authModalDesc').textContent='이메일로 간편하게 시작하세요';
-    document.getElementById('btnAuthSubmit').textContent='로그인';
-    document.getElementById('authSwitch').innerHTML='계정이 없으신가요? <a onclick="toggleAuthMode()">회원가입</a>';
+    document.getElementById('authModalTitle').textContent='Sign In';
+    document.getElementById('authModalDesc').textContent='Start for free with your email';
+    document.getElementById('btnAuthSubmit').textContent='Sign In';
+    document.getElementById('authSwitch').innerHTML='Don\'t have an account? <a onclick="toggleAuthMode()">Sign Up</a>';
     document.getElementById('agreeWrap').style.display='none';
   }
   document.getElementById('authMsg').style.display='none';
@@ -3101,25 +2894,24 @@ async function submitAuth(){
   const btn=document.getElementById('btnAuthSubmit');
 
   if(!email||!password){
-    showAuthMsg('이메일과 비밀번호를 입력해주세요','err');
+    showAuthMsg('Please enter your email and password','err');
     return;
   }
-  // 회원가입 시 약관 동의 필수 확인
   if(authMode==='signup'){
     if(!document.getElementById('agreeTerms').checked || !document.getElementById('agreePrivacy').checked){
-      showAuthMsg('이용약관 및 개인정보처리방침에 동의해주세요','err');
+      showAuthMsg('Please agree to the Terms and Privacy Policy','err');
       return;
     }
   }
   btn.disabled=true;
-  btn.textContent='처리 중...';
+  btn.textContent='Processing...';
 
   if(authMode==='login'){
     const {error}=await sb.auth.signInWithPassword({email,password});
     if(error){
-      showAuthMsg('로그인 실패: '+error.message,'err');
+      showAuthMsg('Sign in failed: '+error.message,'err');
       btn.disabled=false;
-      btn.textContent='로그인';
+      btn.textContent='Sign In';
     } else {
       closeAuthModal();
     }
@@ -3127,17 +2919,16 @@ async function submitAuth(){
     const marketingAgree = document.getElementById('agreeMarketing') ? document.getElementById('agreeMarketing').checked : false;
     const {data:signUpData,error}=await sb.auth.signUp({email,password});
     if(error){
-      showAuthMsg('회원가입 실패: '+error.message,'err');
+      showAuthMsg('Sign up failed: '+error.message,'err');
       btn.disabled=false;
-      btn.textContent='회원가입';
+      btn.textContent='Sign Up';
     } else {
-      // 마케팅 동의 여부 저장 (users 테이블에 insert는 onSignedIn에서 처리)
       if(signUpData&&signUpData.user){
         await sb.from('users').upsert({id:signUpData.user.id,email:email,is_pro:false,marketing_agree:marketingAgree,created_at:new Date().toISOString()});
       }
-      showAuthMsg('✅ 가입 완료! 이메일 확인 후 로그인해주세요','ok');
+      showAuthMsg('✅ Account created! Check your email to confirm, then sign in.','ok');
       btn.disabled=false;
-      btn.textContent='회원가입';
+      btn.textContent='Sign Up';
     }
   }
 }
@@ -3160,13 +2951,13 @@ async function checkProStatus(){
 
 function confirmCancelPro(){
   if(!currentUser||!isPro) return;
-  if(!confirm('유료 서비스를 해지하시겠습니까?\n현재 구독 기간 만료까지는 계속 이용 가능합니다.')) return;
+  if(!confirm('Cancel your subscription?\nYou can continue using Pro until the current billing period ends.')) return;
   cancelPro();
 }
 
 async function confirmDeleteAccount(){
   if(!currentUser) return;
-  if(!confirm('정말로 탈퇴하시겠습니까?\n계정 정보와 결제 내역이 모두 삭제되며 복구할 수 없습니다.')) return;
+  if(!confirm('Are you sure you want to delete your account?\nAll account data and billing history will be permanently deleted.')) return;
   try {
     const {data:{session}}=await sb.auth.getSession();
     const res=await fetch(SUPABASE_URL+'/functions/v1/delete-account',{
@@ -3178,12 +2969,12 @@ async function confirmDeleteAccount(){
       body:JSON.stringify({user_id:currentUser.id})
     });
     const result=await res.json();
-    if(!res.ok) throw new Error(result.error||'탈퇴 처리 실패');
+    if(!res.ok) throw new Error(result.error||'Account deletion failed');
     await sb.auth.signOut();
     closeMypage();
-    alert('탈퇴가 완료되었습니다. 이용해 주셔서 감사합니다.');
+    alert('Your account has been deleted. Thank you for using Realations.');
   } catch(e){
-    alert('탈퇴 처리 중 오류가 발생했습니다.\n고객센터로 문의해 주세요.\n'+e.message);
+    alert('Account deletion failed.\nPlease contact support.\n'+e.message);
   }
 }
 
@@ -3200,19 +2991,14 @@ async function cancelPro(){
     });
     var result=await res.json();
     if(res.ok && result.success){
-      // 해지 후에도 만료일까지 서비스 유지 (is_pro는 Edge Function이 유지)
-      var detail='';
-      if(result.billingKeyDeleted===false || result.unscheduleSucceeded===false){
-        detail='\n일부 자동결제 해제 작업이 즉시 확인되지 않았습니다. 중복 청구가 보이면 고객센터로 문의해 주세요.';
-      }
-      alert('구독 해지가 완료되었습니다.\n현재 구독 기간 만료일까지 서비스를 계속 이용하실 수 있습니다.'+detail);
+      alert('Subscription cancelled.\nYou can continue using Pro until the end of the current billing period.');
       closeMypage();
     } else {
-      throw new Error(result.error||'해지 처리 실패');
+      throw new Error(result.error||'Cancellation failed');
     }
   } catch(e){
-    console.error('cancelPro 오류:', e);
-    alert('구독 해지 처리 중 오류가 발생했습니다.\n자동결제 상태를 확인해야 하므로 고객센터로 문의해 주세요.');
+    console.error('[cancelPro] error:', e);
+    alert('Failed to cancel subscription.\nPlease contact support if the issue persists.');
   }
 }
 
@@ -3234,78 +3020,76 @@ async function cancelPro(){
       <div style="padding:28px 28px 0;text-align:center">
         <button onclick="closePricingModal()" style="position:absolute;right:16px;top:16px;background:none;border:none;font-size:24px;color:#aaa;cursor:pointer;line-height:1;width:32px;height:32px">✕</button>
         <div style="font-size:13px;font-weight:700;color:#e8001d;letter-spacing:.08em;margin-bottom:8px">PRICING</div>
-        <div style="font-size:22px;font-weight:800;color:#1a1a1a;margin-bottom:6px">합리적인 가격으로<br>소셜 관계의 진실을</div>
-        <div style="font-size:13px;color:#888;margin-bottom:24px">언제든 해지 가능 · 자동 갱신</div>
+        <div style="font-size:22px;font-weight:800;color:#1a1a1a;margin-bottom:6px">Simple, transparent pricing<br>for real social insights</div>
+        <div style="font-size:13px;color:#888;margin-bottom:24px">Cancel anytime · Auto-renews monthly</div>
       </div>
-      <!-- 플랜 카드 3개 -->
+      <!-- Plan cards -->
       <div style="padding:0 20px 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
         <!-- FREE -->
         <div style="border:1.5px solid #e4e1dd;border-radius:16px;padding:20px 16px;text-align:center">
           <div style="font-size:10px;font-weight:700;color:#aaa;letter-spacing:.1em;margin-bottom:8px">FREE</div>
-          <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">₩0</div>
-          <div style="font-size:11px;color:#aaa;margin-bottom:16px">영원히 무료</div>
+          <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">$0</div>
+          <div style="font-size:11px;color:#aaa;margin-bottom:16px">forever free</div>
           <div style="text-align:left;font-size:11px;color:#555;line-height:2;margin-bottom:16px">
-            ✓ 1개 플랫폼<br>✓ 월 3회 분석<br>✓ 결과 5명 공개<br><span style="color:#ccc">✗ 히스토리</span><br><span style="color:#ccc">✗ 멀티계정</span>
+            ✓ 1 platform<br>✓ 3 analyses/mo<br>✓ 5 results shown<br><span style="color:#ccc">✗ History</span><br><span style="color:#ccc">✗ Multi-account</span>
           </div>
-          <button onclick="closePricingModal()" style="width:100%;padding:10px;background:#f2f1ef;color:#888;border:none;border-radius:10px;font-weight:600;font-size:12px;cursor:pointer">현재 플랜</button>
+          <button onclick="closePricingModal()" style="width:100%;padding:10px;background:#f2f1ef;color:#888;border:none;border-radius:10px;font-weight:600;font-size:12px;cursor:pointer">Current Plan</button>
         </div>
         <!-- BASIC -->
         <div style="border:2px solid #e8001d;border-radius:16px;padding:20px 16px;text-align:center;position:relative">
-          <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#e8001d;color:#fff;font-size:10px;font-weight:700;padding:3px 12px;border-radius:20px;white-space:nowrap">추천</div>
+          <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#e8001d;color:#fff;font-size:10px;font-weight:700;padding:3px 12px;border-radius:20px;white-space:nowrap">Recommended</div>
           <div style="font-size:10px;font-weight:700;color:#e8001d;letter-spacing:.1em;margin-bottom:8px">BASIC</div>
-          <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">₩5,900</div>
-          <div style="font-size:11px;color:#aaa;margin-bottom:16px">/월</div>
+          <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">$4.99</div>
+          <div style="font-size:11px;color:#aaa;margin-bottom:16px">/ month</div>
           <div style="text-align:left;font-size:11px;color:#555;line-height:2;margin-bottom:16px">
-            ✓ <b>5개 플랫폼</b><br>✓ <b>무제한 분석</b><br>✓ <b>전체 결과</b><br>✓ 1개 계정<br><span style="color:#ccc">✗ 히스토리</span>
+            ✓ <b>5 platforms</b><br>✓ <b>Unlimited analyses</b><br>✓ <b>Full results</b><br>✓ 1 account<br><span style="color:#ccc">✗ History</span>
           </div>
-          <button onclick="closePricingModal();handleBasicPay()" style="width:100%;padding:10px;background:linear-gradient(135deg,#e8001d,#ff6b35);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:12px;cursor:pointer">시작하기</button>
+          <button onclick="closePricingModal();handleBasicPay()" style="width:100%;padding:10px;background:linear-gradient(135deg,#e8001d,#ff6b35);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:12px;cursor:pointer">Get Started</button>
         </div>
         <!-- PRO -->
         <div style="border:1.5px solid #e4e1dd;border-radius:16px;padding:20px 16px;text-align:center">
           <div style="font-size:10px;font-weight:700;color:#888;letter-spacing:.1em;margin-bottom:8px">PRO</div>
-          <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">₩9,900</div>
-          <div style="font-size:11px;color:#aaa;margin-bottom:16px">/월</div>
+          <div style="font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:2px">$7.99</div>
+          <div style="font-size:11px;color:#aaa;margin-bottom:16px">/ month</div>
           <div style="text-align:left;font-size:11px;color:#555;line-height:2;margin-bottom:16px">
-            ✓ <b>5개 플랫폼</b><br>✓ <b>무제한 분석</b><br>✓ <b>전체 결과</b><br>✓ <b>히스토리</b><br>✓ <b>10개 계정</b>
+            ✓ <b>5 platforms</b><br>✓ <b>Unlimited analyses</b><br>✓ <b>Full results</b><br>✓ <b>History</b><br>✓ <b>10 accounts</b>
           </div>
-          <button onclick="closePricingModal();handleProPay()" style="width:100%;padding:10px;background:#1a1a1a;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:12px;cursor:pointer">시작하기</button>
+          <button onclick="closePricingModal();handleProPay()" style="width:100%;padding:10px;background:#1a1a1a;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:12px;cursor:pointer">Get Started</button>
         </div>
       </div>
-      <!-- 비교표 -->
+      <!-- Comparison table -->
       <div style="padding:0 20px 24px">
         <div style="background:#f8f7f5;border-radius:14px;overflow:hidden;font-size:12px">
           <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;padding:10px 16px;border-bottom:1px solid #e4e1dd;font-weight:700;color:#888;font-size:11px">
-            <span>기능</span><span style="text-align:center">FREE</span><span style="text-align:center;color:#e8001d">BASIC</span><span style="text-align:center">PRO</span>
+            <span>Feature</span><span style="text-align:center">FREE</span><span style="text-align:center;color:#e8001d">BASIC</span><span style="text-align:center">PRO</span>
           </div>
           <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;padding:9px 16px;border-bottom:1px solid #e4e1dd">
-            <span style="color:#555">플랫폼</span><span style="text-align:center;color:#888">1개</span><span style="text-align:center;font-weight:600">5개</span><span style="text-align:center;font-weight:600">5개</span>
+            <span style="color:#555">Platforms</span><span style="text-align:center;color:#888">1</span><span style="text-align:center;font-weight:600">5</span><span style="text-align:center;font-weight:600">5</span>
           </div>
           <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;padding:9px 16px;border-bottom:1px solid #e4e1dd">
-            <span style="color:#555">분석 횟수</span><span style="text-align:center;color:#888">월 3회</span><span style="text-align:center;font-weight:600">무제한</span><span style="text-align:center;font-weight:600">무제한</span>
+            <span style="color:#555">Analyses</span><span style="text-align:center;color:#888">3/mo</span><span style="text-align:center;font-weight:600">Unlimited</span><span style="text-align:center;font-weight:600">Unlimited</span>
           </div>
           <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;padding:9px 16px;border-bottom:1px solid #e4e1dd">
-            <span style="color:#555">결과 공개</span><span style="text-align:center;color:#888">5명</span><span style="text-align:center;font-weight:600">전체</span><span style="text-align:center;font-weight:600">전체</span>
+            <span style="color:#555">Results shown</span><span style="text-align:center;color:#888">5</span><span style="text-align:center;font-weight:600">All</span><span style="text-align:center;font-weight:600">All</span>
           </div>
           <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;padding:9px 16px;border-bottom:1px solid #e4e1dd">
-            <span style="color:#555">히스토리</span><span style="text-align:center;color:#ccc">✗</span><span style="text-align:center;color:#ccc">✗</span><span style="text-align:center;font-weight:600">✓</span>
+            <span style="color:#555">History</span><span style="text-align:center;color:#ccc">✗</span><span style="text-align:center;color:#ccc">✗</span><span style="text-align:center;font-weight:600">✓</span>
           </div>
           <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;padding:9px 16px">
-            <span style="color:#555">계정 수</span><span style="text-align:center;color:#888">1개</span><span style="text-align:center;color:#888">1개</span><span style="text-align:center;font-weight:600">10개</span>
+            <span style="color:#555">Accounts</span><span style="text-align:center;color:#888">1</span><span style="text-align:center;color:#888">1</span><span style="text-align:center;font-weight:600">10</span>
           </div>
         </div>
       </div>
-      <!-- 안내 -->
-      <!-- 서비스 제공 기간 안내 -->
       <div style="padding:0 20px 8px">
         <div style="background:#f8f7f5;border-radius:12px;padding:14px 16px;font-size:11px;color:#666;line-height:1.9">
-          <div style="font-weight:700;color:#1a1a1a;margin-bottom:6px">📋 서비스 제공 기간 안내</div>
-          결제일로부터 <b>1개월(30일)</b> 이용 후 자동 갱신됩니다.<br>
-          매월 동일한 날짜에 자동 결제되며, 언제든지 해지 가능합니다.<br>
-          해지 신청 시 현재 구독 만료일까지 서비스가 유지됩니다.
+          <div style="font-weight:700;color:#1a1a1a;margin-bottom:6px">📋 Billing Details</div>
+          Subscriptions auto-renew monthly from your purchase date.<br>
+          You can cancel anytime from My Account — no questions asked.<br>
+          Access continues until the end of the current billing period.
         </div>
       </div>
       <div style="padding:8px 20px 24px;text-align:center;font-size:11px;color:#aaa;line-height:1.8">
-        모든 플랜은 언제든지 해지 가능 · 해지 후 만료일까지 이용 가능<br>문의: gahee007@gmail.com
+        Cancel anytime · Access until period end · Secure payments via Paddle<br>Support: support@realation.world
       </div>
     </div>
   </div>

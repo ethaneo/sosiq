@@ -25,20 +25,20 @@ Deno.serve(async (req) => {
     const { user_id } = await req.json()
     if (user_id !== user.id) return json({ error: '본인 계정만 탈퇴 가능합니다' }, 403)
 
-    // 1. 구독 중이면 포트원 빌링키 삭제 시도 (실패해도 탈퇴 진행)
-    const { data: userData } = await sbAdmin
-      .from('users')
-      .select('plan')
-      .eq('id', user_id)
+    // 1. Cancel Paddle subscription if active (failure does not block account deletion)
+    const { data: activeSub } = await sbAdmin
+      .from('subscriptions')
+      .select('paddle_subscription_id')
+      .eq('user_id', user_id)
+      .eq('status', 'active')
       .maybeSingle()
 
-    if (userData?.plan && userData.plan !== 'free') {
+    if (activeSub?.paddle_subscription_id) {
       try {
-        const { getIamportToken, deleteBillingKey } = await import('../_shared/iamport.ts')
-        const token = await getIamportToken()
-        await deleteBillingKey(token, `realations_${userData.plan}_${user_id}`)
+        const { cancelPaddleSubscription } = await import('../_shared/paddle.ts')
+        await cancelPaddleSubscription(activeSub.paddle_subscription_id)
       } catch (e) {
-        console.warn('[delete-account] 빌링키 삭제 실패 (탈퇴 계속 진행):', e.message)
+        console.warn('[delete-account] Paddle cancel failed (continuing):', e.message)
       }
     }
 
